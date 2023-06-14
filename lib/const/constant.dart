@@ -7,7 +7,6 @@ import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:vmeta3v2/utils/date_util.dart';
 
 const bool inProduction = kReleaseMode;
 final bool isAndroid = Platform.isAndroid;
@@ -57,7 +56,7 @@ Future<File> saveFileData(
   try {
     final buffer = utf8.encode(content);
     final dir = await getAppFile();
-    var name = 'data_${DateUtil.getNowDateMs()}.$pathType';
+    var name = 'data_${DateTime.now()}.$pathType';
     String documentsPath = "${dir.path}/";
     File file = File('$documentsPath$name');
     file.writeAsBytesSync(buffer);
