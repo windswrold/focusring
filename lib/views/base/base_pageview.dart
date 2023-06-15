@@ -5,7 +5,7 @@ import '../../public.dart';
 class KBasePageView extends StatelessWidget {
   KBasePageView(
       {Key? key,
-      required this.child,
+      required this.body,
       this.title,
       this.bottom,
       this.hiddenAppBar,
@@ -26,7 +26,7 @@ class KBasePageView extends StatelessWidget {
       this.centerTitle = true})
       : super(key: key);
 
-  Widget child;
+  Widget body;
   Widget? title;
   final PreferredSizeWidget? bottom;
   final bool? hiddenAppBar;
@@ -95,6 +95,6 @@ class KBasePageView extends StatelessWidget {
         left: safeAreaLeft,
         bottom: safeAreaBottom,
         right: safeAreaRight,
-        child: child);
+        child: body);
   }
 }
