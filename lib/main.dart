@@ -13,7 +13,7 @@ void main() {
     splitScreenMode: true,
     builder: (context, child) {
       return GetMaterialApp(
-        title: "Application",
+        title: "",
         theme: KTheme.light,
         darkTheme: KTheme.dark,
         themeMode: ThemeMode.dark,
