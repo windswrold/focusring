@@ -11,13 +11,36 @@ class HomeTabbarView extends GetView<HomeTabbarController> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('HomeTabbarView'),
-        centerTitle: true,
+        centerTitle: false,
       ),
-      body: Center(
-        child: Text(
-          'HomeTabbarView is working',
-          style: TextStyle(fontSize: 20),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Column(
+                  children: [
+                    _buildText(),
+                    _buildText(),
+                    _buildText(),
+                  ],
+                ),
+              ],
+            ),
+          ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildText() {
+    return Container(
+      child: Row(
+        children: [
+          Text("data", style: Get.textTheme.titleLarge),
+          Text("data"),
+          Text("data"),
+        ],
       ),
     );
   }

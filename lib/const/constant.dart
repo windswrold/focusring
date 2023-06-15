@@ -13,7 +13,7 @@ final bool isAndroid = Platform.isAndroid;
 final bool isIOS = Platform.isIOS;
 const String assetsImages = './assets/images/';
 
-const kDesignSize = Size(320, 570);
+const kDesignSize = Size(375, 812);
 
 Size calculateTextSize(
   String value,
