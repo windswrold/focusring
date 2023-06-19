@@ -79,7 +79,7 @@ class KBasePageView extends StatelessWidget {
                 bottom: bottom,
                 backgroundColor: barColor ?? Get.theme.backgroundColor,
                 actions: actions,
-                systemOverlayStyle: SystemUiOverlayStyle.dark,
+                systemOverlayStyle: Get.theme.appBarTheme.systemOverlayStyle,
                 leading: hiddenLeading == true
                     ? null
                     : Navigator.canPop(context) == false

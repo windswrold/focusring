@@ -21,8 +21,11 @@ class KTheme {
 
   static final _dark = ThemeData(
     brightness: Brightness.dark,
+    
     backgroundColor: Color(0xFF161819),
-    appBarTheme: AppBarTheme(),
+    appBarTheme: AppBarTheme(
+      systemOverlayStyle: SystemUiOverlayStyle.light,
+    ),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: Colors.transparent,
       selectedItemColor: ColorUtils.fromHex("#FF05E6E7"),
