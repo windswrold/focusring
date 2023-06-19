@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:focusring/views/base/base_pageview.dart';
 
 import 'package:get/get.dart';
 
@@ -8,11 +9,7 @@ class HomeMineView extends GetView<HomeMineController> {
   const HomeMineView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('HomeMineView'),
-        centerTitle: true,
-      ),
+    return KBasePageView(
       body: Center(
         child: Text(
           'HomeMineView is working',

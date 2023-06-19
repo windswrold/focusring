@@ -33,7 +33,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.HOME_TABBAR,
-      page: () => const HomeTabbarView(),
+      page: () =>  HomeTabbarView(),
       binding: HomeTabbarBinding(),
     ),
   ];

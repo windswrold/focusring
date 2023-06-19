@@ -3,7 +3,8 @@ import 'package:get/get.dart';
 class HomeTabbarController extends GetxController {
   //TODO: Implement HomeTabbarController
 
-  final count = 0.obs;
+  final currentIndex = 0.obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -19,5 +20,7 @@ class HomeTabbarController extends GetxController {
     super.onClose();
   }
 
-  void increment() => count.value++;
+  void onTap(index) {
+    currentIndex.value = index;
+  }
 }

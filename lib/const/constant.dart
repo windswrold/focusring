@@ -15,6 +15,8 @@ const String assetsImages = './assets/images/';
 
 const kDesignSize = Size(375, 812);
 
+const fontFamilyRoboto = 'Roboto';
+
 Size calculateTextSize(
   String value,
   double fontSize,

@@ -7,6 +7,7 @@ class KBasePageView extends StatelessWidget {
       {Key? key,
       required this.body,
       this.title,
+      this.titleStr,
       this.bottom,
       this.hiddenAppBar,
       this.hiddenLeading,
@@ -16,7 +17,7 @@ class KBasePageView extends StatelessWidget {
       this.leading,
       this.hiddenResizeToAvoidBottomInset = true,
       this.elevation = 0,
-      this.backgroundColor = Colors.white,
+      this.backgroundColor,
       this.safeAreaTop = true,
       this.safeAreaLeft = true,
       this.safeAreaBottom = true,
@@ -28,6 +29,7 @@ class KBasePageView extends StatelessWidget {
 
   Widget body;
   Widget? title;
+  String? titleStr;
   final PreferredSizeWidget? bottom;
   final bool? hiddenAppBar;
   final bool? hiddenLeading;
@@ -37,7 +39,7 @@ class KBasePageView extends StatelessWidget {
   final List<Widget>? actions;
   final Widget? leading;
   final double elevation;
-  final Color backgroundColor;
+  final Color? backgroundColor;
   final bool safeAreaTop;
   final bool safeAreaLeft;
   final bool safeAreaBottom;
@@ -47,9 +49,12 @@ class KBasePageView extends StatelessWidget {
   final bool centerTitle;
 
   static Widget getBack(VoidCallback onTap) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Center(),
+    return IconButton(
+      onPressed: onTap,
+      padding: EdgeInsets.zero,
+      icon: LoadAssetsImage(
+        "icons/arrow_back",
+      ),
     );
   }
 
@@ -65,24 +70,30 @@ class KBasePageView extends StatelessWidget {
         appBar: hiddenAppBar == true
             ? null
             : AppBar(
-                title: title,
+                title: titleStr != null ? _titleWidget() : title,
                 centerTitle: centerTitle,
+                leadingWidth: 40.w,
+                // titleSpacing: 0,
+                titleSpacing: hiddenLeading == true ? 16.w : 0,
                 elevation: elevation,
                 bottom: bottom,
-                backgroundColor: barColor ?? Colors.white,
+                backgroundColor: barColor ?? Get.theme.backgroundColor,
                 actions: actions,
                 systemOverlayStyle: SystemUiOverlayStyle.dark,
                 leading: hiddenLeading == true
-                    ? Container()
-                    : leading ??
-                        getBack(() {
-                          if (leadBack != null) {
-                            leadBack!();
-                          } else {
-                            Get.back(result: {});
-                          }
-                        })),
-        backgroundColor: backgroundColor,
+                    ? null
+                    : Navigator.canPop(context) == false
+                        ? Container()
+                        : leading ??
+                            getBack(() {
+                              if (leadBack != null) {
+                                leadBack!();
+                              } else {
+                                Get.back(result: {});
+                              }
+                            }),
+              ),
+        backgroundColor: backgroundColor ?? Get.theme.backgroundColor,
         bottomNavigationBar: this.bottomNavigationBar,
         body: _body(),
       ),
@@ -96,5 +107,13 @@ class KBasePageView extends StatelessWidget {
         bottom: safeAreaBottom,
         right: safeAreaRight,
         child: body);
+  }
+
+  Widget _titleWidget() {
+    return Text(
+      titleStr ?? "",
+      style: Get.textTheme.titleLarge,
+      textAlign: TextAlign.left,
+    );
   }
 }
