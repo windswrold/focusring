@@ -16,6 +16,8 @@ class LocaleKeys {
   static const tabbar_mine = 'tabbar_mine';
   static const home_status = 'home_status';
   static const mileage = 'mileage';
+  static const pedometer = 'pedometer';
+  static const exercise = 'exercise';
 }
 
 class Locales {
@@ -25,6 +27,8 @@ class Locales {
     'tabbar_mine': '我的',
     'home_status': '我的状态',
     'mileage': '里程',
+    'pedometer': '计步',
+    'exercise': '运动消耗',
   };
   static const en_US = {
     'tabbar_status': '状态',

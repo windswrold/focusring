@@ -176,6 +176,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.5"
+  decimal:
+    dependency: "direct main"
+    description:
+      name: decimal
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.3.2"
   dio:
     dependency: "direct main"
     description:
@@ -665,6 +672,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.3"
+  rational:
+    dependency: transitive
+    description:
+      name: rational
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.2.2"
   safe_local_storage:
     dependency: transitive
     description:
@@ -831,6 +845,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.2"
+  syncfusion_flutter_charts:
+    dependency: "direct main"
+    description:
+      path: "plugins/syncfusion_flutter_charts-21.2.4"
+      relative: true
+    source: path
+    version: "21.2.4"
+  syncfusion_flutter_core:
+    dependency: transitive
+    description:
+      name: syncfusion_flutter_core
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "21.2.10"
   synchronized:
     dependency: transitive
     description:

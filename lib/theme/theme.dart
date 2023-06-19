@@ -21,7 +21,6 @@ class KTheme {
 
   static final _dark = ThemeData(
     brightness: Brightness.dark,
-    
     backgroundColor: Color(0xFF161819),
     appBarTheme: AppBarTheme(
       systemOverlayStyle: SystemUiOverlayStyle.light,

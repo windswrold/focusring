@@ -3,5 +3,7 @@
   "tabbar_devices": "设备",
   "tabbar_mine": "我的",
   "home_status": "我的状态",
-  "mileage": "里程"
+  "mileage": "里程",
+  "pedometer": "计步",
+  "exercise": "运动消耗"
 }

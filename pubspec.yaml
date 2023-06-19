@@ -54,7 +54,10 @@ dependencies:
   easy_refresh: ^3.3.2+1
   native_flutter_proxy: ^0.1.15
   flutter_screenutil: "5.7.0"
-  extended_image: any
+  extended_image: "6.4.1"
+  syncfusion_flutter_charts:
+    path: plugins/syncfusion_flutter_charts-21.2.4
+  decimal: ^2.3.2
 
 dev_dependencies:
   flutter_test:
