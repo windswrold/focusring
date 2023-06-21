@@ -848,9 +848,9 @@ packages:
   syncfusion_flutter_charts:
     dependency: "direct main"
     description:
-      path: "plugins/syncfusion_flutter_charts-21.2.4"
-      relative: true
-    source: path
+      name: syncfusion_flutter_charts
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "21.2.4"
   syncfusion_flutter_core:
     dependency: transitive

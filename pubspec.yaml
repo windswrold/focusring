@@ -55,8 +55,8 @@ dependencies:
   native_flutter_proxy: ^0.1.15
   flutter_screenutil: "5.7.0"
   extended_image: "6.4.1"
-  syncfusion_flutter_charts:
-    path: plugins/syncfusion_flutter_charts-21.2.4
+  syncfusion_flutter_charts: "any"
+    # path: plugins/syncfusion_flutter_charts-21.2.4
   decimal: ^2.3.2
 
 dev_dependencies:
@@ -88,4 +88,5 @@ flutter:
     - assets/images/
     - assets/images/icons/
     - assets/images/tabbar/
+    - assets/images/bg/
     
