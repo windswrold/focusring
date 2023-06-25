@@ -31,6 +31,8 @@ class HomeStateController extends GetxController {
     super.onReady();
   }
 
+  void onTapEditCard() {}
+
   @override
   void onClose() {
     super.onClose();

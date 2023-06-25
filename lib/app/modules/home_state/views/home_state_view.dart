@@ -24,6 +24,18 @@ class HomeStateView extends GetView<HomeStateController> {
           children: [
             _buildHeader(),
             _buildCard(),
+            _buildCard(),
+            _buildCard(),
+            _buildCard(),
+            _buildCard(),
+            _buildCard(),
+            NextButton(
+              onPressed: () {
+                controller.onTapEditCard();
+              },
+              margin: EdgeInsets.only(left: 12.w, right: 12.w, bottom: 12.w),
+              title: 'edit_card'.tr,
+            ),
           ],
         ),
       ),
@@ -117,9 +129,10 @@ class HomeStateView extends GetView<HomeStateController> {
   }
 
   Widget _buildCard() {
-    return HomeCardItem(
-      model: KHealthDataClass(
-        
+    return Container(
+      margin: EdgeInsets.only(bottom: 12.w),
+      child: HomeCardItem(
+        model: KHealthDataClass(),
       ),
     );
   }

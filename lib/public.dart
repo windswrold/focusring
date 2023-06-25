@@ -10,3 +10,4 @@ export 'package:focusring/utils/color_utils.dart';
 export 'package:focusring/const/constant.dart';
 export 'package:focusring/extensions/EnumEx.dart';
 export 'package:focusring/extensions/numberEX.dart';
+export 'package:focusring/views/base/next_button.dart';

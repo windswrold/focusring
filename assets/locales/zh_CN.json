@@ -12,5 +12,6 @@
   "EMOTION": "情绪",
   "STRESS": "压力",
   "BODY_TEMPERATURE": "体温",
-  "FEMALE_HEALTH": "女性健康"
+  "FEMALE_HEALTH": "女性健康",
+  "edit_card": "编辑卡片"
 }
