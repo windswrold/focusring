@@ -18,7 +18,7 @@ class HomeStateController extends GetxController {
     RadioGaugeChartData a =
         RadioGaugeChartData(percent: 50, color: const Color(0xFF00CEFF));
     RadioGaugeChartData b =
-        RadioGaugeChartData(percent: 30, color: const Color(0xFF34E050));
+        RadioGaugeChartData(percent: 90, color: const Color(0xFF34E050));
     RadioGaugeChartData c =
         RadioGaugeChartData(percent: 50, color: const Color(0xFFFF723E));
     datas.add(a);

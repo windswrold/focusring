@@ -1,7 +1,10 @@
 import 'package:floor/floor.dart';
 import 'package:flutter/material.dart';
 import 'package:focusring/app/modules/home_devices/views/home_devices_view.dart';
+import 'package:focusring/const/constant.dart';
 import 'package:focusring/public.dart';
+import 'package:focusring/views/charts/home_card/model/home_card_type.dart';
+import 'package:focusring/views/charts/home_card/views/home_card_item.dart';
 import 'package:focusring/views/charts/radio_gauge_chart/views/radio_gauge_chart_view.dart';
 
 import 'package:get/get.dart';
@@ -20,6 +23,7 @@ class HomeStateView extends GetView<HomeStateController> {
         child: Column(
           children: [
             _buildHeader(),
+            _buildCard(),
           ],
         ),
       ),
@@ -68,7 +72,8 @@ class HomeStateView extends GetView<HomeStateController> {
     }
 
     return Container(
-        margin: EdgeInsets.only(left: 16.w, right: 16.w),
+        margin: EdgeInsets.only(left: 16.w, right: 0.w),
+        // color: Colors.red,
         height: 220.w,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -109,5 +114,13 @@ class HomeStateView extends GetView<HomeStateController> {
             ),
           ],
         ));
+  }
+
+  Widget _buildCard() {
+    return HomeCardItem(
+      model: KHealthDataClass(
+        
+      ),
+    );
   }
 }

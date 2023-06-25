@@ -18,6 +18,13 @@ class LocaleKeys {
   static const mileage = 'mileage';
   static const pedometer = 'pedometer';
   static const exercise = 'exercise';
+  static const sleep = 'sleep';
+  static const heartrate = 'heartrate';
+  static const blood_OXYGEN = 'blood_OXYGEN';
+  static const EMOTION = 'EMOTION';
+  static const STRESS = 'STRESS';
+  static const BODY_TEMPERATURE = 'BODY_TEMPERATURE';
+  static const FEMALE_HEALTH = 'FEMALE_HEALTH';
 }
 
 class Locales {
@@ -29,6 +36,13 @@ class Locales {
     'mileage': '里程',
     'pedometer': '计步',
     'exercise': '运动消耗',
+    'sleep': '睡眠',
+    'heartrate': '心率',
+    'blood_OXYGEN': '血氧饱和度',
+    'EMOTION': '情绪',
+    'STRESS': '压力',
+    'BODY_TEMPERATURE': '体温',
+    'FEMALE_HEALTH': '女性健康',
   };
   static const en_US = {
     'tabbar_status': '状态',

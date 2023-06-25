@@ -46,6 +46,29 @@ class KTheme {
         fontSize: 12.sp,
       ),
 
+      bodyLarge: TextStyle(
+        color: Colors.white,
+        fontSize: 20.sp,
+      ),
+      bodyMedium: TextStyle(
+        color: ColorUtils.fromHex("#FF9EA3AE"),
+        fontSize: 14.sp,
+      ),
+      bodySmall: TextStyle(
+        color: Colors.white,
+        fontSize: 16.sp,
+      ),
+
+      labelLarge: TextStyle(
+        color: Colors.white,
+        fontSize: 14.sp,
+        fontFamily: fontFamilyRoboto,
+      ),
+      labelSmall: TextStyle(
+        color: Colors.white,
+        fontSize: 12.sp,
+      ),
+
       // bodyLarge:
     ),
   );

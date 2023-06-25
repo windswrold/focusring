@@ -23,7 +23,7 @@ class HomeTabbarView extends GetView<HomeTabbarController> {
             label: "tabbar_devices".tr),
         BottomNavigationBarItem(
             icon: _getIcon("tabbar/tab_mine_normal"),
-            activeIcon: _getIcon("tabbar/tab_mine_normal"),
+            activeIcon: _getIcon("tabbar/tab_mine_sel"),
             label: "tabbar_mine".tr),
       ];
 

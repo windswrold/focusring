@@ -1,0 +1,51 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "focusring",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "focusring (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "focusring (release mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "syncfusion_flutter_charts-21.2.4",
+            "cwd": "plugins/syncfusion_flutter_charts-21.2.4",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "syncfusion_flutter_charts-21.2.4 (profile mode)",
+            "cwd": "plugins/syncfusion_flutter_charts-21.2.4",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "syncfusion_flutter_charts-21.2.4 (release mode)",
+            "cwd": "plugins/syncfusion_flutter_charts-21.2.4",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "example",
+            "cwd": "plugins/syncfusion_flutter_charts-21.2.4/example",
+            "request": "launch",
+            "type": "dart"
+        }
+    ]
+}

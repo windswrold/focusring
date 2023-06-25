@@ -5,5 +5,12 @@
   "home_status": "我的状态",
   "mileage": "里程",
   "pedometer": "计步",
-  "exercise": "运动消耗"
+  "exercise": "运动消耗",
+  "sleep": "睡眠",
+  "heartrate": "心率",
+  "blood_OXYGEN": "血氧饱和度",
+  "EMOTION": "情绪",
+  "STRESS": "压力",
+  "BODY_TEMPERATURE": "体温",
+  "FEMALE_HEALTH": "女性健康"
 }

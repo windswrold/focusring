@@ -17,6 +17,19 @@ const kDesignSize = Size(375, 812);
 
 const fontFamilyRoboto = 'Roboto';
 
+enum KHealthData {
+  STEPS, //步数
+  DISTANCE, //里程
+  CALORIES_BURNED, //运动消耗
+  SLEEP, //睡眠
+  HEART_RATE, //心率
+  BLOOD_OXYGEN, //血氧饱和度
+  EMOTION, //情绪
+  STRESS, //压力
+  BODY_TEMPERATURE, //体温
+  FEMALE_HEALTH, //女性健康
+}
+
 Size calculateTextSize(
   String value,
   double fontSize,
