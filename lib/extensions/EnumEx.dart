@@ -1,16 +1,16 @@
 import '../public.dart';
 
 extension KHealthDataEX on KHealthDataType {
-  String getDisplayName() {
+  String getDisplayName({bool? isGoals}) {
     switch (this) {
       case KHealthDataType.STEPS:
-        return "pedometer".tr;
+        return isGoals == true ? "steps_goals".tr : "pedometer".tr;
       case KHealthDataType.DISTANCE:
-        return "mileage".tr;
+        return isGoals == true ? "mileage_goals".tr : "mileage".tr;
       case KHealthDataType.CALORIES_BURNED:
-        return "exercise".tr;
+        return isGoals == true ? "activity_goals".tr : "exercise".tr;
       case KHealthDataType.SLEEP:
-        return "sleep".tr;
+        return isGoals == true ? "sleep_goals".tr : "sleep".tr;
       case KHealthDataType.HEART_RATE:
         return "heartrate".tr;
       case KHealthDataType.BLOOD_OXYGEN:
@@ -121,9 +121,9 @@ extension KHealthDataEX on KHealthDataType {
       case KHealthDataType.DISTANCE:
         return "  km";
       case KHealthDataType.CALORIES_BURNED:
-        return "exercise".tr;
+        return "  kcal".tr;
       case KHealthDataType.SLEEP:
-        return "sleep".tr;
+        return "  h";
       case KHealthDataType.HEART_RATE:
         return "heartrate".tr;
       case KHealthDataType.BLOOD_OXYGEN:

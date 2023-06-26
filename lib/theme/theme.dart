@@ -37,6 +37,12 @@ class KTheme {
         fontSize: 24.sp,
         fontWeight: FontWeight.w400,
       ),
+
+      titleMedium: TextStyle(
+        color: ColorUtils.fromHex("#FF09C2EE"),
+        fontSize: 14.sp,
+      ),
+
       displayMedium: TextStyle(
         color: ColorUtils.fromHex("#FF00CEFF"),
         fontSize: 17.sp,

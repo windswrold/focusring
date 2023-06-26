@@ -23,5 +23,12 @@
     "language": "语言",
     "Feedback": "意见反馈",
     "FAQ": "常见问题",
-    "about": "关于"
+    "about": "关于",
+    "edit_mygoals": "编辑目标",
+    "steps_goals": "计步目标",
+    "mileage_goals": "里程目标",
+    "activity_goals": "活动目标",
+    "sleep_goals": "睡眠目标",
+    "cancel": "取消",
+    "save": "保存"
 }

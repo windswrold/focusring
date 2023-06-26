@@ -9,6 +9,7 @@ abstract class Routes {
   static const HOME_STATE = _Paths.HOME_STATE;
   static const HOME_TABBAR = _Paths.HOME_TABBAR;
   static const HOME_EDIT_CARD = _Paths.HOME_EDIT_CARD;
+  static const EDIT_MYGOALS = _Paths.EDIT_MYGOALS;
 }
 
 abstract class _Paths {
@@ -19,4 +20,5 @@ abstract class _Paths {
   static const HOME_STATE = '/home-state';
   static const HOME_TABBAR = '/home-tabbar';
   static const HOME_EDIT_CARD = '/home-edit-card';
+  static const EDIT_MYGOALS = '/edit-mygoals';
 }

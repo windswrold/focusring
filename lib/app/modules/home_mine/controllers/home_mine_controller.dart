@@ -1,4 +1,7 @@
+import 'package:focusring/app/routes/app_pages.dart';
+import 'package:focusring/public.dart';
 import 'package:focusring/utils/console_logger.dart';
+import 'package:focusring/views/dialog_widgets/controllers/dialog_modify_goals_controller.dart';
 import 'package:get/get.dart';
 
 class HomeMineController extends GetxController {
@@ -31,6 +34,10 @@ class HomeMineController extends GetxController {
   @override
   void onClose() {
     super.onClose();
+  }
+
+  void onTapMyGoals() {
+    Get.toNamed(Routes.EDIT_MYGOALS);
   }
 
   void onTapSetting() {}

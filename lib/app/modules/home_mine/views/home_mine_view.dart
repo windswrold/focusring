@@ -49,6 +49,9 @@ class HomeMineView extends GetView<HomeMineController> {
               child: Column(
                 children: [
                   InkWell(
+                    onTap: () {
+                      controller.onTapMyGoals();
+                    },
                     child: Container(
                       alignment: Alignment.centerLeft,
                       padding: EdgeInsets.only(left: 16.w, right: 16.w),

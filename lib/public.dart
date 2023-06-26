@@ -11,3 +11,4 @@ export 'package:focusring/const/constant.dart';
 export 'package:focusring/extensions/EnumEx.dart';
 export 'package:focusring/extensions/numberEX.dart';
 export 'package:focusring/views/base/next_button.dart';
+export 'package:focusring/views/dialog_widgets/dialog_utils.dart';

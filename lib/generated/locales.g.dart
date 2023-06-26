@@ -36,6 +36,13 @@ class LocaleKeys {
   static const Feedback = 'Feedback';
   static const FAQ = 'FAQ';
   static const about = 'about';
+  static const edit_mygoals = 'edit_mygoals';
+  static const steps_goals = 'steps_goals';
+  static const mileage_goals = 'mileage_goals';
+  static const activity_goals = 'activity_goals';
+  static const sleep_goals = 'sleep_goals';
+  static const cancel = 'cancel';
+  static const save = 'save';
 }
 
 class Locales {
@@ -65,6 +72,13 @@ class Locales {
     'Feedback': '意见反馈',
     'FAQ': '常见问题',
     'about': '关于',
+    'edit_mygoals': '编辑目标',
+    'steps_goals': '计步目标',
+    'mileage_goals': '里程目标',
+    'activity_goals': '活动目标',
+    'sleep_goals': '睡眠目标',
+    'cancel': '取消',
+    'save': '保存',
   };
   static const en_US = {
     'tabbar_status': '状态',
@@ -92,5 +106,12 @@ class Locales {
     'Feedback': '意见反馈',
     'FAQ': '常见问题',
     'about': '关于',
+    'edit_mygoals': '编辑目标',
+    'steps_goals': '计步目标',
+    'mileage_goals': '里程目标',
+    'activity_goals': '活动目标',
+    'sleep_goals': '睡眠目标',
+    'cancel': '取消',
+    'save': '保存',
   };
 }
