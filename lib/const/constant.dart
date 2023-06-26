@@ -6,6 +6,7 @@ import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:focusring/utils/console_logger.dart';
 import 'package:path_provider/path_provider.dart';
 
 const bool inProduction = kReleaseMode;
@@ -51,7 +52,9 @@ Size calculateTextSize(
     ),
   );
   painter.layout(maxWidth: maxWidth);
-  return Size(painter.width, painter.height);
+  var a = Size(painter.width, painter.height);
+  vmPrint(a);
+  return a;
 }
 
 Future<File> getAppFile() async {

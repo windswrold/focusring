@@ -1,7 +1,7 @@
 import 'package:floor/floor.dart';
 import 'package:flutter/material.dart';
 import 'package:focusring/app/modules/home_devices/views/home_devices_view.dart';
-import 'package:focusring/app/modules/home_edit_card/views/home_edit_card_view.dart';
+import 'package:focusring/app/modules/edit_card/views/home_edit_card_view.dart';
 import 'package:focusring/app/routes/app_pages.dart';
 import 'package:focusring/const/constant.dart';
 import 'package:focusring/public.dart';

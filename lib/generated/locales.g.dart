@@ -29,6 +29,13 @@ class LocaleKeys {
   static const edit_cardtip = 'edit_cardtip';
   static const hidden_Items = 'hidden_Items';
   static const hidden_Itemsdesc = 'hidden_Itemsdesc';
+  static const my_goals = 'my_goals';
+  static const unit_settings = 'unit_settings';
+  static const AccountSecurity = 'AccountSecurity';
+  static const language = 'language';
+  static const Feedback = 'Feedback';
+  static const FAQ = 'FAQ';
+  static const about = 'about';
 }
 
 class Locales {
@@ -51,6 +58,13 @@ class Locales {
     'edit_cardtip': '显示项目（在右侧上下拖动以调整显示顺序）',
     'hidden_Items': '隐藏项目',
     'hidden_Itemsdesc': '拖动不需要显示的项目到此处',
+    'my_goals': '我的目标',
+    'unit_settings': '单位设置',
+    'AccountSecurity': '账号与安全',
+    'language': '语言',
+    'Feedback': '意见反馈',
+    'FAQ': '常见问题',
+    'about': '关于',
   };
   static const en_US = {
     'tabbar_status': '状态',
@@ -71,5 +85,12 @@ class Locales {
     'edit_cardtip': '显示项目（在右侧上下拖动以调整显示顺序）',
     'hidden_Items': '隐藏项目',
     'hidden_Itemsdesc': '拖动不需要显示的项目到此处',
+    'my_goals': '我的目标',
+    'unit_settings': '单位设置',
+    'AccountSecurity': '账号与安全',
+    'language': '语言',
+    'Feedback': '意见反馈',
+    'FAQ': '常见问题',
+    'about': '关于',
   };
 }

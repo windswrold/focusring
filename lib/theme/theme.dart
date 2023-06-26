@@ -35,6 +35,7 @@ class KTheme {
       titleLarge: TextStyle(
         color: Colors.white,
         fontSize: 24.sp,
+        fontWeight: FontWeight.w400,
       ),
       displayMedium: TextStyle(
         color: ColorUtils.fromHex("#FF00CEFF"),
@@ -44,6 +45,11 @@ class KTheme {
       displaySmall: TextStyle(
         color: ColorUtils.fromHex("#FF9EA3AE"),
         fontSize: 12.sp,
+      ),
+
+      displayLarge: TextStyle(
+        color: Colors.white,
+        fontSize: 14.sp,
       ),
 
       bodyLarge: TextStyle(

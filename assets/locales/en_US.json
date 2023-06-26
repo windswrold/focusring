@@ -16,5 +16,12 @@
     "edit_card": "编辑卡片",
     "edit_cardtip": "显示项目（在右侧上下拖动以调整显示顺序）",
     "hidden_Items": "隐藏项目",
-    "hidden_Itemsdesc": "拖动不需要显示的项目到此处"
+    "hidden_Itemsdesc": "拖动不需要显示的项目到此处",
+    "my_goals": "我的目标",
+    "unit_settings": "单位设置",
+    "AccountSecurity": "账号与安全",
+    "language": "语言",
+    "Feedback": "意见反馈",
+    "FAQ": "常见问题",
+    "about": "关于"
 }

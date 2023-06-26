@@ -24,7 +24,8 @@ class KBasePageView extends StatelessWidget {
       this.safeAreaRight = true,
       this.overlayStyle,
       this.barColor,
-      this.centerTitle = true})
+      this.centerTitle = true,
+      this.leadingWidth})
       : super(key: key);
 
   Widget body;
@@ -47,6 +48,7 @@ class KBasePageView extends StatelessWidget {
   final SystemUiOverlayStyle? overlayStyle;
   final Color? barColor;
   final bool centerTitle;
+  final double? leadingWidth;
 
   static Widget getBack(VoidCallback onTap) {
     return IconButton(
@@ -72,8 +74,7 @@ class KBasePageView extends StatelessWidget {
             : AppBar(
                 title: titleStr != null ? _titleWidget() : title,
                 centerTitle: centerTitle,
-                leadingWidth: 40.w,
-                // titleSpacing: 0,
+                leadingWidth: leadingWidth ?? 40.w,
                 titleSpacing: hiddenLeading == true ? 16.w : 0,
                 elevation: elevation,
                 bottom: bottom,
@@ -83,7 +84,7 @@ class KBasePageView extends StatelessWidget {
                 leading: hiddenLeading == true
                     ? null
                     : Navigator.canPop(context) == false
-                        ? Container()
+                        ? leading ?? Container()
                         : leading ??
                             getBack(() {
                               if (leadBack != null) {
