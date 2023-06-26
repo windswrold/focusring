@@ -10,7 +10,7 @@ class HomeDevicesView extends GetView<HomeDevicesController> {
   Widget build(BuildContext context) {
     return KBasePageView(
       titleStr: "aaa",
-      // centerTitle: false,
+      hiddenLeading: true,
       body: Center(
         child: Text(
           'HomeDevicesView is working',

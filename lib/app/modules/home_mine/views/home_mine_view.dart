@@ -10,6 +10,7 @@ class HomeMineView extends GetView<HomeMineController> {
   @override
   Widget build(BuildContext context) {
     return KBasePageView(
+      hiddenLeading: true,
       body: Center(
         child: Text(
           'HomeMineView is working',
