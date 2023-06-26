@@ -3,7 +3,7 @@ import 'package:focusring/const/constant.dart';
 import 'home_card_x.dart';
 
 class KHealthDataClass {
-  KHealthData? type;
+  KHealthDataType? type;
   String? date;
   String? result;
   String? resultDesc;
@@ -16,5 +16,5 @@ class KHealthDataClass {
 
   List<HomeCardItemModel> datas = [];
 
-  KHealthDataClass({this.type = KHealthData.STEPS});
+  KHealthDataClass({this.type = KHealthDataType.STEPS});
 }

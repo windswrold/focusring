@@ -3,5 +3,18 @@
     "tabbar_devices": "设备",
     "tabbar_mine": "我的",
     "home_status": "我的状态",
-    "mileage": "里程"
+    "mileage": "里程",
+    "pedometer": "计步",
+    "exercise": "运动消耗",
+    "sleep": "睡眠",
+    "heartrate": "心率",
+    "blood_OXYGEN": "血氧饱和度",
+    "EMOTION": "情绪",
+    "STRESS": "压力",
+    "BODY_TEMPERATURE": "体温",
+    "FEMALE_HEALTH": "女性健康",
+    "edit_card": "编辑卡片",
+    "edit_cardtip": "显示项目（在右侧上下拖动以调整显示顺序）",
+    "hidden_Items": "隐藏项目",
+    "hidden_Itemsdesc": "拖动不需要显示的项目到此处"
 }

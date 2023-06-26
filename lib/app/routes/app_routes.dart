@@ -8,6 +8,7 @@ abstract class Routes {
   static const HOME_MINE = _Paths.HOME_MINE;
   static const HOME_STATE = _Paths.HOME_STATE;
   static const HOME_TABBAR = _Paths.HOME_TABBAR;
+  static const HOME_EDIT_CARD = _Paths.HOME_EDIT_CARD;
 }
 
 abstract class _Paths {
@@ -17,4 +18,5 @@ abstract class _Paths {
   static const HOME_MINE = '/home-mine';
   static const HOME_STATE = '/home-state';
   static const HOME_TABBAR = '/home-tabbar';
+  static const HOME_EDIT_CARD = '/home-edit-card';
 }

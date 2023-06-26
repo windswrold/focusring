@@ -17,7 +17,7 @@ const kDesignSize = Size(375, 812);
 
 const fontFamilyRoboto = 'Roboto';
 
-enum KHealthData {
+enum KHealthDataType {
   STEPS, //步数
   DISTANCE, //里程
   CALORIES_BURNED, //运动消耗

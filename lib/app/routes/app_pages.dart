@@ -1,6 +1,9 @@
 import 'package:get/get.dart';
+
 import '../modules/home_devices/bindings/home_devices_binding.dart';
 import '../modules/home_devices/views/home_devices_view.dart';
+import '../modules/home_edit_card/bindings/home_edit_card_binding.dart';
+import '../modules/home_edit_card/views/home_edit_card_view.dart';
 import '../modules/home_mine/bindings/home_mine_binding.dart';
 import '../modules/home_mine/views/home_mine_view.dart';
 import '../modules/home_state/bindings/home_state_binding.dart';
@@ -35,6 +38,11 @@ class AppPages {
       name: _Paths.HOME_TABBAR,
       page: () => HomeTabbarView(),
       binding: HomeTabbarBinding(),
+    ),
+    GetPage(
+      name: _Paths.HOME_EDIT_CARD,
+      page: () => const HomeEditCardView(),
+      binding: HomeEditCardBinding(),
     ),
   ];
 }

@@ -46,7 +46,7 @@ class HomeCardItem extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          model.type!.getChineseName(),
+                          model.type!.getDisplayName(),
                           style: Get.textTheme.bodySmall,
                         ),
                         2.columnWidget,

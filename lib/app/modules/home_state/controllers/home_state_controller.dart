@@ -1,3 +1,4 @@
+import 'package:focusring/app/routes/app_pages.dart';
 import 'package:focusring/public.dart';
 import 'package:focusring/views/charts/radio_gauge_chart/model/radio_gauge_chart_model.dart';
 import 'package:get/get.dart';
@@ -31,7 +32,9 @@ class HomeStateController extends GetxController {
     super.onReady();
   }
 
-  void onTapEditCard() {}
+  void onTapEditCard() {
+    Get.toNamed(Routes.HOME_EDIT_CARD);
+  }
 
   @override
   void onClose() {

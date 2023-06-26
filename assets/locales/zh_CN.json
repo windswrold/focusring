@@ -13,5 +13,8 @@
   "STRESS": "压力",
   "BODY_TEMPERATURE": "体温",
   "FEMALE_HEALTH": "女性健康",
-  "edit_card": "编辑卡片"
+  "edit_card": "编辑卡片",
+  "edit_cardtip": "显示项目（在右侧上下拖动以调整显示顺序）",
+  "hidden_Items": "隐藏项目",
+  "hidden_Itemsdesc": "拖动不需要显示的项目到此处"
 }

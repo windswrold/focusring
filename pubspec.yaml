@@ -56,8 +56,9 @@ dependencies:
   flutter_screenutil: "5.7.0"
   extended_image: "6.4.1"
   syncfusion_flutter_charts: "any"
-    # path: plugins/syncfusion_flutter_charts-21.2.4
   decimal: ^2.3.2
+  drag_and_drop_lists: ^0.3.3
+  dotted_border: ^2.0.0+3
 
 dev_dependencies:
   flutter_test:
