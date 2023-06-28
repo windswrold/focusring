@@ -85,7 +85,7 @@ class KTheme {
         fontSize: 14.sp,
         fontFamily: fontFamilyRoboto,
       ),
-
+      
       // bodyLarge:
     ),
   );

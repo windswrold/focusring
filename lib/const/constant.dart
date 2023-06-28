@@ -4,10 +4,15 @@ import 'dart:math';
 import 'dart:ui' as ui;
 import 'dart:ui';
 
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:focusring/app/data/device_info.dart';
 import 'package:focusring/utils/console_logger.dart';
+import 'package:focusring/utils/sp_manager.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 const bool inProduction = kReleaseMode;
 final bool isAndroid = Platform.isAndroid;
@@ -82,4 +87,34 @@ Future<File> saveFileData(
   } catch (e) {
     throw e;
   }
+}
+
+class GlobalValues {
+  static MSDeviceInfo deviceInfo = MSDeviceInfo();
+
+  static Future<void> init() async {
+    if (Platform.isAndroid) {
+      final AndroidDeviceInfo and = await DeviceInfoPlugin().androidInfo;
+      deviceInfo.imei = and.id;
+      deviceInfo.machine = and.device;
+      deviceInfo.system = 'Android' + (and.version.release ?? '');
+      deviceInfo.appType = 'Android';
+
+      vmPrint("and " + and.toString());
+    } else if (Platform.isIOS) {
+      final IosDeviceInfo iOS = await DeviceInfoPlugin().iosInfo;
+      deviceInfo.imei = iOS.identifierForVendor;
+      deviceInfo.machine = iOS.utsname.machine;
+      deviceInfo.system = (iOS.systemName ?? '') + (iOS.systemVersion ?? '');
+      deviceInfo.appType = 'iOS';
+      vmPrint("ios " + iOS.toString());
+    }
+    final info = await PackageInfo.fromPlatform();
+    deviceInfo.appInfo = info;
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    SPManager.spInit(prefs);
+    vmPrint("pack " + info.toString());
+  }
+
+  
 }

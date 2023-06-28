@@ -18,7 +18,8 @@ class NextButton extends StatelessWidget {
       this.textStyle,
       this.inactiveColor,
       this.bgImg,
-      this.width})
+      this.width,
+      this.gradient})
       : super(key: key);
 
   final NextButtonCallback onPressed;
@@ -37,13 +38,14 @@ class NextButton extends StatelessWidget {
   final BoxBorder? border;
   final TextStyle? textStyle;
   final Color? inactiveColor;
+  final Gradient? gradient;
 
   ///Constant.ASSETS_IMG + "icons/buttongradient.png",
   final String? bgImg;
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: padding,
+      // padding: padding,
       margin: margin,
       child: CupertinoButton(
         // behavior: HitTestBehavior.opaque,
@@ -52,6 +54,7 @@ class NextButton extends StatelessWidget {
         child: Container(
           alignment: Alignment.center,
           height: height ?? 46.w,
+          padding: padding,
           width: width,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(borderRadius ?? 0),
@@ -63,6 +66,7 @@ class NextButton extends StatelessWidget {
                     fit: BoxFit.cover,
                     image: AssetImage(bgImg!),
                   ),
+            gradient: gradient,
           ),
           child: Text(
             title,

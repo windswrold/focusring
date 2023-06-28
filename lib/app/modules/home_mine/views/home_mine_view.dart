@@ -17,7 +17,7 @@ class HomeMineView extends GetView<HomeMineController> {
         alignment: Alignment.centerLeft,
         width: 200.w,
         child: Text(
-          "未登录",
+          "not_logged_in".tr,
           style: Get.textTheme.titleLarge,
           maxLines: 1,
         ),
@@ -148,7 +148,7 @@ class HomeMineView extends GetView<HomeMineController> {
                 ),
                 12.rowWidget,
                 Text(
-                  title,
+                  title.tr,
                   style: Get.textTheme.displayLarge,
                 ),
               ],

@@ -15,22 +15,22 @@ class EditMygoalsController extends GetxController {
     my_defaultList = [
       {
         "a": "icons/target_icon_steps",
-        "b": "steps_goals".tr,
+        "b": "steps_goals",
         "t": KHealthDataType.STEPS
       },
       {
         "a": "icons/target_icon_distance",
-        "b": "mileage_goals".tr,
+        "b": "mileage_goals",
         "t": KHealthDataType.DISTANCE
       },
       {
         "a": "icons/target_icon_calories",
-        "b": "activity_goals".tr,
+        "b": "activity_goals",
         "t": KHealthDataType.CALORIES_BURNED
       },
       {
         "a": "icons/target_icon_sleep",
-        "b": "sleep_goals".tr,
+        "b": "sleep_goals",
         "t": KHealthDataType.SLEEP
       },
     ].obs;
@@ -49,9 +49,11 @@ class EditMygoalsController extends GetxController {
   void onTapList(int index) async {
     var t = my_defaultList[index]["t"];
     var a = DialogModifyGoalsController(currentValue: 6, type: t);
-
     Get.replace(a);
     var result = await DialogUtils.dialogModifyGoals();
+    if (result == null) {
+      return;
+    }
     vmPrint(result);
   }
 }

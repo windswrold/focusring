@@ -19,5 +19,7 @@ class HomeDevicesController extends GetxController {
     super.onClose();
   }
 
-  void increment() => count.value++;
+  void onTapList(int indx) {
+
+  }
 }

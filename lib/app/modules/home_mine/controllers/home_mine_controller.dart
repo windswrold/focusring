@@ -1,4 +1,5 @@
 import 'package:focusring/app/routes/app_pages.dart';
+import 'package:focusring/generated/locales.g.dart';
 import 'package:focusring/public.dart';
 import 'package:focusring/utils/console_logger.dart';
 import 'package:focusring/views/dialog_widgets/controllers/dialog_modify_goals_controller.dart';
@@ -17,12 +18,36 @@ class HomeMineController extends GetxController {
     super.onInit();
 
     my_defaultList = [
-      {"a": "icons/mine_icon_unit", "b": "unit_settings".tr},
-      {"a": "icons/mine_icon_account", "b": "AccountSecurity".tr},
-      {"a": "icons/mine_icon_language", "b": "language".tr},
-      {"a": "icons/mine_icon_feedback", "b": "Feedback".tr},
-      {"a": "icons/mine_icon_faq", "b": "FAQ".tr},
-      {"a": "icons/mine_icon_about", "b": "about".tr},
+      {
+        "a": "icons/mine_icon_unit",
+        "b": "unit_settings",
+        "r": Routes.UNIT_SYSTEM
+      },
+      {
+        "a": "icons/mine_icon_account",
+        "b": "AccountSecurity",
+        "r": "",
+      },
+      {
+        "a": "icons/mine_icon_language",
+        "b": "language",
+        "r": Routes.LANGUAGE_UNIT,
+      },
+      {
+        "a": "icons/mine_icon_feedback",
+        "b": "Feedback",
+        "r": Routes.SETTING_FEEDBACK,
+      },
+      {
+        "a": "icons/mine_icon_faq",
+        "b": "FAQ",
+        "r": Routes.FAQ_VIEW,
+      },
+      {
+        "a": "icons/mine_icon_about",
+        "b": "about",
+        "r": Routes.ABOUT_US,
+      },
     ].obs;
   }
 
@@ -40,9 +65,16 @@ class HomeMineController extends GetxController {
     Get.toNamed(Routes.EDIT_MYGOALS);
   }
 
-  void onTapSetting() {}
+  void onTapSetting() {
+    Get.toNamed(Routes.SETTING_USER_INFO);
+  }
 
   void onTapList(int index) {
     vmPrint(index);
+    String a = my_defaultList[index]["r"];
+    if (a.isEmpty) {
+      return;
+    }
+    Get.toNamed(a);
   }
 }

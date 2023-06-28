@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:focusring/generated/locales.g.dart';
+import 'package:focusring/public.dart';
 import 'package:focusring/theme/theme.dart';
 import 'package:focusring/utils/localeManager.dart';
 
@@ -9,7 +10,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'app/routes/app_pages.dart';
 import 'const/constant.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+ await GlobalValues.init();
+
   runApp(ScreenUtilInit(
     designSize: kDesignSize,
     minTextAdapt: true,
@@ -21,7 +25,7 @@ void main() {
         darkTheme: KTheme.dark,
         themeMode: ThemeMode.dark,
         initialRoute: AppPages.INITIAL,
-        locale: Get.deviceLocale,
+        locale: toLocale(SPManager.getAppLanguage()),
         localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,

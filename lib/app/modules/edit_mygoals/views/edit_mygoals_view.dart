@@ -32,7 +32,7 @@ class EditMygoalsView extends GetView<EditMygoalsController> {
                 ),
                 18.rowWidget,
                 Text(
-                  title,
+                  title.tr,
                   style: Get.textTheme.displayLarge,
                 ),
               ],
