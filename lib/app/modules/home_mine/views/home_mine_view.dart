@@ -12,17 +12,9 @@ class HomeMineView extends GetView<HomeMineController> {
   @override
   Widget build(BuildContext context) {
     return KBasePageView(
-      leading: Container(
-        margin: EdgeInsets.only(left: 16.w),
-        alignment: Alignment.centerLeft,
-        width: 200.w,
-        child: Text(
-          "not_logged_in".tr,
-          style: Get.textTheme.titleLarge,
-          maxLines: 1,
-        ),
-      ),
-      leadingWidth: 200.w,
+      titleStr: "not_logged_in".tr,
+      centerTitle: false,
+      hiddenLeading: true,
       actions: [
         IconButton(
           onPressed: () {

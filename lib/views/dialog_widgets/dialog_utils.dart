@@ -8,4 +8,10 @@ class DialogUtils {
   static dialogModifyGoals() {
     return Get.bottomSheet(DialogModifyGoalsPage());
   }
+
+  static dialogResetDevices(){
+
+    // return Get.showOverlay(asyncFunction: asyncFunction)
+
+  }
 }

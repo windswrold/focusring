@@ -85,7 +85,12 @@ class KTheme {
         fontSize: 14.sp,
         fontFamily: fontFamilyRoboto,
       ),
-      
+
+      titleSmall: TextStyle(
+        color: ColorUtils.fromHex("#FF02FFE2"),
+        fontSize: 12.sp,
+      ),
+
       // bodyLarge:
     ),
   );
