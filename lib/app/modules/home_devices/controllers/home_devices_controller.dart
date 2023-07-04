@@ -1,3 +1,4 @@
+import 'package:focusring/app/routes/app_pages.dart';
 import 'package:focusring/public.dart';
 import 'package:get/get.dart';
 
@@ -42,60 +43,14 @@ class HomeDevicesController extends GetxController {
   }
 
   void onTapList(int indx) {
-    if (indx == 3) {
-      //恢复出厂
-      Get.defaultDialog(
-        title: "",
-        titlePadding: EdgeInsets.zero,
-        backgroundColor: ColorUtils.fromHex("#FF232126"),
-        radius: 16,
-        contentPadding: EdgeInsets.zero,
-        content: Column(
-          children: [
-            Container(
-              margin: EdgeInsets.only(top: 30.w, bottom: 35.w),
-              child: Text(
-                "sure_reset".tr,
-                style: Get.textTheme.displayLarge,
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: NextButton(
-                    onPressed: () {
-                      Get.back();
-                    },
-                    title: "cancel".tr,
-                    activeColor: Colors.transparent,
-                    textStyle: Get.textTheme.titleMedium,
-                  ),
-                ),
-                Container(
-                  width: 1,
-                  height: 32.w,
-                  color: ColorUtils.fromHex("#FF707070"),
-                ),
-                Expanded(
-                  child: NextButton(
-                    onPressed: () {
-                      Get.back();
-                    },
-                    title: "confirm".tr,
-                    activeColor: Colors.transparent,
-                    textStyle: Get.textTheme.displayLarge,
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-        // confirm: NextButton(onPressed: () {}, title: "confirm".tr),
-        // cancel: NextButton(onPressed: () {}, title: "cancel".tr),
-        // textCancel: "cancel".tr,xxxx
-        // textConfirm: "confirm".tr,
-      );
+    if (indx == 0) {
+      Get.toNamed(Routes.HEARTRATE_ALERT);
+    } else if (indx == 1) {
+      Get.toNamed(Routes.AUTOMATIC_SETTINGS);
+    } else if (indx == 2) {
+      Get.toNamed(Routes.DEVICE_INFO);
+    } else if (indx == 3) {
+      DialogUtils.dialogResetDevices();
     }
   }
 

@@ -125,9 +125,9 @@ extension KHealthDataEX on KHealthDataType {
       case KHealthDataType.SLEEP:
         return "  h";
       case KHealthDataType.HEART_RATE:
-        return "heartrate".tr;
+        return "  Bpm";
       case KHealthDataType.BLOOD_OXYGEN:
-        return 'blood_OXYGEN'.tr;
+        return "  hours";
       case KHealthDataType.EMOTION:
         return 'EMOTION'.tr;
       case KHealthDataType.STRESS:

@@ -36,6 +36,8 @@ enum KHealthDataType {
   FEMALE_HEALTH, //女性健康
 }
 
+enum KButtonState { idle, loading, success, fail }
+
 Size calculateTextSize(
   String value,
   double fontSize,
@@ -115,6 +117,4 @@ class GlobalValues {
     SPManager.spInit(prefs);
     vmPrint("pack " + info.toString());
   }
-
-  
 }

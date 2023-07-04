@@ -42,6 +42,10 @@ class KTheme {
         color: ColorUtils.fromHex("#FF09C2EE"),
         fontSize: 14.sp,
       ),
+      titleSmall: TextStyle(
+        color: ColorUtils.fromHex("#FF02FFE2"),
+        fontSize: 12.sp,
+      ),
 
       displayMedium: TextStyle(
         color: ColorUtils.fromHex("#FF00CEFF"),
@@ -86,9 +90,10 @@ class KTheme {
         fontFamily: fontFamilyRoboto,
       ),
 
-      titleSmall: TextStyle(
-        color: ColorUtils.fromHex("#FF02FFE2"),
-        fontSize: 12.sp,
+      headlineLarge: TextStyle(
+
+        color: ColorUtils.fromHex("#FF4D5461"),
+        fontSize: 14.sp,
       ),
 
       // bodyLarge:

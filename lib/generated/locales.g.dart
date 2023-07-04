@@ -81,6 +81,34 @@ class LocaleKeys {
   static const pl_PL = 'pl_PL';
   static const tr_TR = 'tr_TR';
   static const cs_CZ = 'cs_CZ';
+  static const unit_gong = 'unit_gong';
+  static const unit_inch = 'unit_inch';
+  static const unit_degreescelsius = 'unit_degreescelsius';
+  static const unit_fahrenheit = 'unit_fahrenheit';
+  static const heartrate_alert = 'heartrate_alert';
+  static const automatic_settings = 'automatic_settings';
+  static const ota_upgrade = 'ota_upgrade';
+  static const restore_settings = 'restore_settings';
+  static const test = 'test';
+  static const manual_test = 'manual_test';
+  static const add_device = 'add_device';
+  static const sure_reset = 'sure_reset';
+  static const confirm = 'confirm';
+  static const current_v = 'current_v';
+  static const new_v = 'new_v';
+  static const check_v = 'check_v';
+  static const mac_adds = 'mac_adds';
+  static const no_v = 'no_v';
+  static const upgrade_v = 'upgrade_v';
+  static const upgradeing_v = 'upgradeing_v';
+  static const heartrate_state = 'heartrate_state';
+  static const max_heartrate = 'max_heartrate';
+  static const min_heartrate = 'min_heartrate';
+  static const automatic_measuring = 'automatic_measuring';
+  static const heartrate_interval = 'heartrate_interval';
+  static const heartrate_measurement = 'heartrate_measurement';
+  static const bloodoxygen_measurement = 'bloodoxygen_measurement';
+  static const bloodoxygen_interval = 'bloodoxygen_interval';
 }
 
 class Locales {
@@ -336,6 +364,34 @@ class Locales {
     'pl_PL': '波兰语',
     'tr_TR': '土耳其语',
     'cs_CZ': '捷克语',
+    'unit_gong': '公制',
+    'unit_inch': '英制',
+    'unit_degreescelsius': '摄氏度',
+    'unit_fahrenheit': '华氏度',
+    'heartrate_alert': '心率预警',
+    'automatic_settings': '自动测量设置',
+    'ota_upgrade': 'OTA固件升级',
+    'restore_settings': '恢复出厂设置',
+    'test': '测量',
+    'manual_test': '手动测量',
+    'add_device': '添加设备',
+    'sure_reset': '确认要恢复出厂设置吗？',
+    'confirm': '确认',
+    'current_v': '当前版本',
+    'new_v': '最新版本',
+    'check_v': '检查更新',
+    'mac_adds': 'MAC地址',
+    'no_v': '未检测到有新的固件版本。',
+    'upgrade_v': '升级固件',
+    'upgradeing_v': '正在下载固件文件，请稍后',
+    'heartrate_state': '心率预警开关',
+    'max_heartrate': '最大心率',
+    'min_heartrate': '最小心率',
+    'automatic_measuring': '自动测量开关',
+    'heartrate_interval': '心率测量间隔',
+    'heartrate_measurement': '心率测量',
+    'bloodoxygen_measurement': '血氧测量',
+    'bloodoxygen_interval': '血氧测量间隔',
   };
   static const it_IT = {
     'tabbar_status': 'Status',

@@ -16,6 +16,9 @@ abstract class Routes {
   static const SETTING_FEEDBACK = _Paths.SETTING_FEEDBACK;
   static const ABOUT_US = _Paths.ABOUT_US;
   static const FAQ_VIEW = _Paths.FAQ_VIEW;
+  static const DEVICE_INFO = _Paths.DEVICE_INFO;
+  static const HEARTRATE_ALERT = _Paths.HEARTRATE_ALERT;
+  static const AUTOMATIC_SETTINGS = _Paths.AUTOMATIC_SETTINGS;
 }
 
 abstract class _Paths {
@@ -33,4 +36,7 @@ abstract class _Paths {
   static const SETTING_FEEDBACK = '/setting-feedback';
   static const ABOUT_US = '/about-us';
   static const FAQ_VIEW = '/faq-view';
+  static const DEVICE_INFO = '/device-info';
+  static const HEARTRATE_ALERT = '/heartrate-alert';
+  static const AUTOMATIC_SETTINGS = '/automatic-settings';
 }

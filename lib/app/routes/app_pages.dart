@@ -2,12 +2,18 @@ import 'package:get/get.dart';
 
 import '../modules/about_us/bindings/about_us_binding.dart';
 import '../modules/about_us/views/about_us_view.dart';
+import '../modules/automatic_settings/bindings/automatic_settings_binding.dart';
+import '../modules/automatic_settings/views/automatic_settings_view.dart';
+import '../modules/device_info/bindings/device_info_binding.dart';
+import '../modules/device_info/views/device_info_view.dart';
 import '../modules/edit_card/bindings/home_edit_card_binding.dart';
 import '../modules/edit_card/views/home_edit_card_view.dart';
 import '../modules/edit_mygoals/bindings/edit_mygoals_binding.dart';
 import '../modules/edit_mygoals/views/edit_mygoals_view.dart';
 import '../modules/faq_view/bindings/faq_view_binding.dart';
 import '../modules/faq_view/views/faq_view_view.dart';
+import '../modules/heartrate_alert/bindings/heartrate_alert_binding.dart';
+import '../modules/heartrate_alert/views/heartrate_alert_view.dart';
 import '../modules/home_devices/bindings/home_devices_binding.dart';
 import '../modules/home_devices/views/home_devices_view.dart';
 import '../modules/home_mine/bindings/home_mine_binding.dart';
@@ -92,6 +98,21 @@ class AppPages {
       name: _Paths.FAQ_VIEW,
       page: () => const FaqViewView(),
       binding: FaqViewBinding(),
+    ),
+    GetPage(
+      name: _Paths.DEVICE_INFO,
+      page: () => const DeviceInfoView(),
+      binding: DeviceInfoBinding(),
+    ),
+    GetPage(
+      name: _Paths.HEARTRATE_ALERT,
+      page: () => const HeartrateAlertView(),
+      binding: HeartrateAlertBinding(),
+    ),
+    GetPage(
+      name: _Paths.AUTOMATIC_SETTINGS,
+      page: () => const AutomaticSettingsView(),
+      binding: AutomaticSettingsBinding(),
     ),
   ];
 }

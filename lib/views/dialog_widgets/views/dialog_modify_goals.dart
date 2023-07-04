@@ -1,33 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:focusring/views/dialog_widgets/controllers/dialog_modify_goals_controller.dart';
+import 'package:focusring/views/dialog_widgets/dialog_header.dart';
 
 import '../../../public.dart';
 
 class DialogModifyGoalsPage extends GetView<DialogModifyGoalsController> {
   Widget _getHeader() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        TextButton(
-          onPressed: () {
-            controller.onCancel();
-          },
-          child: Text(
-            "cancel".tr,
-            style: Get.textTheme.bodyMedium,
-          ),
-        ),
-        Text(
-          controller.type.getDisplayName(isGoals: true),
-          style: Get.textTheme.bodyLarge,
-        ),
-        TextButton(
-          onPressed: () {
-            controller.onOk();
-          },
-          child: Text("save".tr, style: Get.textTheme.titleMedium),
-        )
-      ],
+    return DialogDefaultHeader(
+      title: controller.type.getDisplayName(isGoals: true),
+      onCancel: controller.onCancel,
+      onConfirm: controller.onOk,
     );
   }
 
