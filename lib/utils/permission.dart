@@ -27,6 +27,30 @@ class PermissionUtils {
     return status == PermissionStatus.granted;
   }
 
+  static Future<bool> checkBle() async {
+    List<Permission> a = [];
+    if (isAndroid == true) {
+      a = [
+        Permission.bluetoothConnect,
+        Permission.bluetoothScan,
+      ];
+    } else {
+      a = [
+        Permission.bluetooth,
+      ];
+    }
+
+    Map<Permission, PermissionStatus> statuses = await a.request();
+    bool isok = true;
+    for (var element in statuses.values) {
+      if (element != PermissionStatus.granted) {
+        isok = false;
+        break;
+      }
+    }
+    return isok;
+  }
+
   static Future<bool> checkStoragePermissions() async {
     if (await Permission.storage.isGranted == true) {
       return true;

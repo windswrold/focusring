@@ -7,6 +7,52 @@ import '../controllers/find_devices_controller.dart';
 
 class FindDevicesView extends GetView<FindDevicesController> {
   const FindDevicesView({Key? key}) : super(key: key);
+
+  Widget _buildListItem() {
+    return Container(
+      height: 78.w,
+      margin: EdgeInsets.only(left: 12.w, right: 12.w, bottom: 12.w),
+      padding: EdgeInsets.all(16.w),
+      decoration: BoxDecoration(
+        color: ColorUtils.fromHex("#FF000000"),
+        borderRadius: BorderRadius.circular(14),
+      ),
+      child: Row(
+        children: [
+          LoadAssetsImage(
+            "icons/device_43",
+            width: 43,
+            height: 43,
+          ),
+          18.rowWidget,
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "data",
+                style: Get.textTheme.bodyLarge,
+              ),
+              4.columnWidget,
+              Text(
+                "data",
+                style: Get.textTheme.bodyMedium,
+              ),
+            ],
+          ),
+          Expanded(
+            child: Container(),
+          ),
+          LoadAssetsImage(
+            "icons/arrow_right_small",
+            width: 7,
+            height: 12,
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return KBasePageView(
@@ -33,18 +79,29 @@ class FindDevicesView extends GetView<FindDevicesController> {
               ),
             ),
           ),
-          IconButton(
-            onPressed: () {
-              controller.pauseAnimation();
-            },
-            icon: Text("data"),
+          Container(
+            margin: EdgeInsets.only(left: 6, right: 6, top: 25.w),
+            child: Text(
+              "search_devices".tr,
+              style: Get.textTheme.bodyLarge,
+            ),
           ),
-          IconButton(
-            onPressed: () {
-              controller.resumeAnimation();
-            },
-            icon: Text("data"),
+          Container(
+            margin: EdgeInsets.only(left: 6, right: 6, top: 9, bottom: 25.w),
+            child: Text(
+              "search_devicestip".tr,
+              textAlign: TextAlign.center,
+              style: Get.textTheme.labelMedium,
+            ),
           ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: 10,
+              itemBuilder: (BuildContext context, int index) {
+                return _buildListItem();
+              },
+            ),
+          )
         ],
       ),
     );

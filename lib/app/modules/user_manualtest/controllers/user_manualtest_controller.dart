@@ -16,9 +16,13 @@ class UserManualtestController extends GetxController
   late final TimerUtil _timerUtil =
       TimerUtil(mTotalTime: countDownTime.inMilliseconds);
 
+  late Rx<KHealthDataType> type = KHealthDataType.HEART_RATE.obs;
+
   @override
   void onInit() {
     gifController = GifController(vsync: this);
+    type.value = Get.arguments;
+    vmPrint(type);
     super.onInit();
   }
 

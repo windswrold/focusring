@@ -92,6 +92,8 @@ Future<File> saveFileData(
   }
 }
 
+const AppViewControllerTag = "AppViewControllerTag";
+
 class GlobalValues {
   static MSDeviceInfo deviceInfo = MSDeviceInfo();
 

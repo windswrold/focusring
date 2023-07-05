@@ -31,7 +31,7 @@ class HeartrateAlertController extends GetxController {
   void showMax() {
     DialogUtils.dialogDataPicker(
       title: "max_heartrate".tr,
-      datas: List.filled(10, "100"),
+      datas: ListEx.generateArray<String>(91, 180, 1),
       symbolText: KHealthDataType.HEART_RATE.getSymbol(),
     );
   }
@@ -39,7 +39,7 @@ class HeartrateAlertController extends GetxController {
   void showMin() {
     DialogUtils.dialogDataPicker(
       title: "min_heartrate".tr,
-      datas: List.filled(10, "100"),
+      datas: ListEx.generateArray<String>(20, 90, 1),
       symbolText: KHealthDataType.HEART_RATE.getSymbol(),
     );
   }

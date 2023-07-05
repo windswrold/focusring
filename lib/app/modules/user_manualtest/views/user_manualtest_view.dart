@@ -96,7 +96,9 @@ class UserManualtestView extends GetView<UserManualtestController> {
                 Row(
                   children: [
                     LoadAssetsImage(
-                      "icons/status_card_icon_sao2",
+                      controller.type.value == KHealthDataType.BLOOD_OXYGEN
+                          ? "icons/status_card_icon_sao2"
+                          : "icons/status_card_icon_hr",
                       width: 24,
                       height: 24,
                     ),
@@ -104,7 +106,9 @@ class UserManualtestView extends GetView<UserManualtestController> {
                       child: Container(
                         margin: EdgeInsets.only(left: 12.w),
                         child: Text(
-                          "1",
+                          controller.type.value == KHealthDataType.HEART_RATE
+                              ? "current_heartrate".tr
+                              : "current_bloodoxygen".tr,
                           style: Get.textTheme.displayLarge,
                         ),
                       ),
@@ -151,7 +155,12 @@ class UserManualtestView extends GetView<UserManualtestController> {
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 12.w),
-                  child: Text("bloodoxygen_result".tr),
+                  child: Text(
+                    controller.type.value == KHealthDataType.BLOOD_OXYGEN
+                        ? "bloodoxygen_result".tr
+                        : "heartrate_result".tr,
+                    style: Get.textTheme.displaySmall,
+                  ),
                 ),
               ],
             ),
@@ -162,7 +171,9 @@ class UserManualtestView extends GetView<UserManualtestController> {
   @override
   Widget build(BuildContext context) {
     return KBasePageView(
-      titleStr: "heartrate_measurement".tr,
+      titleStr: (Get.arguments as KHealthDataType) == KHealthDataType.HEART_RATE
+          ? "heartrate_measurement".tr
+          : "bloodoxygen_measurement".tr,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,

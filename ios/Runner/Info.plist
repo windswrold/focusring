@@ -47,5 +47,24 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+	<key>NSBonjourServices</key>
+	<array>
+		<string>_dartobservatory._tcp</string>
+	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>Focusring needs your consent to access the camera identification QR code</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Focusring needs your permission to add pictures to the album</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Focusring needs your permission to access the album to identify the transfer QR code</string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>Need BLE permission</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>Need BLE permission</string>
 </dict>
 </plist>

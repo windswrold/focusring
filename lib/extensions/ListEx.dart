@@ -3,6 +3,19 @@ import 'dart:convert';
 import 'dart:math';
 
 extension ListEx<E> on List<E> {
+  static List<T> generateArray<T>(int minValue, int maxValue, int interval) {
+    List<T> result = [];
+
+    for (int i = minValue; i <= maxValue; i += interval) {
+      if (T == int) {
+        result.add(i as T);
+      } else if (T == String) {
+        result.add(i.toString() as T);
+      }
+    }
+
+    return result;
+  }
 
   String get jsonString {
     return jsonEncode(this);
@@ -41,7 +54,8 @@ extension ListEx<E> on List<E> {
     return list;
   }
 
-  Future<List<T>> futureMapWithIndex<T>(Future<T> Function(E element, int index) convert) async {
+  Future<List<T>> futureMapWithIndex<T>(
+      Future<T> Function(E element, int index) convert) async {
     List<T> list = [];
     int index = 0;
     for (var element in this) {
@@ -122,5 +136,4 @@ extension ListEx<E> on List<E> {
       return null;
     }
   }
-
 }

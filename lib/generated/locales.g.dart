@@ -112,8 +112,15 @@ class LocaleKeys {
   static const begining_test = 'begining_test';
   static const manualtest_tip = 'manualtest_tip';
   static const current_heartrate = 'current_heartrate';
+  static const current_bloodoxygen = 'current_bloodoxygen';
   static const heartrate_result = 'heartrate_result';
   static const bloodoxygen_result = 'bloodoxygen_result';
+  static const search_devices = 'search_devices';
+  static const search_devicestip = 'search_devicestip';
+  static const click_scan = 'click_scan';
+  static const whynodevices = 'whynodevices';
+  static const whynodevicestip = 'whynodevicestip';
+  static const permission_err = 'permission_err';
 }
 
 class Locales {
@@ -400,10 +407,18 @@ class Locales {
     'begining_test': '正在测量…',
     'manualtest_tip': '请正确佩戴设备，保持静止',
     'current_heartrate': '当前心率',
+    'current_bloodoxygen': '当前血氧饱和度',
     'heartrate_result':
         '您当前处于静息状态。\n静息心率是指在人清醒/安静状态下每分钟心跳的次数，正常情况下，成年人安静心率在60Bpm～100Bpm。',
     'bloodoxygen_result':
         '您的血氧饱和度属于正常范围。\n一般情况下成年人在静息状态下正常血氧饱和度为100%～95%；血氧饱和度<90%,可能存在低血氧症；血氧饱和度<80%,可能存在生命危险。血氧饱和度越低，说明血液运输氧的能力越差，身体长期供养不足我们的大脑，心脏等组织器官，就会造成不可逆的损伤。',
+    'search_devices': '正在搜索设备…',
+    'search_devicestip': '取出设备，充电，激活设备，然后将其靠近手机。',
+    'click_scan': '点击重新扫描',
+    'whynodevices': '为什么搜索不到设备？',
+    'whynodevicestip':
+        '1.请确保手机与设备之间的距离足够近，，同时确保周围网络无问题。\n2.若始终无法发现设备，可能存在设备已被他人连接。如果您并不清楚被谁连接，可以携带戒指远离当前位置，戒指断连后再进行连接。还可以尝试重启手机蓝牙后再扫描设备。\n3.确保手机蓝牙是否正常开启。',
+    'permission_err': '权限未开启',
   };
   static const it_IT = {
     'tabbar_status': 'Status',

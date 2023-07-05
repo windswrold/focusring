@@ -65,14 +65,14 @@ class DialogUtils {
     );
   }
 
-  static dialogDataPicker({
-    required String title,
-    required List<String> datas,
-    String? symbolText,
-    VoidCallback? onConfirm,
-    Function(int index)? onSelectedItemChanged,
-    int? initialItem,
-  }) {
+  static dialogDataPicker(
+      {required String title,
+      required List<String> datas,
+      String? symbolText,
+      VoidCallback? onConfirm,
+      Function(int index)? onSelectedItemChanged,
+      int? initialItem,
+      double? symbolRight}) {
     return Get.bottomSheet(
       Container(
         height: 210.w,
@@ -105,6 +105,7 @@ class DialogUtils {
                     symbolText ?? "",
                     style: Get.textTheme.bodyLarge,
                   ),
+                  symbolRight: symbolRight,
                 ),
                 children: datas
                     .map((e) => Container(

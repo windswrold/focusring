@@ -12,7 +12,7 @@ class AutomaticSettingsView extends GetView<AutomaticSettingsController> {
     required String title,
     required RxBool value,
     required String subTitle,
-    required RxInt subValue,
+    required RxString subValue,
     required String symbol,
     required Function(bool a) onChanged,
     required VoidCallback onSubChange,
@@ -108,7 +108,7 @@ class AutomaticSettingsView extends GetView<AutomaticSettingsController> {
               },
               subTitle: 'heartrate_interval'.tr,
               subValue: controller.heartrate_offset,
-              symbol: KHealthDataType.HEART_RATE.getSymbol()),
+              symbol: "  min"),
           Container(
             height: 39.w,
             margin: EdgeInsets.only(left: 28.w),
@@ -120,17 +120,18 @@ class AutomaticSettingsView extends GetView<AutomaticSettingsController> {
             ),
           ),
           _getAutomaticSetting(
-              title: "automatic_measuring".tr,
-              value: controller.bloodoxygenstate,
-              onChanged: (a) {
-                controller.onChangeBloodoxy(a);
-              },
-              onSubChange: () {
-                controller.showBloodOxygen_Offset();
-              },
-              subTitle: 'bloodoxygen_interval'.tr,
-              subValue: controller.bloodoxygen_offset,
-              symbol: KHealthDataType.BLOOD_OXYGEN.getSymbol(),),
+            title: "automatic_measuring".tr,
+            value: controller.bloodoxygenstate,
+            onChanged: (a) {
+              controller.onChangeBloodoxy(a);
+            },
+            onSubChange: () {
+              controller.showBloodOxygen_Offset();
+            },
+            subTitle: 'bloodoxygen_interval'.tr,
+            subValue: controller.bloodoxygen_offset,
+            symbol: KHealthDataType.BLOOD_OXYGEN.getSymbol(),
+          ),
         ],
       ),
     );

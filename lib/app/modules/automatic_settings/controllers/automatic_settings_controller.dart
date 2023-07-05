@@ -8,8 +8,8 @@ class AutomaticSettingsController extends GetxController {
   var heartstate = true.obs;
   var bloodoxygenstate = true.obs;
 
-  var heartrate_offset = 180.obs;
-  var bloodoxygen_offset = 69.obs;
+  var heartrate_offset = "5".obs;
+  var bloodoxygen_offset = "4".obs;
 
   @override
   void onInit() {
@@ -35,18 +35,51 @@ class AutomaticSettingsController extends GetxController {
   }
 
   void showHeartrate_Offset() {
+    if (heartstate.value == false) {
+      return;
+    }
+
+    var list = ["5", "30", "60"];
+    int selectIndex = list.indexOf(heartrate_offset.value);
     DialogUtils.dialogDataPicker(
       title: "heartrate_interval".tr,
-      datas: List.filled(10, "100"),
-      symbolText: KHealthDataType.HEART_RATE.getSymbol(),
+      datas: list,
+      symbolText: "  min",
+      symbolRight: 100.w,
+      initialItem: selectIndex,
+      onSelectedItemChanged: (index) {
+        selectIndex = index;
+      },
+      onConfirm: () {
+        if (selectIndex == null) {
+          return;
+        }
+        heartrate_offset.value = list[selectIndex!];
+      },
     );
   }
 
   void showBloodOxygen_Offset() {
+    if (bloodoxygenstate.value == false) {
+      return;
+    }
+    var list = ["4", "6", "8", "12"];
+    int selectIndex = list.indexOf(bloodoxygen_offset.value);
     DialogUtils.dialogDataPicker(
       title: "bloodoxygen_interval".tr,
-      datas: List.filled(10, "100"),
+      datas: list,
       symbolText: KHealthDataType.BLOOD_OXYGEN.getSymbol(),
+      symbolRight: 100.w,
+      initialItem: selectIndex,
+      onSelectedItemChanged: (index) {
+        selectIndex = index;
+      },
+      onConfirm: () {
+        if (selectIndex == null) {
+          return;
+        }
+        bloodoxygen_offset.value = list[selectIndex!];
+      },
     );
   }
 }

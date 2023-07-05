@@ -16,6 +16,6 @@ import 'const/constant.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await GlobalValues.init();
-  final controller = Get.put(AppViewController());
+  final controller = Get.put(AppViewController(), tag: AppViewControllerTag);
   runApp(AppViewView());
 }
