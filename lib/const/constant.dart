@@ -36,7 +36,8 @@ enum KHealthDataType {
   FEMALE_HEALTH, //女性健康
 }
 
-enum KButtonState { idle, loading, success, fail }
+enum KState { idle, loading, success, fail }
+
 
 Size calculateTextSize(
   String value,

@@ -91,9 +91,13 @@ class KTheme {
       ),
 
       headlineLarge: TextStyle(
-
         color: ColorUtils.fromHex("#FF4D5461"),
         fontSize: 14.sp,
+      ),
+
+      headlineMedium: TextStyle(
+        color: Colors.white,
+        fontSize: 56.sp,
       ),
 
       // bodyLarge:

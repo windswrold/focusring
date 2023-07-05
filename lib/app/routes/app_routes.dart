@@ -19,6 +19,11 @@ abstract class Routes {
   static const DEVICE_INFO = _Paths.DEVICE_INFO;
   static const HEARTRATE_ALERT = _Paths.HEARTRATE_ALERT;
   static const AUTOMATIC_SETTINGS = _Paths.AUTOMATIC_SETTINGS;
+  static const MANUAL_HEARTRATE = _Paths.MANUAL_HEARTRATE;
+  static const MANUAL_BLOODOXYGEN = _Paths.MANUAL_BLOODOXYGEN;
+  static const FIND_DEVICES = _Paths.FIND_DEVICES;
+  static const APP_VIEW = _Paths.APP_VIEW;
+  static const USER_MANUALTEST = _Paths.USER_MANUALTEST;
 }
 
 abstract class _Paths {
@@ -39,4 +44,9 @@ abstract class _Paths {
   static const DEVICE_INFO = '/device-info';
   static const HEARTRATE_ALERT = '/heartrate-alert';
   static const AUTOMATIC_SETTINGS = '/automatic-settings';
+  static const MANUAL_HEARTRATE = '/manual-heartrate';
+  static const MANUAL_BLOODOXYGEN = '/manual-bloodoxygen';
+  static const FIND_DEVICES = '/find-devices';
+  static const APP_VIEW = '/app-view';
+  static const USER_MANUALTEST = '/user-manualtest';
 }

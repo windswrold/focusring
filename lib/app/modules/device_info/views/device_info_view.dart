@@ -85,7 +85,7 @@ class DeviceInfoView extends GetView<DeviceInfoController> {
                 children: [
                   Visibility(
                     visible:
-                        controller.buttonState.value == KButtonState.loading,
+                        controller.buttonState.value == KState.loading,
                     child: Container(
                       height: 44.w,
                       width: controller.progress * 350.w,
@@ -103,18 +103,18 @@ class DeviceInfoView extends GetView<DeviceInfoController> {
                   NextButton(
                     onPressed: () {
                       HWToast.showText(text: "no_v".tr);
-                      controller.changeButtonState(KButtonState.loading);
+                      controller.changeButtonState(KState.loading);
                     },
                     height: 44.w,
                     width: 350.w,
                     borderRadius: 22,
-                    border: controller.buttonState.value == KButtonState.loading
+                    border: controller.buttonState.value == KState.loading
                         ? Border.all(color: ColorUtils.fromHex("#FF05E6E7"))
                         : null,
                     gradient:
-                        (controller.buttonState.value == KButtonState.idle ||
+                        (controller.buttonState.value == KState.idle ||
                                 controller.buttonState.value ==
-                                    KButtonState.success)
+                                    KState.success)
                             ? LinearGradient(
                                 colors: [
                                   ColorUtils.fromHex("#FF0E9FF5"),
@@ -123,12 +123,12 @@ class DeviceInfoView extends GetView<DeviceInfoController> {
                               )
                             : null,
                     activeColor:
-                        controller.buttonState.value == KButtonState.fail
+                        controller.buttonState.value == KState.fail
                             ? ColorUtils.fromHex("#FF4D5461")
                             : null,
-                    title: controller.buttonState.value == KButtonState.success
+                    title: controller.buttonState.value == KState.success
                         ? "upgrade_v".tr
-                        : controller.buttonState.value == KButtonState.loading
+                        : controller.buttonState.value == KState.loading
                             ? "upgradeing_v".tr
                             : "check_v".tr,
                     textStyle: Get.textTheme.displayLarge,

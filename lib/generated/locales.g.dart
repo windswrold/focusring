@@ -109,6 +109,11 @@ class LocaleKeys {
   static const heartrate_measurement = 'heartrate_measurement';
   static const bloodoxygen_measurement = 'bloodoxygen_measurement';
   static const bloodoxygen_interval = 'bloodoxygen_interval';
+  static const begining_test = 'begining_test';
+  static const manualtest_tip = 'manualtest_tip';
+  static const current_heartrate = 'current_heartrate';
+  static const heartrate_result = 'heartrate_result';
+  static const bloodoxygen_result = 'bloodoxygen_result';
 }
 
 class Locales {
@@ -392,6 +397,13 @@ class Locales {
     'heartrate_measurement': '心率测量',
     'bloodoxygen_measurement': '血氧测量',
     'bloodoxygen_interval': '血氧测量间隔',
+    'begining_test': '正在测量…',
+    'manualtest_tip': '请正确佩戴设备，保持静止',
+    'current_heartrate': '当前心率',
+    'heartrate_result':
+        '您当前处于静息状态。\n静息心率是指在人清醒/安静状态下每分钟心跳的次数，正常情况下，成年人安静心率在60Bpm～100Bpm。',
+    'bloodoxygen_result':
+        '您的血氧饱和度属于正常范围。\n一般情况下成年人在静息状态下正常血氧饱和度为100%～95%；血氧饱和度<90%,可能存在低血氧症；血氧饱和度<80%,可能存在生命危险。血氧饱和度越低，说明血液运输氧的能力越差，身体长期供养不足我们的大脑，心脏等组织器官，就会造成不可逆的损伤。',
   };
   static const it_IT = {
     'tabbar_status': 'Status',

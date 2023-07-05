@@ -152,14 +152,18 @@ class HomeDevicesView extends GetView<HomeDevicesController> {
                   icon: "icons/manual_icon_hr",
                   title: "heartrate".tr,
                   bgColor: ColorUtils.fromHex("#FF801A1A"),
-                  onTap: () {},
+                  onTap: () {
+                    controller.onTapManualHeartrate();
+                  },
                 ),
                 _getManual_item(
                   bgIcon: "icons/device_sao2_bg",
                   icon: "icons/manual_icon_sao2",
                   title: "blood_OXYGEN".tr,
                   bgColor: ColorUtils.fromHex("#FF80611A"),
-                  onTap: () {},
+                  onTap: () {
+                    controller.onTapBloodOxygen();
+                  },
                 ),
               ],
             ),
@@ -181,7 +185,9 @@ class HomeDevicesView extends GetView<HomeDevicesController> {
               borderRadius: BorderRadius.circular(14),
             ),
             child: InkWell(
-              onTap: () {},
+              onTap: () {
+                controller.onTapAddDevices();
+              },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

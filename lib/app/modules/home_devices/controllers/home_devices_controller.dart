@@ -1,4 +1,3 @@
-import 'package:focusring/app/routes/app_pages.dart';
 import 'package:focusring/public.dart';
 import 'package:get/get.dart';
 
@@ -54,5 +53,15 @@ class HomeDevicesController extends GetxController {
     }
   }
 
-  void onTapAddDevices() {}
+  void onTapAddDevices() {
+    Get.toNamed(Routes.FIND_DEVICES);
+  }
+
+  void onTapManualHeartrate() {
+    Get.toNamed(Routes.MANUAL_HEARTRATE);
+  }
+
+  void onTapBloodOxygen() {
+    Get.toNamed(Routes.MANUAL_BLOODOXYGEN);
+  }
 }
