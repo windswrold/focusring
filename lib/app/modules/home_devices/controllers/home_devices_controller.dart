@@ -58,10 +58,11 @@ class HomeDevicesController extends GetxController {
   }
 
   void onTapManualHeartrate() {
-    Get.toNamed(Routes.MANUAL_HEARTRATE);
+    Get.toNamed(Routes.USER_MANUALTEST, arguments: KHealthDataType.HEART_RATE);
   }
 
   void onTapBloodOxygen() {
-    Get.toNamed(Routes.MANUAL_BLOODOXYGEN);
+    Get.toNamed(Routes.USER_MANUALTEST,
+        arguments: KHealthDataType.BLOOD_OXYGEN);
   }
 }

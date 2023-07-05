@@ -1,3 +1,5 @@
+import 'package:focusring/app/modules/user_manualtest/bindings/user_manualtest_binding.dart';
+import 'package:focusring/app/modules/user_manualtest/views/user_manualtest_view.dart';
 import 'package:get/get.dart';
 
 import '../modules/about_us/bindings/about_us_binding.dart';
@@ -28,8 +30,6 @@ import '../modules/home_tabbar/bindings/home_tabbar_binding.dart';
 import '../modules/home_tabbar/views/home_tabbar_view.dart';
 import '../modules/language_unit/bindings/language_unit_binding.dart';
 import '../modules/language_unit/views/language_unit_view.dart';
-import '../modules/manual_a/bindings/manual_heartrate_binding.dart';
-import '../modules/manual_a/views/manual_heartrate_view.dart';
 import '../modules/setting_feedback/bindings/setting_feedback_binding.dart';
 import '../modules/setting_feedback/views/setting_feedback_view.dart';
 import '../modules/setting_user_info/bindings/setting_user_info_binding.dart';
@@ -121,11 +121,6 @@ class AppPages {
       binding: AutomaticSettingsBinding(),
     ),
     GetPage(
-      name: _Paths.MANUAL_HEARTRATE,
-      page: () => const ManualHeartrateView(),
-      binding: ManualHeartrateBinding(),
-    ),
-    GetPage(
       name: _Paths.FIND_DEVICES,
       page: () => const FindDevicesView(),
       binding: FindDevicesBinding(),
@@ -134,6 +129,11 @@ class AppPages {
       name: _Paths.APP_VIEW,
       page: () => const AppViewView(),
       binding: AppViewBinding(),
+    ),
+    GetPage(
+      name: _Paths.USER_MANUALTEST,
+      page: () => const UserManualtestView(),
+      binding: UserManualtestBinding()
     ),
   ];
 }

@@ -1,23 +1,61 @@
+import 'package:focusring/utils/timer_util.dart';
 import 'package:get/get.dart';
+import 'package:gif/gif.dart';
 
-class UserManualtestController extends GetxController {
-  //TODO: Implement UserManualtestController
+import '../../../../public.dart';
 
-  final count = 0.obs;
+const countDownTime = Duration(seconds: 5);
+
+class UserManualtestController extends GetxController
+    with GetTickerProviderStateMixin {
+  late GifController gifController;
+
+  late Rx<KState> kState = KState.idle.obs;
+  late RxInt countDownNum = countDownTime.inSeconds.obs;
+
+  late final TimerUtil _timerUtil =
+      TimerUtil(mTotalTime: countDownTime.inMilliseconds);
+
   @override
   void onInit() {
+    gifController = GifController(vsync: this);
     super.onInit();
   }
 
   @override
   void onReady() {
+    kState.value = KState.loading;
+    _timerUtil.startCountDown();
+    _timerUtil.setOnTimerTickCallback((millisUntilFinished) {
+      vmPrint(millisUntilFinished);
+      countDownNum.value = (millisUntilFinished ?? 0) ~/ 1000;
+      if (countDownNum.value <= 0) {
+        pauseAnimation();
+      }
+    });
     super.onReady();
   }
 
   @override
   void onClose() {
+    _timerUtil.cancel();
+    gifController.dispose();
     super.onClose();
   }
 
-  void increment() => count.value++;
+  void pauseAnimation() {
+    if (gifController.isAnimating) {
+      gifController.stop();
+      kState.value = KState.success;
+      _timerUtil.cancel();
+    }
+  }
+
+  void resumeAnimation() {
+    if (!gifController.isAnimating) {
+      gifController.repeat();
+      kState.value = KState.loading;
+      _timerUtil.updateTotalTime(countDownTime.inMilliseconds);
+    }
+  }
 }
