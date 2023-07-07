@@ -22,6 +22,10 @@ abstract class Routes {
   static const FIND_DEVICES = _Paths.FIND_DEVICES;
   static const APP_VIEW = _Paths.APP_VIEW;
   static const USER_MANUALTEST = _Paths.USER_MANUALTEST;
+  static const REPORT_INFO_STEPS = _Paths.REPORT_INFO_STEPS;
+  static const REPORT_INFO_SLEEP = _Paths.REPORT_INFO_SLEEP;
+  static const REPORT_INFO_HEARTRATE = _Paths.REPORT_INFO_HEARTRATE;
+  static const REPORT_INFO_BLOODOXYGEN = _Paths.REPORT_INFO_BLOODOXYGEN;
 }
 
 abstract class _Paths {
@@ -45,4 +49,8 @@ abstract class _Paths {
   static const FIND_DEVICES = '/find-devices';
   static const APP_VIEW = '/app-view';
   static const USER_MANUALTEST = '/user-manualtest';
+  static const REPORT_INFO_STEPS = '/report-info-steps';
+  static const REPORT_INFO_SLEEP = '/report-info-sleep';
+  static const REPORT_INFO_HEARTRATE = '/report-info-heartrate';
+  static const REPORT_INFO_BLOODOXYGEN = '/report-info-bloodoxygen';
 }

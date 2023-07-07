@@ -1,26 +1,100 @@
 import '../public.dart';
 
 extension KHealthDataEX on KHealthDataType {
-  String getDisplayName({bool? isGoals}) {
+  String getDisplayName(
+      {bool? isGoals,
+      bool? isReport,
+      bool? isReportSmallTotal,
+      bool? isMubiao}) {
     switch (this) {
       case KHealthDataType.STEPS:
-        return isGoals == true ? "steps_goals".tr : "pedometer".tr;
-      case KHealthDataType.DISTANCE:
-        return isGoals == true ? "mileage_goals".tr : "mileage".tr;
+        if (isGoals == true) {
+          return "steps_goals".tr;
+        }
+        if (isReport == true) {
+          return "pedometer".tr;
+        }
+        if (isReportSmallTotal == true) {
+          return "all_steps".tr;
+        }
+        if (isMubiao == true) {
+          return "steps_mubiao".tr;
+        }
+        return "pedometer".tr;
+
+      case KHealthDataType.LiCheng:
+        if (isGoals == true) {
+          return "mileage_goals".tr;
+        }
+        if (isReport == true) {
+          return "distance_report".tr;
+        }
+        if (isReportSmallTotal == true) {
+          return "total_licheng".tr;
+        }
+        if (isMubiao == true) {
+          return "ligheng_mubiao".tr;
+        }
+        return "mileage".tr;
+
       case KHealthDataType.CALORIES_BURNED:
-        return isGoals == true ? "activity_goals".tr : "exercise".tr;
+        if (isGoals == true) {
+          return "activity_goals".tr;
+        }
+        if (isReport == true) {
+          return "calories_report".tr;
+        }
+        if (isReportSmallTotal == true) {
+          return "total_xiaohao".tr;
+        }
+        if (isMubiao == true) {
+          return "xiaohao_mubiao".tr;
+        }
+
+        return "exercise".tr;
+
       case KHealthDataType.SLEEP:
-        return isGoals == true ? "sleep_goals".tr : "sleep".tr;
+        if (isGoals == true) {
+          return "sleep_goals".tr;
+        }
+        if (isReport == true) {
+          return "sleep_report".tr;
+        }
+        if (isMubiao == true) {
+          return "sleep_mubiao".tr;
+        }
+        return "sleep".tr;
+
       case KHealthDataType.HEART_RATE:
+        if (isReport == true) {
+          return "heartrate_report".tr;
+        }
         return "heartrate".tr;
+
       case KHealthDataType.BLOOD_OXYGEN:
-        return 'blood_OXYGEN'.tr;
+        if (isReport == true) {
+          return "bloodoxygen_report".tr;
+        }
+        return "blood_OXYGEN".tr;
+
       case KHealthDataType.EMOTION:
-        return 'EMOTION'.tr;
+        if (isReport == true) {
+          return "emption_report".tr;
+        }
+        return "EMOTION".tr;
+
       case KHealthDataType.STRESS:
-        return 'STRESS'.tr;
+        if (isReport == true) {
+          return "stress_report".tr;
+        }
+        return "STRESS".tr;
+
       case KHealthDataType.BODY_TEMPERATURE:
-        return 'BODY_TEMPERATURE'.tr;
+        if (isReport == true) {
+          return "temperature_report".tr;
+        }
+        return "BODY_TEMPERATURE".tr;
+
       case KHealthDataType.FEMALE_HEALTH:
         return 'FEMALE_HEALTH'.tr;
       default:
@@ -38,7 +112,7 @@ extension KHealthDataEX on KHealthDataType {
           name += "status_card_icon_steps";
         }
         break;
-      case KHealthDataType.DISTANCE:
+      case KHealthDataType.LiCheng:
         if (isBgIcon == true) {
           name += "status_distance_bg";
         } else if (isCardIcon == true) {
@@ -118,7 +192,7 @@ extension KHealthDataEX on KHealthDataType {
     switch (this) {
       case KHealthDataType.STEPS:
         return "  steps";
-      case KHealthDataType.DISTANCE:
+      case KHealthDataType.LiCheng:
         return "  km";
       case KHealthDataType.CALORIES_BURNED:
         return "  kcal".tr;
@@ -129,15 +203,108 @@ extension KHealthDataEX on KHealthDataType {
       case KHealthDataType.BLOOD_OXYGEN:
         return "  hours";
       case KHealthDataType.EMOTION:
-        return 'EMOTION'.tr;
+        return '';
       case KHealthDataType.STRESS:
-        return 'STRESS'.tr;
+        return '';
       case KHealthDataType.BODY_TEMPERATURE:
-        return 'BODY_TEMPERATURE'.tr;
+        return "  ℃";
       case KHealthDataType.FEMALE_HEALTH:
-        return 'FEMALE_HEALTH'.tr;
+        return '';
       default:
         throw "add new";
     }
+  }
+
+  Gradient getReportGradient() {
+    List<Color> colors = [];
+
+    if (this == KHealthDataType.STEPS) {
+      colors = [
+        const Color(0xFF314626),
+        const Color(0xFF161819),
+      ];
+    } else if (this == KHealthDataType.LiCheng) {
+      colors = [
+        const Color(0xFF2D4348),
+        const Color(0xFF161819),
+      ];
+    } else if (this == KHealthDataType.CALORIES_BURNED) {
+      colors = [
+        const Color(0xFF40352B),
+        const Color(0xff161819),
+      ];
+    } else if (this == KHealthDataType.SLEEP) {
+      colors = [
+        const Color(0xFF3D3967),
+        const Color(0xFF161819),
+      ];
+    } else if (this == KHealthDataType.HEART_RATE) {
+      colors = [
+        const Color(0xFF4D1E1E),
+        const Color(0xFF161819),
+      ];
+    } else if (this == KHealthDataType.BLOOD_OXYGEN) {
+      colors = [
+        const Color(0xFF523D28),
+        const Color(0xFF161819),
+      ];
+    } else if (this == KHealthDataType.BODY_TEMPERATURE) {
+      colors = [
+        const Color(0xFF274248),
+        const Color(0xFF161819),
+      ];
+    } else if (this == KHealthDataType.EMOTION) {
+      colors = [
+        const Color(0xFF304E40),
+        const Color(0xFF161819),
+      ];
+    } else if (this == KHealthDataType.STRESS) {
+      colors = [
+        const Color(0xFF32585A),
+        const Color(0xFF161819),
+      ];
+    } else if (this == KHealthDataType.FEMALE_HEALTH) {
+      colors = [
+        const Color(0xFF5A324B),
+        const Color(0xFF161819),
+      ];
+    }
+
+    return LinearGradient(
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
+      colors: colors,
+      stops: [0, 0.2],
+    );
+  }
+
+  Color? getTypeMainColor() {
+    if (this == KHealthDataType.STEPS) {
+      return Color(0xFF34E050);
+    } else if (this == KHealthDataType.LiCheng) {
+      return Color(0xFF00CEFF);
+    } else if (this == KHealthDataType.CALORIES_BURNED) {
+      return Color(0xFFFF723E);
+    } else if (this == KHealthDataType.SLEEP) {
+      return Color(0xFF766AFF);
+    } else if (this == KHealthDataType.HEART_RATE) {
+      return Color(0xFFFF3636);
+    } else if (this == KHealthDataType.BLOOD_OXYGEN) {
+      return Color(0xFFFF9327);
+    } else if (this == KHealthDataType.BODY_TEMPERATURE) {
+      return Color(0xFF00BBE7);
+    } else if (this == KHealthDataType.EMOTION) {
+    } else if (this == KHealthDataType.STRESS) {
+    } else if (this == KHealthDataType.FEMALE_HEALTH) {}
+  }
+}
+
+extension KReportTypeEX on KReportType {
+  String getCaloriesTitle() {
+    return [
+      "daily_activity".tr,
+      "week_activity".tr,
+      "month_activity".tr,
+    ][index];
   }
 }

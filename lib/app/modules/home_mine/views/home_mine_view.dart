@@ -76,7 +76,7 @@ class HomeMineView extends GetView<HomeMineController> {
                       _getCardItem(
                           bgIcon: "icons/mine_distancetarget_bg",
                           cardIcon: "icons/mine_icon_distance",
-                          type: KHealthDataType.DISTANCE.getDisplayName(),
+                          type: KHealthDataType.LiCheng.getDisplayName(),
                           value: "value"),
                       _getCardItem(
                           bgIcon: "icons/mine_caroliestarget_bg",

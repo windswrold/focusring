@@ -25,8 +25,8 @@ const fontFamilyRoboto = 'Roboto';
 
 enum KHealthDataType {
   STEPS, //步数
-  DISTANCE, //里程
-  CALORIES_BURNED, //运动消耗
+  LiCheng, //运动里程
+  CALORIES_BURNED, //消耗
   SLEEP, //睡眠
   HEART_RATE, //心率
   BLOOD_OXYGEN, //血氧饱和度
@@ -38,6 +38,7 @@ enum KHealthDataType {
 
 enum KState { idle, loading, success, fail }
 
+enum KReportType { day, week, moneth }
 
 Size calculateTextSize(
   String value,

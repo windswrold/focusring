@@ -31,7 +31,7 @@ class HomeEditCardController extends GetxController {
               ),
               8.rowWidget,
               Text(
-                type.getDisplayName(),
+                type.getDisplayName(isReport: true),
                 style: Get.textTheme.labelLarge,
               ),
             ],
@@ -65,11 +65,9 @@ class HomeEditCardController extends GetxController {
     datas = [
       DragAndDropList(
         header: _getItemTitle("edit_cardtip".tr),
-        children: <DragAndDropItem>[
-          DragAndDropItem(child: _getItemCard(KHealthDataType.BLOOD_OXYGEN)),
-          DragAndDropItem(child: _getItemCard(KHealthDataType.SLEEP)),
-          DragAndDropItem(child: _getItemCard(KHealthDataType.STEPS)),
-        ],
+        children: KHealthDataType.values
+            .map((e) => DragAndDropItem(child: _getItemCard(e)))
+            .toList(),
       ),
       DragAndDropList(
         header: _getItemTitle("hidden_Items".tr),
@@ -104,7 +102,7 @@ class HomeEditCardController extends GetxController {
         ),
         children: <DragAndDropItem>[
           DragAndDropItem(child: _getItemCard(KHealthDataType.HEART_RATE)),
-          DragAndDropItem(child: _getItemCard(KHealthDataType.DISTANCE)),
+          DragAndDropItem(child: _getItemCard(KHealthDataType.LiCheng)),
           DragAndDropItem(child: _getItemCard(KHealthDataType.EMOTION)),
         ],
       )

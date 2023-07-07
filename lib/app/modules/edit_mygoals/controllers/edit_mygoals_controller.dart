@@ -21,7 +21,7 @@ class EditMygoalsController extends GetxController {
       {
         "a": "icons/target_icon_distance",
         "b": "mileage_goals",
-        "t": KHealthDataType.DISTANCE
+        "t": KHealthDataType.LiCheng
       },
       {
         "a": "icons/target_icon_calories",

@@ -121,6 +121,29 @@ class LocaleKeys {
   static const whynodevices = 'whynodevices';
   static const whynodevicestip = 'whynodevicestip';
   static const permission_err = 'permission_err';
+  static const Day = 'Day';
+  static const Week = 'Week';
+  static const Month = 'Month';
+  static const average_completionrate = 'average_completionrate';
+  static const all_steps = 'all_steps';
+  static const all_xiaohao = 'all_xiaohao';
+  static const all_lichen = 'all_lichen';
+  static const steps_info_tip1 = 'steps_info_tip1';
+  static const average_stepsnum = 'average_stepsnum';
+  static const steps_info_tip2 = 'steps_info_tip2';
+  static const distance_report = 'distance_report';
+  static const calories_report = 'calories_report';
+  static const sleep_report = 'sleep_report';
+  static const heartrate_report = 'heartrate_report';
+  static const bloodoxygen_report = 'bloodoxygen_report';
+  static const emption_report = 'emption_report';
+  static const stress_report = 'stress_report';
+  static const temperature_report = 'temperature_report';
+  static const daily_activity = 'daily_activity';
+  static const week_activity = 'week_activity';
+  static const month_activity = 'month_activity';
+  static const total_xiaohao = 'total_xiaohao';
+  static const total_licheng = 'total_licheng';
 }
 
 class Locales {
@@ -419,6 +442,30 @@ class Locales {
     'whynodevicestip':
         '1.请确保手机与设备之间的距离足够近，，同时确保周围网络无问题。\n2.若始终无法发现设备，可能存在设备已被他人连接。如果您并不清楚被谁连接，可以携带戒指远离当前位置，戒指断连后再进行连接。还可以尝试重启手机蓝牙后再扫描设备。\n3.确保手机蓝牙是否正常开启。',
     'permission_err': '权限未开启',
+    'Day': 'Day',
+    'Week': 'Week',
+    'Month': 'Month',
+    'average_completionrate': '日均目标完成率',
+    'all_steps': '总步数',
+    'all_xiaohao': '累计消耗',
+    'all_lichen': '累计里程',
+    'steps_info_tip1': '关于步数',
+    'average_stepsnum': '日均步数',
+    'steps_info_tip2':
+        '步数是指您一天中走了多少步。\n计步器和数字运动追踪器可帮助你确定步数，智能设备会为所有产生步数的活动计算步数，如走路、跑步、上下楼梯、甚至做家务等活动。',
+    'distance_report': '运动里程',
+    'calories_report': '有效活动',
+    'sleep_report': '睡眠报告',
+    'heartrate_report': '心率报告',
+    'bloodoxygen_report': '血氧报告',
+    'emption_report': '情绪报告',
+    'stress_report': '压力报告',
+    'temperature_report': '体温报告',
+    'daily_activity': '日活动量',
+    'week_activity': '周活动量',
+    'month_activity': '月活动量',
+    'total_xiaohao': '总消耗(kcal)',
+    'total_licheng': '总里程(km)',
   };
   static const it_IT = {
     'tabbar_status': 'Status',

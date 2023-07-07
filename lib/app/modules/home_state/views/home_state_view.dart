@@ -25,12 +25,10 @@ class HomeStateView extends GetView<HomeStateController> {
         child: Column(
           children: [
             _buildHeader(),
-            _buildCard(),
-            _buildCard(),
-            _buildCard(),
-            _buildCard(),
-            _buildCard(),
-            _buildCard(),
+            Column(
+              children:
+                  KHealthDataType.values.map((e) => _buildCard(e)).toList(),
+            ),
             NextButton(
               onPressed: () {
                 controller.onTapEditCard();
@@ -130,11 +128,16 @@ class HomeStateView extends GetView<HomeStateController> {
         ));
   }
 
-  Widget _buildCard() {
+  Widget _buildCard(KHealthDataType a) {
     return Container(
       margin: EdgeInsets.only(bottom: 12.w),
-      child: HomeCardItem(
-        model: KHealthDataClass(),
+      child: InkWell(
+        onTap: () {
+          controller.onTapCardType(a);
+        },
+        child: HomeCardItem(
+          model: KHealthDataClass(type: a),
+        ),
       ),
     );
   }

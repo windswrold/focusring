@@ -1,5 +1,3 @@
-import 'package:focusring/app/modules/user_manualtest/bindings/user_manualtest_binding.dart';
-import 'package:focusring/app/modules/user_manualtest/views/user_manualtest_view.dart';
 import 'package:get/get.dart';
 
 import '../modules/about_us/bindings/about_us_binding.dart';
@@ -30,12 +28,22 @@ import '../modules/home_tabbar/bindings/home_tabbar_binding.dart';
 import '../modules/home_tabbar/views/home_tabbar_view.dart';
 import '../modules/language_unit/bindings/language_unit_binding.dart';
 import '../modules/language_unit/views/language_unit_view.dart';
+import '../modules/report_info_bloodoxygen/bindings/report_info_bloodoxygen_binding.dart';
+import '../modules/report_info_bloodoxygen/views/report_info_bloodoxygen_view.dart';
+import '../modules/report_info_heartrate/bindings/report_info_heartrate_binding.dart';
+import '../modules/report_info_heartrate/views/report_info_heartrate_view.dart';
+import '../modules/report_info_sleep/bindings/report_info_sleep_binding.dart';
+import '../modules/report_info_sleep/views/report_info_sleep_view.dart';
+import '../modules/report_info_steps/bindings/report_info_steps_binding.dart';
+import '../modules/report_info_steps/views/report_info_steps_view.dart';
 import '../modules/setting_feedback/bindings/setting_feedback_binding.dart';
 import '../modules/setting_feedback/views/setting_feedback_view.dart';
 import '../modules/setting_user_info/bindings/setting_user_info_binding.dart';
 import '../modules/setting_user_info/views/setting_user_info_view.dart';
 import '../modules/unit_system/bindings/unit_system_binding.dart';
 import '../modules/unit_system/views/unit_system_view.dart';
+import '../modules/user_manualtest/bindings/user_manualtest_binding.dart';
+import '../modules/user_manualtest/views/user_manualtest_view.dart';
 
 part 'app_routes.dart';
 
@@ -131,9 +139,28 @@ class AppPages {
       binding: AppViewBinding(),
     ),
     GetPage(
-      name: _Paths.USER_MANUALTEST,
-      page: () => const UserManualtestView(),
-      binding: UserManualtestBinding()
+        name: _Paths.USER_MANUALTEST,
+        page: () => const UserManualtestView(),
+        binding: UserManualtestBinding()),
+    GetPage(
+      name: _Paths.REPORT_INFO_STEPS,
+      page: () => const ReportInfoStepsView(),
+      binding: ReportInfoStepsBinding(),
+    ),
+    GetPage(
+      name: _Paths.REPORT_INFO_SLEEP,
+      page: () => const ReportInfoSleepView(),
+      binding: ReportInfoSleepBinding(),
+    ),
+    GetPage(
+      name: _Paths.REPORT_INFO_HEARTRATE,
+      page: () => const ReportInfoHeartrateView(),
+      binding: ReportInfoHeartrateBinding(),
+    ),
+    GetPage(
+      name: _Paths.REPORT_INFO_BLOODOXYGEN,
+      page: () => const ReportInfoBloodoxygenView(),
+      binding: ReportInfoBloodoxygenBinding(),
     ),
   ];
 }

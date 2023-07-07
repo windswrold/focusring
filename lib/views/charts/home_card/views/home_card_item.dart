@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:focusring/app/modules/home_state/controllers/home_state_controller.dart';
 import 'package:focusring/public.dart';
@@ -85,54 +87,12 @@ class HomeCardItem extends StatelessWidget {
               ],
             ),
           ),
-
-          _buildChart(),
-
+          Container(
+            height: 85.w,
+            margin: EdgeInsets.only(top: 18.w),
+            child: _buildChartItem(),
+          ),
           _buildFooter(),
-
-          // Container(
-          //   height: 85.w,
-          //   child: SfCartesianChart(
-          //     plotAreaBorderWidth: 0,
-          //     backgroundColor: Colors.transparent,
-          //     primaryXAxis: CategoryAxis(
-          //       isVisible: false,
-          //     ),
-          //     primaryYAxis: NumericAxis(
-          //       isVisible: false,
-          //     ),
-          //     series: _getTracker(),
-          //   ),
-          // ),
-          // _buildSleep(),
-
-          // Container(
-          //   height: 85.w,
-          //   child: SfCartesianChart(
-          //     plotAreaBorderWidth: 0,
-          //     primaryXAxis: CategoryAxis(
-          //       isVisible: false,
-          //     ),
-          //     primaryYAxis: NumericAxis(
-          //       isVisible: false,
-          //     ),
-          //     series: _getSplieAreaSeries([]),
-          //   ),
-          // ),
-          //血氧
-          // Container(
-          //   height: 85.w,
-          //   child: SfCartesianChart(
-          //     plotAreaBorderWidth: 0,
-          //     primaryXAxis: CategoryAxis(
-          //       isVisible: false,
-          //     ),
-          //     primaryYAxis: NumericAxis(
-          //       isVisible: false,
-          //     ),
-          //     series: _getDefaultScatterSeries(),
-          //   ),
-          // ),
         ],
       ),
     );
@@ -162,11 +122,12 @@ class HomeCardItem extends StatelessWidget {
     );
   }
 
-  Widget _buildChart() {
-    return Container(
-      height: 85.w,
-      margin: EdgeInsets.only(top: 18.w),
-      child: SfCartesianChart(
+  Widget _buildChartItem() {
+    if (model.type == KHealthDataType.STEPS ||
+        model.type == KHealthDataType.LiCheng ||
+        model.type == KHealthDataType.CALORIES_BURNED ||
+        model.type == KHealthDataType.STRESS) {
+      return SfCartesianChart(
         plotAreaBorderWidth: 0,
         primaryXAxis: CategoryAxis(
           isVisible: false,
@@ -174,16 +135,43 @@ class HomeCardItem extends StatelessWidget {
         primaryYAxis: NumericAxis(
           isVisible: false,
         ),
-        series: _getDefaultScatterSeries(),
-      ),
-    );
+        series: _getSteps(),
+      );
+    } else if (model.type == KHealthDataType.SLEEP) {
+      return _buildSleep();
+    } else if (model.type == KHealthDataType.HEART_RATE) {
+      return SfCartesianChart(
+        plotAreaBorderWidth: 0,
+        primaryXAxis: CategoryAxis(
+          isVisible: false,
+        ),
+        primaryYAxis: NumericAxis(
+          isVisible: false,
+        ),
+        series: _getHEARTRATE(),
+      );
+    } else if (model.type == KHealthDataType.BLOOD_OXYGEN ||
+        model.type == KHealthDataType.BODY_TEMPERATURE) {
+      return SfCartesianChart(
+        plotAreaBorderWidth: 0,
+        primaryXAxis: CategoryAxis(
+          isVisible: false,
+        ),
+        primaryYAxis: NumericAxis(
+          isVisible: false,
+        ),
+        series: _getBLOOD_OXYGEN(),
+      );
+    } else if (model.type == KHealthDataType.EMOTION) {
+      return _buildEMOTION();
+    } else if (model.type == KHealthDataType.FEMALE_HEALTH) {
+      return Text("FEMALE_HEALTH");
+    }
+
+    return Container();
   }
 
-  Widget _getHistogram() {
-    return SfCartesianChart();
-  }
-
-  List<XyDataSeries<HomeCardItemModel, String>> _getDefaultScatterSeries() {
+  List<XyDataSeries<HomeCardItemModel, String>> _getBLOOD_OXYGEN() {
     return <XyDataSeries<HomeCardItemModel, String>>[
       ColumnSeries<HomeCardItemModel, String>(
         dataSource: List.generate(30,
@@ -191,6 +179,7 @@ class HomeCardItem extends StatelessWidget {
         isTrackVisible: true,
         trackColor: ColorUtils.fromHex("#212621"),
         borderRadius: BorderRadius.circular(3),
+        trackBorderWidth: 0,
         xValueMapper: (HomeCardItemModel sales, _) => sales.x,
         yValueMapper: (HomeCardItemModel sales, _) => sales.y,
         dataLabelSettings: const DataLabelSettings(
@@ -213,7 +202,7 @@ class HomeCardItem extends StatelessWidget {
     ];
   }
 
-  List<ColumnSeries<HomeCardItemModel, String>> _getTracker() {
+  List<ColumnSeries<HomeCardItemModel, String>> _getSteps() {
     return <ColumnSeries<HomeCardItemModel, String>>[
       ColumnSeries<HomeCardItemModel, String>(
         dataSource: List.generate(
@@ -221,7 +210,8 @@ class HomeCardItem extends StatelessWidget {
             (index) =>
                 HomeCardItemModel(x: index.toString(), y: index.toDouble())),
         isTrackVisible: true,
-        trackColor: ColorUtils.fromHex("#212621"),
+        trackColor: ColorUtils.fromHex("#FF212526"),
+        trackBorderWidth: 0,
         borderRadius: BorderRadius.circular(3),
         xValueMapper: (HomeCardItemModel sales, _) => sales.x,
         yValueMapper: (HomeCardItemModel sales, _) => sales.y,
@@ -250,7 +240,7 @@ class HomeCardItem extends StatelessWidget {
             )),
             Expanded(
                 child: Container(
-              color: Colors.yellow,
+              color: Colors.transparent,
             )),
           ],
         ),
@@ -263,21 +253,69 @@ class HomeCardItem extends StatelessWidget {
         itemCount: 30,
         scrollDirection: Axis.horizontal,
         itemBuilder: (BuildContext context, int index) {
-          return _buildSleepItem(width: 20);
+          return _buildSleepItem(width: 6);
         },
       ),
     );
   }
 
-  List<ChartSeries<HomeCardItemModel, String>> _getSplieAreaSeries(
-      List<HomeCardItemModel> chartData) {
+  Widget _buildEMOTION() {
+    Widget _buildSleepItem({required double width}) {
+      return Container(
+        height: 85.w,
+        width: width,
+        margin: EdgeInsets.only(right: 4),
+        decoration: BoxDecoration(
+          color: ColorUtils.fromHex("#FF212526"),
+          borderRadius: BorderRadius.circular(3),
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(3),
+          child: Column(
+            children: [
+              Expanded(
+                  flex: 0,
+                  child: Container(
+                    color: Colors.yellow,
+                  )),
+              Expanded(
+                  child: Container(
+                color: Colors.red,
+              )),
+              Expanded(
+                // flex: 0,
+                child: Container(
+                  color: Colors.blue,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    return Container(
+      height: 85.w,
+      padding: EdgeInsets.only(left: 10.w, right: 10.w),
+      child: ListView.builder(
+        itemCount: 48,
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (BuildContext context, int index) {
+          return _buildSleepItem(width: 6);
+        },
+      ),
+    );
+  }
+
+  List<ChartSeries<HomeCardItemModel, String>> _getHEARTRATE() {
     return <ChartSeries<HomeCardItemModel, String>>[
       SplineAreaSeries<HomeCardItemModel, String>(
-        dataSource: List.generate(
-          30,
-          (index) =>
-              HomeCardItemModel(x: index.toString(), y: index.toDouble()),
-        ),
+        dataSource: [
+          HomeCardItemModel(y: Random.secure().nextInt(1000), x: "2022"),
+          HomeCardItemModel(y: Random.secure().nextInt(1000), x: "2023"),
+          HomeCardItemModel(y: Random.secure().nextInt(1000), x: "2024"),
+          HomeCardItemModel(y: Random.secure().nextInt(1000), x: "2025"),
+        ],
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,

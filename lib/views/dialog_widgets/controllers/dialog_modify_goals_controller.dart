@@ -33,7 +33,7 @@ class DialogModifyGoalsController extends GetxController {
     if (type == KHealthDataType.STEPS) {
       minValue = RxNum(100);
       maxValue = RxNum(20000);
-    } else if (type == KHealthDataType.DISTANCE) {
+    } else if (type == KHealthDataType.LiCheng) {
       minValue = RxNum(1.0);
       maxValue = RxNum(20.00);
     } else if (type == KHealthDataType.CALORIES_BURNED) {
