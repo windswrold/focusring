@@ -141,35 +141,34 @@ class ReportInfoStepsView extends GetView<ReportInfoStepsController> {
     Color? color = controller.currentType.getTypeMainColor();
     if (pageType == 0) {
       return Container(
-        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 11.w),
+        padding: EdgeInsets.symmetric(
+          horizontal: 12.w,
+        ),
         margin: EdgeInsets.symmetric(horizontal: 12.w),
+        height: 60.w,
         decoration: BoxDecoration(
           color: ColorUtils.fromHex("#FF000000"),
           borderRadius: BorderRadius.circular(12),
         ),
-        child: Column(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            Text(
+              day,
+              style: Get.textTheme.displayLarge,
+            ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  day,
-                  style: Get.textTheme.displayLarge,
+                ProgressChart(
+                  progressValue: 57,
+                  rangePointerColor: color,
+                  textColor: color,
                 ),
-                Row(
-                  children: [
-                    ProgressChart(
-                      progressValue: 57,
-                      rangePointerColor: color,
-                      textColor: color,
-                    ),
-                    17.rowWidget,
-                    LoadAssetsImage(
-                      "icons/arrow_right_small",
-                      width: 7,
-                      height: 12,
-                    ),
-                  ],
+                17.rowWidget,
+                LoadAssetsImage(
+                  "icons/arrow_right_small",
+                  width: 7,
+                  height: 12,
                 ),
               ],
             ),
@@ -197,7 +196,8 @@ class ReportInfoStepsView extends GetView<ReportInfoStepsController> {
       }
 
       return Container(
-        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 11.w),
+        padding:
+            EdgeInsets.only(left: 12.w, right: 12.w, top: 12.w, bottom: 18.w),
         margin: EdgeInsets.symmetric(horizontal: 12.w),
         decoration: BoxDecoration(
           color: ColorUtils.fromHex("#FF000000"),
@@ -242,34 +242,31 @@ class ReportInfoStepsView extends GetView<ReportInfoStepsController> {
     }
 
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 11.w),
+      padding: EdgeInsets.symmetric(horizontal: 12.w),
       margin: EdgeInsets.symmetric(horizontal: 12.w),
+      height: 44.w,
       decoration: BoxDecoration(
         color: ColorUtils.fromHex("#FF000000"),
         borderRadius: BorderRadius.circular(12),
       ),
-      child: Column(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          Text(
+            moneth,
+            style: Get.textTheme.displayLarge,
+          ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                moneth,
+                "100%",
                 style: Get.textTheme.displayLarge,
               ),
-              Row(
-                children: [
-                  Text(
-                    "100%",
-                    style: Get.textTheme.displayLarge,
-                  ),
-                  17.rowWidget,
-                  LoadAssetsImage(
-                    "icons/arrow_right_small",
-                    width: 7,
-                    height: 12,
-                  ),
-                ],
+              17.rowWidget,
+              LoadAssetsImage(
+                "icons/arrow_right_small",
+                width: 7,
+                height: 12,
               ),
             ],
           ),
