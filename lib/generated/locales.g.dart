@@ -144,6 +144,12 @@ class LocaleKeys {
   static const month_activity = 'month_activity';
   static const total_xiaohao = 'total_xiaohao';
   static const total_licheng = 'total_licheng';
+  static const abount_activitytip = 'abount_activitytip';
+  static const abount_activitytip01 = 'abount_activitytip01';
+  static const steps_mubiao = 'steps_mubiao';
+  static const ligheng_mubiao = 'ligheng_mubiao';
+  static const xiaohao_mubiao = 'xiaohao_mubiao';
+  static const sleep_mubiao = 'sleep_mubiao';
 }
 
 class Locales {
@@ -466,6 +472,13 @@ class Locales {
     'month_activity': '月活动量',
     'total_xiaohao': '总消耗(kcal)',
     'total_licheng': '总里程(km)',
+    'abount_activitytip': '关于有效活动',
+    'abount_activitytip01':
+        '根据世界卫生组织（WTO）的标准，身体活动达到中高强度，并且时间持续10分钟及以上，则认为该活动对健康有益，是有效活动。多到户外进行健步或跑步，有助于身心健康。',
+    'steps_mubiao': '步数目标',
+    'ligheng_mubiao': '里程目标',
+    'xiaohao_mubiao': '消耗目标',
+    'sleep_mubiao': '睡眠目标',
   };
   static const it_IT = {
     'tabbar_status': 'Status',

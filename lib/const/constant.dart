@@ -40,6 +40,13 @@ enum KState { idle, loading, success, fail }
 
 enum KReportType { day, week, moneth }
 
+enum KSleepStatus {
+  interval,
+  awake,
+  lightSleep,
+  deepSleep,
+}
+
 Size calculateTextSize(
   String value,
   double fontSize,

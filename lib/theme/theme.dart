@@ -75,7 +75,10 @@ class KTheme {
           fontSize: 14.sp,
           fontWeight: FontWeight.w400),
       bodySmall: TextStyle(
-          color: Colors.white, fontSize: 16.sp, fontWeight: FontWeight.w400),
+        color: Colors.white,
+        fontSize: 16.sp,
+        fontWeight: FontWeight.w400,
+      ),
 
       labelLarge: TextStyle(
           color: Colors.white,
@@ -83,7 +86,10 @@ class KTheme {
           fontFamily: fontFamilyRoboto,
           fontWeight: FontWeight.w400),
       labelSmall: TextStyle(
-          color: Colors.white, fontSize: 12.sp, fontWeight: FontWeight.w400),
+        color: Colors.white,
+        fontSize: 12.sp,
+        fontWeight: FontWeight.w400,
+      ),
       labelMedium: TextStyle(
           color: ColorUtils.fromHex("#FF9EA3AE"),
           fontSize: 14.sp,
@@ -96,10 +102,16 @@ class KTheme {
           fontWeight: FontWeight.w400),
 
       headlineMedium: TextStyle(
-          color: Colors.white, fontSize: 56.sp, fontWeight: FontWeight.w400),
+        color: Colors.white,
+        fontSize: 56.sp,
+        fontWeight: FontWeight.w400,
+      ),
 
       headlineSmall: TextStyle(
-          color: Colors.white, fontSize: 30.sp, fontWeight: FontWeight.w400),
+        color: Colors.white,
+        fontSize: 30.sp,
+        fontWeight: FontWeight.w400,
+      ),
 
       // bodyLarge:
     ),

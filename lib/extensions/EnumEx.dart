@@ -69,6 +69,10 @@ extension KHealthDataEX on KHealthDataType {
         if (isReport == true) {
           return "heartrate_report".tr;
         }
+        if (isReportSmallTotal == true) {
+          return "average_heartrate".tr;
+        }
+
         return "heartrate".tr;
 
       case KHealthDataType.BLOOD_OXYGEN:
@@ -297,6 +301,19 @@ extension KHealthDataEX on KHealthDataType {
     } else if (this == KHealthDataType.STRESS) {
     } else if (this == KHealthDataType.FEMALE_HEALTH) {}
   }
+
+  String getReportDesc({bool? isContent}) {
+    if (this == KHealthDataType.SLEEP) {
+      if (isContent == true) {
+        return "abount_sleep_tip".tr;
+      }
+      return "abount_sleep".tr;
+    }
+    if (isContent == true) {
+      return "steps_info_tip2".tr;
+    }
+    return "steps_info_tip1".tr;
+  }
 }
 
 extension KReportTypeEX on KReportType {
@@ -306,5 +323,31 @@ extension KReportTypeEX on KReportType {
       "week_activity".tr,
       "month_activity".tr,
     ][index];
+  }
+}
+
+extension KSleepStatusEX on KSleepStatus {
+  Color getStatusColor() {
+    return [
+      Colors.transparent,
+      const Color(0xFFFFD802),
+      const Color(0xFF02FFE2),
+      const Color(0xFF766AFF),
+    ][index];
+  }
+
+  String getStatusDesc() {
+    if (this == KSleepStatus.awake) {
+      return "wakeup_sleep".tr;
+    }
+
+    if (this == KSleepStatus.deepSleep) {
+      return "deepsleep_time".tr;
+    }
+    if (this == KSleepStatus.lightSleep) {
+      return "lightsleep_time".tr;
+    }
+
+    return "";
   }
 }

@@ -3,11 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:focusring/theme/theme.dart';
 import 'package:focusring/views/charts/home_card/model/home_card_x.dart';
 import 'package:focusring/views/charts/progress_chart.dart';
+import 'package:focusring/views/sleep_time_chart.dart';
+import 'package:focusring/views/sleep_time_subview_chart.dart';
+import 'package:focusring/views/steps_licheng_chart.dart';
+import 'package:focusring/views/steps_licheng_subview_chart.dart';
 
 import 'package:get/get.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 import '../../../../public.dart';
 import '../controllers/report_info_steps_controller.dart';
+import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class ReportInfoStepsView extends GetView<ReportInfoStepsController> {
   const ReportInfoStepsView({Key? key}) : super(key: key);
@@ -107,23 +111,25 @@ class ReportInfoStepsView extends GetView<ReportInfoStepsController> {
   }
 
   Widget _getBigTitle() {
-    return Container(
-      margin: EdgeInsets.only(top: 10.w),
-      child: Column(
-        children: [
-          Text(
-            "89000",
-            style: Get.textTheme.headlineSmall,
-            textAlign: TextAlign.center,
+    return Visibility(
+        visible: controller.currentType != KHealthDataType.SLEEP,
+        child: Container(
+          margin: EdgeInsets.only(top: 10.w),
+          child: Column(
+            children: [
+              Text(
+                "89000",
+                style: Get.textTheme.headlineSmall,
+                textAlign: TextAlign.center,
+              ),
+              Text(
+                controller.currentType.getDisplayName(isReportSmallTotal: true),
+                style: Get.textTheme.displaySmall,
+                textAlign: TextAlign.center,
+              ),
+            ],
           ),
-          Text(
-            controller.currentType.getDisplayName(isReportSmallTotal: true),
-            style: Get.textTheme.displaySmall,
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
-    );
+        ));
   }
 
   Widget _getMubiao(int pageType) {
@@ -272,125 +278,15 @@ class ReportInfoStepsView extends GetView<ReportInfoStepsController> {
     );
   }
 
-  Widget _getLeiji(int pageType) {
-    Widget _getCardItem({
-      required String bgIcon,
-      required String cardIcon,
-      required String type,
-      required String value,
-      required int pageType,
-    }) {
-      if (pageType == 0) {
-        return Container(
-          width: 170.w,
-          height: 70.w,
-          padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.w),
-          decoration: BoxDecoration(
-            color: ColorUtils.fromHex("#FF000000"),
-            // image: DecorationImage(
-            //   image: AssetImage("$assetsImages$bgIcon@3x.png"),
-            // ),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              LoadAssetsImage(
-                cardIcon,
-                width: 30,
-                height: 30,
-              ),
-              11.rowWidget,
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      type,
-                      style: Get.textTheme.displayLarge,
-                    ),
-                    4.columnWidget,
-                    Text(
-                      value,
-                      style: Get.textTheme.labelMedium,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        );
-      }
-
-      return Container(
-        width: 110.w,
-        height: 140.w,
-        padding: EdgeInsets.only(top: 20.w, left: 2, right: 2),
-        decoration: BoxDecoration(
-          color: ColorUtils.fromHex("#FF000000"),
-          image: DecorationImage(
-            image: AssetImage("$assetsImages$bgIcon@3x.png"),
-          ),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            LoadAssetsImage(
-              cardIcon,
-              width: 26,
-              height: 28,
-            ),
-            21.columnWidget,
-            Text(
-              type,
-              style: Get.textTheme.displayLarge,
-            ),
-            4.columnWidget,
-            Text(
-              value,
-              style: Get.textTheme.labelMedium,
-            ),
-          ],
-        ),
+  Widget _getSubView(int pageType) {
+    if (controller.currentType == KHealthDataType.SLEEP) {
+      return SleepTimeSubviewChart(
+        pageType: pageType,
       );
     }
 
-    List<Widget> datas = [];
-
-    if (pageType == 1 || pageType == 2) {
-      datas.add(
-        _getCardItem(
-          bgIcon: "icons/mine_stepstarget_bg",
-          cardIcon: "icons/mine_icon_steps",
-          type: "average_stepsnum".tr,
-          value: "123 kcal",
-          pageType: pageType,
-        ),
-      );
-    }
-    datas.add(
-      _getCardItem(
-          bgIcon: "icons/mine_stepstarget_bg",
-          cardIcon: "icons/mine_icon_calories",
-          type: "all_xiaohao".tr,
-          pageType: pageType,
-          value: "123 kcal"),
-    );
-    datas.add(
-      _getCardItem(
-          bgIcon: "icons/mine_distancetarget_bg",
-          cardIcon: "icons/mine_icon_distance",
-          type: "all_lichen".tr,
-          pageType: pageType,
-          value: "123 kcal"),
-    );
-
-    return Container(
-      margin: EdgeInsets.only(left: 12.w, right: 12.w, top: 12.w),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: datas,
-      ),
+    return StepsLiChengSubviewChart(
+      pageType: pageType,
     );
   }
 
@@ -407,12 +303,12 @@ class ReportInfoStepsView extends GetView<ReportInfoStepsController> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "steps_info_tip1".tr,
+            controller.currentType.getReportDesc(),
             style: Get.textTheme.displayLarge,
           ),
           5.columnWidget,
           Text(
-            "steps_info_tip2".tr,
+            controller.currentType.getReportDesc(isContent: true),
             style: Get.textTheme.displaySmall,
           ),
         ],
@@ -425,9 +321,9 @@ class ReportInfoStepsView extends GetView<ReportInfoStepsController> {
       child: Container(
         child: Column(
           children: [
-            _buildChart(),
+            _buildChart(pageType),
             _getMubiao(pageType),
-            _getLeiji(pageType),
+            _getSubView(pageType),
             _getDesc(),
           ],
         ),
@@ -435,86 +331,11 @@ class ReportInfoStepsView extends GetView<ReportInfoStepsController> {
     );
   }
 
-  Widget _buildChart() {
-    return Container(
-      height: 283.w,
-      child: SfCartesianChart(
-        plotAreaBorderWidth: 0,
-        title: ChartTitle(
-            // text: "111",
-            // backgroundColor: ColorUtils.fromHex("#FF34E050"),
-            ),
-        primaryXAxis: CategoryAxis(
-          majorGridLines: MajorGridLines(width: 0), // 设置主要网格线样式
-          minorGridLines: MinorGridLines(width: 0),
-          majorTickLines: MajorTickLines(width: 0),
-          minorTickLines: MinorTickLines(width: 0),
-          axisLine: AxisLine(
-            color: ColorUtils.fromHex("#FF2C2F2F"),
-          ),
-          labelStyle: Get.textTheme.displaySmall,
-        ),
-        primaryYAxis: NumericAxis(
-          majorGridLines: MajorGridLines(
-              dashArray: [1, 2], color: ColorUtils.fromHex("#FF2C2F2F")),
-          minorGridLines: MinorGridLines(width: 0),
-          majorTickLines: MajorTickLines(width: 0),
-          minorTickLines: MinorTickLines(width: 0),
-          axisLine: AxisLine(
-            width: 0,
-          ),
-          labelStyle: Get.textTheme.displaySmall,
-        ),
-        tooltipBehavior: TooltipBehavior(
-          enable: true,
-          tooltipPosition: TooltipPosition.auto,
-        ),
-        trackballBehavior: TrackballBehavior(
-          enable: true,
-          activationMode: ActivationMode.singleTap,
-          tooltipAlignment: ChartAlignment.near,
-          markerSettings: TrackballMarkerSettings(
-            // markerVisibility: TrackballVisibilityMode.visible,
-            width: 8,
-            height: 8,
-            color: Colors.blue, // 设置标记点的颜色
-            borderWidth: 2,
-            borderColor: Colors.white,
-          ),
-          lineColor: ColorUtils.fromHex("#FF34E050").withOpacity(0.5),
-          lineType: TrackballLineType.horizontal,
-          lineWidth: 11,
-          shouldAlwaysShow: true,
-          tooltipSettings: InteractiveTooltip(
-              // borderColor: Colors.blue, // 设置浮动球的边框颜色
-              // color: Colors.blue, // 设置浮动球的填充颜色
-              // borderRadius: BorderRadius.circular(8), // 设置浮动球的圆角半径
-              // elevation: 2,
-              ),
-        ),
-        series: _getSteps(),
-      ),
-    );
-  }
-
-  List<ColumnSeries<HomeCardItemModel, String>> _getSteps() {
-    return <ColumnSeries<HomeCardItemModel, String>>[
-      ColumnSeries<HomeCardItemModel, String>(
-        dataSource: List.generate(30,
-            (index) => HomeCardItemModel(x: "15:$index", y: index.toDouble())),
-        isTrackVisible: false,
-        borderRadius: BorderRadius.circular(3),
-        xValueMapper: (HomeCardItemModel sales, _) => sales.x,
-        yValueMapper: (HomeCardItemModel sales, _) => sales.y,
-        pointColorMapper: (datum, index) => datum.color,
-        dataLabelSettings: const DataLabelSettings(
-          isVisible: false,
-        ),
-        onPointTap: (pointInteractionDetails) {
-          vmPrint(pointInteractionDetails.seriesIndex);
-        },
-      )
-    ];
+  Widget _buildChart(int pageType) {
+    if (controller.currentType == KHealthDataType.SLEEP) {
+      return SleepTimeChart(pageType: pageType);
+    }
+    return StepsLiChengChart();
   }
 
   @override
