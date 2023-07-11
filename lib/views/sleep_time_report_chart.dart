@@ -113,7 +113,7 @@ class SleepTimeReportChart extends StatelessWidget {
           ),
         ),
         Container(
-          padding: EdgeInsets.only(top: 25.w),
+          padding: EdgeInsets.only(top: 25.w, bottom: 16.w),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -235,7 +235,7 @@ class SleepTimeReportChart extends StatelessWidget {
           borderRadius: BorderRadius.zero,
           xValueMapper: (HomeCardItemModel sales, _) => sales.x,
           yValueMapper: (HomeCardItemModel sales, _) => sales.y,
-          pointColorMapper: (datum, index) => datum.color,
+          pointColorMapper: (datum, index) => Colors.red,
           dataLabelSettings: const DataLabelSettings(
             isVisible: false,
           ),
@@ -271,7 +271,7 @@ class SleepTimeReportChart extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 283.w,
-      padding: EdgeInsets.only(top: 20.w, bottom: 16.w),
+      padding: EdgeInsets.only(top: 20.w),
       child: pageType == 0 ? _getDayChart() : _getWeekChart(),
     );
   }

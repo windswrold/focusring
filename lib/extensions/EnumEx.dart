@@ -79,6 +79,9 @@ extension KHealthDataEX on KHealthDataType {
         if (isReport == true) {
           return "bloodoxygen_report".tr;
         }
+        if(isReportSmallTotal == true){
+          return "average_bloodoxygen".tr;
+        }
         return "blood_OXYGEN".tr;
 
       case KHealthDataType.EMOTION:
@@ -406,7 +409,7 @@ extension KHeartRateStatusEX on KHeartRateStatus {
   String getStateCondition(KHeartRateStatus status) {
     switch (status) {
       case KHeartRateStatus.extreme:
-        return '>=181';
+        return '(>=181)';
       case KHeartRateStatus.anaerobic:
         return '(161~180)';
       case KHeartRateStatus.cardiovascular:
@@ -416,7 +419,7 @@ extension KHeartRateStatusEX on KHeartRateStatus {
       case KHeartRateStatus.relaxation:
         return '(100~120)';
       case KHeartRateStatus.resting:
-        return '<100';
+        return '(<100)';
       default:
         return '';
     }

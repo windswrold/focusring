@@ -1,3 +1,4 @@
+import 'package:focusring/views/today_overview.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../public.dart';
@@ -10,22 +11,19 @@ class HeartrateReportSubviewChart extends StatelessWidget {
   final int pageType;
 
   Widget _getTitle() {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20.w),
-      child: Row(
-        children: [
-          LoadAssetsImage(
-            "icons/status_card_icon_hr",
-            width: 35,
-            height: 35,
-          ),
-          8.rowWidget,
-          Text(
-            "heartrate_subtype".tr,
-            style: Get.textTheme.displayLarge,
-          ),
-        ],
-      ),
+    return Row(
+      children: [
+        LoadAssetsImage(
+          "icons/status_card_icon_hr",
+          width: 35,
+          height: 35,
+        ),
+        8.rowWidget,
+        Text(
+          "heartrate_subtype".tr,
+          style: Get.textTheme.displayLarge,
+        ),
+      ],
     );
   }
 
@@ -63,13 +61,18 @@ class HeartrateReportSubviewChart extends StatelessWidget {
     }
 
     return Container(
-      // padding: EdgeInsets.symmetric(horizontal: 20.w),
+      padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 12.w),
+      margin: EdgeInsets.only(top: 12.w),
+      decoration: BoxDecoration(
+        color: ColorUtils.fromHex("#FF000000"),
+        borderRadius: BorderRadius.circular(12),
+      ),
       child: Column(
         children: [
+          _getTitle(),
           Container(
             height: 170.w,
             width: 170.w,
-            margin: EdgeInsets.only(top: 33.w),
             child: SfCircularChart(
               series: [
                 DoughnutSeries<HomeCardItemModel, String>(
@@ -106,7 +109,7 @@ class HeartrateReportSubviewChart extends StatelessWidget {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(top: 30.w, left: 12.w, right: 12.w),
+            margin: EdgeInsets.only(top: 25.w, left: 12.w, right: 12.w),
             child: Column(
               children: KHeartRateStatus.values
                   .map((e) => _builditem(e, "value"))
@@ -119,37 +122,20 @@ class HeartrateReportSubviewChart extends StatelessWidget {
   }
 
   Widget _getWeek() {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20.w),
-      child: Row(
-        children: [
-          LoadAssetsImage(
-            "icons/status_card_icon_hr",
-            width: 35,
-            height: 35,
-          ),
-          8.rowWidget,
-          Text(
-            "heartrate_subtype".tr,
-            style: Get.textTheme.displayLarge,
-          ),
-        ],
-      ),
-    );
+    return Container();
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(left: 12.w, right: 12.w, top: 12.w),
-      // padding: EdgeInsets.only(top: 16.w, bottom: 12.w),
-      decoration: BoxDecoration(
-        color: ColorUtils.fromHex("#FF000000"),
-        borderRadius: BorderRadius.circular(12),
-      ),
+      margin: EdgeInsets.only(left: 12.w, right: 12.w, top: 0.w),
       child: Column(
         children: [
-          _getTitle(),
+          TodayOverView(datas: [
+            TodayOverViewModel(title: "resting_heartrate".tr, content: "1"),
+            TodayOverViewModel(title: "max_heartrate".tr, content: "2"),
+            TodayOverViewModel(title: "min_heartrate".tr, content: "3"),
+          ]),
           pageType == 0 ? _getDay() : _getWeek(),
         ],
       ),

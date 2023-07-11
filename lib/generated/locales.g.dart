@@ -162,6 +162,20 @@ class LocaleKeys {
   static const average_deepsleeptime = 'average_deepsleeptime';
   static const average_lighrsleeptime = 'average_lighrsleeptime';
   static const average_heartrate = 'average_heartrate';
+  static const heartrate_subtype = 'heartrate_subtype';
+  static const extreme_status = 'extreme_status';
+  static const anaerobic_status = 'anaerobic_status';
+  static const cardiovascular_status = 'cardiovascular_status';
+  static const fatBurning_status = 'fatBurning_status';
+  static const relaxation_status = 'relaxation_status';
+  static const resting_status = 'resting_status';
+  static const today_overview = 'today_overview';
+  static const resting_heartrate = 'resting_heartrate';
+  static const manual_record = 'manual_record';
+  static const average_bloodoxygen = 'average_bloodoxygen';
+  static const max_bloodoxygen = 'max_bloodoxygen';
+  static const mininum_bloodoxygen = 'mininum_bloodoxygen';
+  static const exception_number = 'exception_number';
 }
 
 class Locales {
@@ -504,6 +518,20 @@ class Locales {
     'average_deepsleeptime': '日均深睡时长',
     'average_lighrsleeptime': '日均浅睡时长',
     'average_heartrate': '平均心率(Bpm)',
+    'heartrate_subtype': '心率分布',
+    'extreme_status': '极限状态',
+    'anaerobic_status': '无氧状态',
+    'cardiovascular_status': '心肺状态',
+    'fatBurning_status': '燃脂状态',
+    'relaxation_status': '减压状态',
+    'resting_status': '静息状态',
+    'today_overview': '今日概述',
+    'resting_heartrate': '静息心率',
+    'manual_record': '手动测量记录',
+    'average_bloodoxygen': '平均血氧',
+    'max_bloodoxygen': '最高血氧',
+    'mininum_bloodoxygen': '最低血氧',
+    'exception_number': '异常次数',
   };
   static const it_IT = {
     'tabbar_status': 'Status',

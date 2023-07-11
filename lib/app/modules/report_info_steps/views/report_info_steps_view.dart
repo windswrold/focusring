@@ -1,6 +1,7 @@
 import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:flutter/material.dart';
 import 'package:focusring/theme/theme.dart';
+import 'package:focusring/views/bloodoxygen_report_chart.dart';
 import 'package:focusring/views/charts/home_card/model/home_card_x.dart';
 import 'package:focusring/views/charts/progress_chart.dart';
 import 'package:focusring/views/heartrate_report_chart.dart';
@@ -140,7 +141,8 @@ class ReportInfoStepsView extends GetView<ReportInfoStepsController> {
     var week = "average_completionrate".tr;
     var moneth = "average_completionrate".tr;
 
-    if (controller.currentType == KHealthDataType.HEART_RATE) {
+    if (controller.currentType == KHealthDataType.HEART_RATE ||
+        controller.currentType == KHealthDataType.BLOOD_OXYGEN) {
       return Container();
     }
 
@@ -292,12 +294,16 @@ class ReportInfoStepsView extends GetView<ReportInfoStepsController> {
       return HeartrateReportSubviewChart(pageType: pageType);
     }
 
+    if (controller.currentType == KHealthDataType.BLOOD_OXYGEN) {
+      return Container();
+    }
+
     return StepsLiChengSubviewChart(
       pageType: pageType,
     );
   }
 
-  Widget _getDesc() {
+  Widget _getFooter() {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.w),
       margin: EdgeInsets.all(12.w),
@@ -306,20 +312,36 @@ class ReportInfoStepsView extends GetView<ReportInfoStepsController> {
         borderRadius: BorderRadius.circular(12),
       ),
       alignment: Alignment.centerLeft,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            controller.currentType.getReportDesc(),
-            style: Get.textTheme.displayLarge,
-          ),
-          5.columnWidget,
-          Text(
-            controller.currentType.getReportDesc(isContent: true),
-            style: Get.textTheme.displaySmall,
-          ),
-        ],
-      ),
+      child: (controller.currentType == KHealthDataType.HEART_RATE ||
+              controller.currentType == KHealthDataType.BLOOD_OXYGEN)
+          ? Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "manual_record".tr,
+                  style: Get.textTheme.displayLarge,
+                ),
+                LoadAssetsImage(
+                  "icons/arrow_right_small",
+                  width: 7,
+                  height: 12,
+                ),
+              ],
+            )
+          : Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  controller.currentType.getReportDesc(),
+                  style: Get.textTheme.displayLarge,
+                ),
+                5.columnWidget,
+                Text(
+                  controller.currentType.getReportDesc(isContent: true),
+                  style: Get.textTheme.displaySmall,
+                ),
+              ],
+            ),
     );
   }
 
@@ -331,7 +353,7 @@ class ReportInfoStepsView extends GetView<ReportInfoStepsController> {
             _buildChart(pageType),
             _getMubiao(pageType),
             _getSubView(pageType),
-            _getDesc(),
+            _getFooter(),
           ],
         ),
       ),
@@ -345,6 +367,10 @@ class ReportInfoStepsView extends GetView<ReportInfoStepsController> {
     if (controller.currentType == KHealthDataType.HEART_RATE) {
       return HeartChartReportChart(pageType: pageType);
     }
+    if (controller.currentType == KHealthDataType.BLOOD_OXYGEN) {
+      return BloodOxygenReportChart(pageType: pageType);
+    }
+
     return StepsLiChengReportChart();
   }
 

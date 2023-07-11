@@ -145,5 +145,12 @@
   "cardiovascular_status": "心肺状态",
   "fatBurning_status": "燃脂状态",
   "relaxation_status": "减压状态",
-  "resting_status": "静息状态"
+  "resting_status": "静息状态",
+  "today_overview": "今日概述",
+  "resting_heartrate": "静息心率",
+  "manual_record": "手动测量记录",
+  "average_bloodoxygen": "平均血氧",
+  "max_bloodoxygen":"最高血氧",
+  "mininum_bloodoxygen":"最低血氧",
+  "exception_number":"异常次数"
 }
