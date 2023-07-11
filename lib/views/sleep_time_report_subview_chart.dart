@@ -1,5 +1,8 @@
 import 'dart:math';
 
+import 'package:focusring/theme/theme.dart';
+import 'package:focusring/views/target_completion_rate.dart';
+
 import '../public.dart';
 
 class SleepTimeSubviewChart extends StatelessWidget {
@@ -199,21 +202,64 @@ class SleepTimeSubviewChart extends StatelessWidget {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
+  Widget _getFooter() {
     return Container(
-      margin: EdgeInsets.only(left: 12.w, right: 12.w, top: 12.w),
-      padding: EdgeInsets.only(top: 16.w, bottom: 12.w),
+      padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.w),
+      margin: EdgeInsets.all(12.w),
       decoration: BoxDecoration(
         color: ColorUtils.fromHex("#FF000000"),
         borderRadius: BorderRadius.circular(12),
       ),
+      alignment: Alignment.centerLeft,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _getTitle(),
-          pageType == 0 ? _getDay() : _getWeek(),
+          Text(
+            KHealthDataType.SLEEP.getReportDesc(),
+            style: Get.textTheme.displayLarge,
+          ),
+          5.columnWidget,
+          Text(
+            KHealthDataType.SLEEP.getReportDesc(isContent: true),
+            style: Get.textTheme.displaySmall,
+          ),
         ],
       ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        TargetCompletionRate(
+          pageType: pageType,
+          type: KHealthDataType.SLEEP,
+          targetNum: "8000",
+          complationNum: 55,
+          datas: KTheme.weekColors
+              .map((e) => TargetWeekCompletionRateModel(
+                  color: e,
+                  dayNum: "1",
+                  complationNum: Random.secure().nextInt(100).toDouble()))
+              .toList(),
+        ),
+        Container(
+          margin: EdgeInsets.only(left: 12.w, right: 12.w, top: 12.w),
+          padding: EdgeInsets.only(top: 16.w, bottom: 12.w),
+          decoration: BoxDecoration(
+            color: ColorUtils.fromHex("#FF000000"),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Column(
+            children: [
+              _getTitle(),
+              pageType == 0 ? _getDay() : _getWeek(),
+            ],
+          ),
+        ),
+        _getFooter(),
+      ],
     );
   }
 }

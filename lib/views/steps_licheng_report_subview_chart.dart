@@ -1,10 +1,18 @@
+import 'dart:math';
+
+import 'package:focusring/theme/theme.dart';
+import 'package:focusring/views/target_completion_rate.dart';
+
 import '../public.dart';
 
 class StepsLiChengSubviewChart extends StatelessWidget {
-  const StepsLiChengSubviewChart({Key? key, required this.pageType})
+  const StepsLiChengSubviewChart(
+      {Key? key, required this.pageType, required this.type})
       : super(key: key);
 
   final int pageType;
+
+  final KHealthDataType type;
 
   Widget _getCardItem({
     required String bgIcon,
@@ -134,11 +142,54 @@ class StepsLiChengSubviewChart extends StatelessWidget {
       );
     }
 
+    return Column(
+      children: [
+        TargetCompletionRate(
+          pageType: pageType,
+          type: type,
+          targetNum: "8000",
+          complationNum: 55,
+          datas: KTheme.weekColors
+              .map((e) => TargetWeekCompletionRateModel(
+                  color: e,
+                  dayNum: "1",
+                  complationNum: Random.secure().nextInt(100).toDouble()))
+              .toList(),
+        ),
+        Container(
+          margin: EdgeInsets.only(left: 12.w, right: 12.w, top: 12.w),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: datas,
+          ),
+        ),
+        _getFooter(),
+      ],
+    );
+  }
+
+  Widget _getFooter() {
     return Container(
-      margin: EdgeInsets.only(left: 12.w, right: 12.w, top: 12.w),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: datas,
+      padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.w),
+      margin: EdgeInsets.all(12.w),
+      decoration: BoxDecoration(
+        color: ColorUtils.fromHex("#FF000000"),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      alignment: Alignment.centerLeft,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            type.getReportDesc(),
+            style: Get.textTheme.displayLarge,
+          ),
+          5.columnWidget,
+          Text(
+            type.getReportDesc(isContent: true),
+            style: Get.textTheme.displaySmall,
+          ),
+        ],
       ),
     );
   }

@@ -162,10 +162,35 @@ class BloodOxygenReportChart extends StatelessWidget {
     );
   }
 
+  Widget _getFooter() {
+    return Container(
+        padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.w),
+        margin: EdgeInsets.only(top: 12.w),
+        decoration: BoxDecoration(
+          color: ColorUtils.fromHex("#FF000000"),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        alignment: Alignment.centerLeft,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "manual_record".tr,
+              style: Get.textTheme.displayLarge,
+            ),
+            LoadAssetsImage(
+              "icons/arrow_right_small",
+              width: 7,
+              height: 12,
+            ),
+          ],
+        ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(left: 12.w, right: 12.w, top: 0.w),
+      margin: EdgeInsets.only(left: 12.w, right: 12.w, bottom: 12.w),
       child: Column(
         children: [
           pageType == 0 ? _buildDay() : _buildWeek(),
@@ -174,6 +199,7 @@ class BloodOxygenReportChart extends StatelessWidget {
             TodayOverViewModel(title: "mininum_bloodoxygen".tr, content: "2"),
             TodayOverViewModel(title: "exception_number".tr, content: "3"),
           ]),
+          _getFooter(),
         ],
       ),
     );

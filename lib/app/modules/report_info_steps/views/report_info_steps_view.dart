@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:flutter/material.dart';
 import 'package:focusring/theme/theme.dart';
@@ -10,6 +12,7 @@ import 'package:focusring/views/sleep_time_report_chart.dart';
 import 'package:focusring/views/sleep_time_report_subview_chart.dart';
 import 'package:focusring/views/steps_licheng_report_chart.dart';
 import 'package:focusring/views/steps_licheng_report_subview_chart.dart';
+import 'package:focusring/views/target_completion_rate.dart';
 
 import 'package:get/get.dart';
 import '../../../../public.dart';
@@ -135,155 +138,10 @@ class ReportInfoStepsView extends GetView<ReportInfoStepsController> {
         ));
   }
 
-  Widget _getMubiao(int pageType) {
-    var day =
-        "${controller.currentType.getDisplayName(isMubiao: true)}: 8000${controller.currentType.getSymbol()}";
-    var week = "average_completionrate".tr;
-    var moneth = "average_completionrate".tr;
-
-    if (controller.currentType == KHealthDataType.HEART_RATE ||
-        controller.currentType == KHealthDataType.BLOOD_OXYGEN) {
+  Widget _getSubView(int pageType) {
+    if (controller.currentType == KHealthDataType.BLOOD_OXYGEN) {
       return Container();
     }
-
-    Color? color = controller.currentType.getTypeMainColor();
-    if (pageType == 0) {
-      return Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: 12.w,
-        ),
-        margin: EdgeInsets.symmetric(horizontal: 12.w),
-        height: 60.w,
-        decoration: BoxDecoration(
-          color: ColorUtils.fromHex("#FF000000"),
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              day,
-              style: Get.textTheme.displayLarge,
-            ),
-            Row(
-              children: [
-                ProgressChart(
-                  progressValue: 57,
-                  rangePointerColor: color,
-                  textColor: color,
-                ),
-                17.rowWidget,
-                LoadAssetsImage(
-                  "icons/arrow_right_small",
-                  width: 7,
-                  height: 12,
-                ),
-              ],
-            ),
-          ],
-        ),
-      );
-    } else if (pageType == 1) {
-      Widget weeekItem(
-          {required double progressValue,
-          required Color textColor,
-          required String dayNum}) {
-        return Column(
-          children: [
-            ProgressChart(
-                progressValue: progressValue,
-                textColor: textColor,
-                rangePointerColor: textColor),
-            4.columnWidget,
-            Text(
-              dayNum,
-              style: Get.textTheme.displaySmall,
-            ),
-          ],
-        );
-      }
-
-      return Container(
-        padding:
-            EdgeInsets.only(left: 12.w, right: 12.w, top: 12.w, bottom: 18.w),
-        margin: EdgeInsets.symmetric(horizontal: 12.w),
-        decoration: BoxDecoration(
-          color: ColorUtils.fromHex("#FF000000"),
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  week,
-                  style: Get.textTheme.displayLarge,
-                ),
-                Row(
-                  children: [
-                    Text(
-                      "100%",
-                      style: Get.textTheme.displayLarge,
-                    ),
-                    17.rowWidget,
-                    LoadAssetsImage(
-                      "icons/arrow_right_small",
-                      width: 7,
-                      height: 12,
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            10.columnWidget,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: KTheme.weekColors
-                  .map((e) =>
-                      weeekItem(progressValue: 1, textColor: e, dayNum: "1"))
-                  .toList(),
-            ),
-          ],
-        ),
-      );
-    }
-
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 12.w),
-      margin: EdgeInsets.symmetric(horizontal: 12.w),
-      height: 44.w,
-      decoration: BoxDecoration(
-        color: ColorUtils.fromHex("#FF000000"),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            moneth,
-            style: Get.textTheme.displayLarge,
-          ),
-          Row(
-            children: [
-              Text(
-                "100%",
-                style: Get.textTheme.displayLarge,
-              ),
-              17.rowWidget,
-              LoadAssetsImage(
-                "icons/arrow_right_small",
-                width: 7,
-                height: 12,
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _getSubView(int pageType) {
     if (controller.currentType == KHealthDataType.SLEEP) {
       return SleepTimeSubviewChart(
         pageType: pageType,
@@ -294,13 +152,16 @@ class ReportInfoStepsView extends GetView<ReportInfoStepsController> {
       return HeartrateReportSubviewChart(pageType: pageType);
     }
 
-    if (controller.currentType == KHealthDataType.BLOOD_OXYGEN) {
-      return Container();
+    if (controller.currentType == KHealthDataType.STEPS ||
+        controller.currentType == KHealthDataType.LiCheng ||
+        controller.currentType == KHealthDataType.CALORIES_BURNED) {
+      return StepsLiChengSubviewChart(
+        pageType: pageType,
+        type: controller.currentType,
+      );
     }
 
-    return StepsLiChengSubviewChart(
-      pageType: pageType,
-    );
+    return Container();
   }
 
   Widget _getFooter() {
@@ -351,9 +212,8 @@ class ReportInfoStepsView extends GetView<ReportInfoStepsController> {
         child: Column(
           children: [
             _buildChart(pageType),
-            _getMubiao(pageType),
             _getSubView(pageType),
-            _getFooter(),
+            // _getFooter(),
           ],
         ),
       ),
