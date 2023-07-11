@@ -150,6 +150,18 @@ class LocaleKeys {
   static const ligheng_mubiao = 'ligheng_mubiao';
   static const xiaohao_mubiao = 'xiaohao_mubiao';
   static const sleep_mubiao = 'sleep_mubiao';
+  static const abount_sleep = 'abount_sleep';
+  static const abount_sleep_tip = 'abount_sleep_tip';
+  static const sleep_subtype = 'sleep_subtype';
+  static const deepsleep_time = 'deepsleep_time';
+  static const lightsleep_time = 'lightsleep_time';
+  static const wakeup_sleep = 'wakeup_sleep';
+  static const sleep_time = 'sleep_time';
+  static const wakeup_time = 'wakeup_time';
+  static const average_sleeptime = 'average_sleeptime';
+  static const average_deepsleeptime = 'average_deepsleeptime';
+  static const average_lighrsleeptime = 'average_lighrsleeptime';
+  static const average_heartrate = 'average_heartrate';
 }
 
 class Locales {
@@ -479,6 +491,19 @@ class Locales {
     'ligheng_mubiao': '里程目标',
     'xiaohao_mubiao': '消耗目标',
     'sleep_mubiao': '睡眠目标',
+    'abount_sleep': '改善睡眠建议',
+    'abount_sleep_tip':
+        '1.保持规律的失眠时间，固定时间睡觉起床；\n2.睡觉时关掉电灯，保持房间黑暗，安静和温度适中的环境；\n3.睡前避免剧烈运动，不要吃太多食物，也不要过于饥饿；\n4.睡前减少使用电子产品(例如手机，电脑，电视等)；\n5.睡前不吸烟，不喝含有咖啡因/酒精/刺激性的饮品。',
+    'sleep_subtype': '睡眠分布',
+    'deepsleep_time': '深睡时长',
+    'lightsleep_time': '浅睡时长',
+    'wakeup_sleep': '清醒时长',
+    'sleep_time': '入睡时间',
+    'wakeup_time': '起床时间',
+    'average_sleeptime': '日均睡眠时长',
+    'average_deepsleeptime': '日均深睡时长',
+    'average_lighrsleeptime': '日均浅睡时长',
+    'average_heartrate': '平均心率(Bpm)',
   };
   static const it_IT = {
     'tabbar_status': 'Status',

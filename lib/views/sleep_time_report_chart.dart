@@ -6,8 +6,8 @@ import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 import '../public.dart';
 
-class SleepTimeChart extends StatelessWidget {
-  const SleepTimeChart(
+class SleepTimeReportChart extends StatelessWidget {
+  const SleepTimeReportChart(
       {Key? key,
       this.sleepTimeSecond,
       this.wakeTimeSecond,

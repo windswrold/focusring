@@ -3,8 +3,8 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../public.dart';
 
-class StepsLiChengChart extends StatelessWidget {
-  const StepsLiChengChart({Key? key}) : super(key: key);
+class StepsLiChengReportChart extends StatelessWidget {
+  const StepsLiChengReportChart({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -54,12 +54,7 @@ class StepsLiChengChart extends StatelessWidget {
             lineType: TrackballLineType.horizontal,
             lineWidth: 11,
             shouldAlwaysShow: true,
-            tooltipSettings: InteractiveTooltip(
-                // borderColor: Colors.blue, // 设置浮动球的边框颜色
-                // color: Colors.blue, // 设置浮动球的填充颜色
-                // borderRadius: BorderRadius.circular(8), // 设置浮动球的圆角半径
-                // elevation: 2,
-                ),
+            tooltipSettings: InteractiveTooltip(),
           ),
           series: <ColumnSeries<HomeCardItemModel, String>>[
             ColumnSeries<HomeCardItemModel, String>(

@@ -66,10 +66,16 @@ class KTheme {
           fontWeight: FontWeight.w400),
 
       displayLarge: TextStyle(
-          color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.w400),
+        color: Colors.white,
+        fontSize: 14.sp,
+        fontWeight: FontWeight.w400,
+      ),
 
       bodyLarge: TextStyle(
-          color: Colors.white, fontSize: 20.sp, fontWeight: FontWeight.w400),
+        color: Colors.white,
+        fontSize: 20.sp,
+        fontWeight: FontWeight.w400,
+      ),
       bodyMedium: TextStyle(
           color: ColorUtils.fromHex("#FF9EA3AE"),
           fontSize: 14.sp,

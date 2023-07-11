@@ -47,6 +47,26 @@ enum KSleepStatus {
   deepSleep,
 }
 
+enum KHeartRateStatus {
+  /// 极限状态
+  extreme,
+
+  /// 无氧状态
+  anaerobic,
+
+  /// 心肺状态
+  cardiovascular,
+
+  /// 燃脂状态
+  fatBurning,
+
+  /// 减压状态
+  relaxation,
+
+  /// 静息状态
+  resting,
+}
+
 Size calculateTextSize(
   String value,
   double fontSize,

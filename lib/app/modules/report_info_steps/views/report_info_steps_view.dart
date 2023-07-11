@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:focusring/theme/theme.dart';
 import 'package:focusring/views/charts/home_card/model/home_card_x.dart';
 import 'package:focusring/views/charts/progress_chart.dart';
-import 'package:focusring/views/sleep_time_chart.dart';
-import 'package:focusring/views/sleep_time_subview_chart.dart';
-import 'package:focusring/views/steps_licheng_chart.dart';
-import 'package:focusring/views/steps_licheng_subview_chart.dart';
+import 'package:focusring/views/heartrate_report_chart.dart';
+import 'package:focusring/views/heartrate_report_subview_chart.dart';
+import 'package:focusring/views/sleep_time_report_chart.dart';
+import 'package:focusring/views/sleep_time_report_subview_chart.dart';
+import 'package:focusring/views/steps_licheng_report_chart.dart';
+import 'package:focusring/views/steps_licheng_report_subview_chart.dart';
 
 import 'package:get/get.dart';
 import '../../../../public.dart';
@@ -137,6 +139,10 @@ class ReportInfoStepsView extends GetView<ReportInfoStepsController> {
         "${controller.currentType.getDisplayName(isMubiao: true)}: 8000${controller.currentType.getSymbol()}";
     var week = "average_completionrate".tr;
     var moneth = "average_completionrate".tr;
+
+    if (controller.currentType == KHealthDataType.HEART_RATE) {
+      return Container();
+    }
 
     Color? color = controller.currentType.getTypeMainColor();
     if (pageType == 0) {
@@ -282,6 +288,10 @@ class ReportInfoStepsView extends GetView<ReportInfoStepsController> {
       );
     }
 
+    if (controller.currentType == KHealthDataType.HEART_RATE) {
+      return HeartrateReportSubviewChart(pageType: pageType);
+    }
+
     return StepsLiChengSubviewChart(
       pageType: pageType,
     );
@@ -330,9 +340,12 @@ class ReportInfoStepsView extends GetView<ReportInfoStepsController> {
 
   Widget _buildChart(int pageType) {
     if (controller.currentType == KHealthDataType.SLEEP) {
-      return SleepTimeChart(pageType: pageType);
+      return SleepTimeReportChart(pageType: pageType);
     }
-    return StepsLiChengChart();
+    if (controller.currentType == KHealthDataType.HEART_RATE) {
+      return HeartChartReportChart(pageType: pageType);
+    }
+    return StepsLiChengReportChart();
   }
 
   @override

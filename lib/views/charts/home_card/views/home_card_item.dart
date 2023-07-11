@@ -310,12 +310,10 @@ class HomeCardItem extends StatelessWidget {
   List<ChartSeries<HomeCardItemModel, String>> _getHEARTRATE() {
     return <ChartSeries<HomeCardItemModel, String>>[
       SplineAreaSeries<HomeCardItemModel, String>(
-        dataSource: [
-          HomeCardItemModel(y: Random.secure().nextInt(1000), x: "2022"),
-          HomeCardItemModel(y: Random.secure().nextInt(1000), x: "2023"),
-          HomeCardItemModel(y: Random.secure().nextInt(1000), x: "2024"),
-          HomeCardItemModel(y: Random.secure().nextInt(1000), x: "2025"),
-        ],
+        dataSource: List.generate(
+            30,
+            (index) => HomeCardItemModel(
+                x: index.toString(), y: Random.secure().nextInt(1000))),
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,

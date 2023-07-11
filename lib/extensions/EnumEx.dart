@@ -351,3 +351,74 @@ extension KSleepStatusEX on KSleepStatus {
     return "";
   }
 }
+
+extension KHeartRateStatusEX on KHeartRateStatus {
+  Color getStatusColor() {
+    return [
+      const Color(0xFFFF0000),
+      const Color(0xFFFD8813),
+      const Color(0xFFF5FD00),
+      const Color(0xFF07FD4C),
+      const Color(0xFF1DBAFF),
+      const Color(0xFF7C5DFF),
+    ][index];
+  }
+
+  String getStatusDesc() {
+    if (this == KHeartRateStatus.extreme) {
+      return "extreme_status".tr;
+    }
+    if (this == KHeartRateStatus.anaerobic) {
+      return "anaerobic_status".tr;
+    }
+    if (this == KHeartRateStatus.cardiovascular) {
+      return "cardiovascular_status".tr;
+    }
+    if (this == KHeartRateStatus.fatBurning) {
+      return "fatBurning_status".tr;
+    }
+    if (this == KHeartRateStatus.relaxation) {
+      return "relaxation_status".tr;
+    }
+    if (this == KHeartRateStatus.resting) {
+      return "resting_status".tr;
+    }
+
+    return "";
+  }
+
+  static KHeartRateStatus getExerciseState(int value) {
+    if (value >= 181) {
+      return KHeartRateStatus.extreme;
+    } else if (value >= 161 && value <= 180) {
+      return KHeartRateStatus.anaerobic;
+    } else if (value >= 141 && value <= 160) {
+      return KHeartRateStatus.cardiovascular;
+    } else if (value >= 121 && value <= 140) {
+      return KHeartRateStatus.fatBurning;
+    } else if (value >= 100 && value <= 120) {
+      return KHeartRateStatus.relaxation;
+    } else {
+      return KHeartRateStatus.resting;
+    }
+  }
+
+  String getStateCondition(KHeartRateStatus status) {
+    switch (status) {
+      case KHeartRateStatus.extreme:
+        return '>=181';
+      case KHeartRateStatus.anaerobic:
+        return '(161~180)';
+      case KHeartRateStatus.cardiovascular:
+        return '(141~160)';
+      case KHeartRateStatus.fatBurning:
+        return '(121~140)';
+      case KHeartRateStatus.relaxation:
+        return '(100~120)';
+      case KHeartRateStatus.resting:
+        return '<100';
+      default:
+        return '';
+    }
+  }
+}
