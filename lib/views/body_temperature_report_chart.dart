@@ -9,8 +9,8 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import '../public.dart';
 import 'charts/home_card/model/home_card_x.dart';
 
-class BloodOxygenReportChart extends StatelessWidget {
-  const BloodOxygenReportChart({Key? key, required this.pageType})
+class BodyTemperatureReportChart extends StatelessWidget {
+  const BodyTemperatureReportChart({Key? key, required this.pageType})
       : super(key: key);
 
   final int pageType;
@@ -23,8 +23,7 @@ class BloodOxygenReportChart extends StatelessWidget {
         plotAreaBorderWidth: 0,
         primaryXAxis: CategoryAxis(
           majorGridLines: MajorGridLines(
-              dashArray: [1, 2],
-              color: ColorUtils.fromHex("#FF2C2F2F")), // 设置主要网格线样式
+              dashArray: [1, 2], color: ColorUtils.fromHex("#FF2C2F2F")),
           minorGridLines: MinorGridLines(width: 0),
           majorTickLines: MajorTickLines(width: 0),
           minorTickLines: MinorTickLines(width: 0),

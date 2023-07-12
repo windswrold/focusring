@@ -163,6 +163,16 @@ class HomeCardItem extends StatelessWidget {
         series: _getBLOOD_OXYGEN(),
       );
     } else if (model.type == KHealthDataType.EMOTION) {
+      return SfCartesianChart(
+        plotAreaBorderWidth: 0,
+        primaryXAxis: CategoryAxis(
+          isVisible: false,
+        ),
+        primaryYAxis: NumericAxis(
+          isVisible: false,
+        ),
+        series: _getEMOTION(),
+      );
       return _buildEMOTION();
     } else if (model.type == KHealthDataType.FEMALE_HEALTH) {
       return Text("FEMALE_HEALTH");
@@ -240,7 +250,7 @@ class HomeCardItem extends StatelessWidget {
             )),
             Expanded(
                 child: Container(
-              color: Colors.transparent,
+              color: Colors.yellow,
             )),
           ],
         ),
@@ -253,7 +263,7 @@ class HomeCardItem extends StatelessWidget {
         itemCount: 30,
         scrollDirection: Axis.horizontal,
         itemBuilder: (BuildContext context, int index) {
-          return _buildSleepItem(width: 6);
+          return _buildSleepItem(width: Random.secure().nextDouble() * 100);
         },
       ),
     );
@@ -326,6 +336,77 @@ class HomeCardItem extends StatelessWidget {
         borderWidth: 2,
         xValueMapper: (HomeCardItemModel sales, _) => sales.x,
         yValueMapper: (HomeCardItemModel sales, _) => sales.y,
+      ),
+    ];
+  }
+
+  List<ChartSeries<HomeCardItemModel, String>> _getEMOTION() {
+    return <ChartSeries<HomeCardItemModel, String>>[
+      StackedColumnSeries<HomeCardItemModel, String>(
+        dataSource: List.generate(
+            30,
+            (index) => HomeCardItemModel(
+                  x: "$index",
+                  y: 40,
+                )),
+        isTrackVisible: false,
+        spacing: 0,
+        borderRadius: BorderRadius.only(
+          bottomRight: Radius.circular(3),
+          bottomLeft: Radius.circular(3),
+        ),
+        xValueMapper: (HomeCardItemModel sales, _) => sales.x,
+        yValueMapper: (HomeCardItemModel sales, _) => sales.y,
+        pointColorMapper: (datum, index) => Colors.red,
+        dataLabelSettings: const DataLabelSettings(
+          isVisible: false,
+        ),
+        onPointTap: (pointInteractionDetails) {
+          vmPrint(pointInteractionDetails.seriesIndex);
+        },
+      ),
+      StackedColumnSeries<HomeCardItemModel, String>(
+        dataSource: List.generate(
+            30,
+            (index) => HomeCardItemModel(
+                  x: "$index",
+                  y: 15,
+                )),
+        isTrackVisible: false,
+        spacing: 0,
+        borderRadius: BorderRadius.zero,
+        xValueMapper: (HomeCardItemModel sales, _) => sales.x,
+        yValueMapper: (HomeCardItemModel sales, _) => sales.y,
+        pointColorMapper: (datum, index) => Colors.blue,
+        dataLabelSettings: const DataLabelSettings(
+          isVisible: false,
+        ),
+        onPointTap: (pointInteractionDetails) {
+          vmPrint(pointInteractionDetails.seriesIndex);
+        },
+      ),
+      StackedColumnSeries<HomeCardItemModel, String>(
+        dataSource: List.generate(
+            30,
+            (index) => HomeCardItemModel(
+                  x: "$index",
+                  y: 100,
+                )),
+        isTrackVisible: false,
+        spacing: 0,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(3),
+          topRight: Radius.circular(3),
+        ),
+        xValueMapper: (HomeCardItemModel sales, _) => sales.x,
+        yValueMapper: (HomeCardItemModel sales, _) => sales.y,
+        pointColorMapper: (datum, index) => Colors.yellow,
+        dataLabelSettings: const DataLabelSettings(
+          isVisible: false,
+        ),
+        onPointTap: (pointInteractionDetails) {
+          vmPrint(pointInteractionDetails.seriesIndex);
+        },
       ),
     ];
   }

@@ -9,8 +9,8 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import '../public.dart';
 import 'charts/home_card/model/home_card_x.dart';
 
-class BloodOxygenReportChart extends StatelessWidget {
-  const BloodOxygenReportChart({Key? key, required this.pageType})
+class StressReportChart extends StatelessWidget {
+  const StressReportChart({Key? key, required this.pageType})
       : super(key: key);
 
   final int pageType;

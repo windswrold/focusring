@@ -67,6 +67,17 @@ enum KHeartRateStatus {
   resting,
 }
 
+enum KEMOTIONStatus {
+  /// 积极的情绪
+  positive,
+
+  /// 平和的情绪
+  neutral,
+
+  /// 消极的情绪
+  negative,
+}
+
 Size calculateTextSize(
   String value,
   double fontSize,

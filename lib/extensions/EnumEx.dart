@@ -79,7 +79,7 @@ extension KHealthDataEX on KHealthDataType {
         if (isReport == true) {
           return "bloodoxygen_report".tr;
         }
-        if(isReportSmallTotal == true){
+        if (isReportSmallTotal == true) {
           return "average_bloodoxygen".tr;
         }
         return "blood_OXYGEN".tr;
@@ -88,6 +88,11 @@ extension KHealthDataEX on KHealthDataType {
         if (isReport == true) {
           return "emption_report".tr;
         }
+
+        if (isReportSmallTotal == true) {
+          return "eMOTION_status".tr;
+        }
+
         return "EMOTION".tr;
 
       case KHealthDataType.STRESS:
@@ -423,5 +428,15 @@ extension KHeartRateStatusEX on KHeartRateStatus {
       default:
         return '';
     }
+  }
+}
+
+extension KEMOTIONStatusEX on KEMOTIONStatus {
+  Color getStatusColor() {
+    return [
+      const Color(0xFF00E77C),
+      const Color(0xFF14C0FF),
+      const Color(0xFFFF8B4D),
+    ][index];
   }
 }

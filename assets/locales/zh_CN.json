@@ -152,5 +152,7 @@
   "average_bloodoxygen": "平均血氧",
   "max_bloodoxygen":"最高血氧",
   "mininum_bloodoxygen":"最低血氧",
-  "exception_number":"异常次数"
+  "exception_number":"异常次数",
+  "eMOTION_status":"当前情绪状态",
+  "strat_test":"开始测了"
 }

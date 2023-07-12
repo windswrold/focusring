@@ -4,14 +4,17 @@ import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:flutter/material.dart';
 import 'package:focusring/theme/theme.dart';
 import 'package:focusring/views/bloodoxygen_report_chart.dart';
+import 'package:focusring/views/body_temperature_report_chart.dart';
 import 'package:focusring/views/charts/home_card/model/home_card_x.dart';
 import 'package:focusring/views/charts/progress_chart.dart';
+import 'package:focusring/views/emotion_report_chart.dart';
 import 'package:focusring/views/heartrate_report_chart.dart';
 import 'package:focusring/views/heartrate_report_subview_chart.dart';
 import 'package:focusring/views/sleep_time_report_chart.dart';
 import 'package:focusring/views/sleep_time_report_subview_chart.dart';
 import 'package:focusring/views/steps_licheng_report_chart.dart';
 import 'package:focusring/views/steps_licheng_report_subview_chart.dart';
+import 'package:focusring/views/stress_report_chart.dart';
 import 'package:focusring/views/target_completion_rate.dart';
 
 import 'package:get/get.dart';
@@ -54,6 +57,11 @@ class ReportInfoStepsView extends GetView<ReportInfoStepsController> {
   }
 
   Widget _getTabbarTitle() {
+    if (controller.currentType == KHealthDataType.EMOTION ||
+        controller.currentType == KHealthDataType.STRESS) {
+      return Container();
+    }
+
     return Container(
       decoration: BoxDecoration(
         color: ColorUtils.fromHex("#FF000000"),
@@ -118,7 +126,8 @@ class ReportInfoStepsView extends GetView<ReportInfoStepsController> {
 
   Widget _getBigTitle() {
     return Visibility(
-        visible: controller.currentType != KHealthDataType.SLEEP,
+        visible: (controller.currentType != KHealthDataType.SLEEP &&
+            controller.currentType != KHealthDataType.STRESS),
         child: Container(
           margin: EdgeInsets.only(top: 10.w),
           child: Column(
@@ -136,6 +145,50 @@ class ReportInfoStepsView extends GetView<ReportInfoStepsController> {
             ],
           ),
         ));
+  }
+
+  Widget _getPageViewWidget(int pageType) {
+    return SingleChildScrollView(
+      child: Container(
+        child: Column(
+          children: [
+            _buildChart(pageType),
+            _getSubView(pageType),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildChart(int pageType) {
+    if (controller.currentType == KHealthDataType.SLEEP) {
+      return SleepTimeReportChart(pageType: pageType);
+    }
+    if (controller.currentType == KHealthDataType.HEART_RATE) {
+      return HeartChartReportChart(pageType: pageType);
+    }
+    if (controller.currentType == KHealthDataType.BLOOD_OXYGEN) {
+      return BloodOxygenReportChart(pageType: pageType);
+    }
+
+    if (controller.currentType == KHealthDataType.EMOTION) {
+      return EmotionReportChart();
+    }
+    if (controller.currentType == KHealthDataType.BODY_TEMPERATURE) {
+      return BodyTemperatureReportChart(pageType: pageType);
+    }
+
+    if (controller.currentType == KHealthDataType.STRESS) {
+      return StressReportChart(pageType: pageType);
+    }
+
+    if (controller.currentType == KHealthDataType.STEPS ||
+        controller.currentType == KHealthDataType.LiCheng ||
+        controller.currentType == KHealthDataType.CALORIES_BURNED) {
+      return StepsLiChengReportChart();
+    }
+
+    return Container();
   }
 
   Widget _getSubView(int pageType) {
@@ -162,76 +215,6 @@ class ReportInfoStepsView extends GetView<ReportInfoStepsController> {
     }
 
     return Container();
-  }
-
-  Widget _getFooter() {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.w),
-      margin: EdgeInsets.all(12.w),
-      decoration: BoxDecoration(
-        color: ColorUtils.fromHex("#FF000000"),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      alignment: Alignment.centerLeft,
-      child: (controller.currentType == KHealthDataType.HEART_RATE ||
-              controller.currentType == KHealthDataType.BLOOD_OXYGEN)
-          ? Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "manual_record".tr,
-                  style: Get.textTheme.displayLarge,
-                ),
-                LoadAssetsImage(
-                  "icons/arrow_right_small",
-                  width: 7,
-                  height: 12,
-                ),
-              ],
-            )
-          : Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  controller.currentType.getReportDesc(),
-                  style: Get.textTheme.displayLarge,
-                ),
-                5.columnWidget,
-                Text(
-                  controller.currentType.getReportDesc(isContent: true),
-                  style: Get.textTheme.displaySmall,
-                ),
-              ],
-            ),
-    );
-  }
-
-  Widget _getPageViewWidget(int pageType) {
-    return SingleChildScrollView(
-      child: Container(
-        child: Column(
-          children: [
-            _buildChart(pageType),
-            _getSubView(pageType),
-            // _getFooter(),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildChart(int pageType) {
-    if (controller.currentType == KHealthDataType.SLEEP) {
-      return SleepTimeReportChart(pageType: pageType);
-    }
-    if (controller.currentType == KHealthDataType.HEART_RATE) {
-      return HeartChartReportChart(pageType: pageType);
-    }
-    if (controller.currentType == KHealthDataType.BLOOD_OXYGEN) {
-      return BloodOxygenReportChart(pageType: pageType);
-    }
-
-    return StepsLiChengReportChart();
   }
 
   @override

@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:focusring/theme/theme.dart';
+import 'package:focusring/views/report_footer.dart';
 import 'package:focusring/views/target_completion_rate.dart';
 
 import '../public.dart';
@@ -202,32 +203,6 @@ class SleepTimeSubviewChart extends StatelessWidget {
     );
   }
 
-  Widget _getFooter() {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.w),
-      margin: EdgeInsets.all(12.w),
-      decoration: BoxDecoration(
-        color: ColorUtils.fromHex("#FF000000"),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      alignment: Alignment.centerLeft,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            KHealthDataType.SLEEP.getReportDesc(),
-            style: Get.textTheme.displayLarge,
-          ),
-          5.columnWidget,
-          Text(
-            KHealthDataType.SLEEP.getReportDesc(isContent: true),
-            style: Get.textTheme.displaySmall,
-          ),
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -258,7 +233,9 @@ class SleepTimeSubviewChart extends StatelessWidget {
             ],
           ),
         ),
-        _getFooter(),
+        const ReportFooter(
+          type: KHealthDataType.SLEEP,
+        ),
       ],
     );
   }

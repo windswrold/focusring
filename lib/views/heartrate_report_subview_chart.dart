@@ -1,3 +1,4 @@
+import 'package:focusring/views/report_footer.dart';
 import 'package:focusring/views/today_overview.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -62,7 +63,7 @@ class HeartrateReportSubviewChart extends StatelessWidget {
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 12.w),
-      margin: EdgeInsets.only(top: 12.w),
+      margin: EdgeInsets.only(top: 12.w, left: 12.w, right: 12.w),
       decoration: BoxDecoration(
         color: ColorUtils.fromHex("#FF000000"),
         borderRadius: BorderRadius.circular(12),
@@ -127,19 +128,22 @@ class HeartrateReportSubviewChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(left: 12.w, right: 12.w, bottom: 12.w),
-      child: Column(
-        children: [
-          TodayOverView(datas: [
+    return Column(
+      children: [
+        Container(
+          margin: EdgeInsets.only(left: 12.w, right: 12.w),
+          child: TodayOverView(datas: [
             TodayOverViewModel(title: "resting_heartrate".tr, content: "1"),
             TodayOverViewModel(title: "max_heartrate".tr, content: "2"),
             TodayOverViewModel(title: "min_heartrate".tr, content: "3"),
           ]),
-          pageType == 0 ? _getDay() : _getWeek(),
-          _getFooter(),
-        ],
-      ),
+        ),
+        pageType == 0 ? _getDay() : _getWeek(),
+        // _getFooter(),
+        const ReportFooter(
+          type: KHealthDataType.HEART_RATE,
+        ),
+      ],
     );
   }
 

@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:focusring/theme/theme.dart';
+import 'package:focusring/views/report_footer.dart';
 import 'package:focusring/views/target_completion_rate.dart';
 
 import '../public.dart';
@@ -163,34 +164,10 @@ class StepsLiChengSubviewChart extends StatelessWidget {
             children: datas,
           ),
         ),
-        _getFooter(),
+        ReportFooter(
+          type: type,
+        ),
       ],
-    );
-  }
-
-  Widget _getFooter() {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.w),
-      margin: EdgeInsets.all(12.w),
-      decoration: BoxDecoration(
-        color: ColorUtils.fromHex("#FF000000"),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      alignment: Alignment.centerLeft,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            type.getReportDesc(),
-            style: Get.textTheme.displayLarge,
-          ),
-          5.columnWidget,
-          Text(
-            type.getReportDesc(isContent: true),
-            style: Get.textTheme.displaySmall,
-          ),
-        ],
-      ),
     );
   }
 }
