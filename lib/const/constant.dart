@@ -78,6 +78,20 @@ enum KEMOTIONStatus {
   negative,
 }
 
+enum KStressStatus {
+  /// 正常范围 (0~29)
+  normal,
+
+  /// 轻度范围 (30~59)
+  mild,
+
+  /// 中度范围 (60~79)
+  moderate,
+
+  /// 重度范围 (80~100)
+  severe,
+}
+
 Size calculateTextSize(
   String value,
   double fontSize,

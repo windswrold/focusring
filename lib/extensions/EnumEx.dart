@@ -440,3 +440,61 @@ extension KEMOTIONStatusEX on KEMOTIONStatus {
     ][index];
   }
 }
+
+extension KStressStatusEX on KStressStatus {
+  Color getStatusColor() {
+    return [
+      const Color(0xFF00DCE7),
+      const Color(0xFF00E612),
+      const Color(0xFFFFD00B),
+      const Color(0xFFE7013E),
+    ][index];
+  }
+
+  String getStatusDesc() {
+    if (this == KStressStatus.normal) {
+      return "normal".tr;
+    }
+    if (this == KStressStatus.mild) {
+      return "mild".tr;
+    }
+    if (this == KStressStatus.moderate) {
+      return "moderate".tr;
+    }
+    if (this == KStressStatus.severe) {
+      return "severe".tr;
+    }
+
+    return "";
+  }
+
+  static KStressStatus getExerciseState(int value) {
+    if (value >= 80) {
+      return KStressStatus.severe;
+    } else if (value >= 60 && value <= 79) {
+      return KStressStatus.moderate;
+    } else if (value >= 30 && value <= 59) {
+      return KStressStatus.mild;
+    } else if (value >= 0 && value <= 29) {
+      return KStressStatus.normal;
+    }
+
+    return KStressStatus.normal;
+  }
+
+  String getStateCondition(KStressStatus status) {
+    switch (status) {
+      case KStressStatus.normal:
+        return '(0~29)';
+      case KStressStatus.mild:
+        return '(30~59)';
+      case KStressStatus.moderate:
+        return '(60~79)';
+      case KStressStatus.severe:
+        return '(80~100)';
+
+      default:
+        return '';
+    }
+  }
+}

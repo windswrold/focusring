@@ -176,6 +176,16 @@ class LocaleKeys {
   static const max_bloodoxygen = 'max_bloodoxygen';
   static const mininum_bloodoxygen = 'mininum_bloodoxygen';
   static const exception_number = 'exception_number';
+  static const eMOTION_status = 'eMOTION_status';
+  static const strat_test = 'strat_test';
+  static const all_stepsnum = 'all_stepsnum';
+  static const stress_percent = 'stress_percent';
+  static const max_stress = 'max_stress';
+  static const min_stress = 'min_stress';
+  static const normal = 'normal';
+  static const mild = 'mild';
+  static const moderate = 'moderate';
+  static const severe = 'severe';
 }
 
 class Locales {
@@ -532,6 +542,16 @@ class Locales {
     'max_bloodoxygen': '最高血氧',
     'mininum_bloodoxygen': '最低血氧',
     'exception_number': '异常次数',
+    'eMOTION_status': '当前情绪状态',
+    'strat_test': '开始测了',
+    'all_stepsnum': '累计步数',
+    'stress_percent': '当天压力数据占比',
+    'max_stress': '压力最大值',
+    'min_stress': '压力最小值',
+    'normal': '正常',
+    'mild': '轻度',
+    'moderate': '中度',
+    'severe': '重度',
   };
   static const it_IT = {
     'tabbar_status': 'Status',

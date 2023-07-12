@@ -99,22 +99,58 @@ class StepsLiChengSubviewChart extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Widget> datas = [];
     if (pageType == 0) {
-      datas.add(
-        _getCardItem(
-            bgIcon: "bg/dayreport_bg_carolies",
-            cardIcon: "icons/mine_icon_calories",
-            type: "all_xiaohao".tr,
-            pageType: pageType,
-            value: "123 kcal"),
-      );
-      datas.add(
-        _getCardItem(
-            bgIcon: "bg/dayreport_bg_distance",
-            cardIcon: "icons/mine_icon_distance",
-            type: "all_lichen".tr,
-            pageType: pageType,
-            value: "123 kcal"),
-      );
+      if (type == KHealthDataType.STEPS) {
+        datas.add(
+          _getCardItem(
+              bgIcon: "bg/dayreport_bg_carolies",
+              cardIcon: "icons/mine_icon_calories",
+              type: "all_xiaohao".tr,
+              pageType: pageType,
+              value: "123 kcal"),
+        );
+        datas.add(
+          _getCardItem(
+              bgIcon: "bg/dayreport_bg_distance",
+              cardIcon: "icons/mine_icon_distance",
+              type: "all_lichen".tr,
+              pageType: pageType,
+              value: "123 kcal"),
+        );
+      } else if (type == KHealthDataType.CALORIES_BURNED) {
+        datas.add(
+          _getCardItem(
+              bgIcon: "bg/dayreport_bg_steps",
+              cardIcon: "icons/mine_icon_steps",
+              type: "all_stepsnum".tr,
+              pageType: pageType,
+              value: "123 kcal"),
+        );
+        datas.add(
+          _getCardItem(
+              bgIcon: "bg/dayreport_bg_distance",
+              cardIcon: "icons/mine_icon_distance",
+              type: "all_lichen".tr,
+              pageType: pageType,
+              value: "123 kcal"),
+        );
+      } else if (type == KHealthDataType.LiCheng) {
+        datas.add(
+          _getCardItem(
+              bgIcon: "bg/dayreport_bg_carolies",
+              cardIcon: "icons/mine_icon_calories",
+              type: "all_stepsnum".tr,
+              pageType: pageType,
+              value: "123 kcal"),
+        );
+        datas.add(
+          _getCardItem(
+              bgIcon: "bg/dayreport_bg_steps",
+              cardIcon: "icons/mine_icon_steps",
+              type: "all_stepsnum".tr,
+              pageType: pageType,
+              value: "123 kcal"),
+        );
+      }
     } else {
       datas.add(
         _getCardItem(

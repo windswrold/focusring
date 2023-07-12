@@ -24,11 +24,6 @@ class AppViewController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-
-    stateSubscription = flutterBlue.state.listen((event) {
-      vmPrint(event);
-    });
-
     isScanningSubscription = flutterBlue.isScanning.listen((event) {
       vmPrint(event);
     });

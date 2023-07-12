@@ -150,9 +150,17 @@
   "resting_heartrate": "静息心率",
   "manual_record": "手动测量记录",
   "average_bloodoxygen": "平均血氧",
-  "max_bloodoxygen":"最高血氧",
-  "mininum_bloodoxygen":"最低血氧",
-  "exception_number":"异常次数",
-  "eMOTION_status":"当前情绪状态",
-  "strat_test":"开始测了"
+  "max_bloodoxygen": "最高血氧",
+  "mininum_bloodoxygen": "最低血氧",
+  "exception_number": "异常次数",
+  "eMOTION_status": "当前情绪状态",
+  "strat_test": "开始测了",
+  "all_stepsnum": "累计步数",
+  "stress_percent": "当天压力数据占比",
+  "max_stress": "压力最大值",
+  "min_stress": "压力最小值",
+  "normal": "正常",
+  "mild": "轻度",
+  "moderate": "中度",
+  "severe": "重度"
 }
