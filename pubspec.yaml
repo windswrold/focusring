@@ -68,7 +68,8 @@ dependencies:
     path: plugins/buttons_tabbar-1.3.7
   syncfusion_flutter_charts: "22.1.38"
   syncfusion_flutter_gauges: "22.1.38"
-  syncfusion_flutter_datepicker: "22.1.38"
+  syncfusion_flutter_datepicker:
+    path : plugins/syncfusion_flutter_datepicker-22.1.38
   syncfusion_flutter_core : "22.1.38"
 
 dev_dependencies:

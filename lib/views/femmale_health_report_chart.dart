@@ -38,12 +38,6 @@ class FemmaleHealthReportChart extends StatelessWidget {
               ),
               headerHeight: 36.w,
               showNavigationArrow: true,
-              selectableDayPredicate: (DateTime dateTime) {
-                if (dateTime != DateTime(2022)) {
-                  return false;
-                }
-                return true;
-              },
               monthCellStyle: DateRangePickerMonthCellStyle(
                 cellDecoration: BoxDecoration(
                   color: Colors.red,
