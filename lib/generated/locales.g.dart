@@ -186,6 +186,16 @@ class LocaleKeys {
   static const mild = 'mild';
   static const moderate = 'moderate';
   static const severe = 'severe';
+  static const last_period_start = 'last_period_start';
+  static const next_steps = 'next_steps';
+  static const last_period_long_start = 'last_period_long_start';
+  static const last_period_offset_start = 'last_period_offset_start';
+  static const next_btn = 'next_btn';
+  static const safely_time = 'safely_time';
+  static const perriod_prediction = 'perriod_prediction';
+  static const womans_period = 'womans_period';
+  static const biological_cycle = 'biological_cycle';
+  static const women_tip = 'women_tip';
 }
 
 class Locales {
@@ -552,6 +562,16 @@ class Locales {
     'mild': '轻度',
     'moderate': '中度',
     'severe': '重度',
+    'last_period_start': '您上次月经开始是什么时候？',
+    'next_steps': '下一步',
+    'last_period_long_start': '您一般每次月经持续多久？',
+    'last_period_offset_start': '您一般每次经期周期是多久？',
+    'next_btn': '生成生理周期预测',
+    'safely_time': '安全期',
+    'perriod_prediction': '经期预测',
+    'womans_period': '月经期',
+    'biological_cycle': '生理周期',
+    'women_tip': '对于没有怀孕计划的女士安全期也应该做好避孕措施，虽然安全期的受孕概率较低，但并非没有受孕的可能。',
   };
   static const it_IT = {
     'tabbar_status': 'Status',

@@ -7,7 +7,7 @@ class FemmaleHealthReportChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: 64.w),
+      padding: EdgeInsets.only(top: 60.w),
       child: Column(
         children: [
           LoadAssetsImage(
@@ -24,26 +24,78 @@ class FemmaleHealthReportChart extends StatelessWidget {
               ),
             ),
           ),
-          SfDateRangePicker(
-            // extendableRangeSelectionDirection: selectionDirection,
-            // enablePastDates: enablePastDates,
-            // minDate: minDate,
-            // maxDate: maxDate,
-            // enableMultiView: enableMultiView,
-            // allowViewNavigation: enableViewNavigation,
-            // showActionButtons: showActionButtons,
-            // selectionMode: mode,
-            // controller: controller,
-            // showTodayButton: showTodayButton,
-            // headerStyle: DateRangePickerHeaderStyle(
-            //     textAlign: enableMultiView ? TextAlign.center : TextAlign.left),
-            onCancel: () {
-             
-            },
-            onSubmit: (Object? value) {
-             
-            },
-            monthViewSettings: DateRangePickerMonthViewSettings(),
+          Container(
+            margin: EdgeInsets.only(top: 30.w, left: 12.w, right: 12.w),
+            decoration: BoxDecoration(
+              color: ColorUtils.fromHex("#FF000000"),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            height: 300.w,
+            child: SfDateRangePicker(
+              headerStyle: DateRangePickerHeaderStyle(
+                textAlign: TextAlign.center,
+                textStyle: Get.textTheme.labelLarge,
+              ),
+              headerHeight: 36.w,
+              showNavigationArrow: true,
+              selectableDayPredicate: (DateTime dateTime) {
+                if (dateTime != DateTime(2022)) {
+                  return false;
+                }
+                return true;
+              },
+              monthCellStyle: DateRangePickerMonthCellStyle(
+                cellDecoration: BoxDecoration(
+                  color: Colors.red,
+                  borderRadius: BorderRadius.circular(3),
+                ),
+              ),
+              // cellBuilder: (context, cellDetails) {
+              //   vmPrint(cellDetails.date);
+
+              //   // return null;
+              //   // var safelyDays = [
+              //   //   DateUtil.getNowDateStr(),
+              //   //   DateUtil.getNowDateStr(),
+              //   // ];
+              //   // var legalHoliday = [
+              //   //   DateUtil.getNowDateStr(),
+              //   //   DateUtil.getNowDateStr(),
+              //   //   DateUtil.getNowDateStr(),
+              //   //   DateUtil.getNowDateStr(),
+              //   // ];
+              //   // if (safelyDays.contains(cellDetails.date)) {
+              //   //   return Text("data222");
+              //   // }
+              //   return Container(
+              //     width: cellDetails.bounds.width,
+              //     height: cellDetails.bounds.height,
+              //     alignment: Alignment.center,
+              //     decoration: BoxDecoration(),
+              //     child: Text(
+              //       cellDetails.date.day.toString(),
+              //       style: Get.textTheme.labelLarge,
+              //     ),
+              //   );
+              // },
+              onCancel: () {},
+              onSubmit: (Object? value) {},
+              selectionColor: ColorUtils.fromHex("#FF06E0E8"),
+              selectionRadius: 18,
+              monthViewSettings: DateRangePickerMonthViewSettings(),
+            ),
+          ),
+          NextButton(
+            onPressed: () {},
+            title: "next_steps".tr,
+            margin: EdgeInsets.only(left: 12.w, right: 12.w, top: 20.w),
+            textStyle: Get.textTheme.displayLarge,
+            height: 44.w,
+            gradient: LinearGradient(colors: [
+              ColorUtils.fromHex("#FF0E9FF5"),
+              ColorUtils.fromHex("#FF02FFE2"),
+            ]),
+            borderRadius: 22,
           ),
         ],
       ),

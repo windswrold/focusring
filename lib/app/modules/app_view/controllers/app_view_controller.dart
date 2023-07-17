@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:io';
-
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:focusring/utils/console_logger.dart';
 import 'package:focusring/utils/custom_toast.dart';
@@ -31,8 +29,8 @@ class AppViewController extends GetxController {
 
   @override
   void onClose() {
-    stateSubscription?.cancel();
-    isScanningSubscription?.cancel();
+    stateSubscription.cancel();
+    isScanningSubscription.cancel();
     super.onClose();
   }
 
