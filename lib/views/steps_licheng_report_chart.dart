@@ -51,7 +51,7 @@ class StepsLiChengReportChart extends StatelessWidget {
               borderColor: Colors.white,
             ),
             lineColor: ColorUtils.fromHex("#FF34E050").withOpacity(0.5),
-            lineType: TrackballLineType.horizontal,
+            lineType: TrackballLineType.vertical,
             lineWidth: 11,
             shouldAlwaysShow: true,
             tooltipSettings: InteractiveTooltip(),
