@@ -12,7 +12,7 @@ class LogsInterceptors extends InterceptorsWrapper {
   @override
   onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     if (kDebugMode) {
-      vmPrint("proxy:$proxy", printLevel);
+      // vmPrint("proxy:$proxy", printLevel);
       vmPrint("[${options.method}]Request url[${this.hashCode}]:${options.uri}",
           printLevel);
       vmPrint('Request headers: ' + (options.headers.jsonString), printLevel);

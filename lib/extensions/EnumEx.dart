@@ -1,11 +1,12 @@
 import '../public.dart';
 
 extension KHealthDataEX on KHealthDataType {
-  String getDisplayName(
-      {bool? isGoals,
-      bool? isReport,
-      bool? isReportSmallTotal,
-      bool? isMubiao}) {
+  String getDisplayName({
+    bool? isGoals,
+    bool? isReport,
+    bool? isReportSmallTotal,
+    bool? isMubiao,
+  }) {
     switch (this) {
       case KHealthDataType.STEPS:
         if (isGoals == true) {

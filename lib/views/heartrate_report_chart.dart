@@ -169,8 +169,8 @@ class HeartChartReportChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 283.w,
-      padding: EdgeInsets.only(top: 20.w),
+      height: 278.w,
+      padding: EdgeInsets.only(top: 40.w),
       child: pageType == 0 ? _buildDay() : _buildWeek(),
     );
   }

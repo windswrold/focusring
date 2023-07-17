@@ -8,6 +8,7 @@ import 'package:focusring/views/body_temperature_report_chart.dart';
 import 'package:focusring/views/charts/home_card/model/home_card_x.dart';
 import 'package:focusring/views/charts/progress_chart.dart';
 import 'package:focusring/views/emotion_report_chart.dart';
+import 'package:focusring/views/femmale_health_report_chart.dart';
 import 'package:focusring/views/heartrate_report_chart.dart';
 import 'package:focusring/views/heartrate_report_subview_chart.dart';
 import 'package:focusring/views/sleep_time_report_chart.dart';
@@ -58,7 +59,8 @@ class ReportInfoStepsView extends GetView<ReportInfoStepsController> {
 
   Widget _getTabbarTitle() {
     if (controller.currentType == KHealthDataType.EMOTION ||
-        controller.currentType == KHealthDataType.STRESS) {
+        controller.currentType == KHealthDataType.STRESS ||
+        controller.currentType == KHealthDataType.FEMALE_HEALTH) {
       return Container();
     }
 
@@ -95,6 +97,9 @@ class ReportInfoStepsView extends GetView<ReportInfoStepsController> {
   }
 
   Widget _getArrowTitle() {
+    if (controller.currentType == KHealthDataType.FEMALE_HEALTH) {
+      return Container();
+    }
     return Container(
       margin: EdgeInsets.only(left: 61.w, right: 61.w, top: 12.w),
       child: Row(
@@ -127,7 +132,8 @@ class ReportInfoStepsView extends GetView<ReportInfoStepsController> {
   Widget _getBigTitle() {
     return Visibility(
         visible: (controller.currentType != KHealthDataType.SLEEP &&
-            controller.currentType != KHealthDataType.STRESS),
+            controller.currentType != KHealthDataType.STRESS &&
+            controller.currentType != KHealthDataType.FEMALE_HEALTH),
         child: Container(
           margin: EdgeInsets.only(top: 10.w),
           child: Column(
@@ -180,6 +186,10 @@ class ReportInfoStepsView extends GetView<ReportInfoStepsController> {
 
     if (controller.currentType == KHealthDataType.STRESS) {
       return StressReportChart(pageType: pageType);
+    }
+
+    if (controller.currentType == KHealthDataType.FEMALE_HEALTH) {
+      return FemmaleHealthReportChart();
     }
 
     if (controller.currentType == KHealthDataType.STEPS ||

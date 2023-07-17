@@ -162,5 +162,6 @@
   "normal": "正常",
   "mild": "轻度",
   "moderate": "中度",
-  "severe": "重度"
+  "severe": "重度",
+  "last_period_start":"您上次月经开始是什么时候？"
 }

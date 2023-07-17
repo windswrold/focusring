@@ -17,7 +17,7 @@ class StressReportChart extends StatelessWidget {
   Widget _buildHeader() {
     return Container(
       height: 270.w,
-      margin: EdgeInsets.only(top: 20.w, left: 12.w, right: 12.w),
+      margin: EdgeInsets.only(left: 12.w, right: 12.w),
       child: SfCartesianChart(
         plotAreaBorderWidth: 0,
         primaryXAxis: CategoryAxis(
