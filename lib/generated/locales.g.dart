@@ -196,6 +196,18 @@ class LocaleKeys {
   static const womans_period = 'womans_period';
   static const biological_cycle = 'biological_cycle';
   static const women_tip = 'women_tip';
+  static const setting_userinfo = 'setting_userinfo';
+  static const nickname = 'nickname';
+  static const sex = 'sex';
+  static const person_height = 'person_height';
+  static const weight = 'weight';
+  static const setting_nickname = 'setting_nickname';
+  static const input_nickname = 'input_nickname';
+  static const yours_sex = 'yours_sex';
+  static const yours_height = 'yours_height';
+  static const youres_weight = 'youres_weight';
+  static const man = 'man';
+  static const woman = 'woman';
 }
 
 class Locales {
@@ -572,6 +584,18 @@ class Locales {
     'womans_period': '月经期',
     'biological_cycle': '生理周期',
     'women_tip': '对于没有怀孕计划的女士安全期也应该做好避孕措施，虽然安全期的受孕概率较低，但并非没有受孕的可能。',
+    'setting_userinfo': '设置个人信息',
+    'nickname': '昵称',
+    'sex': '性别',
+    'person_height': '身高',
+    'weight': '体重',
+    'setting_nickname': '设置昵称',
+    'input_nickname': '请输入您的昵称',
+    'yours_sex': '您的性别',
+    'yours_height': '您的身高',
+    'youres_weight': '您的体重',
+    'man': '男',
+    'woman': '女',
   };
   static const it_IT = {
     'tabbar_status': 'Status',

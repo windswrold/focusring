@@ -5,19 +5,8 @@ class ReportInfoStepsController extends GetxController
     with GetSingleTickerProviderStateMixin {
   //TODO: Implement ReportInfoStepsController
 
-  late List<Tab> myTabbas = [
-    Tab(
-      text: ("Day".tr),
-    ),
-    Tab(
-      text: ("Week".tr),
-    ),
-    Tab(
-      text: ("Month".tr),
-    ),
-  ];
-  late TabController tabController =
-      TabController(vsync: this, length: myTabbas.length);
+  late List<Tab> myTabbas = [];
+  late TabController tabController;
   late Rx<KReportType> reportType = KReportType.day.obs;
 
   late KHealthDataType currentType;
@@ -27,6 +16,18 @@ class ReportInfoStepsController extends GetxController
     super.onInit();
 
     currentType = Get.arguments;
+    myTabbas = [
+      Tab(
+        text: ("Day".tr),
+      ),
+      Tab(
+        text: ("Week".tr),
+      ),
+      Tab(
+        text: ("Month".tr),
+      ),
+    ];
+    tabController = TabController(vsync: this, length: myTabbas.length);
   }
 
   @override

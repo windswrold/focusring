@@ -10,9 +10,12 @@ import 'package:flutter/material.dart';
 import 'package:focusring/app/data/device_info.dart';
 import 'package:focusring/utils/console_logger.dart';
 import 'package:focusring/utils/sp_manager.dart';
+import 'package:focusring/views/base/base_pageview.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../public.dart';
 
 const bool inProduction = kReleaseMode;
 final bool isAndroid = Platform.isAndroid;
@@ -143,6 +146,23 @@ Future<File> saveFileData(
   } catch (e) {
     throw e;
   }
+}
+
+Widget getAppBar(String title) {
+  return AppBar(
+    backgroundColor: Colors.transparent,
+    elevation: 0,
+    leadingWidth: 40.w,
+    leading: KBasePageView.getBack(() {
+      Get.back();
+    }),
+    centerTitle: true,
+    title: Text(
+      title,
+      style: Get.textTheme.titleLarge,
+      textAlign: TextAlign.left,
+    ),
+  );
 }
 
 const AppViewControllerTag = "AppViewControllerTag";

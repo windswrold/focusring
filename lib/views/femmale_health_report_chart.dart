@@ -75,6 +75,7 @@ class FemmaleHealthReportChart extends StatelessWidget {
                   margin: const EdgeInsets.only(bottom: 6),
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
+                    color: Colors.red,
                     image: DecorationImage(
                       image: AssetImage(
                         yujingqi,

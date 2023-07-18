@@ -136,4 +136,20 @@ extension ListEx<E> on List<E> {
       return null;
     }
   }
+
+  static List<String> generateHeightArr() {
+    return generateArray<String>(120, 200, 1);
+  }
+
+  static List<String> generateWeightArr() {
+    return generateArray<String>(40, 200, 1);
+  }
+
+  static List<String> generateHeartRateMaxArr() {
+    return ListEx.generateArray<String>(91, 180, 1);
+  }
+
+  static List<String> generateHeartRateMinArr() {
+    return ListEx.generateArray<String>(20, 90, 1);
+  }
 }

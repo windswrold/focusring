@@ -28,34 +28,8 @@ class ReportInfoStepsView extends GetView<ReportInfoStepsController> {
   const ReportInfoStepsView({Key? key}) : super(key: key);
   Widget _getAppBar() {
     return controller.currentType == KHealthDataType.CALORIES_BURNED
-        ? Obx(() => AppBar(
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-              leadingWidth: 40.w,
-              leading: KBasePageView.getBack(() {
-                Get.back();
-              }),
-              centerTitle: true,
-              title: Text(
-                controller.reportType.value.getCaloriesTitle(),
-                style: Get.textTheme.titleLarge,
-                textAlign: TextAlign.left,
-              ),
-            ))
-        : AppBar(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            leadingWidth: 40.w,
-            leading: KBasePageView.getBack(() {
-              Get.back();
-            }),
-            centerTitle: true,
-            title: Text(
-              controller.currentType.getDisplayName(isReport: true),
-              style: Get.textTheme.titleLarge,
-              textAlign: TextAlign.left,
-            ),
-          );
+        ? Obx(() => getAppBar(controller.reportType.value.getCaloriesTitle()))
+        : getAppBar(controller.currentType.getDisplayName(isReport: true));
   }
 
   Widget _getTabbarTitle() {
@@ -191,7 +165,7 @@ class ReportInfoStepsView extends GetView<ReportInfoStepsController> {
 
     if (controller.currentType == KHealthDataType.FEMALE_HEALTH) {
       DateRangePickerController vc = DateRangePickerController();
-      
+
       return FemmaleHealthReportChart(
         controller: vc,
       );
@@ -234,15 +208,17 @@ class ReportInfoStepsView extends GetView<ReportInfoStepsController> {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: controller.myTabbas.length,
-      child: KBasePageView(
-        hiddenAppBar: true,
-        safeAreaTop: false,
-        body: Container(
-          decoration: BoxDecoration(
-            gradient: controller.currentType.getReportGradient(),
-          ),
+    if (controller.currentType == KHealthDataType.FEMALE_HEALTH) {}
+
+    return KBasePageView(
+      hiddenAppBar: true,
+      safeAreaTop: false,
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: controller.currentType.getReportGradient(),
+        ),
+        child: DefaultTabController(
+          length: controller.myTabbas.length,
           child: Column(
             children: [
               _getAppBar(),

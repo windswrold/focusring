@@ -15,52 +15,57 @@ class DialogUtils {
   }
 
   static dialogResetDevices() {
-    return Get.defaultDialog(
-      title: "",
-      titlePadding: EdgeInsets.zero,
-      backgroundColor: ColorUtils.fromHex("#FF232126"),
-      radius: 16,
-      contentPadding: EdgeInsets.zero,
-      content: Column(
-        children: [
-          Container(
-            margin: EdgeInsets.only(top: 30.w, bottom: 35.w),
-            child: Text(
-              "sure_reset".tr,
-              style: Get.textTheme.displayLarge,
-            ),
+    return Get.dialog(
+      Center(
+        child: Container(
+          height: 129.w,
+          width: 256.w,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            color: ColorUtils.fromHex("#FF232126"),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Column(
             children: [
-              Expanded(
-                child: NextButton(
-                  onPressed: () {
-                    Get.back();
-                  },
-                  title: "cancel".tr,
-                  activeColor: Colors.transparent,
-                  textStyle: Get.textTheme.titleMedium,
-                ),
-              ),
               Container(
-                width: 1,
-                height: 32.w,
-                color: ColorUtils.fromHex("#FF707070"),
-              ),
-              Expanded(
-                child: NextButton(
-                  onPressed: () {
-                    Get.back();
-                  },
-                  title: "confirm".tr,
-                  activeColor: Colors.transparent,
-                  textStyle: Get.textTheme.displayLarge,
+                margin: EdgeInsets.only(top: 35.w, bottom: 30.w),
+                child: Text(
+                  "sure_reset".tr,
+                  style: Get.textTheme.displayLarge,
                 ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: NextButton(
+                      onPressed: () {
+                        Get.back();
+                      },
+                      title: "cancel".tr,
+                      activeColor: Colors.transparent,
+                      textStyle: Get.textTheme.titleMedium,
+                    ),
+                  ),
+                  Container(
+                    width: 1,
+                    height: 32.w,
+                    color: ColorUtils.fromHex("#FF707070"),
+                  ),
+                  Expanded(
+                    child: NextButton(
+                      onPressed: () {
+                        Get.back();
+                      },
+                      title: "confirm".tr,
+                      activeColor: Colors.transparent,
+                      textStyle: Get.textTheme.displayLarge,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
-        ],
+        ),
       ),
     );
   }
@@ -119,6 +124,87 @@ class DialogUtils {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  static dialogInputNickname() {
+    return Get.dialog(
+      Material(
+        color: Colors.transparent,
+        child: Center(
+          child: Container(
+            height: 149.w,
+            width: 256.w,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              color: ColorUtils.fromHex("#FF232126"),
+            ),
+            child: Column(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(top: 16.w),
+                  child: Text(
+                    "setting_nickname".tr,
+                    style: Get.textTheme.displayLarge,
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 12.w, left: 12.w, right: 12.w),
+                  padding: EdgeInsets.only(left: 12.w, right: 12.w),
+                  height: 44.w,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(14),
+                    color: ColorUtils.fromHex("#FF000000"),
+                  ),
+                  child: TextField(
+                    style: Get.textTheme.labelSmall,
+                    decoration: InputDecoration(
+                      hintStyle: Get.textTheme.bodyMedium,
+                      hintText: "input_nickname".tr,
+                      focusedBorder: InputBorder.none,
+                      disabledBorder: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      counterStyle: Get.textTheme.displaySmall,
+                    ),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: NextButton(
+                        onPressed: () {
+                          Get.back();
+                        },
+                        title: "cancel".tr,
+                        activeColor: Colors.transparent,
+                        height: 57.w,
+                        textStyle: Get.textTheme.displayLarge,
+                      ),
+                    ),
+                    Container(
+                      width: 1,
+                      height: 32.w,
+                      color: ColorUtils.fromHex("#FF707070"),
+                    ),
+                    Expanded(
+                      child: NextButton(
+                        onPressed: () {
+                          Get.back();
+                        },
+                        title: "confirm".tr,
+                        height: 57.w,
+                        activeColor: Colors.transparent,
+                        textStyle: Get.textTheme.titleMedium,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

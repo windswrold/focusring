@@ -46,19 +46,21 @@ class HomeStateController extends GetxController {
 
     return;
 
-    if (type == KHealthDataType.STEPS ||
-        type == KHealthDataType.LiCheng ||
-        type == KHealthDataType.CALORIES_BURNED ||
-        type == KHealthDataType.STRESS) {
-      Get.toNamed(Routes.REPORT_INFO_STEPS);
-    } else if (type == KHealthDataType.SLEEP) {
-      Get.toNamed(Routes.REPORT_INFO_SLEEP);
-    } else if (type == KHealthDataType.HEART_RATE) {
-      Get.toNamed(Routes.REPORT_INFO_HEARTRATE);
-    } else if (type == KHealthDataType.BLOOD_OXYGEN ||
-        type == KHealthDataType.BODY_TEMPERATURE) {
-      Get.toNamed(Routes.REPORT_INFO_BLOODOXYGEN);
-    } else if (type == KHealthDataType.EMOTION) {
-    } else if (type == KHealthDataType.FEMALE_HEALTH) {}
+    // if (type == KHealthDataType.STEPS ||
+    //     type == KHealthDataType.LiCheng ||
+    //     type == KHealthDataType.CALORIES_BURNED ||
+    //     type == KHealthDataType.STRESS) {
+    //   Get.toNamed(Routes.REPORT_INFO_STEPS);
+    // } else if (type == KHealthDataType.SLEEP) {
+    //   Get.toNamed(Routes.REPORT_INFO_SLEEP);
+    // } else if (type == KHealthDataType.HEART_RATE) {
+    //   Get.toNamed(Routes.REPORT_INFO_HEARTRATE);
+    // } else if (type == KHealthDataType.BLOOD_OXYGEN ||
+    //     type == KHealthDataType.BODY_TEMPERATURE) {
+    //   Get.toNamed(Routes.REPORT_INFO_BLOODOXYGEN);
+    // } else if (type == KHealthDataType.EMOTION) {
+    // } else if (type == KHealthDataType.FEMALE_HEALTH) {
+    //   Get.toNamed(Routes.REPORT_INFO_FEMMALEHEALTH);
+    // }
   }
 }
