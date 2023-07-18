@@ -19,6 +19,7 @@ import 'package:focusring/views/stress_report_chart.dart';
 import 'package:focusring/views/target_completion_rate.dart';
 
 import 'package:get/get.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import '../../../../public.dart';
 import '../controllers/report_info_steps_controller.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
@@ -189,7 +190,11 @@ class ReportInfoStepsView extends GetView<ReportInfoStepsController> {
     }
 
     if (controller.currentType == KHealthDataType.FEMALE_HEALTH) {
-      return FemmaleHealthReportChart();
+      DateRangePickerController vc = DateRangePickerController();
+      
+      return FemmaleHealthReportChart(
+        controller: vc,
+      );
     }
 
     if (controller.currentType == KHealthDataType.STEPS ||

@@ -7013,7 +7013,7 @@ class _SfDateRangePickerState extends State<_SfDateRangePicker>
                 _localizations),
           ),
           onTapUp: (TapUpDetails details) {
-            _updateCalendarTapCallbackForHeader();
+            // _updateCalendarTapCallbackForHeader();
           },
         ),
       ),

@@ -2,7 +2,10 @@ import '../public.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class FemmaleHealthReportChart extends StatelessWidget {
-  const FemmaleHealthReportChart({Key? key}) : super(key: key);
+  const FemmaleHealthReportChart({Key? key, required this.controller})
+      : super(key: key);
+
+  final DateRangePickerController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -32,51 +35,72 @@ class FemmaleHealthReportChart extends StatelessWidget {
             ),
             height: 300.w,
             child: SfDateRangePicker(
+              controller: controller,
               headerStyle: DateRangePickerHeaderStyle(
                 textAlign: TextAlign.center,
                 textStyle: Get.textTheme.labelLarge,
               ),
               headerHeight: 36.w,
               showNavigationArrow: true,
-              monthCellStyle: DateRangePickerMonthCellStyle(
-                cellDecoration: BoxDecoration(
-                  color: Colors.red,
-                  borderRadius: BorderRadius.circular(3),
-                ),
-              ),
-              // cellBuilder: (context, cellDetails) {
-              //   vmPrint(cellDetails.date);
+              showTodayButton: false,
+              initialSelectedDate: DateTime.now(),
+              cellBuilder: (context, cellDetails) {
+                // vmPrint(cellDetails.date);
 
-              //   // return null;
-              //   // var safelyDays = [
-              //   //   DateUtil.getNowDateStr(),
-              //   //   DateUtil.getNowDateStr(),
-              //   // ];
-              //   // var legalHoliday = [
-              //   //   DateUtil.getNowDateStr(),
-              //   //   DateUtil.getNowDateStr(),
-              //   //   DateUtil.getNowDateStr(),
-              //   //   DateUtil.getNowDateStr(),
-              //   // ];
-              //   // if (safelyDays.contains(cellDetails.date)) {
-              //   //   return Text("data222");
-              //   // }
-              //   return Container(
-              //     width: cellDetails.bounds.width,
-              //     height: cellDetails.bounds.height,
-              //     alignment: Alignment.center,
-              //     decoration: BoxDecoration(),
-              //     child: Text(
-              //       cellDetails.date.day.toString(),
-              //       style: Get.textTheme.labelLarge,
-              //     ),
-              //   );
-              // },
+                bool isSaely = false;
+                bool isHoliday = false;
+                var textString = "";
+                if (controller?.view == DateRangePickerView.month) {
+                  textString = cellDetails.date.day.toString();
+                } else if (controller?.view == DateRangePickerView.year) {
+                  textString = cellDetails.date.month.toString();
+                } else if (controller?.view == DateRangePickerView.decade) {
+                  textString = cellDetails.date.year.toString();
+                } else {
+                  final int yearValue = (cellDetails.date.year ~/ 10) * 10;
+                  textString =
+                      yearValue.toString() + ' - ' + (yearValue + 9).toString();
+                }
+
+                var yuce =
+                    "${assetsImages}icons/female_todaybg_forecast@3x.png";
+                var anquanqi =
+                    "${assetsImages}icons/female_todaybg_easy@3x.png";
+                var yujingqi =
+                    "${assetsImages}icons/female_todaybg_menstrual@3x.png";
+
+                return Container(
+                  width: 36,
+                  height: 36,
+                  margin: const EdgeInsets.only(bottom: 6),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage(
+                        yujingqi,
+                      ),
+                      onError: (exception, stackTrace) {
+                        vmPrint(exception);
+                      },
+                    ),
+                  ),
+                  child: Text(
+                    textString,
+                    style: Get.textTheme.labelLarge,
+                  ),
+                );
+              },
               onCancel: () {},
               onSubmit: (Object? value) {},
-              selectionColor: ColorUtils.fromHex("#FF06E0E8"),
-              selectionRadius: 18,
-              monthViewSettings: DateRangePickerMonthViewSettings(),
+              selectionColor: Colors.transparent,
+              todayHighlightColor: Get.textTheme.labelMedium?.color,
+              monthViewSettings: DateRangePickerMonthViewSettings(
+                  viewHeaderHeight: 20.w,
+                  viewHeaderStyle: DateRangePickerViewHeaderStyle(
+                    textStyle: Get.textTheme.labelMedium,
+                  ),
+                  weekNumberStyle: DateRangePickerWeekNumberStyle(
+                      backgroundColor: Colors.red)),
             ),
           ),
           NextButton(
