@@ -208,6 +208,7 @@ class LocaleKeys {
   static const youres_weight = 'youres_weight';
   static const man = 'man';
   static const woman = 'woman';
+  static const networkError = 'networkError';
 }
 
 class Locales {
@@ -596,6 +597,7 @@ class Locales {
     'youres_weight': '您的体重',
     'man': '男',
     'woman': '女',
+    'networkError': '网络异常',
   };
   static const it_IT = {
     'tabbar_status': 'Status',
