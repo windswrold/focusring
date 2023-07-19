@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 
-class BaseInterceptor extends Interceptor {
+class BaseInterceptor extends InterceptorsWrapper {
   final Dio _dio;
   BaseInterceptor(this._dio);
 
@@ -10,5 +10,14 @@ class BaseInterceptor extends Interceptor {
         err.type == DioExceptionType.sendTimeout ||
         err.type == DioExceptionType.receiveTimeout) _dio.close(force: true);
     handler.next(err);
+  }
+
+  @override
+  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
+    // TODO: implement onRequest
+    options.headers.addAll({
+      'accept-language': "",
+    });
+    super.onRequest(options, handler);
   }
 }

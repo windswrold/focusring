@@ -35,7 +35,6 @@ class VMApi {
   }) {
     final dio = Dio();
     dio.interceptors.addAll([
-      //MSHTTPHeaderInterceptor(),
       LogsInterceptors(printLevel),
       BaseInterceptor(dio),
     ]);
@@ -99,6 +98,10 @@ class VMApi {
     bool isNetworkDisconnected = false;
     Completer<VMResult> completer = new Completer();
     bool completerCompleted = false;
+
+    if (request.needAccessToken == true) {
+      options.headers?.addAll({"accessToken": ""});
+    }
 
     await Future.delayed(const Duration(milliseconds: 1));
     String proxy = 'DIRECT';

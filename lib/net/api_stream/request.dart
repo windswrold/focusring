@@ -1,5 +1,3 @@
-
-
 import 'package:focusring/extensions/MapEx.dart';
 
 import '../../utils/cahce_manager.dart';
@@ -30,6 +28,9 @@ class VMRequest {
   Map<String, String>? requestHeaders;
 
   bool canQueryCache = false;
+
+  bool needAccessToken = false;
+
   String? queryPageKey;
   String get queryKey => path + ((queryParams ?? {}).jsonString);
 
