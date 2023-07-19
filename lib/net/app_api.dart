@@ -42,6 +42,7 @@ class AppApi {
     return _api.request(
       re: VMRequest()
         ..vmMethod = VMMethod.POST
+        ..needAccessToken = true
         ..httpBody = {
           "bindDeviceDto": {"mac": mac}
         }
@@ -55,6 +56,7 @@ class AppApi {
         .request(
       re: VMRequest()
         ..vmMethod = VMMethod.POST
+        ..needAccessToken = true
         ..path = "/app/device/getLatestFirmware",
     )
         .convert((r) {
@@ -68,6 +70,7 @@ class AppApi {
     return _api.request(
       re: VMRequest()
         ..vmMethod = VMMethod.POST
+        ..needAccessToken = true
         ..httpBody = {
           "unbindDeviceDto": {"mac": mac}..recursivelyRemoveNullItems()
         }
@@ -84,6 +87,7 @@ class AppApi {
     return _api.request(
       re: VMRequest()
         ..vmMethod = VMMethod.POST
+        ..needAccessToken = true
         ..httpBody = {
           "queryAppDataDto": {
             "dataType": dataType,
@@ -100,7 +104,10 @@ class AppApi {
     return _api.request(
       re: VMRequest()
         ..vmMethod = VMMethod.POST
-        ..httpBody = {"appDeviceDataDto": params..recursivelyRemoveNullItems()}
+        ..needAccessToken = true
+        ..httpBody = {
+          "appDeviceDataDto": params..recursivelyRemoveNullItems(),
+        }
         ..path = "/app/data/query",
     );
   }
@@ -166,6 +173,7 @@ class AppApi {
     return _api.request(
         re: VMRequest()
           ..path = "/app/user/editUserInfo"
+          ..needAccessToken = true
           ..httpBody = {"editUserInfoDto": model.toJson()}
           ..vmMethod = VMMethod.POST);
   }
@@ -175,6 +183,7 @@ class AppApi {
     return _api.request(
         re: VMRequest()
           ..path = "/app/user/feedback"
+          ..needAccessToken = true
           ..httpBody = {"feedbackDto": content}
           ..vmMethod = VMMethod.POST);
   }
@@ -185,6 +194,7 @@ class AppApi {
         .request(
             re: VMRequest()
               ..path = "/app/user/getUserInfo"
+              ..needAccessToken = true
               ..vmMethod = VMMethod.POST)
         .convert((r) => UserInfo.fromJson(r.mapResult ?? {}));
   }
