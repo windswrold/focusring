@@ -16,54 +16,58 @@ class DialogUtils {
 
   static dialogResetDevices() {
     return Get.dialog(
-      Center(
-        child: Container(
-          height: 129.w,
-          width: 256.w,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
-            color: ColorUtils.fromHex("#FF232126"),
-          ),
-          child: Column(
-            children: [
-              Container(
-                margin: EdgeInsets.only(top: 35.w, bottom: 30.w),
-                child: Text(
-                  "sure_reset".tr,
-                  style: Get.textTheme.displayLarge,
+      AlertDialog(
+        backgroundColor: Colors.transparent,
+        content: SingleChildScrollView(
+          child: Container(
+            width: 256.w,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              color: ColorUtils.fromHex("#FF232126"),
+            ),
+            child: Column(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(top: 35.w, bottom: 30.w),
+                  alignment: Alignment.center,
+                  child: Text(
+                    "sure_reset".tr,
+                    style: Get.textTheme.displayLarge,
+                    textAlign: TextAlign.center,
+                  ),
                 ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: NextButton(
-                      onPressed: () {
-                        Get.back();
-                      },
-                      title: "cancel".tr,
-                      activeColor: Colors.transparent,
-                      textStyle: Get.textTheme.titleMedium,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: NextButton(
+                        onPressed: () {
+                          Get.back();
+                        },
+                        title: "cancel".tr,
+                        activeColor: Colors.transparent,
+                        textStyle: Get.textTheme.titleMedium,
+                      ),
                     ),
-                  ),
-                  Container(
-                    width: 1,
-                    height: 32.w,
-                    color: ColorUtils.fromHex("#FF707070"),
-                  ),
-                  Expanded(
-                    child: NextButton(
-                      onPressed: () {
-                        Get.back();
-                      },
-                      title: "confirm".tr,
-                      activeColor: Colors.transparent,
-                      textStyle: Get.textTheme.displayLarge,
+                    Container(
+                      width: 1,
+                      height: 32.w,
+                      color: ColorUtils.fromHex("#FF707070"),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                    Expanded(
+                      child: NextButton(
+                        onPressed: () {
+                          Get.back();
+                        },
+                        title: "confirm".tr,
+                        activeColor: Colors.transparent,
+                        textStyle: Get.textTheme.displayLarge,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
