@@ -181,7 +181,8 @@ class HomeCardItem extends StatelessWidget {
         showTodayButton: false,
         // initialSelectedDate: DateTime.now(),
         selectionColor: Colors.transparent,
-        toggleDaySelection: true,
+        todayHighlightColor: Get.textTheme.labelMedium?.color,
+        toggleDaySelection: false,
         monthViewSettings: DateRangePickerMonthViewSettings(
           viewHeaderHeight: 0,
           numberOfWeeksInView: 2,
