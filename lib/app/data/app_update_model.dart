@@ -1,3 +1,5 @@
+import 'package:focusring/public.dart';
+
 class AppUpdateModel {
   String? version;
   String? downloadUrl;
@@ -15,12 +17,12 @@ class AppUpdateModel {
       this.createTime});
 
   AppUpdateModel.fromJson(Map json) {
-    version = json['version'];
-    downloadUrl = json['downloadUrl'];
-    fileSize = json['fileSize'];
-    mark = json['mark'];
-    forceUpdate = json['forceUpdate'];
-    createTime = json['createTime'];
+    version = json.stringFor("version");
+    downloadUrl = json.stringFor("downloadUrl");
+    fileSize = json.intFor("fileSize");
+    mark = json.stringFor("mark");
+    forceUpdate = json.boolFor("forceUpdate");
+    createTime = json.stringFor("createTime");
   }
 
   Map<String, dynamic> toJson() {

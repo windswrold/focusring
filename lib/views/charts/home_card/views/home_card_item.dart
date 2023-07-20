@@ -10,6 +10,7 @@ import 'package:focusring/views/charts/radio_gauge_chart/model/radio_gauge_chart
 import 'package:get/get.dart';
 
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class HomeCardItem extends StatelessWidget {
   const HomeCardItem({Key? key, required this.model}) : super(key: key);
@@ -173,9 +174,22 @@ class HomeCardItem extends StatelessWidget {
         ),
         series: _getEMOTION(),
       );
-      return _buildEMOTION();
     } else if (model.type == KHealthDataType.FEMALE_HEALTH) {
-      return Text("FEMALE_HEALTH");
+      return SfDateRangePicker(
+        headerHeight: 0,
+        showNavigationArrow: false,
+        showTodayButton: false,
+        // initialSelectedDate: DateTime.now(),
+        selectionColor: Colors.transparent,
+        toggleDaySelection: true,
+        monthViewSettings: DateRangePickerMonthViewSettings(
+          viewHeaderHeight: 0,
+          numberOfWeeksInView: 2,
+          viewHeaderStyle: DateRangePickerViewHeaderStyle(
+            textStyle: Get.textTheme.labelMedium,
+          ),
+        ),
+      );
     }
 
     return Container();

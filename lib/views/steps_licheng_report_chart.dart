@@ -11,8 +11,8 @@ class StepsLiChengReportChart extends StatelessWidget {
     return Container(
         height: 278.w,
         padding: EdgeInsets.only(top: 40.w, bottom: 10.w),
-        child: Stack(
-          alignment: Alignment.topCenter,
+        child: Column(
+          // alignment: Alignment.topCenter,
           children: [
             Offstage(
               offstage: false,

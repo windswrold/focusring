@@ -69,20 +69,19 @@ class FemmaleHealthReportChart extends StatelessWidget {
                 var yujingqi =
                     "${assetsImages}icons/female_todaybg_menstrual@3x.png";
 
+                var homezhengchang =
+                    "${assetsImages}icons/female_bg_safe@3x.png";
+
                 return Container(
-                  width: 36,
-                  height: 36,
+                  width: cellDetails.bounds.size.width,
+                  height: cellDetails.bounds.size.height,
                   margin: const EdgeInsets.only(bottom: 6),
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                    color: Colors.red,
                     image: DecorationImage(
                       image: AssetImage(
-                        yujingqi,
+                        homezhengchang,
                       ),
-                      onError: (exception, stackTrace) {
-                        vmPrint(exception);
-                      },
                     ),
                   ),
                   child: Text(
@@ -96,12 +95,11 @@ class FemmaleHealthReportChart extends StatelessWidget {
               selectionColor: Colors.transparent,
               todayHighlightColor: Get.textTheme.labelMedium?.color,
               monthViewSettings: DateRangePickerMonthViewSettings(
-                  viewHeaderHeight: 20.w,
-                  viewHeaderStyle: DateRangePickerViewHeaderStyle(
-                    textStyle: Get.textTheme.labelMedium,
-                  ),
-                  weekNumberStyle: DateRangePickerWeekNumberStyle(
-                      backgroundColor: Colors.red)),
+                viewHeaderHeight: 20.w,
+                viewHeaderStyle: DateRangePickerViewHeaderStyle(
+                  textStyle: Get.textTheme.labelMedium,
+                ),
+              ),
             ),
           ),
           NextButton(
