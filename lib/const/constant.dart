@@ -95,6 +95,17 @@ enum KStressStatus {
   severe,
 }
 
+enum KFemmaleStatus {
+  ///正常
+  normal,
+  //经期预测
+  yuce,
+  //安全期
+  anquanqi,
+  //月经期
+  yujinqi,
+}
+
 Size calculateTextSize(
   String value,
   double fontSize,

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import '../public.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
@@ -62,25 +64,17 @@ class FemmaleHealthReportChart extends StatelessWidget {
                       yearValue.toString() + ' - ' + (yearValue + 9).toString();
                 }
 
-                var yuce =
-                    "${assetsImages}icons/female_todaybg_forecast@3x.png";
-                var anquanqi =
-                    "${assetsImages}icons/female_todaybg_easy@3x.png";
-                var yujingqi =
-                    "${assetsImages}icons/female_todaybg_menstrual@3x.png";
-
-                var homezhengchang =
-                    "${assetsImages}icons/female_bg_safe@3x.png";
+                var state = KFemmaleStatus.values[Random.secure().nextInt(3)];
 
                 return Container(
-                  width: cellDetails.bounds.size.width,
-                  height: cellDetails.bounds.size.height,
+                  width: 40,
+                  height: 40,
                   margin: const EdgeInsets.only(bottom: 6),
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage(
-                        homezhengchang,
+                        state.image(),
                       ),
                     ),
                   ),

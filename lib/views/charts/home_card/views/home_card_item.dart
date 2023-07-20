@@ -180,16 +180,43 @@ class HomeCardItem extends StatelessWidget {
         showNavigationArrow: false,
         showTodayButton: false,
         // initialSelectedDate: DateTime.now(),
+        initialDisplayDate: DateTime.now(),
         selectionColor: Colors.transparent,
-        todayHighlightColor: Get.textTheme.labelMedium?.color,
-        toggleDaySelection: false,
+        // todayHighlightColor: Get.textTheme.labelMedium?.color,
+        todayHighlightColor: Colors.red,
+        enablePastDates: false,
+        // toggleDaySelection: false,
         monthViewSettings: DateRangePickerMonthViewSettings(
           viewHeaderHeight: 0,
           numberOfWeeksInView: 2,
-          viewHeaderStyle: DateRangePickerViewHeaderStyle(
-            textStyle: Get.textTheme.labelMedium,
-          ),
         ),
+        selectionRadius: 0,
+        monthCellStyle: DateRangePickerMonthCellStyle(
+          todayCellDecoration: null,
+          cellDecoration: null,
+          todayTextStyle: Get.textTheme.displayMedium,
+        ),
+        cellBuilder: (context, cellDetails) {
+          var textString = cellDetails.date.day.toString();
+          var anquanqi = "${assetsImages}icons/female_todaybg_easy@3x.png";
+          return Container(
+            width: cellDetails.bounds.size.width,
+            height: cellDetails.bounds.size.height,
+            margin: const EdgeInsets.only(bottom: 6),
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(
+                  anquanqi,
+                ),
+              ),
+            ),
+            child: Text(
+              textString,
+              style: Get.textTheme.labelLarge,
+            ),
+          );
+        },
       );
     }
 

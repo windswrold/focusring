@@ -499,3 +499,23 @@ extension KStressStatusEX on KStressStatus {
     }
   }
 }
+
+extension KFemmaleStatusEX on KFemmaleStatus {
+  String image() {
+    if (this == KFemmaleStatus.normal) {
+      return "${assetsImages}icons/female_bg_safe@3x.png";
+    }
+
+    if (this == KFemmaleStatus.yuce) {
+      return "${assetsImages}icons/female_todaybg_forecast@3x.png";
+    }
+
+    if (this == KFemmaleStatus.anquanqi) {
+      return "${assetsImages}icons/female_todaybg_easy@3x.png";
+    }
+    if (this == KFemmaleStatus.yujinqi) {
+      return "${assetsImages}icons/female_todaybg_menstrual@3x.png";
+    }
+    return "";
+  }
+}
