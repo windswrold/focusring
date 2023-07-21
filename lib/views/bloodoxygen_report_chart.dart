@@ -64,11 +64,11 @@ class BloodOxygenReportChart extends StatelessWidget {
         tooltipSettings: InteractiveTooltip(),
       ),
       series: [
-        ScatterSeries<HomeCardItemModel, String>(
+        ScatterSeries<KChartCellData, String>(
           dataSource: List.generate(30,
-              (index) => HomeCardItemModel(x: "$index", y: index.toDouble())),
-          xValueMapper: (HomeCardItemModel sales, _) => sales.x,
-          yValueMapper: (HomeCardItemModel sales, _) => sales.y,
+              (index) => KChartCellData(x: "$index", y: index.toDouble())),
+          xValueMapper: (KChartCellData sales, _) => sales.x,
+          yValueMapper: (KChartCellData sales, _) => sales.y,
           markerSettings: const MarkerSettings(
             height: 3,
             width: 3,
@@ -82,7 +82,7 @@ class BloodOxygenReportChart extends StatelessWidget {
   Widget _buildWeek() {
     var data = List.generate(
         30,
-        (index) => HomeCardItemModel(
+        (index) => KChartCellData(
             x: index.toString(), y: Random.secure().nextInt(1000)));
 
     return SfCartesianChart(
@@ -131,13 +131,13 @@ class BloodOxygenReportChart extends StatelessWidget {
         tooltipSettings: InteractiveTooltip(),
       ),
       series: [
-        CustomRangeColumnSeries<HomeCardItemModel, String>(
+        CustomRangeColumnSeries<KChartCellData, String>(
           dataSource: data,
           // borderWidth: 2,
-          xValueMapper: (HomeCardItemModel sales, _) => sales.x,
-          lowValueMapper: (HomeCardItemModel sales, _) => sales.y - 200,
-          highValueMapper: (HomeCardItemModel sales, _) => sales.y,
-          averageValueMapper: (HomeCardItemModel sales, _) => sales.y,
+          xValueMapper: (KChartCellData sales, _) => sales.x,
+          lowValueMapper: (KChartCellData sales, _) => sales.y - 200,
+          highValueMapper: (KChartCellData sales, _) => sales.y,
+          averageValueMapper: (KChartCellData sales, _) => sales.y,
         ),
       ],
     );

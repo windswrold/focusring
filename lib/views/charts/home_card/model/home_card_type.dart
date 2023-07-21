@@ -2,19 +2,29 @@ import 'package:focusring/const/constant.dart';
 
 import 'home_card_x.dart';
 
-class KHealthDataClass {
-  KHealthDataType? type;
-  String? date;
-  String? result;
-  String? resultDesc;
+class KHomeCardModel {
+  final KHealthDataType? type;
+  final String? date;
+  final String? result;
+  final String? resultDesc;
 
-  String? startDesc;
-  String? endDesc;
+  final String? startDesc;
+  final String? endDesc;
 
-  int? index;
-  bool? state;
+  final int? index;
+  final bool? state;
 
-  List<HomeCardItemModel> datas = [];
+  final List<KChartCellData> datas;
 
-  KHealthDataClass({this.type = KHealthDataType.STEPS});
+  KHomeCardModel({
+    this.date,
+    this.result,
+    this.resultDesc,
+    this.startDesc,
+    this.endDesc,
+    this.index,
+    this.state,
+    this.type = KHealthDataType.STEPS,
+    this.datas = const [],
+  });
 }

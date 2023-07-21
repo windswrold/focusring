@@ -223,18 +223,18 @@ class SleepTimeReportChart extends StatelessWidget {
             ),
       ),
       series: [
-        StackedColumnSeries<HomeCardItemModel, String>(
+        StackedColumnSeries<KChartCellData, String>(
           dataSource: List.generate(
               30,
-              (index) => HomeCardItemModel(
+              (index) => KChartCellData(
                     x: "$index",
                     y: Random.secure().nextInt(40),
                   )),
           isTrackVisible: false,
           spacing: 0,
           borderRadius: BorderRadius.zero,
-          xValueMapper: (HomeCardItemModel sales, _) => sales.x,
-          yValueMapper: (HomeCardItemModel sales, _) => sales.y,
+          xValueMapper: (KChartCellData sales, _) => sales.x,
+          yValueMapper: (KChartCellData sales, _) => sales.y,
           pointColorMapper: (datum, index) => Colors.red,
           dataLabelSettings: const DataLabelSettings(
             isVisible: false,
@@ -243,18 +243,18 @@ class SleepTimeReportChart extends StatelessWidget {
             vmPrint(pointInteractionDetails.seriesIndex);
           },
         ),
-        StackedColumnSeries<HomeCardItemModel, String>(
+        StackedColumnSeries<KChartCellData, String>(
           dataSource: List.generate(
               30,
-              (index) => HomeCardItemModel(
+              (index) => KChartCellData(
                     x: "$index",
                     y: Random.secure().nextInt(40),
                   )),
           isTrackVisible: false,
           spacing: 0,
           borderRadius: BorderRadius.zero,
-          xValueMapper: (HomeCardItemModel sales, _) => sales.x,
-          yValueMapper: (HomeCardItemModel sales, _) => sales.y,
+          xValueMapper: (KChartCellData sales, _) => sales.x,
+          yValueMapper: (KChartCellData sales, _) => sales.y,
           pointColorMapper: (datum, index) => datum.color,
           dataLabelSettings: const DataLabelSettings(
             isVisible: false,

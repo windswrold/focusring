@@ -2,19 +2,21 @@ import 'package:decimal/decimal.dart';
 
 import '../../../../public.dart';
 
-class HomeCardItemModel {
+class KChartCellData {
   dynamic x;
   dynamic y;
+  dynamic z;
   Color? color;
 
-  HomeCardItemModel({
+  KChartCellData({
     this.x,
     this.y,
+    this.z,
     this.color,
   });
 
-  static Future<List<HomeCardItemModel>> configPieDataList() async {
-    List<HomeCardItemModel> datas = [];
+  static Future<List<KChartCellData>> configPieDataList() async {
+    List<KChartCellData> datas = [];
 
     return datas;
   }

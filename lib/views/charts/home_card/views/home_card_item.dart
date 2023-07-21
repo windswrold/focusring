@@ -1,21 +1,19 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:focusring/app/modules/home_state/controllers/home_state_controller.dart';
 import 'package:focusring/public.dart';
+import 'package:focusring/utils/chart_utils.dart';
 import 'package:focusring/views/charts/home_card/model/home_card_type.dart';
 import 'package:focusring/views/charts/home_card/model/home_card_x.dart';
-import 'package:focusring/views/charts/radio_gauge_chart/model/radio_gauge_chart_model.dart';
-
 import 'package:get/get.dart';
 
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
-class HomeCardItem extends StatelessWidget {
-  const HomeCardItem({Key? key, required this.model}) : super(key: key);
+class HomeCardView extends StatelessWidget {
+  const HomeCardView({Key? key, required this.model}) : super(key: key);
 
-  final KHealthDataClass model;
+  final KHomeCardModel model;
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +52,7 @@ class HomeCardItem extends StatelessWidget {
                         ),
                         2.columnWidget,
                         Text(
-                          model.date ?? "bodyMedium",
+                          model.date ?? "",
                           style: Get.textTheme.bodyMedium,
                         ),
                       ],
@@ -67,7 +65,7 @@ class HomeCardItem extends StatelessWidget {
                   children: [
                     RichText(
                       text: TextSpan(
-                        text: (model.result ?? "result"),
+                        text: (model.result ?? ""),
                         style: Get.textTheme.bodyLarge,
                         children: [
                           TextSpan(
@@ -109,11 +107,11 @@ class HomeCardItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                model.startDesc ?? "startDesc",
+                model.startDesc ?? "",
                 style: Get.textTheme.labelLarge,
               ),
               Text(
-                model.endDesc ?? "endDesc",
+                model.endDesc ?? "",
                 style: Get.textTheme.labelLarge,
               ),
             ],
@@ -124,69 +122,18 @@ class HomeCardItem extends StatelessWidget {
   }
 
   Widget _buildChartItem() {
-    if (model.type == KHealthDataType.STEPS ||
-        model.type == KHealthDataType.LiCheng ||
-        model.type == KHealthDataType.CALORIES_BURNED ||
-        model.type == KHealthDataType.STRESS) {
-      return SfCartesianChart(
-        plotAreaBorderWidth: 0,
-        primaryXAxis: CategoryAxis(
-          isVisible: false,
-        ),
-        primaryYAxis: NumericAxis(
-          isVisible: false,
-        ),
-        series: _getSteps(),
-      );
-    } else if (model.type == KHealthDataType.SLEEP) {
+    if (model.type == KHealthDataType.SLEEP) {
       return _buildSleep();
-    } else if (model.type == KHealthDataType.HEART_RATE) {
-      return SfCartesianChart(
-        plotAreaBorderWidth: 0,
-        primaryXAxis: CategoryAxis(
-          isVisible: false,
-        ),
-        primaryYAxis: NumericAxis(
-          isVisible: false,
-        ),
-        series: _getHEARTRATE(),
-      );
-    } else if (model.type == KHealthDataType.BLOOD_OXYGEN ||
-        model.type == KHealthDataType.BODY_TEMPERATURE) {
-      return SfCartesianChart(
-        plotAreaBorderWidth: 0,
-        primaryXAxis: CategoryAxis(
-          isVisible: false,
-        ),
-        primaryYAxis: NumericAxis(
-          isVisible: false,
-        ),
-        series: _getBLOOD_OXYGEN(),
-      );
-    } else if (model.type == KHealthDataType.EMOTION) {
-      return SfCartesianChart(
-        plotAreaBorderWidth: 0,
-        primaryXAxis: CategoryAxis(
-          isVisible: false,
-        ),
-        primaryYAxis: NumericAxis(
-          isVisible: false,
-        ),
-        series: _getEMOTION(),
-      );
     } else if (model.type == KHealthDataType.FEMALE_HEALTH) {
       return SfDateRangePicker(
         headerHeight: 0,
         showNavigationArrow: false,
         showTodayButton: false,
-        // initialSelectedDate: DateTime.now(),
         initialDisplayDate: DateTime.now(),
         selectionColor: Colors.transparent,
-        // todayHighlightColor: Get.textTheme.labelMedium?.color,
-        todayHighlightColor: Colors.red,
+        todayHighlightColor: Get.textTheme.labelMedium?.color,
         enablePastDates: false,
-        // toggleDaySelection: false,
-        monthViewSettings: DateRangePickerMonthViewSettings(
+        monthViewSettings: const DateRangePickerMonthViewSettings(
           viewHeaderHeight: 0,
           numberOfWeeksInView: 2,
         ),
@@ -198,80 +145,24 @@ class HomeCardItem extends StatelessWidget {
         ),
         cellBuilder: (context, cellDetails) {
           var textString = cellDetails.date.day.toString();
-          var anquanqi = "${assetsImages}icons/female_todaybg_easy@3x.png";
-          return Container(
-            width: cellDetails.bounds.size.width,
-            height: cellDetails.bounds.size.height,
-            margin: const EdgeInsets.only(bottom: 6),
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(
-                  anquanqi,
-                ),
-              ),
-            ),
-            child: Text(
-              textString,
-              style: Get.textTheme.labelLarge,
-            ),
-          );
+          var anquanqi = KFemmaleStatus.normal.image();
+          return ChartUtils.getDateCellItem(
+              text: textString, icon: anquanqi, width: 30.w, bottom: 30.w);
         },
       );
+    } else {
+      return SfCartesianChart(
+        plotAreaBorderWidth: 0,
+        primaryXAxis: CategoryAxis(
+          isVisible: false,
+        ),
+        primaryYAxis: NumericAxis(
+          isVisible: false,
+        ),
+        series: ChartUtils.getHomeItemServices(
+            type: model.type!, datas: model.datas),
+      );
     }
-
-    return Container();
-  }
-
-  List<XyDataSeries<HomeCardItemModel, String>> _getBLOOD_OXYGEN() {
-    return <XyDataSeries<HomeCardItemModel, String>>[
-      ColumnSeries<HomeCardItemModel, String>(
-        dataSource: List.generate(30,
-            (index) => HomeCardItemModel(x: index.toString(), y: 0.toDouble())),
-        isTrackVisible: true,
-        trackColor: ColorUtils.fromHex("#212621"),
-        borderRadius: BorderRadius.circular(3),
-        trackBorderWidth: 0,
-        xValueMapper: (HomeCardItemModel sales, _) => sales.x,
-        yValueMapper: (HomeCardItemModel sales, _) => sales.y,
-        dataLabelSettings: const DataLabelSettings(
-          isVisible: false,
-        ),
-      ),
-      ScatterSeries<HomeCardItemModel, String>(
-        dataSource: List.generate(
-            30, (index) => HomeCardItemModel(x: "$index", y: index.toDouble())),
-        xValueMapper: (HomeCardItemModel sales, _) => sales.x,
-        yValueMapper: (HomeCardItemModel sales, _) => sales.y,
-        markerSettings: const MarkerSettings(
-          height: 3,
-          width: 3,
-        ),
-        pointColorMapper: (datum, index) => Colors.red,
-        // trackColor: Colors.blue,
-        // isTrackVisible: false
-      ),
-    ];
-  }
-
-  List<ColumnSeries<HomeCardItemModel, String>> _getSteps() {
-    return <ColumnSeries<HomeCardItemModel, String>>[
-      ColumnSeries<HomeCardItemModel, String>(
-        dataSource: List.generate(
-            30,
-            (index) =>
-                HomeCardItemModel(x: index.toString(), y: index.toDouble())),
-        isTrackVisible: true,
-        trackColor: ColorUtils.fromHex("#FF212526"),
-        trackBorderWidth: 0,
-        borderRadius: BorderRadius.circular(3),
-        xValueMapper: (HomeCardItemModel sales, _) => sales.x,
-        yValueMapper: (HomeCardItemModel sales, _) => sales.y,
-        dataLabelSettings: const DataLabelSettings(
-          isVisible: false,
-        ),
-      )
-    ];
   }
 
   Widget _buildSleep() {
@@ -357,99 +248,5 @@ class HomeCardItem extends StatelessWidget {
         },
       ),
     );
-  }
-
-  List<ChartSeries<HomeCardItemModel, String>> _getHEARTRATE() {
-    return <ChartSeries<HomeCardItemModel, String>>[
-      SplineAreaSeries<HomeCardItemModel, String>(
-        dataSource: List.generate(
-            30,
-            (index) => HomeCardItemModel(
-                x: index.toString(), y: Random.secure().nextInt(1000))),
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            // mySnTheme.titleColorReverse.withOpacity(0.6),
-            Colors.red,
-            Colors.transparent
-          ],
-        ),
-        borderWidth: 2,
-        xValueMapper: (HomeCardItemModel sales, _) => sales.x,
-        yValueMapper: (HomeCardItemModel sales, _) => sales.y,
-      ),
-    ];
-  }
-
-  List<ChartSeries<HomeCardItemModel, String>> _getEMOTION() {
-    return <ChartSeries<HomeCardItemModel, String>>[
-      StackedColumnSeries<HomeCardItemModel, String>(
-        dataSource: List.generate(
-            30,
-            (index) => HomeCardItemModel(
-                  x: "$index",
-                  y: 40,
-                )),
-        isTrackVisible: false,
-        spacing: 0,
-        borderRadius: BorderRadius.only(
-          bottomRight: Radius.circular(3),
-          bottomLeft: Radius.circular(3),
-        ),
-        xValueMapper: (HomeCardItemModel sales, _) => sales.x,
-        yValueMapper: (HomeCardItemModel sales, _) => sales.y,
-        pointColorMapper: (datum, index) => Colors.red,
-        dataLabelSettings: const DataLabelSettings(
-          isVisible: false,
-        ),
-        onPointTap: (pointInteractionDetails) {
-          vmPrint(pointInteractionDetails.seriesIndex);
-        },
-      ),
-      StackedColumnSeries<HomeCardItemModel, String>(
-        dataSource: List.generate(
-            30,
-            (index) => HomeCardItemModel(
-                  x: "$index",
-                  y: 15,
-                )),
-        isTrackVisible: false,
-        spacing: 0,
-        borderRadius: BorderRadius.zero,
-        xValueMapper: (HomeCardItemModel sales, _) => sales.x,
-        yValueMapper: (HomeCardItemModel sales, _) => sales.y,
-        pointColorMapper: (datum, index) => Colors.blue,
-        dataLabelSettings: const DataLabelSettings(
-          isVisible: false,
-        ),
-        onPointTap: (pointInteractionDetails) {
-          vmPrint(pointInteractionDetails.seriesIndex);
-        },
-      ),
-      StackedColumnSeries<HomeCardItemModel, String>(
-        dataSource: List.generate(
-            30,
-            (index) => HomeCardItemModel(
-                  x: "$index",
-                  y: 100,
-                )),
-        isTrackVisible: false,
-        spacing: 0,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(3),
-          topRight: Radius.circular(3),
-        ),
-        xValueMapper: (HomeCardItemModel sales, _) => sales.x,
-        yValueMapper: (HomeCardItemModel sales, _) => sales.y,
-        pointColorMapper: (datum, index) => Colors.yellow,
-        dataLabelSettings: const DataLabelSettings(
-          isVisible: false,
-        ),
-        onPointTap: (pointInteractionDetails) {
-          vmPrint(pointInteractionDetails.seriesIndex);
-        },
-      ),
-    ];
   }
 }

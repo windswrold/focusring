@@ -7,10 +7,9 @@ import 'package:focusring/const/constant.dart';
 import 'package:focusring/public.dart';
 import 'package:focusring/views/charts/home_card/model/home_card_type.dart';
 import 'package:focusring/views/charts/home_card/views/home_card_item.dart';
-import 'package:focusring/views/charts/radio_gauge_chart/views/radio_gauge_chart_view.dart';
-
+import 'package:focusring/views/charts/radio_gauge_chart/model/radio_gauge_chart_model.dart';
 import 'package:get/get.dart';
-
+import 'package:syncfusion_flutter_charts/charts.dart';
 import '../controllers/home_state_controller.dart';
 
 class HomeStateView extends GetView<HomeStateController> {
@@ -25,9 +24,10 @@ class HomeStateView extends GetView<HomeStateController> {
         child: Column(
           children: [
             _buildHeader(),
-            Column(
-              children:
-                  KHealthDataType.values.map((e) => _buildCard(e)).toList(),
+            Obx(
+              () => Column(
+                  children:
+                      controller.dataTypes.map((e) => _buildCard(e)).toList()),
             ),
             NextButton(
               onPressed: () {
@@ -42,47 +42,47 @@ class HomeStateView extends GetView<HomeStateController> {
     );
   }
 
-  Widget _buildHeader() {
-    Widget _buildHeaderItem(
-        {required String title,
-        required String icon,
-        required String value,
-        required String valueColor,
-        required String maxValue}) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Text(title, style: Get.textTheme.displayMedium),
-          Container(
-            margin: EdgeInsets.only(bottom: 11.42.w, top: 11.42.w),
-            child: Row(
-              children: [
-                LoadAssetsImage(
-                  icon,
-                  width: 20,
-                  height: 21,
-                ),
-                Container(
-                  margin: EdgeInsets.only(left: 5),
-                  child: Text(
-                    value,
-                    style: Get.textTheme.displayMedium?.copyWith(
-                      color: ColorUtils.fromHex(valueColor),
-                    ),
+  Widget _buildHeaderItem(
+      {required String title,
+      required String icon,
+      required String value,
+      required String valueColor,
+      required String maxValue}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Text(title, style: Get.textTheme.displayMedium),
+        Container(
+          margin: EdgeInsets.only(bottom: 11.42.w, top: 11.42.w),
+          child: Row(
+            children: [
+              LoadAssetsImage(
+                icon,
+                width: 20,
+                height: 21,
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 5),
+                child: Text(
+                  value,
+                  style: Get.textTheme.displayMedium?.copyWith(
+                    color: ColorUtils.fromHex(valueColor),
                   ),
                 ),
-                Container(
-                  margin: EdgeInsets.only(left: 5),
-                  child: Text("/$maxValue", style: Get.textTheme.displaySmall),
-                ),
-              ],
-            ),
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 5),
+                child: Text("/$maxValue", style: Get.textTheme.displaySmall),
+              ),
+            ],
           ),
-        ],
-      );
-    }
+        ),
+      ],
+    );
+  }
 
+  Widget _buildHeader() {
     return Container(
         margin: EdgeInsets.only(left: 16.w, right: 0.w),
         // color: Colors.red,
@@ -116,28 +116,44 @@ class HomeStateView extends GetView<HomeStateController> {
                 ],
               ),
             ),
-            Expanded(
-              child: GetBuilder(
-                init: controller,
-                builder: ((_) => RadioGaugeChartView(
-                      datas: controller.datas,
-                    )),
+            Obx(
+              () => Expanded(
+                child: SfCircularChart(
+                  key: GlobalKey(),
+                  series: [
+                    RadialBarSeries<RadioGaugeChartData, String>(
+                        cornerStyle: CornerStyle.bothCurve,
+                        gap: '10%',
+                        radius: '90%',
+                        dataSource: controller.gaugeDatas..reversed.toList(),
+                        xValueMapper: (RadioGaugeChartData data, _) =>
+                            data.name ?? "",
+                        yValueMapper: (RadioGaugeChartData data, _) =>
+                            data.percent,
+                        trackOpacity: 0.38,
+                        trackColor: Colors.white38,
+                        pointColorMapper: (RadioGaugeChartData data, _) =>
+                            data.color,
+                        pointRadiusMapper: (RadioGaugeChartData data, _) =>
+                            "100%",
+                        dataLabelSettings:
+                            const DataLabelSettings(isVisible: false))
+                  ],
+                ),
               ),
             ),
           ],
         ));
   }
 
-  Widget _buildCard(KHealthDataType a) {
+  Widget _buildCard(KHomeCardModel a) {
     return Container(
       margin: EdgeInsets.only(bottom: 12.w),
       child: InkWell(
         onTap: () {
           controller.onTapCardType(a);
         },
-        child: HomeCardItem(
-          model: KHealthDataClass(type: a),
-        ),
+        child: HomeCardView(model: a),
       ),
     );
   }

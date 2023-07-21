@@ -76,34 +76,34 @@ class HeartrateReportSubviewChart extends StatelessWidget {
             width: 170.w,
             child: SfCircularChart(
               series: [
-                DoughnutSeries<HomeCardItemModel, String>(
+                DoughnutSeries<KChartCellData, String>(
                   radius: '100%',
                   selectionBehavior: SelectionBehavior(enable: false),
-                  dataSource: <HomeCardItemModel>[
-                    HomeCardItemModel(
+                  dataSource: <KChartCellData>[
+                    KChartCellData(
                       x: 'Chlorine',
                       y: 55,
                     ),
-                    HomeCardItemModel(
+                    KChartCellData(
                       x: 'Sodium',
                       y: 31,
                     ),
-                    HomeCardItemModel(x: 'Magnesium', y: 7.7),
-                    HomeCardItemModel(
+                    KChartCellData(x: 'Magnesium', y: 7.7),
+                    KChartCellData(
                       x: 'Sulfur',
                       y: 3.7,
                     ),
-                    HomeCardItemModel(
+                    KChartCellData(
                       x: 'Calcium',
                       y: 1.2,
                     ),
-                    HomeCardItemModel(
+                    KChartCellData(
                       x: 'Others',
                       y: 1.4,
                     ),
                   ],
-                  xValueMapper: (HomeCardItemModel data, _) => data.x as String,
-                  yValueMapper: (HomeCardItemModel data, _) => data.y,
+                  xValueMapper: (KChartCellData data, _) => data.x as String,
+                  yValueMapper: (KChartCellData data, _) => data.y,
                   dataLabelSettings: const DataLabelSettings(isVisible: false),
                 ),
               ],

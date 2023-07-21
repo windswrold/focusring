@@ -56,10 +56,10 @@ class EmotionReportChart extends StatelessWidget {
               ),
         ),
         series: [
-          StackedColumnSeries<HomeCardItemModel, String>(
+          StackedColumnSeries<KChartCellData, String>(
             dataSource: List.generate(
                 30,
-                (index) => HomeCardItemModel(
+                (index) => KChartCellData(
                       x: "$index",
                       y: 40,
                     )),
@@ -69,8 +69,8 @@ class EmotionReportChart extends StatelessWidget {
               bottomRight: Radius.circular(3),
               bottomLeft: Radius.circular(3),
             ),
-            xValueMapper: (HomeCardItemModel sales, _) => sales.x,
-            yValueMapper: (HomeCardItemModel sales, _) => sales.y,
+            xValueMapper: (KChartCellData sales, _) => sales.x,
+            yValueMapper: (KChartCellData sales, _) => sales.y,
             pointColorMapper: (datum, index) => Colors.red,
             dataLabelSettings: const DataLabelSettings(
               isVisible: false,
@@ -79,18 +79,18 @@ class EmotionReportChart extends StatelessWidget {
               vmPrint(pointInteractionDetails.seriesIndex);
             },
           ),
-          StackedColumnSeries<HomeCardItemModel, String>(
+          StackedColumnSeries<KChartCellData, String>(
             dataSource: List.generate(
                 30,
-                (index) => HomeCardItemModel(
+                (index) => KChartCellData(
                       x: "$index",
                       y: 15,
                     )),
             isTrackVisible: false,
             spacing: 0,
             borderRadius: BorderRadius.zero,
-            xValueMapper: (HomeCardItemModel sales, _) => sales.x,
-            yValueMapper: (HomeCardItemModel sales, _) => sales.y,
+            xValueMapper: (KChartCellData sales, _) => sales.x,
+            yValueMapper: (KChartCellData sales, _) => sales.y,
             pointColorMapper: (datum, index) => Colors.blue,
             dataLabelSettings: const DataLabelSettings(
               isVisible: false,
@@ -99,10 +99,10 @@ class EmotionReportChart extends StatelessWidget {
               vmPrint(pointInteractionDetails.seriesIndex);
             },
           ),
-          StackedColumnSeries<HomeCardItemModel, String>(
+          StackedColumnSeries<KChartCellData, String>(
             dataSource: List.generate(
                 30,
-                (index) => HomeCardItemModel(
+                (index) => KChartCellData(
                       x: "$index",
                       y: 100,
                     )),
@@ -112,8 +112,8 @@ class EmotionReportChart extends StatelessWidget {
               topLeft: Radius.circular(3),
               topRight: Radius.circular(3),
             ),
-            xValueMapper: (HomeCardItemModel sales, _) => sales.x,
-            yValueMapper: (HomeCardItemModel sales, _) => sales.y,
+            xValueMapper: (KChartCellData sales, _) => sales.x,
+            yValueMapper: (KChartCellData sales, _) => sales.y,
             pointColorMapper: (datum, index) => Colors.yellow,
             dataLabelSettings: const DataLabelSettings(
               isVisible: false,

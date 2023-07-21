@@ -65,10 +65,10 @@ class FemmaleHealthReportChart extends StatelessWidget {
                 }
 
                 var state = KFemmaleStatus.values[Random.secure().nextInt(3)];
-
+              
                 return Container(
-                  width: 40,
-                  height: 40,
+                  width: 30,
+                  height: 30,
                   margin: const EdgeInsets.only(bottom: 6),
                   alignment: Alignment.center,
                   decoration: BoxDecoration(

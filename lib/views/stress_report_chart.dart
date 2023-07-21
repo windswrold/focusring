@@ -64,15 +64,15 @@ class StressReportChart extends StatelessWidget {
           tooltipSettings: InteractiveTooltip(),
         ),
         series: [
-          ColumnSeries<HomeCardItemModel, String>(
+          ColumnSeries<KChartCellData, String>(
             dataSource: List.generate(
                 30,
-                (index) => HomeCardItemModel(
+                (index) => KChartCellData(
                     x: "15:$index", y: Random.secure().nextDouble() * 500)),
             isTrackVisible: false,
             borderRadius: BorderRadius.circular(3),
-            xValueMapper: (HomeCardItemModel sales, _) => sales.x,
-            yValueMapper: (HomeCardItemModel sales, _) => sales.y,
+            xValueMapper: (KChartCellData sales, _) => sales.x,
+            yValueMapper: (KChartCellData sales, _) => sales.y,
             pointColorMapper: (datum, index) => datum.color,
             dataLabelSettings: const DataLabelSettings(
               isVisible: false,

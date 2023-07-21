@@ -63,10 +63,10 @@ class HeartChartReportChart extends StatelessWidget {
               tooltipSettings: InteractiveTooltip(),
             ),
             series: [
-              SplineAreaSeries<HomeCardItemModel, String>(
+              SplineAreaSeries<KChartCellData, String>(
                 dataSource: List.generate(
                     30,
-                    (index) => HomeCardItemModel(
+                    (index) => KChartCellData(
                         x: index.toString(), y: Random.secure().nextInt(1000))),
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
@@ -78,8 +78,8 @@ class HeartChartReportChart extends StatelessWidget {
                   ],
                 ),
                 borderWidth: 2,
-                xValueMapper: (HomeCardItemModel sales, _) => sales.x,
-                yValueMapper: (HomeCardItemModel sales, _) => sales.y,
+                xValueMapper: (KChartCellData sales, _) => sales.x,
+                yValueMapper: (KChartCellData sales, _) => sales.y,
               ),
             ],
           ),
@@ -91,7 +91,7 @@ class HeartChartReportChart extends StatelessWidget {
   Widget _buildWeek() {
     var data = List.generate(
         30,
-        (index) => HomeCardItemModel(
+        (index) => KChartCellData(
             x: index.toString(), y: Random.secure().nextInt(1000)));
 
     return Column(
@@ -143,13 +143,13 @@ class HeartChartReportChart extends StatelessWidget {
               tooltipSettings: InteractiveTooltip(),
             ),
             series: [
-              CustomRangeColumnSeries<HomeCardItemModel, String>(
+              CustomRangeColumnSeries<KChartCellData, String>(
                 dataSource: data,
                 // borderWidth: 2,
-                xValueMapper: (HomeCardItemModel sales, _) => sales.x,
-                lowValueMapper: (HomeCardItemModel sales, _) => sales.y - 200,
-                highValueMapper: (HomeCardItemModel sales, _) => sales.y,
-                averageValueMapper: (HomeCardItemModel sales, _) => sales.y,
+                xValueMapper: (KChartCellData sales, _) => sales.x,
+                lowValueMapper: (KChartCellData sales, _) => sales.y - 200,
+                highValueMapper: (KChartCellData sales, _) => sales.y,
+                averageValueMapper: (KChartCellData sales, _) => sales.y,
                 // pointColorMapper: (datum, index) => Colors.red,
                 // dataLabelSettings: DataLabelSettings(
                 //   labelAlignment: ChartDataLabelAlignment.top,

@@ -73,16 +73,16 @@ class StepsLiChengReportChart extends StatelessWidget {
                   vmPrint("onTrackballPositionChanging" +
                       trackballArgs.chartPointInfo.dataPointIndex.toString());
                 },
-                series: <ColumnSeries<HomeCardItemModel, String>>[
-                  ColumnSeries<HomeCardItemModel, String>(
+                series: <ColumnSeries<KChartCellData, String>>[
+                  ColumnSeries<KChartCellData, String>(
                     dataSource: List.generate(
                         30,
-                        (index) => HomeCardItemModel(
+                        (index) => KChartCellData(
                             x: "15:$index", y: index.toDouble())),
                     isTrackVisible: false,
                     borderRadius: BorderRadius.circular(3),
-                    xValueMapper: (HomeCardItemModel sales, _) => sales.x,
-                    yValueMapper: (HomeCardItemModel sales, _) => sales.y,
+                    xValueMapper: (KChartCellData sales, _) => sales.x,
+                    yValueMapper: (KChartCellData sales, _) => sales.y,
                     pointColorMapper: (datum, index) => datum.color,
                     dataLabelSettings: const DataLabelSettings(
                       isVisible: false,
