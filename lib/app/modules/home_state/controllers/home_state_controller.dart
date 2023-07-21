@@ -38,7 +38,15 @@ class HomeStateController extends GetxController {
           30,
           (index) => KChartCellData(
               x: index.toString(), y: Random.secure().nextInt(1000)));
-      KHomeCardModel card = KHomeCardModel(type: element, datas: data);
+      KHomeCardModel card = KHomeCardModel(
+        type: element,
+        datas: data,
+        date: "2022",
+        result: "result",
+        resultDesc: "resultDesc",
+        startDesc: "startDesc",
+        endDesc: "startDesc",
+      );
       dataArr.add(card);
     });
 

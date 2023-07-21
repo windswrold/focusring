@@ -197,6 +197,9 @@ extension KHealthDataEX on KHealthDataType {
     } else if (isCardIcon == true) {
       name = "icons/$name";
     }
+    if (isEmptyIcon == true) {
+      name += "_none";
+    }
 
     return name;
   }

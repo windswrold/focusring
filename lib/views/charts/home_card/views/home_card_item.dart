@@ -17,13 +17,15 @@ class HomeCardView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isEmpty = model.datas.isEmpty;
+
     return Container(
       width: 351.w,
-      height: 200.w,
+      height: isEmpty ? 72.w : 200.w,
       decoration: BoxDecoration(
         image: DecorationImage(
           image: AssetImage(
-            "$assetsImages${model.type!.getIcon(isBgIcon: true)}@3x.png",
+            "$assetsImages${model.type!.getIcon(isBgIcon: true, isEmptyIcon: isEmpty)}@3x.png",
           ),
           fit: BoxFit.contain,
         ),
@@ -63,16 +65,19 @@ class HomeCardView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    RichText(
-                      text: TextSpan(
-                        text: (model.result ?? ""),
-                        style: Get.textTheme.bodyLarge,
-                        children: [
-                          TextSpan(
-                            text: model.type!.getSymbol(),
-                            style: Get.textTheme.labelSmall,
-                          ),
-                        ],
+                    Visibility(
+                      visible: !isEmpty,
+                      child: RichText(
+                        text: TextSpan(
+                          text: (model.result ?? ""),
+                          style: Get.textTheme.bodyLarge,
+                          children: [
+                            TextSpan(
+                              text: model.type!.getSymbol(),
+                              style: Get.textTheme.labelSmall,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     Visibility(
@@ -86,13 +91,20 @@ class HomeCardView extends StatelessWidget {
               ],
             ),
           ),
-          Container(
-            height: 85.w,
-            margin: EdgeInsets.only(top: 18.w),
-            child: _buildChartItem(),
-          ),
+          _buildChart(),
           _buildFooter(),
         ],
+      ),
+    );
+  }
+
+  Widget _buildChart() {
+    return Visibility(
+      visible: model.datas.isNotEmpty,
+      child: Container(
+        height: 85.w,
+        margin: EdgeInsets.only(top: 18.w),
+        child: _buildChartItem(),
       ),
     );
   }
