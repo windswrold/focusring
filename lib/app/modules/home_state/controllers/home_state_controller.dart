@@ -35,12 +35,19 @@ class HomeStateController extends GetxController {
     List<KHomeCardModel> dataArr = [];
     KHealthDataType.values.forEach((element) {
       var data = List.generate(
-          30,
-          (index) => KChartCellData(
-              x: index.toString(), y: Random.secure().nextInt(1000)));
+          30, (index) => KChartCellData(x: index.toString(), y: 1000));
       KHomeCardModel card = KHomeCardModel(
         type: element,
-        datas: data,
+        datas: element == KHealthDataType.EMOTION
+            ? [
+                List.generate(
+                    30, (index) => KChartCellData(x: index.toString(), y: 300)),
+                List.generate(
+                    30, (index) => KChartCellData(x: index.toString(), y: 100)),
+                List.generate(
+                    30, (index) => KChartCellData(x: index.toString(), y: 1000))
+              ]
+            : [data],
         date: "2022",
         result: "result",
         resultDesc: "resultDesc",

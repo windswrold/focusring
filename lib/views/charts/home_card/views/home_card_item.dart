@@ -170,6 +170,7 @@ class HomeCardView extends StatelessWidget {
         ),
         primaryYAxis: NumericAxis(
           isVisible: false,
+          maximum: model.maximum,
         ),
         series: ChartUtils.getHomeItemServices(
             type: model.type!, datas: model.datas),

@@ -71,7 +71,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   device_info_plus: 7545d84d8d1b896cb16a4ff98c19f07ec4b298ea
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
-  flutter_blue_plus: 5cb46a0d66c6cacebf7551e0e5a6bfa345ccc224
+  flutter_blue_plus: 780b474722a5841835f42b9f55ad2c92b7c3998d
   flutter_secure_storage: 23fc622d89d073675f2eaa109381aefbcf5a49be
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   native_flutter_proxy: 9d5ce4f6db3e1bf1e0c796020393f6500abd3126

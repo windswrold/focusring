@@ -10,8 +10,8 @@ import 'api_stream/header.dart';
 
 class AppApi {
   static VMApi get _api => VMApi(
-      network:
-          const VMNetwork(prefix: 'https://nft-dev.vmeta3.com', printLevel: 1),
+      network: const VMNetwork(
+          prefix: 'http://119.23.24.144/hlcrazy-ring', printLevel: 1),
       customAnalysis: (
         VMRequest request,
         Options options,

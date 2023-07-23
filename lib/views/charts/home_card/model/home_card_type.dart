@@ -14,9 +14,12 @@ class KHomeCardModel {
   final int? index;
   final bool? state;
 
-  final List<KChartCellData> datas;
+  final List<List<KChartCellData>> datas;
+
+  final double? maximum;
 
   KHomeCardModel({
+    this.maximum,
     this.date,
     this.result,
     this.resultDesc,
