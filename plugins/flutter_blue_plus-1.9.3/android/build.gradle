@@ -42,7 +42,8 @@ android {
 dependencies {
 //    compileOptions files('libs/SdkApiJar-V1.0.0.221128.0.aar')
 //    provided files('libs/SdkApiJar-V1.0.0.221128.0.aar.aar')
-    compileOnly fileTree(include: ['*.jar','*.aar'],dir:"libs")
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    compileOnly fileTree(include: ['*.aar'],dir:"libs")
 //    compileOnly files("$flutterRoot/bin/cache/artifacts/engine/android-arm/flutter.jar")
     compileOnly("androidx.annotation:annotation:1.0.0")
 }

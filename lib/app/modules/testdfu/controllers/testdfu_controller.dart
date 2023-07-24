@@ -32,6 +32,9 @@ class TestdfuController extends GetxController {
     if (result == null) {
       return;
     }
+
+    vmPrint("openFile " + result.toString());
+
     // File cahe = await getAppFile();
     // var fileNmae = result.names.toList();
     // cahe = File('${cahe.absolute.path}/$fileNmae');

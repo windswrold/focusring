@@ -210,22 +210,32 @@ public class FlutterBluePlusPlugin implements
     @Override
     public void onDfuStart() {
         android.util.Log.d(TAG, "onDfuStart() called");
+        HashMap<String, Object> map = new HashMap<>();
+        invokeMethodUIThread("onDfuStart",map);
     }
 
     @Override
     public void onDfuProgress(int i) {
         android.util.Log.d(TAG, "onDfuProgress() called with: i = [" + i + "]");
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("progress", i);
+        invokeMethodUIThread("onDfuProgress",map);
     }
 
     @Override
     public void onDfuComplete() {
         android.util.Log.d(TAG, "onDfuComplete() called");
-
+        HashMap<String, Object> map = new HashMap<>();
+        invokeMethodUIThread("onDfuComplete",map);
     }
 
     @Override
     public void onDfuError(String s, Error error) {
         android.util.Log.d(TAG, "onDfuError() called with: s = [" + s + "], error = [" + error + "]");
+        String a = "[" + s + "], error = [" + error + "]";
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("error", a);
+        invokeMethodUIThread("onDfuComplete",map);
     }
 
 
@@ -292,11 +302,10 @@ public class FlutterBluePlusPlugin implements
                     InputStream a = getInputStreamFromFilePath(filePath);
                     EasyDfu2 dfu2 = new EasyDfu2();
                     dfu2.setListener(this);
-                    Log.d(TAG, "startDfu: startDfustartDfustartDfu");
+
                    try {
                        dfu2.startDfu(context, targetDevice, a);
                    } catch (Exception e){
-                       Log.d(TAG, "catch: startDfustartDfustartDfu");
                    }
 
                     result.success(null);
