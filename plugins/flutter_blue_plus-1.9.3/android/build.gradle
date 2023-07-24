@@ -20,6 +20,8 @@ rootProject.allprojects {
 }
 
 apply plugin: 'com.android.library'
+apply from: './aar_tools.gradle'
+
 
 android {
     compileSdkVersion 33
@@ -30,8 +32,17 @@ android {
     }
 
     defaultConfig {
-        minSdkVersion 19
+        minSdkVersion 25
     }
 
     namespace 'com.boskokg.flutter_blue_plus'
+}
+
+
+dependencies {
+//    compileOptions files('libs/SdkApiJar-V1.0.0.221128.0.aar')
+//    provided files('libs/SdkApiJar-V1.0.0.221128.0.aar.aar')
+    compileOnly fileTree(include: ['*.jar','*.aar'],dir:"libs")
+//    compileOnly files("$flutterRoot/bin/cache/artifacts/engine/android-arm/flutter.jar")
+    compileOnly("androidx.annotation:annotation:1.0.0")
 }

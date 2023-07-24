@@ -9,7 +9,8 @@ class BluetoothDevice {
   final String localName;
   final BluetoothDeviceType type;
 
-  final _BehaviorSubject<List<BluetoothService>> _services = _BehaviorSubject([]);
+  final _BehaviorSubject<List<BluetoothService>> _services =
+      _BehaviorSubject([]);
 
   final _BehaviorSubject<bool> _isDiscoveringServices = _BehaviorSubject(false);
 
@@ -23,7 +24,8 @@ class BluetoothDevice {
   /// Use on Android when the MAC address is known.
   /// This constructor enables the Android to connect to a specific device
   /// as soon as it becomes available on the bluetooth "network".
-  BluetoothDevice.fromId(String remoteId, {String? localName, BluetoothDeviceType? type})
+  BluetoothDevice.fromId(String remoteId,
+      {String? localName, BluetoothDeviceType? type})
       : remoteId = DeviceIdentifier(remoteId),
         localName = localName ?? "Unknown localName",
         type = type ?? BluetoothDeviceType.unknown;
@@ -39,12 +41,14 @@ class BluetoothDevice {
       autoConnect: autoConnect,
     );
 
-    var responseStream = connectionState.where((s) => s == BluetoothConnectionState.connected);
+    var responseStream =
+        connectionState.where((s) => s == BluetoothConnectionState.connected);
 
     // Start listening now, before invokeMethod, to ensure we don't miss the response
     Future<BluetoothConnectionState> futureState = responseStream.first;
 
-    await FlutterBluePlus.instance._channel.invokeMethod('connect', request.toMap());
+    await FlutterBluePlus.instance._channel
+        .invokeMethod('connect', request.toMap());
 
     // wait for connection
     await futureState.timeout(timeout);
@@ -57,7 +61,8 @@ class BluetoothDevice {
   /// Send a pairing request to the device.
   /// Currently only implemented on Android.
   Future<void> pair() async {
-    return await FlutterBluePlus.instance._channel.invokeMethod('pair', remoteId.str);
+    return await FlutterBluePlus.instance._channel
+        .invokeMethod('pair', remoteId.str);
   }
 
   /// Refresh Gatt Device Cache
@@ -65,13 +70,37 @@ class BluetoothDevice {
   /// Currently only implemented on Android.
   Future<void> clearGattCache() async {
     if (Platform.isAndroid) {
-      return await FlutterBluePlus.instance._channel.invokeMethod('clearGattCache', remoteId.str);
+      return await FlutterBluePlus.instance._channel
+          .invokeMethod('clearGattCache', remoteId.str);
     }
   }
 
   /// Cancels connection to the Bluetooth Device
   Future<void> disconnect() async {
-    await FlutterBluePlus.instance._channel.invokeMethod('disconnect', remoteId.str);
+    await FlutterBluePlus.instance._channel
+        .invokeMethod('disconnect', remoteId.str);
+  }
+
+  Future<void> startDfu({required String filePath}) async {
+    final Map params = {
+      "remote_id": remoteId.str,
+      "filePath": filePath,
+      "isCopy": false
+    };
+    return await FlutterBluePlus.instance._channel
+        .invokeMethod('startDfu', params);
+  }
+
+  Future<void> startCopyDfu(
+      {required String filePath, required int copyAdd}) async {
+    final Map params = {
+      "remote_id": remoteId.str,
+      "filePath": filePath,
+      "isCopy": true,
+      "copyAdd":copyAdd
+    };
+    return await FlutterBluePlus.instance._channel
+        .invokeMethod('startDfu', params);
   }
 
   /// Discovers services offered by the remote device
@@ -95,17 +124,21 @@ class BluetoothDevice {
     // Start listening now, before invokeMethod, to ensure we don't miss the response
     Future<BmDiscoverServicesResult> futureResponse = responseStream.first;
 
-    await FlutterBluePlus.instance._channel.invokeMethod('discoverServices', remoteId.str);
+    await FlutterBluePlus.instance._channel
+        .invokeMethod('discoverServices', remoteId.str);
 
     // wait for response
-    BmDiscoverServicesResult response = await futureResponse.timeout(Duration(seconds: timeout));
+    BmDiscoverServicesResult response =
+        await futureResponse.timeout(Duration(seconds: timeout));
 
     // failed?
     if (!response.success) {
-      throw FlutterBluePlusException("discoverServicesFail", response.errorCode, response.errorString);
+      throw FlutterBluePlusException(
+          "discoverServicesFail", response.errorCode, response.errorString);
     }
 
-    List<BluetoothService> servicesList = response.services.map((p) => BluetoothService.fromProto(p)).toList();
+    List<BluetoothService> servicesList =
+        response.services.map((p) => BluetoothService.fromProto(p)).toList();
 
     _isDiscoveringServices.add(false);
     _services.add(servicesList);
@@ -116,7 +149,8 @@ class BluetoothDevice {
   /// Returns a list of Bluetooth GATT services offered by the remote device
   /// This function requires that discoverServices has been completed for this device
   Stream<List<BluetoothService>> get services async* {
-    List<BluetoothService> initialServices = await FlutterBluePlus.instance._channel
+    List<BluetoothService> initialServices = await FlutterBluePlus
+        .instance._channel
         .invokeMethod('services', remoteId.str)
         .then((buffer) => BmDiscoverServicesResult.fromMap(buffer).services)
         .then((i) => i.map((s) => BluetoothService.fromProto(s)).toList());
@@ -129,7 +163,8 @@ class BluetoothDevice {
 
   /// The current connection state of the device
   Stream<BluetoothConnectionState> get connectionState async* {
-    BluetoothConnectionState initialState = await FlutterBluePlus.instance._channel
+    BluetoothConnectionState initialState = await FlutterBluePlus
+        .instance._channel
         .invokeMethod('getConnectionState', remoteId.str)
         .then((buffer) => BmConnectionStateResponse.fromMap(buffer))
         .then((p) => bmToBluetoothConnectionState(p.connectionState));
@@ -152,7 +187,8 @@ class BluetoothDevice {
 
     // failed?
     if (!response.success) {
-      throw FlutterBluePlusException("mtuFail", response.errorCode, response.errorString);
+      throw FlutterBluePlusException(
+          "mtuFail", response.errorCode, response.errorString);
     }
 
     // initial value
@@ -186,7 +222,8 @@ class BluetoothDevice {
     // Start listening now, before invokeMethod, to ensure we don't miss the response
     Future<int> futureResponse = responseStream.first;
 
-    await FlutterBluePlus.instance._channel.invokeMethod('requestMtu', request.toMap());
+    await FlutterBluePlus.instance._channel
+        .invokeMethod('requestMtu', request.toMap());
 
     var mtu = await futureResponse.timeout(Duration(seconds: timeout));
 
@@ -204,14 +241,17 @@ class BluetoothDevice {
     // Start listening now, before invokeMethod, to ensure we don't miss the response
     Future<BmReadRssiResult> futureResponse = responseStream.first;
 
-    await FlutterBluePlus.instance._channel.invokeMethod('readRssi', remoteId.str);
+    await FlutterBluePlus.instance._channel
+        .invokeMethod('readRssi', remoteId.str);
 
     // wait for response
-    BmReadRssiResult response = await futureResponse.timeout(Duration(seconds: timeout));
+    BmReadRssiResult response =
+        await futureResponse.timeout(Duration(seconds: timeout));
 
     // failed?
     if (!response.success) {
-      throw FlutterBluePlusException("readRssiFail", response.errorCode, response.errorString);
+      throw FlutterBluePlusException(
+          "readRssiFail", response.errorCode, response.errorString);
     }
 
     return response.rssi;
@@ -225,7 +265,8 @@ class BluetoothDevice {
   /// Request a specific connection priority. Must be one of
   /// ConnectionPriority.balanced, BluetoothGatt#ConnectionPriority.high or
   /// ConnectionPriority.lowPower
-  Future<void> requestConnectionPriority({required ConnectionPriority connectionPriorityRequest}) async {
+  Future<void> requestConnectionPriority(
+      {required ConnectionPriority connectionPriorityRequest}) async {
     int connectionPriority = 0;
 
     switch (connectionPriorityRequest) {
@@ -292,7 +333,9 @@ class BluetoothDevice {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is BluetoothDevice && runtimeType == other.runtimeType && remoteId == other.remoteId);
+      (other is BluetoothDevice &&
+          runtimeType == other.runtimeType &&
+          remoteId == other.remoteId);
 
   @override
   int get hashCode => remoteId.hashCode;
@@ -333,9 +376,15 @@ BluetoothDeviceType bmToBluetoothDeviceType(BmBluetoothSpecEnum value) {
   }
 }
 
-enum BluetoothConnectionState { disconnected, connecting, connected, disconnecting }
+enum BluetoothConnectionState {
+  disconnected,
+  connecting,
+  connected,
+  disconnecting
+}
 
-BluetoothConnectionState bmToBluetoothConnectionState(BmConnectionStateEnum value) {
+BluetoothConnectionState bmToBluetoothConnectionState(
+    BmConnectionStateEnum value) {
   switch (value) {
     case BmConnectionStateEnum.disconnected:
       return BluetoothConnectionState.disconnected;

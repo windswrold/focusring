@@ -34,6 +34,8 @@ import '../modules/setting_feedback/bindings/setting_feedback_binding.dart';
 import '../modules/setting_feedback/views/setting_feedback_view.dart';
 import '../modules/setting_user_info/bindings/setting_user_info_binding.dart';
 import '../modules/setting_user_info/views/setting_user_info_view.dart';
+import '../modules/testdfu/bindings/testdfu_binding.dart';
+import '../modules/testdfu/views/testdfu_view.dart';
 import '../modules/unit_system/bindings/unit_system_binding.dart';
 import '../modules/unit_system/views/unit_system_view.dart';
 import '../modules/user_manualtest/bindings/user_manualtest_binding.dart';
@@ -140,6 +142,11 @@ class AppPages {
       name: _Paths.REPORT_INFO_STEPS,
       page: () => const ReportInfoStepsView(),
       binding: ReportInfoStepsBinding(),
+    ),
+    GetPage(
+      name: _Paths.TESTDFU,
+      page: () => const TestdfuView(),
+      binding: TestdfuBinding(),
     ),
   ];
 }

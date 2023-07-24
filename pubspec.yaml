@@ -52,7 +52,7 @@ dependencies:
   logger: ^1.4.0
   localstorage: ^4.0.1+2
   uuid: ^3.0.7
-  easy_refresh: ^3.3.2+1
+  pull_to_refresh_flutter3: ^2.0.1
   native_flutter_proxy: ^0.1.15
   flutter_screenutil: "5.7.0"
   extended_image: ^8.0.2
@@ -72,6 +72,7 @@ dependencies:
   syncfusion_flutter_datepicker:
     path : plugins/syncfusion_flutter_datepicker-22.1.39
   syncfusion_flutter_core : "22.1.39"
+  file_picker: ^5.3.3
 
 dev_dependencies:
   flutter_test:

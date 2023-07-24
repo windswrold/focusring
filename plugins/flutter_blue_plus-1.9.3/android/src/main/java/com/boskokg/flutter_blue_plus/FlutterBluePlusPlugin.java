@@ -64,11 +64,19 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.PluginRegistry.RequestPermissionsResultListener;
 
+import com.goodix.ble.gr.toolbox.app.libfastdfu.DfuProgressCallback;
+import com.goodix.ble.gr.toolbox.app.libfastdfu.EasyDfu2;
+import com.goodix.ble.libcomx.task.Task;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+
 public class FlutterBluePlusPlugin implements
     FlutterPlugin,
     MethodCallHandler,
     RequestPermissionsResultListener,
-    ActivityAware
+    ActivityAware,DfuProgressCallback
 {
     private static final String TAG = "FlutterBluePlugin";
     private final Object initializationLock = new Object();
@@ -199,6 +207,40 @@ public class FlutterBluePlusPlugin implements
         }
     }
 
+    @Override
+    public void onDfuStart() {
+        android.util.Log.d(TAG, "onDfuStart() called");
+    }
+
+    @Override
+    public void onDfuProgress(int i) {
+        android.util.Log.d(TAG, "onDfuProgress() called with: i = [" + i + "]");
+    }
+
+    @Override
+    public void onDfuComplete() {
+        android.util.Log.d(TAG, "onDfuComplete() called");
+
+    }
+
+    @Override
+    public void onDfuError(String s, Error error) {
+        android.util.Log.d(TAG, "onDfuError() called with: s = [" + s + "], error = [" + error + "]");
+    }
+
+
+
+    public InputStream getInputStreamFromFilePath(String filePath) {
+        InputStream inputStream = null;
+        try {
+            inputStream = new FileInputStream(filePath);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return inputStream;
+    }
+
+
     ////////////////////////////////////////////////////////////
     // ███    ███  ███████  ████████  ██   ██   ██████   ██████
     // ████  ████  ██          ██     ██   ██  ██    ██  ██   ██
@@ -231,6 +273,31 @@ public class FlutterBluePlusPlugin implements
 
                     // set global var
                     logLevel = LogLevel.values()[idx];
+
+                    result.success(null);
+                    break;
+                }
+
+                case "startDfu" : {
+
+                    HashMap<String, Object> data = call.arguments();
+                    String remoteId = (String) data.get("remote_id");
+                    String filePath = (String) data.get("filePath");
+                    BluetoothDevice targetDevice = mBluetoothAdapter.getRemoteDevice(remoteId);
+                    int cs = mBluetoothManager.getConnectionState(targetDevice, BluetoothProfile.GATT);
+                    if(cs != BluetoothProfile.STATE_CONNECTED) {
+                        result.error("pair", "The device is not connected", null);
+                        break;
+                    }
+                    InputStream a = getInputStreamFromFilePath(filePath);
+                    EasyDfu2 dfu2 = new EasyDfu2();
+                    dfu2.setListener(this);
+                    Log.d(TAG, "startDfu: startDfustartDfustartDfu");
+                   try {
+                       dfu2.startDfu(context, targetDevice, a);
+                   } catch (Exception e){
+                       Log.d(TAG, "catch: startDfustartDfustartDfu");
+                   }
 
                     result.success(null);
                     break;

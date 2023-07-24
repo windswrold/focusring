@@ -264,14 +264,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.3.3"
-  easy_refresh:
-    dependency: "direct main"
-    description:
-      name: easy_refresh
-      sha256: "77b025ea49f27b5ebc5eef40a6678be52564c293bd97ce91a4088d6646478329"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.3.2+1"
   extended_image:
     dependency: "direct main"
     description:
@@ -284,10 +276,10 @@ packages:
     dependency: transitive
     description:
       name: extended_image_library
-      sha256: bb8d08c504ebc73d476ec1c99451a61f12e95538869e734fc4f55a3a2d5c98ec
+      sha256: af3ff1c09c23ca7663f94272313d63499a6bd19121e99378e375e0cf2ac7a3e4
       url: "https://pub.dev"
     source: hosted
-    version: "3.5.3"
+    version: "3.5.2"
   fake_async:
     dependency: transitive
     description:
@@ -312,6 +304,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.1.4"
+  file_picker:
+    dependency: "direct main"
+    description:
+      name: file_picker
+      sha256: "21145c9c268d54b1f771d8380c195d2d6f655e0567dc1ca2f9c134c02c819e0a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.3.3"
   fixnum:
     dependency: transitive
     description:
@@ -369,6 +369,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_plugin_android_lifecycle:
+    dependency: transitive
+    description:
+      name: flutter_plugin_android_lifecycle
+      sha256: "950e77c2bbe1692bc0874fc7fb491b96a4dc340457f4ea1641443d0a6c1ea360"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.15"
   flutter_screenutil:
     dependency: "direct main"
     description:
@@ -487,18 +495,18 @@ packages:
     dependency: transitive
     description:
       name: http
-      sha256: "759d1a329847dd0f39226c688d3e06a6b8679668e350e2891a6474f8b4bb8525"
+      sha256: "5895291c13fa8a3bd82e76d5627f69e0d85ca6a30dcac95c4ea19a5d555879c2"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.0"
+    version: "0.13.6"
   http_client_helper:
     dependency: transitive
     description:
       name: http_client_helper
-      sha256: "8a9127650734da86b5c73760de2b404494c968a3fd55602045ffec789dac3cb1"
+      sha256: "14c6e756644339f561321dab021215475ba4779aa962466f59ccb3ecf66b36c3"
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.0"
+    version: "2.0.4"
   http_multi_server:
     dependency: transitive
     description:
@@ -819,6 +827,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.3"
+  pull_to_refresh_flutter3:
+    dependency: "direct main"
+    description:
+      name: pull_to_refresh_flutter3
+      sha256: "223a6241067162dc15cf8c46c05af998ce7aa85e0703d8f696101eb1b5629d76"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.1"
   rational:
     dependency: transitive
     description:

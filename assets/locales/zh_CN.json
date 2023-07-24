@@ -185,5 +185,6 @@
   "youres_weight": "您的体重",
   "man": "男",
   "woman": "女",
-  "networkError": "网络异常"
+  "networkError": "网络异常",
+  "turnon_ble":"请开启蓝牙开关"
 }
