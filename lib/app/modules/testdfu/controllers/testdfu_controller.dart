@@ -50,26 +50,25 @@ class TestdfuController extends GetxController {
   }
 
   void openFile() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles();
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      withData: true,
+    );
     if (result == null) {
       return;
     }
 
     vmPrint("openFile " + result.toString());
-
-    // File cahe = await getAppFile();
-    // var fileNmae = result.names.toList();
-    // cahe = File('${cahe.absolute.path}/$fileNmae');
-    // final file = result.files.first;
-    // final fileReadStream = file.readStream;
-    // if (fileReadStream == null) {
-    //   throw Exception('Cannot read file from null stream');
-    // }
-
-    // var bytes = await fileReadStream.first;
-    // var a = await cahe.writeAsBytes(bytes);
-    currentFile.value = result.paths.first ?? "";
-    vmPrint("saveToPath a $currentFile");
+    try {
+      File cahe = await getAppFile();
+      var fileNmae = result.names.first;
+      cahe = File('${cahe.absolute.path}/$fileNmae');
+      final file = result.files.first;
+      var a = await cahe.writeAsBytes(file.bytes!.toList());
+      currentFile.value = a.absolute.path;
+      vmPrint("saveToPath a $a");
+    } catch (e) {
+      HWToast.showText(text: e.toString());
+    }
   }
 
   void normalDFU() {
