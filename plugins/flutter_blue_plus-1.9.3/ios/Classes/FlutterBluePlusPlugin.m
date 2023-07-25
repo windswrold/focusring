@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 #import "FlutterBluePlusPlugin.h"
+#import <GRDFUSDK/GRDFUTool.h>
 
 @interface ServicePair : NSObject
 @property (strong, nonatomic) CBService *primary;
@@ -38,7 +39,7 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
     debug = 7
 };
 
-@interface FlutterBluePlusPlugin ()
+@interface FlutterBluePlusPlugin ()<GRDProgressDelegate>
 @property(nonatomic, retain) NSObject<FlutterPluginRegistrar> *registrar;
 @property(nonatomic, retain) FlutterMethodChannel *methodChannel;
 @property(nonatomic, retain) CBCentralManager *centralManager;
@@ -172,6 +173,84 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
         else if ([@"stopScan" isEqualToString:call.method])
         {
             [self->_centralManager stopScan];
+            result(@(true));
+        }
+        else if ([@"startDfu" isEqualToString:call.method])
+        {
+            NSDictionary *args = (NSDictionary*)call.arguments;
+            NSString * remote_id = args[@"remote_id"];
+            NSString * filePath = args[@"filePath"];
+            int  type = [args[@"type"] intValue]; // 0普通 1 拷贝 2 fast普通 3 fast 拷贝
+            // Find peripheral
+            CBPeripheral *peripheral = [self findPeripheral:remote_id];
+            if (peripheral == nil) {
+                NSString* s = @"peripheral not found. try reconnecting.";
+                result([FlutterError errorWithCode:@"startDfu" message:s details:NULL]);
+                return;
+            }
+
+            // check connected
+            if (peripheral.state != CBPeripheralStateConnected) {
+                NSString* s = @"device is not connected";
+                result([FlutterError errorWithCode:@"startDfu" message:s details:NULL]);
+                return;
+            }
+            NSData * fwData = [NSData dataWithContentsOfFile:filePath];
+            if(type == 0 ){
+                
+                //普通升级(小升大，从BootLoader升级正常固件)示例
+                [GRDFUTool upgradeWithCentralManager:_centralManager     //CBCentralManager实例
+                                          identifier:remote_id //目标设备的identifier
+                                        firmwareData:fwData             //固件数据
+                                               reset:YES                //拷贝完成后设备是否重启
+                                           overwrite:YES                //如果目标区域已有固件，是否覆盖原固件。
+                                            delegate:self
+                                           extraInfo:nil];
+            }else if (type ==1){
+                
+                //拷贝升级示例
+                int copyAddr = [args[@"copyAddr"] intValue];
+                //                uint32_t copyAddr = 0x01040000; //17039360
+                [GRDFUTool copyModeUpgradeWithCentralManager:_centralManager
+                                                  identifier:remote_id
+                                                firmwareData:fwData
+                                                    copyAddr:copyAddr
+                                                   overwrite:NO
+                                                    delegate:self
+                                                   extraInfo:nil];
+            } else if (type ==2){
+                //FASTDFU固件升级示例
+                [GRDFUTool fastDFUWithCentralManager:_centralManager
+                                          identifier:remote_id
+                                        firmwareData:fwData
+                                            delegate:self
+                                           extraInfo:nil];
+            }else if (type == 3){
+                
+                int copyAddr = [args[@"copyAddr"] intValue];
+                //FASTDFU拷贝升级示例
+                [GRDFUTool fastDFUWithCentralManager:_centralManager
+                                          identifier:remote_id
+                                        firmwareData: fwData
+                                            delegate: self
+                                          isCopyMode: YES
+                                            copyAddr: copyAddr
+                                           extraInfo:nil];
+            }else{
+                
+                //FASTDFU资源升级示例
+                int toAddr = [args[@"toAddr"] intValue];
+                BOOL toExtFlash =  [args[@"toExtFlash"] boolValue];;     //YES表示升级到外部flash，NO表示升级到内部flash。
+                [GRDFUTool fastDFUResourceWithCentralManager:_centralManager
+                                                  identifier:remote_id
+                                                    fileData:fwData
+                                                  toExtFlash:toExtFlash
+                                                      toAddr:toAddr
+                                                    delegate:self
+                                                   extraInfo:nil];
+                
+            }
+            
             result(@(true));
         }
         else if ([@"getConnectedDevices" isEqualToString:call.method])
@@ -1474,4 +1553,44 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
 
     return result;
 }
+
+#pragma mark - delegate -- GRDProgressDelegate
+
+-(void)dfuTaskDidCompleteWithType:(GRDTaskType)type extraInfo:(NSDictionary *)extraInfo
+{
+    NSLog(@">>>>>>>>>  onDfuComplete %ld %@" , type ,  extraInfo.description);
+    
+    NSDictionary* result = @{};
+    [_methodChannel invokeMethod:@"onDfuComplete" arguments:result];
+}
+
+- (void)dfuTaskDidAbortForError:(int)errCode message:(NSString *)msg type:(GRDTaskType)type extraInfo:(nonnull NSDictionary *)extraInfo
+{
+    
+    NSLog(@">>>>>>>>>  onDfuErr type %ld  extraInfo %@ code %d msg %@" , type ,  extraInfo.description,errCode,msg);
+    NSDictionary* result = @{
+        @"error" :msg
+    };
+    [_methodChannel invokeMethod:@"onDfuError" arguments:result];
+}
+
+- (void)dfuTaskDidStartWithType:(GRDTaskType)type extraInfo:(NSDictionary *)extraInfo
+{
+    NSLog(@">>>>>>>>>  onDfuStart %ld %@" , type ,  extraInfo.description);
+    NSDictionary* result = @{};
+    [_methodChannel invokeMethod:@"onDfuStart" arguments:result];
+}
+
+
+- (void)dfuTaskDidUpdateProgress:(float)percent type:(GRDTaskType)type extraInfo:(nonnull NSDictionary *)extraInfo progressType:(int)progressType
+{
+   //此处需要注意!!!，当为FASTDFU升级的时候，progressType == 1 是擦除flash的进度。progressType == 0是升级过程的进度。
+
+    NSLog(@">>>>>>>>>  onDfuUpdateProgress: %.1f", percent);
+    NSDictionary* result = @{
+        @"progress":[NSNumber numberWithFloat:percent]
+    };
+    [_methodChannel invokeMethod:@"onDfuProgress" arguments:result];
+}
+
 @end

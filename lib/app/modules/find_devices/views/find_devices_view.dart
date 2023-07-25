@@ -41,9 +41,12 @@ class FindDevicesView extends GetView<FindDevicesController> {
                   style: Get.textTheme.bodyLarge,
                 ),
                 4.columnWidget,
-                Text(
-                  item.macAddress ?? "",
-                  style: Get.textTheme.bodyMedium,
+                Container(
+                  width: 200.w,
+                  child: Text(
+                    item.macAddress ?? "",
+                    style: Get.textTheme.bodyMedium,
+                  ),
                 ),
               ],
             ),

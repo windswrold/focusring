@@ -16,8 +16,10 @@ class FlutterBluePlus {
   // Used internally to dispatch methods from platform.
   Stream<MethodCall> get _methodStream => _methodStreamController.stream;
 
-  final MethodChannel _channel = const MethodChannel('flutter_blue_plus/methods');
-  final StreamController<MethodCall> _methodStreamController = StreamController.broadcast(); // ignore: close_sinks
+  final MethodChannel _channel =
+      const MethodChannel('flutter_blue_plus/methods');
+  final StreamController<MethodCall> _methodStreamController =
+      StreamController.broadcast(); // ignore: close_sinks
 
   final _BehaviorSubject<bool> _isScanning = _BehaviorSubject(false);
 
@@ -50,10 +52,12 @@ class FlutterBluePlus {
   LogLevel get logLevel => _logLevel;
 
   /// Checks whether the device supports Bluetooth
-  Future<bool> get isAvailable async => await _channel.invokeMethod('isAvailable');
+  Future<bool> get isAvailable async =>
+      await _channel.invokeMethod('isAvailable');
 
   /// Return the friendly Bluetooth name of the local Bluetooth adapter
-  Future<String> get adapterName async => await _channel.invokeMethod('getAdapterName');
+  Future<String> get adapterName async =>
+      await _channel.invokeMethod('getAdapterName');
 
   /// Checks if Bluetooth functionality is turned on
   Future<bool> get isOn async => await _channel.invokeMethod('isOn');
@@ -102,7 +106,8 @@ class FlutterBluePlus {
 
     yield initialState;
 
-    Stream<BluetoothAdapterState> stream = FlutterBluePlus.instance._methodStream
+    Stream<BluetoothAdapterState> stream = FlutterBluePlus
+        .instance._methodStream
         .where((m) => m.method == "adapterStateChanged")
         .map((m) => m.arguments)
         .map((buffer) => BmBluetoothAdapterState.fromMap(buffer))
@@ -165,7 +170,8 @@ class FlutterBluePlus {
     // Clear scan results list
     _scanResults.add(<ScanResult>[]);
 
-    Stream<ScanResult> scanResultsStream = FlutterBluePlus.instance._methodStream
+    Stream<ScanResult> scanResultsStream = FlutterBluePlus
+        .instance._methodStream
         .where((m) => m.method == "ScanResult")
         .map((m) => m.arguments)
         .map((buffer) => BmScanResult.fromMap(buffer))
@@ -176,7 +182,7 @@ class FlutterBluePlus {
     // Start listening now, before invokeMethod, to ensure we don't miss any results
     _scanResultsBuffer = _BufferStream.listen(scanResultsStream);
 
-    // Start timer *after* stream is being listened to, to make sure the 
+    // Start timer *after* stream is being listened to, to make sure the
     // timeout does not fire before _scanResultsBuffer is set
     if (timeout != null) {
       _scanTimeout = Timer(timeout, () {
@@ -272,6 +278,34 @@ class FlutterBluePlus {
 
   @Deprecated('Use adapterState instead')
   Stream<BluetoothAdapterState> get state => adapterState;
+
+  Stream<void> get onDfuComplete async* {
+    Stream<void> stream = FlutterBluePlus.instance._methodStream
+        .where((m) => m.method == "onDfuComplete");
+    yield* stream;
+  }
+
+  Stream<String> get onDfuError async* {
+    Stream<String> stream = FlutterBluePlus.instance._methodStream
+        .where((m) => m.method == "onDfuError")
+        .map((m) => m.arguments)
+        .map((buffer) => buffer["error"].toString());
+    yield* stream;
+  }
+
+  Stream<void> get onDfuStart async* {
+    Stream<void> stream = FlutterBluePlus.instance._methodStream
+        .where((m) => m.method == "onDfuStart");
+    yield* stream;
+  }
+
+  Stream<String> get onDfuProgress async* {
+    Stream<String> stream = FlutterBluePlus.instance._methodStream
+        .where((m) => m.method == "onDfuProgress")
+        .map((m) => m.arguments)
+        .map((buffer) => buffer["progress"].toString());
+    yield* stream;
+  }
 }
 
 /// Log levels for FlutterBlue
@@ -287,7 +321,15 @@ enum LogLevel {
 }
 
 /// State of the bluetooth adapter.
-enum BluetoothAdapterState { unknown, unavailable, unauthorized, turningOn, on, turningOff, off }
+enum BluetoothAdapterState {
+  unknown,
+  unavailable,
+  unauthorized,
+  turningOn,
+  on,
+  turningOff,
+  off
+}
 
 BluetoothAdapterState bmToBluetoothAdapterState(BmAdapterStateEnum value) {
   switch (value) {
@@ -331,7 +373,8 @@ class DeviceIdentifier {
   int get hashCode => str.hashCode;
 
   @override
-  bool operator ==(other) => other is DeviceIdentifier && _compareAsciiLowerCase(str, other.str) == 0;
+  bool operator ==(other) =>
+      other is DeviceIdentifier && _compareAsciiLowerCase(str, other.str) == 0;
 }
 
 class ScanResult {
@@ -348,7 +391,10 @@ class ScanResult {
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) || other is ScanResult && runtimeType == other.runtimeType && device == other.device;
+      identical(this, other) ||
+      other is ScanResult &&
+          runtimeType == other.runtimeType &&
+          device == other.device;
 
   @override
   int get hashCode => device.hashCode;
@@ -371,7 +417,7 @@ class AdvertisementData {
   final Map<int, List<int>> manufacturerData;
   final Map<String, List<int>> serviceData;
 
-  // Note: we use strings and not Guids because advertisement UUIDs can 
+  // Note: we use strings and not Guids because advertisement UUIDs can
   // be 32-bit UUIDs, 64-bit, etc i.e. "FE56"
   final List<String> serviceUuids;
 

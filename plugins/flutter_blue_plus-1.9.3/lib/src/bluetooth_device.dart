@@ -85,7 +85,7 @@ class BluetoothDevice {
     final Map params = {
       "remote_id": remoteId.str,
       "filePath": filePath,
-      "isCopy": false
+      "type": 0
     };
     return await FlutterBluePlus.instance._channel
         .invokeMethod('startDfu', params);
@@ -96,8 +96,43 @@ class BluetoothDevice {
     final Map params = {
       "remote_id": remoteId.str,
       "filePath": filePath,
-      "isCopy": true,
-      "copyAdd":copyAdd
+      "type": 1,
+      "copyAddr": copyAdd
+    };
+    return await FlutterBluePlus.instance._channel
+        .invokeMethod('startDfu', params);
+  }
+
+  Future<void> fastDfu({required String filePath}) async {
+    final Map params = {
+      "remote_id": remoteId.str,
+      "filePath": filePath,
+      "type": 2
+    };
+    return await FlutterBluePlus.instance._channel
+        .invokeMethod('startDfu', params);
+  }
+
+  Future<void> fastCopyDfu(
+      {required String filePath, required int copyAdd}) async {
+    final Map params = {
+      "remote_id": remoteId.str,
+      "filePath": filePath,
+      "type": 3,
+      "copyAddr": copyAdd
+    };
+    return await FlutterBluePlus.instance._channel
+        .invokeMethod('startDfu', params);
+  }
+
+  Future<void> fastDFUResource(
+      {required String filePath, required int toAddr,required bool toExtFlash}) async {
+    final Map params = {
+      "remote_id": remoteId.str,
+      "filePath": filePath,
+      "type": 4,
+      "toAddr": toAddr,
+      "toExtFlash":toExtFlash
     };
     return await FlutterBluePlus.instance._channel
         .invokeMethod('startDfu', params);

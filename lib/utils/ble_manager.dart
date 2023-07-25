@@ -14,6 +14,22 @@ class KBLEManager {
     return flutterBlue.isScanning;
   }
 
+  static Stream<void> get onDfuStart {
+    return flutterBlue.onDfuStart;
+  }
+
+  static Stream<String> get onDfuProgress {
+    return flutterBlue.onDfuProgress;
+  }
+
+  static Stream<String> get onDfuError {
+    return flutterBlue.onDfuError;
+  }
+
+  static Stream<void> get onDfuComplete {
+    return flutterBlue.onDfuComplete;
+  }
+
   static void startScan(
       {Duration timeout = const Duration(seconds: 10)}) async {
     if ((await checkBle()) == false) {

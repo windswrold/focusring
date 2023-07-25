@@ -16,5 +16,8 @@ Pod::Spec.new do |s|
   s.dependency 'Flutter'
   s.platform = :ios, '9.0'
   s.framework = 'CoreBluetooth'
+  s.vendored_frameworks = 'Framework/*.framework'
+  s.vendored_libraries = 'Framework/*.a'
+  s.resource ='Framework/*.bundle'
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', }
 end
