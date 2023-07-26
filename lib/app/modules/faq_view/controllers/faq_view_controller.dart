@@ -1,9 +1,17 @@
+import 'package:focusring/app/data/common_faq.dart';
+import 'package:focusring/app/routes/app_pages.dart';
+import 'package:focusring/net/app_api.dart';
+import 'package:focusring/utils/custom_toast.dart';
 import 'package:get/get.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 class FaqViewController extends GetxController {
   //TODO: Implement FaqViewController
 
-  final count = 0.obs;
+  RxList<CommonFaqModel> datas = <CommonFaqModel>[].obs;
+
+  RefreshController refreshController = RefreshController();
+
   @override
   void onInit() {
     super.onInit();
@@ -12,6 +20,23 @@ class FaqViewController extends GetxController {
   @override
   void onReady() {
     super.onReady();
+
+    _initData();
+  }
+
+  void onRefresh() {
+    _initData();
+    Future.delayed(Duration(seconds: 3)).then((value) => {
+          refreshController.refreshCompleted(),
+        });
+  }
+
+  void _initData() {
+    AppApi.commonFaq().onSuccess((value) {
+      datas.value = value;
+    }).onError((r) {
+      HWToast.showText(text: r.error ?? "");
+    });
   }
 
   @override
@@ -19,5 +44,15 @@ class FaqViewController extends GetxController {
     super.onClose();
   }
 
-  void onTapList(int index) {}
+  void onTapList(int index) {
+    var item = datas[index];
+    HWToast.showLoading();
+
+    AppApi.commonFaqDetail(model: item).onSuccess((value) {
+      HWToast.hiddenAllToast();
+      Get.toNamed(Routes.FAQ_INFO_VIEW, arguments: value.responseBody);
+    }).onError((r) {
+      HWToast.showText(text: r.error ?? "");
+    });
+  }
 }

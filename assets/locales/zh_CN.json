@@ -186,5 +186,6 @@
   "man": "男",
   "woman": "女",
   "networkError": "网络异常",
-  "turnon_ble":"请开启蓝牙开关"
+  "turnon_ble": "请开启蓝牙开关",
+  "faq_info": "问题解答"
 }

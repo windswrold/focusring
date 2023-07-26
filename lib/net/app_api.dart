@@ -21,14 +21,18 @@ class AppApi {
       ) async {
         final data = response?.data;
         final code = response?.statusCode;
-        if (code == 200 && data is Map) {
-          final Map map = data;
-          final int? code = map.intFor('code');
-          final String? msg = map.stringFor('message');
-          if (code == 200) {
-            onAnalysis(VMResultType.successful);
+        if (code == 200) {
+          if (data is Map) {
+            final Map map = data;
+            final int? code = map.intFor('code');
+            final String? msg = map.stringFor('message');
+            if (code == 200) {
+              onAnalysis(VMResultType.successful);
+            } else {
+              onAnalysis(VMResultType.apiFailed, msg);
+            }
           } else {
-            onAnalysis(VMResultType.apiFailed, msg);
+            onAnalysis(VMResultType.successful);
           }
         } else if (data == null || data == '') {
           onAnalysis(VMResultType.connectionError, 'networkError'.tr);
@@ -38,7 +42,7 @@ class AppApi {
       });
 
   ///绑定设备
-  VMApiStream<VMResult> bindDevice({required String mac}) {
+  static VMApiStream<VMResult> bindDevice({required String mac}) {
     return _api.request(
       re: VMRequest()
         ..vmMethod = VMMethod.POST
@@ -51,7 +55,7 @@ class AppApi {
   }
 
   ///获取最新版本的固件
-  VMApiStream<FirmwareVersion> getLatestFirmware() {
+  static VMApiStream<FirmwareVersion> getLatestFirmware() {
     return _api
         .request(
       re: VMRequest()
@@ -66,7 +70,7 @@ class AppApi {
   }
 
   ///解绑设备，不传mac地址，默认解绑当前绑定的设备
-  VMApiStream<VMResult> unBindDevice({String? mac}) {
+  static VMApiStream<VMResult> unBindDevice({String? mac}) {
     return _api.request(
       re: VMRequest()
         ..vmMethod = VMMethod.POST
@@ -80,7 +84,7 @@ class AppApi {
 
   ///查询数据
   ///数据类型；bloodOxygen：血氧；femalePeriod：女性生理期；heartRate：心率；sleep 睡眠；step 计步；temp：温度
-  VMApiStream<VMResult> queryAppData(
+  static VMApiStream<VMResult> queryAppData(
       {required String dataType,
       required String startTime,
       required String endTime}) {
@@ -100,7 +104,7 @@ class AppApi {
   }
 
   ///上传数据
-  VMApiStream<VMResult> uploadAppData({dynamic params}) {
+  static VMApiStream<VMResult> uploadAppData({dynamic params}) {
     return _api.request(
       re: VMRequest()
         ..vmMethod = VMMethod.POST
@@ -113,7 +117,7 @@ class AppApi {
   }
 
   ///上传数据
-  VMApiStream<VMResult> queryAgreement({dynamic params}) {
+  static VMApiStream<VMResult> queryAgreement({dynamic params}) {
     return _api.request(
       re: VMRequest()..path = "/app/common/agreement",
     );
@@ -121,7 +125,7 @@ class AppApi {
 
   ///检查应用更新
   ///系统类型，android：安卓，ios：苹果
-  VMApiStream<AppUpdateModel> checkAppUpdate(
+  static VMApiStream<AppUpdateModel> checkAppUpdate(
       {required String systemType, required String currentVersion}) {
     return _api
         .request(
@@ -138,11 +142,12 @@ class AppApi {
   }
 
   ///获取常见问题列表
-  VMApiStream<List<CommonFaqModel>> commonFaq() {
+  static VMApiStream<List<CommonFaqModel>> commonFaq() {
     return _api
         .request(
             re: VMRequest()
               ..path = "/app/common/faq"
+              ..canQueryCache = true
               ..vmMethod = VMMethod.POST)
         .convert((r) {
       var t = r.listResult ?? [];
@@ -151,21 +156,16 @@ class AppApi {
   }
 
   ///获取常见问题详情
-  VMApiStream<CommonFaqModel> commonFaqDetail({required CommonFaqModel model}) {
-    return _api
-        .request(
-            re: VMRequest()
-              ..path = "/app/common/faqDetail"
-              ..httpBody = {
-                "dto": {
-                  "id": model.id,
-                  "type": model.type,
-                }
-              }
-              ..vmMethod = VMMethod.POST)
-        .convert((r) {
-      return CommonFaqModel.fromJson(r.mapResult ?? {});
-    });
+  static VMApiStream<VMResult> commonFaqDetail({required CommonFaqModel model}) {
+    return _api.request(
+      re: VMRequest()
+        ..path = "/app/common/faqDetail"
+        ..queryParams = {
+          "id": model.id,
+          "type": model.type,
+        }
+        ..vmMethod = VMMethod.GET,
+    );
   }
 
   ///App用户相关接口
@@ -179,7 +179,7 @@ class AppApi {
   }
 
   ///意见反馈
-  VMApiStream<VMResult> feedback({required String content}) {
+  static VMApiStream<VMResult> feedback({required String content}) {
     return _api.request(
         re: VMRequest()
           ..path = "/app/user/feedback"
@@ -189,7 +189,7 @@ class AppApi {
   }
 
   ///获取用户信息
-  VMApiStream<UserInfo> getUserInfo() {
+  static VMApiStream<UserInfo> getUserInfo() {
     return _api
         .request(
             re: VMRequest()
@@ -202,7 +202,7 @@ class AppApi {
   ///App游客登录
   /////手机唯一标识
   ///系统类型，android：安卓，ios：苹果
-  VMApiStream<UserInfo> visitorLogin(
+  static VMApiStream<UserInfo> visitorLogin(
       {required String phoneId, required String systemType}) {
     return _api
         .request(

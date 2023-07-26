@@ -24,6 +24,7 @@ abstract class Routes {
   static const USER_MANUALTEST = _Paths.USER_MANUALTEST;
   static const REPORT_INFO_STEPS = _Paths.REPORT_INFO_STEPS;
   static const TESTDFU = _Paths.TESTDFU;
+  static const FAQ_INFO_VIEW = _Paths.FAQ_INFO_VIEW;
 }
 
 abstract class _Paths {
@@ -49,4 +50,5 @@ abstract class _Paths {
   static const USER_MANUALTEST = '/user-manualtest';
   static const REPORT_INFO_STEPS = '/report-info-steps';
   static const TESTDFU = '/testdfu';
+  static const FAQ_INFO_VIEW = '/faq-info-view';
 }

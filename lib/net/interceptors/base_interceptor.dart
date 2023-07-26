@@ -16,10 +16,12 @@ class BaseInterceptor extends InterceptorsWrapper {
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
+    
+    
     // TODO: implement onRequest
     options.headers.addAll({
-      'accept-language': getLocaleKey(Get.deviceLocale ?? fallbackLocale),
+      'Accept-Language': getLocaleKey(Get.deviceLocale ?? fallbackLocale),
     });
-    super.onRequest(options, handler);
+    handler.next(options);
   }
 }

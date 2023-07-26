@@ -35,8 +35,8 @@ class VMApi {
   }) {
     final dio = Dio();
     dio.interceptors.addAll([
-      LogsInterceptors(printLevel),
       BaseInterceptor(dio),
+      LogsInterceptors(printLevel),
     ]);
     if (EnableUserProxy) {
       _setProxy(dio, proxy ?? 'DIRECT');

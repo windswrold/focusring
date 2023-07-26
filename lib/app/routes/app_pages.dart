@@ -12,6 +12,8 @@ import '../modules/edit_card/bindings/home_edit_card_binding.dart';
 import '../modules/edit_card/views/home_edit_card_view.dart';
 import '../modules/edit_mygoals/bindings/edit_mygoals_binding.dart';
 import '../modules/edit_mygoals/views/edit_mygoals_view.dart';
+import '../modules/faq_info_view/bindings/faq_info_view_binding.dart';
+import '../modules/faq_info_view/views/faq_info_view_view.dart';
 import '../modules/faq_view/bindings/faq_view_binding.dart';
 import '../modules/faq_view/views/faq_view_view.dart';
 import '../modules/find_devices/bindings/find_devices_binding.dart';
@@ -147,6 +149,11 @@ class AppPages {
       name: _Paths.TESTDFU,
       page: () => const TestdfuView(),
       binding: TestdfuBinding(),
+    ),
+    GetPage(
+      name: _Paths.FAQ_INFO_VIEW,
+      page: () => const FaqInfoViewView(),
+      binding: FaqInfoViewBinding(),
     ),
   ];
 }
