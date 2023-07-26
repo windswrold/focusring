@@ -25,6 +25,7 @@ class HomeTabbarController extends GetxController {
       DialogUtils.defaultDialog(
         title: value.version ?? "",
         content: value.remark,
+        hiddenCancel: value.forceUpdate??false,
         onConfirm: () {
           launchUrlString(value.downloadUrl ?? "");
         },

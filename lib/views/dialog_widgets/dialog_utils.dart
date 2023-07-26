@@ -59,28 +59,31 @@ class DialogUtils {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Visibility(
-                      visible: hiddenCancel,
+                      visible: !hiddenCancel,
                       child: Expanded(
-                          child: Row(
-                        children: [
-                          NextButton(
-                            onPressed: () {
-                              Get.back();
-                              if (onCancel != null) {
-                                onCancel();
-                              }
-                            },
-                            title: "cancel".tr,
-                            activeColor: Colors.transparent,
-                            textStyle: Get.textTheme.titleMedium,
-                          ),
-                          Container(
-                            width: 1,
-                            height: 32.w,
-                            color: ColorUtils.fromHex("#FF707070"),
-                          ),
-                        ],
-                      )),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: NextButton(
+                                onPressed: () {
+                                  Get.back();
+                                  if (onCancel != null) {
+                                    onCancel();
+                                  }
+                                },
+                                title: "cancel".tr,
+                                activeColor: Colors.transparent,
+                                textStyle: Get.textTheme.titleMedium,
+                              ),
+                            ),
+                            Container(
+                              width: 1,
+                              height: 32.w,
+                              color: ColorUtils.fromHex("#FF707070"),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                     Expanded(
                       child: NextButton(
