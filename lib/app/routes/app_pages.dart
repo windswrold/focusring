@@ -6,6 +6,8 @@ import '../modules/app_view/bindings/app_view_binding.dart';
 import '../modules/app_view/views/app_view_view.dart';
 import '../modules/automatic_settings/bindings/automatic_settings_binding.dart';
 import '../modules/automatic_settings/views/automatic_settings_view.dart';
+import '../modules/common_html_view/bindings/common_html_view_binding.dart';
+import '../modules/common_html_view/views/common_html_view_view.dart';
 import '../modules/device_info/bindings/device_info_binding.dart';
 import '../modules/device_info/views/device_info_view.dart';
 import '../modules/edit_card/bindings/home_edit_card_binding.dart';
@@ -154,6 +156,11 @@ class AppPages {
       name: _Paths.FAQ_INFO_VIEW,
       page: () => const FaqInfoViewView(),
       binding: FaqInfoViewBinding(),
+    ),
+    GetPage(
+      name: _Paths.COMMON_HTML_VIEW,
+      page: () => const CommonHtmlViewView(),
+      binding: CommonHtmlViewBinding(),
     ),
   ];
 }

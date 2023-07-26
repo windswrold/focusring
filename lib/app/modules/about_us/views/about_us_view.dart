@@ -46,10 +46,17 @@ class AboutUsView extends GetView<AboutUsController> {
         children: [
           Container(
             margin: EdgeInsets.only(top: 70.w),
-            child: LoadAssetsImage(
-              "name",
-              width: 88,
-              height: 88,
+            // decoration: BoxDecoration(
+            //   color: ColorUtils.fromHex("#FF000000"),
+            //   borderRadius: BorderRadius.circular(44),
+            // ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(44),
+              child: LoadAssetsImage(
+                "icons/app_icon",
+                width: 88,
+                height: 88,
+              ),
             ),
           ),
           Container(

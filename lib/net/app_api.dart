@@ -117,7 +117,7 @@ class AppApi {
   }
 
   ///上传数据
-  static VMApiStream<VMResult> queryAgreement({dynamic params}) {
+  static VMApiStream<VMResult> queryAgreement() {
     return _api.request(
       re: VMRequest()..path = "/app/common/agreement",
     );
@@ -156,7 +156,8 @@ class AppApi {
   }
 
   ///获取常见问题详情
-  static VMApiStream<VMResult> commonFaqDetail({required CommonFaqModel model}) {
+  static VMApiStream<VMResult> commonFaqDetail(
+      {required CommonFaqModel model}) {
     return _api.request(
       re: VMRequest()
         ..path = "/app/common/faqDetail"

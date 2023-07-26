@@ -1,3 +1,6 @@
+import 'package:focusring/app/routes/app_pages.dart';
+import 'package:focusring/net/app_api.dart';
+import 'package:focusring/utils/custom_toast.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -30,6 +33,15 @@ class AboutUsController extends GetxController {
   }
 
   void onTapList(int index) {
-    launchUrlString("https://baidu.com");
+    HWToast.showLoading();
+
+    AppApi.queryAgreement().onSuccess((value) {
+      HWToast.hiddenAllToast();
+      Get.toNamed(Routes.COMMON_HTML_VIEW, arguments: value.responseBody);
+    }).onError((r) {
+      HWToast.showText(text: r.error ?? "");
+    });
+
+    // launchUrlString("https://baidu.com");
   }
 }

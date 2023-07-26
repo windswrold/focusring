@@ -25,6 +25,7 @@ abstract class Routes {
   static const REPORT_INFO_STEPS = _Paths.REPORT_INFO_STEPS;
   static const TESTDFU = _Paths.TESTDFU;
   static const FAQ_INFO_VIEW = _Paths.FAQ_INFO_VIEW;
+  static const COMMON_HTML_VIEW = _Paths.COMMON_HTML_VIEW;
 }
 
 abstract class _Paths {
@@ -51,4 +52,5 @@ abstract class _Paths {
   static const REPORT_INFO_STEPS = '/report-info-steps';
   static const TESTDFU = '/testdfu';
   static const FAQ_INFO_VIEW = '/faq-info-view';
+  static const COMMON_HTML_VIEW = '/common-html-view';
 }

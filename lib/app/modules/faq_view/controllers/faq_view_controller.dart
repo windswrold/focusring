@@ -50,7 +50,7 @@ class FaqViewController extends GetxController {
 
     AppApi.commonFaqDetail(model: item).onSuccess((value) {
       HWToast.hiddenAllToast();
-      Get.toNamed(Routes.FAQ_INFO_VIEW, arguments: value.responseBody);
+      Get.toNamed(Routes.COMMON_HTML_VIEW, arguments: value.responseBody);
     }).onError((r) {
       HWToast.showText(text: r.error ?? "");
     });
