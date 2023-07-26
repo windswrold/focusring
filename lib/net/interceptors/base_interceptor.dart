@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:focusring/public.dart';
+import 'package:focusring/utils/localeManager.dart';
 
 class BaseInterceptor extends InterceptorsWrapper {
   final Dio _dio;
@@ -16,7 +18,7 @@ class BaseInterceptor extends InterceptorsWrapper {
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     // TODO: implement onRequest
     options.headers.addAll({
-      'accept-language': "",
+      'accept-language': getLocaleKey(Get.deviceLocale ?? fallbackLocale),
     });
     super.onRequest(options, handler);
   }
