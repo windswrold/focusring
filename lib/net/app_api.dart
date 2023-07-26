@@ -126,17 +126,15 @@ class AppApi {
   ///检查应用更新
   ///系统类型，android：安卓，ios：苹果
   static VMApiStream<AppUpdateModel> checkAppUpdate(
-      {required String systemType, required String currentVersion}) {
+      {required int systemType, required String currentVersion}) {
     return _api
         .request(
             re: VMRequest()
               ..path = "/app/common/checkAppUpdate"
               ..vmMethod = VMMethod.POST
               ..httpBody = {
-                "checkAppUpdateDto": {
-                  "systemType": systemType,
-                  "currentVersion": currentVersion,
-                }
+                "systemType": systemType,
+                "currentVersion": currentVersion,
               })
         .convert((r) => AppUpdateModel.fromJson(r.mapResult ?? {}));
   }

@@ -14,7 +14,102 @@ class DialogUtils {
     return Get.bottomSheet(DialogModifyGoalsPage());
   }
 
-  static dialogResetDevices() {
+  static defaultDialog({
+    required String title,
+    String? content,
+    VoidCallback? onCancel,
+    VoidCallback? onConfirm,
+    bool hiddenCancel = false,
+  }) {
+    return Get.dialog(
+      AlertDialog(
+        backgroundColor: Colors.transparent,
+        content: SingleChildScrollView(
+          child: Container(
+            width: 256.w,
+            padding: EdgeInsets.only(left: 12, right: 12),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              color: ColorUtils.fromHex("#FF232126"),
+            ),
+            child: Column(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(top: 35.w),
+                  alignment: Alignment.center,
+                  child: Text(
+                    title,
+                    style: Get.textTheme.displayLarge,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                Visibility(
+                  visible: content != null,
+                  child: Container(
+                    margin: EdgeInsets.only(top: 10.w, bottom: 30.w),
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      content ?? "",
+                      style: Get.textTheme.displayLarge,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Visibility(
+                      visible: hiddenCancel,
+                      child: Expanded(
+                          child: Row(
+                        children: [
+                          NextButton(
+                            onPressed: () {
+                              Get.back();
+                              if (onCancel != null) {
+                                onCancel();
+                              }
+                            },
+                            title: "cancel".tr,
+                            activeColor: Colors.transparent,
+                            textStyle: Get.textTheme.titleMedium,
+                          ),
+                          Container(
+                            width: 1,
+                            height: 32.w,
+                            color: ColorUtils.fromHex("#FF707070"),
+                          ),
+                        ],
+                      )),
+                    ),
+                    Expanded(
+                      child: NextButton(
+                        onPressed: () {
+                          Get.back();
+                          if (onConfirm != null) {
+                            onConfirm();
+                          }
+                        },
+                        title: "confirm".tr,
+                        activeColor: Colors.transparent,
+                        textStyle: Get.textTheme.displayLarge,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+      barrierDismissible: false,
+    );
+  }
+
+  static dialogResetDevices({
+    VoidCallback? onCancel,
+    VoidCallback? onConfirm,
+  }) {
     return Get.dialog(
       AlertDialog(
         backgroundColor: Colors.transparent,
@@ -43,6 +138,9 @@ class DialogUtils {
                       child: NextButton(
                         onPressed: () {
                           Get.back();
+                          if (onCancel != null) {
+                            onCancel();
+                          }
                         },
                         title: "cancel".tr,
                         activeColor: Colors.transparent,
@@ -58,6 +156,9 @@ class DialogUtils {
                       child: NextButton(
                         onPressed: () {
                           Get.back();
+                          if (onConfirm != null) {
+                            onConfirm();
+                          }
                         },
                         title: "confirm".tr,
                         activeColor: Colors.transparent,

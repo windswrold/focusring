@@ -4,7 +4,7 @@ class AppUpdateModel {
   String? version;
   String? downloadUrl;
   int? fileSize;
-  String? mark;
+  String? remark;
   bool? forceUpdate;
   String? createTime;
 
@@ -12,7 +12,7 @@ class AppUpdateModel {
       {this.version,
       this.downloadUrl,
       this.fileSize,
-      this.mark,
+      this.remark,
       this.forceUpdate,
       this.createTime});
 
@@ -20,7 +20,7 @@ class AppUpdateModel {
     version = json.stringFor("version");
     downloadUrl = json.stringFor("downloadUrl");
     fileSize = json.intFor("fileSize");
-    mark = json.stringFor("mark");
+    remark = json.stringFor("remark");
     forceUpdate = json.boolFor("forceUpdate");
     createTime = json.stringFor("createTime");
   }
@@ -30,7 +30,7 @@ class AppUpdateModel {
     data['version'] = this.version;
     data['downloadUrl'] = this.downloadUrl;
     data['fileSize'] = this.fileSize;
-    data['mark'] = this.mark;
+    data['remark'] = this.remark;
     data['forceUpdate'] = this.forceUpdate;
     data['createTime'] = this.createTime;
     return data;
