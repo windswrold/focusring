@@ -75,6 +75,7 @@ dependencies:
   file_picker: ^5.3.3
   kr_builder: ^1.0.2
   flutter_widget_from_html: ^0.10.3
+  flutter_device_identifier: ^0.0.1
 
 
 dev_dependencies:

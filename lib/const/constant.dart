@@ -8,6 +8,7 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:focusring/app/data/device_info.dart';
+import 'package:focusring/app/data/user_info.dart';
 import 'package:focusring/utils/console_logger.dart';
 import 'package:focusring/utils/sp_manager.dart';
 import 'package:focusring/views/base/base_pageview.dart';
@@ -106,6 +107,10 @@ enum KFemmaleStatus {
   yujinqi,
 }
 
+enum KUnits { metric, imperial }
+
+enum KTempUnits { celsius, fahrenheit }
+
 Size calculateTextSize(
   String value,
   double fontSize,
@@ -176,7 +181,6 @@ Widget getAppBar(String title) {
   );
 }
 
-const AppViewControllerTag = "AppViewControllerTag";
 
 class GlobalValues {
   static MSDeviceInfo deviceInfo = MSDeviceInfo();
@@ -184,12 +188,12 @@ class GlobalValues {
   static Future<void> init() async {
     if (Platform.isAndroid) {
       final AndroidDeviceInfo and = await DeviceInfoPlugin().androidInfo;
-      deviceInfo.imei = and.id;
-      deviceInfo.machine = and.device;
-      deviceInfo.system = 'Android' + (and.version.release ?? '');
-      deviceInfo.appType = 'Android';
+      // deviceInfo.imei = and.deviceInfo;
+      // deviceInfo.machine = and.device;
+      // deviceInfo.system = 'Android' + (and.version.release ?? '');
+      // deviceInfo.appType = 'Android';
 
-      vmPrint("and " + and.toString());
+      vmPrint("and " + and.data.toString());
     } else if (Platform.isIOS) {
       final IosDeviceInfo iOS = await DeviceInfoPlugin().iosInfo;
       deviceInfo.imei = iOS.identifierForVendor;
@@ -203,5 +207,9 @@ class GlobalValues {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     SPManager.spInit(prefs);
     vmPrint("pack " + info.toString());
+  }
+
+  static int getSystemType() {
+    return isIOS ? 1 : 2;
   }
 }

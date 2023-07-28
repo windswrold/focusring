@@ -32,7 +32,7 @@ class DialogModifyGoalsPage extends GetView<DialogModifyGoalsController> {
               inactiveColor: ColorUtils.fromHex("#FF000000"),
               thumbColor: Colors.white,
               onChanged: (a) {
-                controller.onChanged(a);
+                controller.onChanged(a.toInt());
               },
             ),
           ),

@@ -32,44 +32,34 @@ class SettingFeedbackView extends GetView<SettingFeedbackController> {
               ),
             ),
           ),
-          Wrap(
-            runSpacing: 12.w,
-            spacing: 10.w,
-            children: [
-              IntrinsicWidth(
-                child: NextButton(
-                  onPressed: () {},
-                  title: "蓝牙连接",
-                  borderRadius: 14,
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.w),
-                  activeColor: ColorUtils.fromHex("#FF000000"),
-                  textStyle: Get.textTheme.displaySmall,
-                ),
-              ),
-              IntrinsicWidth(
-                child: NextButton(
-                  onPressed: () {},
-                  title: "蓝牙连接",
-                  textStyle: Get.textTheme.displaySmall,
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.w),
-                  borderRadius: 14,
-                  activeColor: ColorUtils.fromHex("#FF000000"),
-                ),
-              ),
-              IntrinsicWidth(
-                child: NextButton(
-                  onPressed: () {},
-                  title: "蓝牙连接",
-                  textStyle: Get.textTheme.displaySmall,
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.w),
-                  borderRadius: 14,
-                  activeColor: ColorUtils.fromHex("#FF000000"),
-                ),
-              ),
-            ],
+          Obx(
+            () => Wrap(
+              runSpacing: 12.w,
+              spacing: 10.w,
+              children: controller.datas
+                  .map(
+                    (element) => IntrinsicWidth(
+                      child: NextButton(
+                        onPressed: () {
+                          controller.onTapList(element);
+                        },
+                        title: element,
+                        borderRadius: 14,
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 16.w, vertical: 8.w),
+                        activeColor: ColorUtils.fromHex("#FF000000"),
+                        textStyle: controller.chooseStr.value == element
+                            ? Get.textTheme.displaySmall?.copyWith(
+                                color: ColorUtils.fromHex("#FF05E6E7"))
+                            : Get.textTheme.displaySmall,
+                        border: controller.chooseStr.value == element
+                            ? Border.all(color: ColorUtils.fromHex("#FF05E6E7"))
+                            : null,
+                      ),
+                    ),
+                  )
+                  .toList(),
+            ),
           ),
         ],
       ),
@@ -109,9 +99,10 @@ class SettingFeedbackView extends GetView<SettingFeedbackController> {
             child: TextField(
               maxLines: 10,
               maxLength: 1000,
-              style: Get.textTheme.labelSmall,
+              style: Get.textTheme.displayLarge,
+              controller: controller.remarEC,
               decoration: InputDecoration(
-                hintStyle: Get.textTheme.displayLarge,
+                hintStyle: Get.textTheme.bodyMedium,
                 hintText: "feed_input".tr,
                 filled: true,
                 fillColor: ColorUtils.fromHex("#FF000000"),
@@ -147,9 +138,10 @@ class SettingFeedbackView extends GetView<SettingFeedbackController> {
             borderRadius: BorderRadius.circular(14),
             child: TextField(
               maxLines: 1,
-              style: Get.textTheme.labelSmall,
+              style: Get.textTheme.displayLarge,
+              controller: controller.phoneEC,
               decoration: InputDecoration(
-                hintStyle: Get.textTheme.displayLarge,
+                hintStyle: Get.textTheme.bodyMedium,
                 hintText: "feed_teldesc".tr,
                 filled: true,
                 fillColor: ColorUtils.fromHex("#FF000000"),
@@ -179,11 +171,17 @@ class SettingFeedbackView extends GetView<SettingFeedbackController> {
               padding: EdgeInsets.only(right: 12.w),
               child: Row(
                 children: [
-                  IconButton(
-                    onPressed: () {},
-                    iconSize: 20,
-                    icon: LoadAssetsImage(
-                      "icons/state_true",
+                  Obx(
+                    () => IconButton(
+                      onPressed: () {
+                        controller.switchState();
+                      },
+                      iconSize: 20,
+                      icon: LoadAssetsImage(
+                        controller.isUpload.value == true
+                            ? "icons/state_true"
+                            : "icons/state_false",
+                      ),
                     ),
                   ),
                   Expanded(
@@ -196,7 +194,9 @@ class SettingFeedbackView extends GetView<SettingFeedbackController> {
               ),
             ),
             NextButton(
-              onPressed: () {},
+              onPressed: () {
+                controller.startReport();
+              },
               title: "submit".tr,
               margin: EdgeInsets.only(left: 12.w, right: 12.w, top: 20.w),
               textStyle: Get.textTheme.displayLarge,

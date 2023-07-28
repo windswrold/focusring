@@ -1,12 +1,32 @@
+import 'package:focusring/extensions/StringEx.dart';
+import 'package:focusring/net/app_api.dart';
+import 'package:focusring/public.dart';
 import 'package:get/get.dart';
 
 class SettingFeedbackController extends GetxController {
   //TODO: Implement SettingFeedbackController
 
-  final count = 0.obs;
+  RxList<String> datas = <String>[].obs;
+  RxString chooseStr = "".obs;
+  TextEditingController remarEC = TextEditingController();
+  TextEditingController phoneEC = TextEditingController();
+
+  RxBool isUpload = false.obs;
+
   @override
   void onInit() {
     super.onInit();
+
+    datas = [
+      "defaultfeedback_01",
+      "defaultfeedback_02",
+      "defaultfeedback_03",
+      "defaultfeedback_04",
+      "defaultfeedback_05",
+      "defaultfeedback_06",
+      "defaultfeedback_07",
+      "defaultfeedback_08"
+    ].obs;
   }
 
   @override
@@ -19,5 +39,33 @@ class SettingFeedbackController extends GetxController {
     super.onClose();
   }
 
-  void increment() => count.value++;
+  void onTapList(String element) {
+    chooseStr.value = element;
+  }
+
+  void switchState() {
+    isUpload.value = !isUpload.value;
+  }
+
+  void startReport() {
+    final content = remarEC.text;
+    final phone = phoneEC.text;
+    if (content.isEmpty) {
+      HWToast.showErrText(text: "input_feedback".tr);
+      return;
+    }
+    if (phone.isNotEmpty) {
+      bool state = phone.isValidPhoneNumber();
+      if (state == false) {
+        HWToast.showErrText(text: "input_feedback_phone".tr);
+        return;
+      }
+    }
+    HWToast.showLoading();
+    AppApi.feedback(content: content).onSuccess((value) {
+      HWToast.showSucText(text: "input_feedback_succ".tr);
+    }).onError((r) {
+      HWToast.showErrText(text: r.error ?? "");
+    });
+  }
 }

@@ -3,19 +3,6 @@ import 'package:permission_handler/permission_handler.dart';
 import '../public.dart';
 
 class PermissionUtils {
-  // static Future<bool> checkBlePermissions() async {
-  //   if (Constant.isAndroid) {
-  //     if (await Permission.location.isGranted == true) {
-  //      vmPrint("Permission  true");
-  //       return true;
-  //     }
-  //     PermissionStatus status = await Permission.location.request();
-  //    vmPrint("Permission  $status");
-  //     return status == PermissionStatus.granted;
-  //   }
-  //   return true;
-  // }
-
   static Future<bool> checkCamera() async {
     if (await Permission.camera.isGranted == true) {
       vmPrint("Permission  true");
@@ -60,33 +47,6 @@ class PermissionUtils {
       return status == PermissionStatus.granted;
     }
   }
-
-  /// Permission prompt dialog
-  // static showDialog(
-  //     BuildContext cxt, String title, String content, ok(), cancel()) {
-  //   showCupertinoDialog<int>(
-  //       context: cxt,
-  //       builder: (cxt) {
-  //         return CupertinoAlertDialog(
-  //           title: Text(title),
-  //           content: Text(content),
-  //           actions: <Widget>[
-  //             CupertinoDialogAction(
-  //               child: Text("Go to open"),
-  //               onPressed: () {
-  //                 ok();
-  //               },
-  //             ),
-  //             CupertinoDialogAction(
-  //               child: Text("cancel"),
-  //               onPressed: () {
-  //                 cancel();
-  //               },
-  //             )
-  //           ],
-  //         );
-  //       });
-  // }
 
   static checkPermission(
       {required List<Permission> permissionList,

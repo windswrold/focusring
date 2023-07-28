@@ -1,5 +1,8 @@
 import 'dart:async';
 import 'dart:typed_data';
+import 'package:focusring/const/constant.dart';
+import 'package:focusring/utils/sp_manager.dart';
+
 import '../../utils/console_logger.dart';
 import '../interceptors/base_interceptor.dart';
 import '../../extensions/MapEx.dart';
@@ -100,7 +103,11 @@ class VMApi {
     bool completerCompleted = false;
 
     if (request.needAccessToken == true) {
-      options.headers?.addAll({"accessToken": ""});
+      var user = SPManager.getGlobalUser();
+
+      final token = user?.accessToken ?? "";
+
+      options.headers?.addAll({"accessToken": token});
     }
 
     await Future.delayed(const Duration(milliseconds: 1));

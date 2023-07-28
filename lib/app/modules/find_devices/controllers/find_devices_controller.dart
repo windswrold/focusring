@@ -65,7 +65,7 @@ class FindDevicesController extends GetxController {
     var stateConnect = a.listen((event) {
       vmPrint("BluetoothConnectionState ${event.toString()}");
       if (event == BluetoothConnectionState.connected) {
-        HWToast.showText(text: "已连接");
+        HWToast.showSucText(text: "已连接");
         KBLEManager.stopScan();
         Get.toNamed(Routes.TESTDFU, arguments: item);
       }

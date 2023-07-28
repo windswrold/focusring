@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:focusring/app/modules/app_view/controllers/app_view_controller.dart';
 import 'package:focusring/public.dart';
 import 'package:focusring/views/base/base_pageview.dart';
 
@@ -64,38 +65,54 @@ class HomeMineView extends GetView<HomeMineController> {
                       ),
                     ),
                   ),
-                  Wrap(
-                    runSpacing: 12.w,
-                    spacing: 12.w,
-                    children: [
-                      _getCardItem(
-                          bgIcon: "icons/mine_stepstarget_bg",
-                          cardIcon: "icons/mine_icon_steps",
-                          type: KHealthDataType.STEPS.getDisplayName(),
-                          value: "value"),
-                      _getCardItem(
-                          bgIcon: "icons/mine_distancetarget_bg",
-                          cardIcon: "icons/mine_icon_distance",
-                          type: KHealthDataType.LiCheng.getDisplayName(),
-                          value: "value"),
-                      _getCardItem(
-                          bgIcon: "icons/mine_caroliestarget_bg",
-                          cardIcon: "icons/mine_icon_calories",
-                          type:
-                              KHealthDataType.CALORIES_BURNED.getDisplayName(),
-                          value: "value"),
-                      _getCardItem(
-                          bgIcon: "icons/mine_sleeptarget_bg",
-                          cardIcon: "icons/mine_icon_sleep",
-                          type: KHealthDataType.SLEEP.getDisplayName(),
-                          value: "value"),
-                    ],
-                  ),
+                  GetBuilder<AppViewController>(
+                      tag: AppViewController.tag,
+                      id: AppViewController.userinfoID,
+                      builder: (a) {
+                        return Wrap(
+                          runSpacing: 12.w,
+                          spacing: 12.w,
+                          children: [
+                            _getCardItem(
+                              bgIcon: "icons/mine_stepstarget_bg",
+                              cardIcon: "icons/mine_icon_steps",
+                              type: KHealthDataType.STEPS.getDisplayName(),
+                              value:
+                                  (a.user?.value?.stepsPlan ?? 0).toString() +
+                                      KHealthDataType.STEPS.getSymbol(),
+                            ),
+                            _getCardItem(
+                              bgIcon: "icons/mine_distancetarget_bg",
+                              cardIcon: "icons/mine_icon_distance",
+                              type: KHealthDataType.LiCheng.getDisplayName(),
+                              value: (a.user?.value?.distancePlan ?? 0)
+                                      .toString() +
+                                  KHealthDataType.LiCheng.getSymbol(),
+                            ),
+                            _getCardItem(
+                              bgIcon: "icons/mine_caroliestarget_bg",
+                              cardIcon: "icons/mine_icon_calories",
+                              type: KHealthDataType.CALORIES_BURNED
+                                  .getDisplayName(),
+                              value: (a.user?.value?.caloriePlan ?? 0)
+                                      .toString() +
+                                  KHealthDataType.CALORIES_BURNED.getSymbol(),
+                            ),
+                            _getCardItem(
+                              bgIcon: "icons/mine_sleeptarget_bg",
+                              cardIcon: "icons/mine_icon_sleep",
+                              type: KHealthDataType.SLEEP.getDisplayName(),
+                              value:
+                                  (a.user?.value?.sleepPlan ?? 0).toString() +
+                                      KHealthDataType.SLEEP.getSymbol(),
+                            ),
+                          ],
+                        );
+                      }),
                 ],
               ),
             ),
             Container(
-              height: 352.w,
               margin: EdgeInsets.only(left: 12.w, right: 12.w, top: 12.w),
               padding: EdgeInsets.only(top: 16.w),
               decoration: BoxDecoration(

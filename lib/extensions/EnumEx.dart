@@ -522,3 +522,41 @@ extension KFemmaleStatusEX on KFemmaleStatus {
     return "";
   }
 }
+
+extension KUnitsEX on KUnits {
+  int getRaw() {
+    return [1, 2][index];
+  }
+
+  String title() {
+    return ["unit_gong".tr, "unit_inch".tr][index];
+  }
+}
+
+extension KTempUnitsEX on KTempUnits {
+  int getRaw() {
+    return [1, 2][index];
+  }
+
+  String title() {
+    return ["unit_degreescelsius".tr, "unit_fahrenheit".tr][index];
+  }
+}
+
+extension GetBack on GetInterface {
+  void backDelay<T>({
+    T? result,
+    bool closeOverlays = false,
+    bool canPop = true,
+    int? id,
+    int milliseconds = 1500,
+  }) {
+    Future.delayed(Duration(milliseconds: milliseconds)).then((value) => {
+          back<T>(
+              result: result,
+              closeOverlays: closeOverlays,
+              canPop: canPop,
+              id: id),
+        });
+  }
+}

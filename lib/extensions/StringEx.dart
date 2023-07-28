@@ -92,4 +92,9 @@ extension StringEx on String {
     if (length < head + tail + 1) return this;
     return substring(0, head) + replace + substring(length - tail, length);
   }
+
+  bool isValidPhoneNumber() {
+    final RegExp regex = RegExp(r'^1[3-9]\d{9}$');
+    return regex.hasMatch(this);
+  }
 }

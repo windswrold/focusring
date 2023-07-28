@@ -22,16 +22,16 @@ class TestdfuController extends GetxController {
     super.onInit();
 
     KBLEManager.onDfuStart.listen((event) {
-      HWToast.showText(text: "onDfuStart");
+      HWToast.showSucText(text: "onDfuStart");
     });
     KBLEManager.onDfuError.listen((event) {
-      HWToast.showText(text: "onDfuError $event");
+      HWToast.showSucText(text: "onDfuError $event");
     });
     KBLEManager.onDfuProgress.listen((event) {
-      HWToast.showText(text: "onDfuProgress $event");
+      HWToast.showSucText(text: "onDfuProgress $event");
     });
     KBLEManager.onDfuComplete.listen((event) {
-      HWToast.showText(text: "onDfuComplete");
+      HWToast.showSucText(text: "onDfuComplete");
     });
   }
 
@@ -67,13 +67,13 @@ class TestdfuController extends GetxController {
       currentFile.value = a.absolute.path;
       vmPrint("saveToPath a $a");
     } catch (e) {
-      HWToast.showText(text: e.toString());
+      HWToast.showSucText(text: e.toString());
     }
   }
 
   void normalDFU() {
     if (currentFile.isEmpty) {
-      HWToast.showText(text: "先选择一个文件");
+      HWToast.showSucText(text: "先选择一个文件");
       return;
     }
     RingDevice de = Get.arguments;
@@ -82,12 +82,12 @@ class TestdfuController extends GetxController {
 
   void copyDFU() {
     if (currentFile.isEmpty) {
-      HWToast.showText(text: "先选择一个文件");
+      HWToast.showSucText(text: "先选择一个文件");
       return;
     }
     var text = copy1.text;
     if (text.isEmpty) {
-      HWToast.showText(text: "输入拷贝地址");
+      HWToast.showSucText(text: "输入拷贝地址");
       return;
     }
 
@@ -98,7 +98,7 @@ class TestdfuController extends GetxController {
 
   void fastDFU() {
     if (currentFile.isEmpty) {
-      HWToast.showText(text: "先选择一个文件");
+      HWToast.showSucText(text: "先选择一个文件");
       return;
     }
     RingDevice de = Get.arguments;
@@ -106,18 +106,18 @@ class TestdfuController extends GetxController {
     try {
       KBLEManager.getDevice(device: de).fastDfu(filePath: currentFile.value);
     } catch (e) {
-      HWToast.showText(text: e.toString());
+      HWToast.showSucText(text: e.toString());
     }
   }
 
   void fastCopyDFU() {
     if (currentFile.isEmpty) {
-      HWToast.showText(text: "先选择一个文件");
+      HWToast.showSucText(text: "先选择一个文件");
       return;
     }
     var text = copy2.text;
     if (text.isEmpty) {
-      HWToast.showText(text: "输入拷贝地址");
+      HWToast.showSucText(text: "输入拷贝地址");
       return;
     }
 
@@ -126,18 +126,18 @@ class TestdfuController extends GetxController {
       KBLEManager.getDevice(device: de).fastCopyDfu(
           filePath: currentFile.value, copyAdd: int.parse(text, radix: 16));
     } catch (e) {
-      HWToast.showText(text: e.toString());
+      HWToast.showSucText(text: e.toString());
     }
   }
 
   void fastDFUResource() {
     if (currentFile.isEmpty) {
-      HWToast.showText(text: "先选择一个文件");
+      HWToast.showSucText(text: "先选择一个文件");
       return;
     }
     var text = copy3.text;
     if (text.isEmpty) {
-      HWToast.showText(text: "输入资源地址");
+      HWToast.showSucText(text: "输入资源地址");
       return;
     }
 
@@ -150,7 +150,7 @@ class TestdfuController extends GetxController {
         toExtFlash: isExtFlash.value,
       );
     } catch (e) {
-      HWToast.showText(text: e.toString());
+      HWToast.showSucText(text: e.toString());
     }
   }
 }

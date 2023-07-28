@@ -18,20 +18,24 @@ class HomeTabbarController extends GetxController {
   void onReady() {
     super.onReady();
 
+    _initData();
+  }
+
+  void _initData() async {
     AppApi.checkAppUpdate(
-            systemType: isIOS ? 1 : 2,
+            systemType: GlobalValues.getSystemType(),
             currentVersion: GlobalValues.deviceInfo.appInfo?.version ?? "1.0.0")
         .onSuccess((value) {
       DialogUtils.defaultDialog(
         title: value.version ?? "",
         content: value.remark,
-        hiddenCancel: value.forceUpdate??false,
+        hiddenCancel: value.forceUpdate ?? false,
         onConfirm: () {
           launchUrlString(value.downloadUrl ?? "");
         },
       );
     }).onError((r) {
-      HWToast.showText(text: r.error ?? "");
+      HWToast.showSucText(text: r.error ?? "");
     });
   }
 

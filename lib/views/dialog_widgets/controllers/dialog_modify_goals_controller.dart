@@ -11,19 +11,18 @@ class DialogModifyGoalsController extends GetxController {
 
   late KHealthDataType type;
 
-  DialogModifyGoalsController(
-      {required this.type, required double currentValue}) {
+  DialogModifyGoalsController({required this.type, required int currentValue}) {
     onInit();
     onChanged(currentValue);
   }
 
-  RxNum minValue = RxNum(0);
+  RxInt minValue = RxInt(0);
 
-  RxNum maxValue = RxNum(100);
+  RxInt maxValue = RxInt(100);
 
-  RxNum currentValue = RxNum(50);
+  RxInt currentValue = RxInt(50);
 
-  RxString currentStr = "0.0".obs;
+  RxString currentStr = "0".obs;
 
   @override
   void onInit() {
@@ -31,17 +30,17 @@ class DialogModifyGoalsController extends GetxController {
     super.onInit();
 
     if (type == KHealthDataType.STEPS) {
-      minValue = RxNum(100);
-      maxValue = RxNum(20000);
+      minValue = RxInt(100);
+      maxValue = RxInt(20000);
     } else if (type == KHealthDataType.LiCheng) {
-      minValue = RxNum(1.0);
-      maxValue = RxNum(20.00);
+      minValue = RxInt(1);
+      maxValue = RxInt(20);
     } else if (type == KHealthDataType.CALORIES_BURNED) {
-      minValue = RxNum(10);
-      maxValue = RxNum(1000);
+      minValue = RxInt(10);
+      maxValue = RxInt(1000);
     } else if (type == KHealthDataType.SLEEP) {
-      minValue = RxNum(4.0);
-      maxValue = RxNum(12.0);
+      minValue = RxInt(4);
+      maxValue = RxInt(12);
     }
   }
 
@@ -50,16 +49,16 @@ class DialogModifyGoalsController extends GetxController {
   }
 
   void onOk() {
-    Get.back(result: currentValue.value);
+    Get.back<int>(result: currentValue.value);
   }
 
-  void onChanged(double value) {
+  void onChanged(int value) {
     if (value >= maxValue.value) {
-      value = maxValue.value.toDouble();
+      value = maxValue.value;
     } else if (value <= minValue.value) {
-      value = minValue.value.toDouble();
+      value = minValue.value;
     }
     currentValue.value = value;
-    currentStr.value = value.toStringAsFixed(2) + type.getSymbol();
+    currentStr.value = value.toString() + type.getSymbol();
   }
 }

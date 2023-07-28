@@ -11,8 +11,8 @@ void vmPrint(final dynamic message, [int? level]) {
 void _printLog(Object object) {
   String da = object.toString();
   if (Platform.isAndroid) {
-    debugPrint(da);
+    print(da);
   } else {
-    debugPrint(da);
+    print(da);
   }
 }

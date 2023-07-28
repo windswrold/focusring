@@ -102,7 +102,7 @@ class DeviceInfoView extends GetView<DeviceInfoController> {
                   ),
                   NextButton(
                     onPressed: () {
-                      HWToast.showText(text: "no_v".tr);
+                      HWToast.showSucText(text: "no_v".tr);
                       controller.changeButtonState(KState.loading);
                     },
                     height: 44.w,

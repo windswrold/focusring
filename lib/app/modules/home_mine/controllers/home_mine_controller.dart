@@ -23,11 +23,11 @@ class HomeMineController extends GetxController {
         "b": "unit_settings",
         "r": Routes.UNIT_SYSTEM
       },
-      {
-        "a": "icons/mine_icon_account",
-        "b": "AccountSecurity",
-        "r": "",
-      },
+      // {
+      //   "a": "icons/mine_icon_account",
+      //   "b": "AccountSecurity",
+      //   "r": "",
+      // },
       {
         "a": "icons/mine_icon_language",
         "b": "language",

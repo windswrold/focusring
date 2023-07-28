@@ -12,6 +12,7 @@ class EditMygoalsView extends GetView<EditMygoalsController> {
     required int index,
     required String icon,
     required String title,
+    required String content,
   }) {
     return InkWell(
       onTap: () {
@@ -40,7 +41,7 @@ class EditMygoalsView extends GetView<EditMygoalsController> {
             Row(
               children: [
                 Text(
-                  title,
+                  content,
                   style: Get.textTheme.bodyMedium,
                 ),
                 12.rowWidget,
@@ -68,14 +69,20 @@ class EditMygoalsView extends GetView<EditMygoalsController> {
             color: ColorUtils.fromHex("#FF000000"),
             borderRadius: BorderRadius.circular(14),
           ),
-          child: Column(
-            children: controller.my_defaultList
-                .map((element) => _getListItem(
-                    index: controller.my_defaultList.indexOf(element),
-                    icon: element["a"],
-                    title: element["b"]))
-                .toList(),
-          ),
+          child: GetBuilder(
+              init: controller,
+              builder: (_) {
+                return Column(
+                  children: controller.my_defaultList
+                      .map((element) => _getListItem(
+                          index: controller.my_defaultList.indexOf(element),
+                          icon: element["a"],
+                          content: element["v"].toString() +
+                              (element["t"] as KHealthDataType).getSymbol(),
+                          title: element["b"]))
+                      .toList(),
+                );
+              }),
         ),
       ),
     );

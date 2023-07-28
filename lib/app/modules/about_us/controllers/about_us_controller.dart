@@ -39,7 +39,7 @@ class AboutUsController extends GetxController {
       HWToast.hiddenAllToast();
       Get.toNamed(Routes.COMMON_HTML_VIEW, arguments: value.responseBody);
     }).onError((r) {
-      HWToast.showText(text: r.error ?? "");
+      HWToast.showSucText(text: r.error ?? "");
     });
 
     // launchUrlString("https://baidu.com");

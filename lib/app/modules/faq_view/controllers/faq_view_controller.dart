@@ -35,7 +35,7 @@ class FaqViewController extends GetxController {
     AppApi.commonFaq().onSuccess((value) {
       datas.value = value;
     }).onError((r) {
-      HWToast.showText(text: r.error ?? "");
+      HWToast.showSucText(text: r.error ?? "");
     });
   }
 
@@ -52,7 +52,7 @@ class FaqViewController extends GetxController {
       HWToast.hiddenAllToast();
       Get.toNamed(Routes.COMMON_HTML_VIEW, arguments: value.responseBody);
     }).onError((r) {
-      HWToast.showText(text: r.error ?? "");
+      HWToast.showSucText(text: r.error ?? "");
     });
   }
 }

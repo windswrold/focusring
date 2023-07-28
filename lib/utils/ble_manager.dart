@@ -69,7 +69,7 @@ class KBLEManager {
   static Future<bool> checkBle() async {
     bool a = await PermissionUtils.checkBle();
     if (a == false) {
-      HWToast.showText(text: "permission_err".tr);
+      HWToast.showSucText(text: "permission_err".tr);
       return false;
     }
 
@@ -79,7 +79,7 @@ class KBLEManager {
     }
 
     if ((await flutterBlue.isOn) == false) {
-      HWToast.showText(text: "turnon_ble".tr);
+      HWToast.showSucText(text: "turnon_ble".tr);
       return false;
     }
 

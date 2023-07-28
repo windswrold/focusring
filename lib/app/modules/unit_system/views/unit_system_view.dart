@@ -9,17 +9,15 @@ class UnitSystemView extends GetView<UnitSystemController> {
   const UnitSystemView({Key? key}) : super(key: key);
 
   Widget _getListItem({
-    required int index,
     required String title,
     required bool isSelect,
+    required VoidCallback onTap,
   }) {
     return InkWell(
-      onTap: () {
-        controller.onTapList(index);
-      },
+      onTap: onTap,
       child: Container(
-        padding:
-            EdgeInsets.only(left: 16.w, right: 16.w, bottom: 12.w, top: 12.w),
+        padding: EdgeInsets.only(left: 16.w, right: 16.w),
+        height: 44.w,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -54,11 +52,17 @@ class UnitSystemView extends GetView<UnitSystemController> {
               borderRadius: BorderRadius.circular(14),
               color: ColorUtils.fromHex("#FF000000"),
             ),
-            child: Column(
-              children: [
-                _getListItem(index: 0, title: "unit_gong".tr, isSelect: true),
-                _getListItem(index: 0, title: "unit_inch".tr, isSelect: false),
-              ],
+            child: Obx(
+              () => Column(
+                children: KUnits.values
+                    .map((e) => _getListItem(
+                        title: e.title(),
+                        isSelect: controller.units.value == e ? true : false,
+                        onTap: () {
+                          controller.onTapUnit(e);
+                        }))
+                    .toList(),
+              ),
             ),
           ),
           Container(
@@ -68,13 +72,18 @@ class UnitSystemView extends GetView<UnitSystemController> {
               borderRadius: BorderRadius.circular(14),
               color: ColorUtils.fromHex("#FF000000"),
             ),
-            child: Column(
-              children: [
-                _getListItem(
-                    index: 0, title: "unit_degreescelsius".tr, isSelect: true),
-                _getListItem(
-                    index: 0, title: "unit_fahrenheit".tr, isSelect: false),
-              ],
+            child: Obx(
+              () => Column(
+                children: KTempUnits.values
+                    .map((e) => _getListItem(
+                        title: e.title(),
+                        isSelect:
+                            controller.tempUnits.value == e ? true : false,
+                        onTap: () {
+                          controller.onTapTempUnit(e);
+                        }))
+                    .toList(),
+              ),
             ),
           ),
         ],
