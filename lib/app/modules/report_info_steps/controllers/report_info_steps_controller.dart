@@ -38,6 +38,7 @@ class ReportInfoStepsController extends GetxController
   @override
   void onClose() {
     super.onClose();
+
   }
 
   void onTapType(int type) {

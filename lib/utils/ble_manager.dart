@@ -43,6 +43,10 @@ class KBLEManager {
     await flutterBlue.startScan(timeout: timeout);
   }
 
+  static void stopScan() {
+    flutterBlue.stopScan();
+  }
+
   static Future<Stream<BluetoothConnectionState>?> connect(
       {required RingDevice device,
       Duration timeout = const Duration(seconds: 20)}) async {
@@ -62,9 +66,7 @@ class KBLEManager {
     return bleDevice;
   }
 
-  static void stopScan() {
-    flutterBlue.stopScan();
-  }
+  static sendData() {}
 
   static Future<bool> checkBle() async {
     bool a = await PermissionUtils.checkBle();
