@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:focusring/app/modules/app_view/controllers/app_view_controller.dart';
 import 'package:focusring/public.dart';
 
 import 'package:get/get.dart';
@@ -58,14 +59,30 @@ class SettingUserInfoView extends GetView<SettingUserInfoController> {
             color: ColorUtils.fromHex("#FF000000"),
             borderRadius: BorderRadius.circular(14),
           ),
-          child: Column(
-            children: [
-              _getListItem(index: 0, title: "nickname".tr, value: "1"),
-              _getListItem(index: 1, title: "sex".tr, value: "1"),
-              _getListItem(index: 2, title: "person_height".tr, value: "1"),
-              _getListItem(index: 3, title: "weight".tr, value: "1"),
-            ],
-          ),
+          child: GetBuilder<AppViewController>(
+              tag: AppViewController.tag,
+              id: AppViewController.userinfoID,
+              builder: (a) {
+                final user = a.user.value;
+                final nickname = user?.username ?? "";
+                final sex = (user?.sex ?? KSex.man).title();
+                final height = user?.displayHeight();
+                final weight = user?.displayWeight();
+
+                return Column(
+                  children: [
+                    _getListItem(
+                        index: 0, title: "nickname".tr, value: nickname),
+                    _getListItem(index: 1, title: "sex".tr, value: sex),
+                    _getListItem(
+                        index: 2,
+                        title: "person_height".tr,
+                        value: height ?? ""),
+                    _getListItem(
+                        index: 3, title: "weight".tr, value: weight ?? ""),
+                  ],
+                );
+              }),
         ),
       ),
     );

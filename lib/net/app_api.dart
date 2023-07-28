@@ -188,12 +188,19 @@ class AppApi {
   }
 
   ///意见反馈
-  static VMApiStream<VMResult> feedback({required String content}) {
+  static VMApiStream<VMResult> feedback(
+      {required String content,
+      required String questionType,
+      required String phoneNumber}) {
     return _api.request(
         re: VMRequest()
           ..path = "/app/user/feedback"
           ..needAccessToken = true
-          ..httpBody = {"feedbackDto": content}
+          ..httpBody = {
+            "content": content,
+            "questionType": questionType,
+            "phoneNumber": phoneNumber
+          }
           ..vmMethod = VMMethod.POST);
   }
 

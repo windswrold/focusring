@@ -62,8 +62,11 @@ class SettingFeedbackController extends GetxController {
       }
     }
     HWToast.showLoading();
-    AppApi.feedback(content: content).onSuccess((value) {
+    AppApi.feedback(
+            content: content, phoneNumber: phone, questionType: chooseStr.value)
+        .onSuccess((value) {
       HWToast.showSucText(text: "input_feedback_succ".tr);
+      Get.backDelay();
     }).onError((r) {
       HWToast.showErrText(text: r.error ?? "");
     });

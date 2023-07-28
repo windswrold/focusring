@@ -178,14 +178,14 @@ class DialogUtils {
     );
   }
 
-  static dialogDataPicker(
+  static Future dialogDataPicker(
       {required String title,
       required List<String> datas,
       String? symbolText,
-      VoidCallback? onConfirm,
-      Function(int index)? onSelectedItemChanged,
       int? initialItem,
       double? symbolRight}) {
+    int selectIndex = initialItem ?? 0;
+
     return Get.bottomSheet(
       Container(
         height: 210.w,
@@ -195,11 +195,10 @@ class DialogUtils {
             DialogDefaultHeader(
               title: title,
               onCancel: () {
-                Get.back();
+                Get.back(result: null);
               },
               onConfirm: () {
-                Get.back();
-                onConfirm?.call();
+                Get.back(result: selectIndex);
               },
             ),
             Expanded(
@@ -209,7 +208,9 @@ class DialogUtils {
                 scrollController: FixedExtentScrollController(
                   initialItem: initialItem ?? 0,
                 ),
-                onSelectedItemChanged: onSelectedItemChanged,
+                onSelectedItemChanged: (a) {
+                  selectIndex = a;
+                },
                 selectionOverlay: KCupertinoPickerDefaultOverlay(
                   margin: EdgeInsets.only(left: 12.w, right: 12.w),
                   borderRadius: BorderRadius.circular(12),
@@ -237,7 +238,9 @@ class DialogUtils {
     );
   }
 
-  static dialogInputNickname() {
+  static Future dialogInputNickname() {
+    TextEditingController contenEC = TextEditingController();
+
     return Get.dialog(
       Material(
         color: Colors.transparent,
@@ -267,7 +270,8 @@ class DialogUtils {
                     color: ColorUtils.fromHex("#FF000000"),
                   ),
                   child: TextField(
-                    style: Get.textTheme.labelSmall,
+                    style: Get.textTheme.displayLarge,
+                    controller: contenEC,
                     decoration: InputDecoration(
                       hintStyle: Get.textTheme.bodyMedium,
                       hintText: "input_nickname".tr,
@@ -300,7 +304,7 @@ class DialogUtils {
                     Expanded(
                       child: NextButton(
                         onPressed: () {
-                          Get.back();
+                          Get.back(result: contenEC.text);
                         },
                         title: "confirm".tr,
                         height: 57.w,

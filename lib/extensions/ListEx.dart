@@ -2,6 +2,8 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:focusring/public.dart';
+
 extension ListEx<E> on List<E> {
   static List<T> generateArray<T>(int minValue, int maxValue, int interval) {
     List<T> result = [];
@@ -137,12 +139,19 @@ extension ListEx<E> on List<E> {
     }
   }
 
-  static List<String> generateHeightArr() {
-    return generateArray<String>(120, 200, 1);
+  static List<String> generateHeightArr(KUnits unit) {
+    if (unit == KUnits.metric) {
+      return generateArray<String>(50, 228, 1);
+    }
+
+    return generateArray<String>(20, 90, 1);
   }
 
-  static List<String> generateWeightArr() {
-    return generateArray<String>(40, 200, 1);
+  static List<String> generateWeightArr(KUnits unit) {
+    if (unit == KUnits.metric) {
+      return generateArray<String>(30, 228, 1);
+    }
+    return generateArray<String>(66, 503, 1);
   }
 
   static List<String> generateHeartRateMaxArr() {

@@ -15,8 +15,8 @@ class UnitSystemController extends GetxController {
 
     AppViewController app = Get.find(tag: AppViewController.tag);
 
-    units.value = (app.user?.value?.units ?? 1).getUnits;
-    tempUnits.value = (app.user?.value?.tempUnit ?? 1).getTempUnits;
+    units.value = app.user.value?.units ?? KUnits.metric;
+    tempUnits.value = app.user.value?.tempUnit ?? KTempUnits.celsius;
   }
 
   @override

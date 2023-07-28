@@ -111,6 +111,8 @@ enum KUnits { metric, imperial }
 
 enum KTempUnits { celsius, fahrenheit }
 
+enum KSex { man, woman }
+
 Size calculateTextSize(
   String value,
   double fontSize,
@@ -181,6 +183,9 @@ Widget getAppBar(String title) {
   );
 }
 
+int getSystemType() {
+  return isIOS ? 1 : 2;
+}
 
 class GlobalValues {
   static MSDeviceInfo deviceInfo = MSDeviceInfo();
@@ -207,9 +212,5 @@ class GlobalValues {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     SPManager.spInit(prefs);
     vmPrint("pack " + info.toString());
-  }
-
-  static int getSystemType() {
-    return isIOS ? 1 : 2;
   }
 }

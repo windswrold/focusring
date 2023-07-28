@@ -1,3 +1,5 @@
+import 'package:extended_image/extended_image.dart';
+
 import '../public.dart';
 
 extension KHealthDataEX on KHealthDataType {
@@ -531,6 +533,14 @@ extension KUnitsEX on KUnits {
   String title() {
     return ["unit_gong".tr, "unit_inch".tr][index];
   }
+
+  static KUnits getValue(int? value) {
+    try {
+      value ??= 1;
+      return value == 1 ? KUnits.metric : KUnits.imperial;
+    } catch (e) {}
+    return KUnits.metric;
+  }
 }
 
 extension KTempUnitsEX on KTempUnits {
@@ -540,6 +550,14 @@ extension KTempUnitsEX on KTempUnits {
 
   String title() {
     return ["unit_degreescelsius".tr, "unit_fahrenheit".tr][index];
+  }
+
+  static KTempUnits getValue(int? value) {
+    try {
+      value ??= 1;
+      return value == 1 ? KTempUnits.celsius : KTempUnits.fahrenheit;
+    } catch (e) {}
+    return KTempUnits.celsius;
   }
 }
 
@@ -558,5 +576,23 @@ extension GetBack on GetInterface {
               canPop: canPop,
               id: id),
         });
+  }
+}
+
+extension KSexEX on KSex {
+  int getRaw() {
+    return [1, 2][index];
+  }
+
+  String title() {
+    return ["man".tr, "woman".tr][index];
+  }
+
+  static KSex getValue(int? value) {
+    try {
+      value ??= 1;
+      return value == 1 ? KSex.man : KSex.woman;
+    } catch (e) {}
+    return KSex.man;
   }
 }

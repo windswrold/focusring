@@ -13,7 +13,14 @@ class HomeMineView extends GetView<HomeMineController> {
   @override
   Widget build(BuildContext context) {
     return KBasePageView(
-      titleStr: "not_logged_in".tr,
+      // titleStr: "not_logged_in".tr,
+      title: GetBuilder<AppViewController>(
+          tag: AppViewController.tag,
+          id: AppViewController.userinfoID,
+          builder: (a) {
+            final user = a.user.value;
+            return KBasePageView.titleWidget("Hi,${user?.username ?? ""}");
+          }),
       centerTitle: false,
       hiddenLeading: true,
       actions: [

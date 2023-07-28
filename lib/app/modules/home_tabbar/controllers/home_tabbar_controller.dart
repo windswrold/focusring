@@ -23,7 +23,7 @@ class HomeTabbarController extends GetxController {
 
   void _initData() async {
     AppApi.checkAppUpdate(
-            systemType: GlobalValues.getSystemType(),
+            systemType: getSystemType(),
             currentVersion: GlobalValues.deviceInfo.appInfo?.version ?? "1.0.0")
         .onSuccess((value) {
       DialogUtils.defaultDialog(

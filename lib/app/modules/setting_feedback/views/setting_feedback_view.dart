@@ -43,7 +43,7 @@ class SettingFeedbackView extends GetView<SettingFeedbackController> {
                         onPressed: () {
                           controller.onTapList(element);
                         },
-                        title: element,
+                        title: element.tr,
                         borderRadius: 14,
                         padding: EdgeInsets.symmetric(
                             horizontal: 16.w, vertical: 8.w),

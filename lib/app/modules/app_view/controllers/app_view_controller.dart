@@ -34,7 +34,7 @@ class AppViewController extends GetxController {
     final id = await SPManager.getPhoneID();
     AppApi.visitorLogin(
       phoneId: id,
-      systemType: GlobalValues.getSystemType(),
+      systemType: getSystemType(),
     ).onError((r) {
       HWToast.showErrText(text: r.error ?? "a");
     }).onSuccess((value) {

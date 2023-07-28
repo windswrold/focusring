@@ -72,7 +72,7 @@ class KBasePageView extends StatelessWidget {
         appBar: hiddenAppBar == true
             ? null
             : AppBar(
-                title: titleStr != null ? titleWidget() : title,
+                title: titleStr != null ? titleWidget(titleStr!) : title,
                 centerTitle: centerTitle,
                 leadingWidth: leadingWidth ?? 40.w,
                 titleSpacing: hiddenLeading == true ? 16.w : 0,
@@ -110,9 +110,9 @@ class KBasePageView extends StatelessWidget {
         child: body);
   }
 
-  Widget titleWidget() {
+  static Widget titleWidget(String title) {
     return Text(
-      titleStr ?? "",
+      title,
       style: Get.textTheme.titleLarge,
       textAlign: TextAlign.left,
     );

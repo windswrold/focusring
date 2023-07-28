@@ -209,6 +209,20 @@ class LocaleKeys {
   static const man = 'man';
   static const woman = 'woman';
   static const networkError = 'networkError';
+  static const turnon_ble = 'turnon_ble';
+  static const faq_info = 'faq_info';
+  static const input_feedback = 'input_feedback';
+  static const input_feedback_phone = 'input_feedback_phone';
+  static const defaultfeedback_01 = 'defaultfeedback_01';
+  static const defaultfeedback_02 = 'defaultfeedback_02';
+  static const defaultfeedback_03 = 'defaultfeedback_03';
+  static const defaultfeedback_04 = 'defaultfeedback_04';
+  static const defaultfeedback_05 = 'defaultfeedback_05';
+  static const defaultfeedback_06 = 'defaultfeedback_06';
+  static const defaultfeedback_07 = 'defaultfeedback_07';
+  static const defaultfeedback_08 = 'defaultfeedback_08';
+  static const input_feedback_succ = 'input_feedback_succ';
+  static const modify_success = 'modify_success';
   static const total_lichen = 'total_lichen';
 }
 
@@ -1203,6 +1217,20 @@ class Locales {
     'man': '男',
     'woman': '女',
     'networkError': '网络异常',
+    'turnon_ble': '请开启蓝牙开关',
+    'faq_info': '问题解答',
+    'input_feedback': '请输入反馈内容',
+    'input_feedback_phone': '请输入正确的手机号',
+    'defaultfeedback_01': '蓝牙连接',
+    'defaultfeedback_02': '数据异常',
+    'defaultfeedback_03': '功能异常',
+    'defaultfeedback_04': '消息通知',
+    'defaultfeedback_05': 'APP问题',
+    'defaultfeedback_06': '设备无法使用',
+    'defaultfeedback_07': '优化建议',
+    'defaultfeedback_08': '其它',
+    'input_feedback_succ': '反馈成功',
+    'modify_success': '修改成功',
   };
   static const it_IT = {
     'tabbar_status': 'Stato',
