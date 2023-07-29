@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:focusring/app/data/ring_device.dart';
 import 'package:focusring/app/modules/app_view/controllers/app_view_controller.dart';
-import 'package:focusring/utils/ble_manager.dart';
+import 'package:focusring/ble/ble_manager.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 

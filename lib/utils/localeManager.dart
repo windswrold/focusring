@@ -13,18 +13,19 @@ String getLocaleKey(Locale locale) {
 const fallbackLocale = Locale('zh', 'CN');
 
 /** 
-English,
+日语,
 简体中文,
-繁体中文,
-西班牙语，
-意大利语，
-法语，
+英语
 德语，
-俄语，
-葡萄牙语，
-乌克兰语，
+法语，
+意大利语，
+西班牙语，
+荷兰语
 波兰语，
-土耳其语，
-捷克语
+葡萄牙语， 巴西
+葡萄牙语，葡萄牙
+罗马尼亚
+捷克语,
+丹麦
 */
 

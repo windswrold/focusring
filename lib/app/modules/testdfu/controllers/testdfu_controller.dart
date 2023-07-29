@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:focusring/app/data/ring_device.dart';
-import 'package:focusring/utils/ble_manager.dart';
+import 'package:focusring/ble/ble_manager.dart';
 import 'package:get/get.dart';
 
 import '../../../../public.dart';
