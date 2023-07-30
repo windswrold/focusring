@@ -99,7 +99,7 @@ class AutomaticSettingsView extends GetView<AutomaticSettingsController> {
           ),
           _getAutomaticSetting(
               title: "automatic_measuring".tr,
-              value: controller.heartstate,
+              value: controller.heartRateAutoTestSwitch,
               onChanged: (a) {
                 controller.onChangeHeart(a);
               },
@@ -107,7 +107,7 @@ class AutomaticSettingsView extends GetView<AutomaticSettingsController> {
                 controller.showHeartrate_Offset();
               },
               subTitle: 'heartrate_interval'.tr,
-              subValue: controller.heartrate_offset,
+              subValue: controller.heartRateAutoTestInterval,
               symbol: "  min"),
           Container(
             height: 39.w,
@@ -121,7 +121,7 @@ class AutomaticSettingsView extends GetView<AutomaticSettingsController> {
           ),
           _getAutomaticSetting(
             title: "automatic_measuring".tr,
-            value: controller.bloodoxygenstate,
+            value: controller.bloodOxygenAutoTestSwitch,
             onChanged: (a) {
               controller.onChangeBloodoxy(a);
             },
@@ -129,7 +129,7 @@ class AutomaticSettingsView extends GetView<AutomaticSettingsController> {
               controller.showBloodOxygen_Offset();
             },
             subTitle: 'bloodoxygen_interval'.tr,
-            subValue: controller.bloodoxygen_offset,
+            subValue: controller.bloodOxygenAutoTestInterval,
             symbol: KHealthDataType.BLOOD_OXYGEN.getSymbol(),
           ),
         ],

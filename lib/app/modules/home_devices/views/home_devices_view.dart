@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:focusring/app/modules/app_view/controllers/app_view_controller.dart';
 
 import '../../../../public.dart';
 import '../controllers/home_devices_controller.dart';
@@ -67,14 +68,32 @@ class HomeDevicesView extends GetView<HomeDevicesController> {
         borderRadius: BorderRadius.circular(14),
       ),
       child: Column(
-        children: controller.my_defaultList
-            .map((element) => _getListItem(
-                  index: controller.my_defaultList.indexOf(element),
-                  icon: element["a"],
-                  title: element["b"],
-                  desc: element.stringFor("d"),
-                ))
-            .toList(),
+        children: [
+          GetBuilder<AppViewController>(
+              tag: AppViewController.tag,
+              id: AppViewController.userinfoID,
+              builder: (a) {
+                return _getListItem(
+                  index: 0,
+                  icon: "icons/device_icon_hrwarning",
+                  title: "heartrate_alert",
+                  desc:
+                      a.user.value?.heartRateWarnSwitch == true ? "On" : "Off",
+                );
+              }),
+          _getListItem(
+              index: 1,
+              icon: "icons/device_icon_auto",
+              title: "automatic_settings"),
+          _getListItem(
+              index: 2,
+              icon: "icons/device_icon_upgrade",
+              title: "ota_upgrade"),
+          _getListItem(
+              index: 3,
+              icon: "icons/device_icon_reset",
+              title: "restore_settings"),
+        ],
       ),
     );
   }

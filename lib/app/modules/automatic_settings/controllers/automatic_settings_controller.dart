@@ -1,3 +1,4 @@
+import 'package:focusring/net/app_api.dart';
 import 'package:get/get.dart';
 
 import '../../../../public.dart';
@@ -5,15 +6,23 @@ import '../../../../public.dart';
 class AutomaticSettingsController extends GetxController {
   //TODO: Implement AutomaticSettingsController
 
-  var heartstate = true.obs;
-  var bloodoxygenstate = true.obs;
+  final heartRateAutoTestSwitch = false.obs;
+  final bloodOxygenAutoTestSwitch = false.obs;
 
-  var heartrate_offset = "5".obs;
-  var bloodoxygen_offset = "4".obs;
+  final heartRateAutoTestInterval = "5".obs;
+  final bloodOxygenAutoTestInterval = "4".obs;
 
   @override
   void onInit() {
     super.onInit();
+
+    final us = SPManager.getGlobalUser();
+    heartRateAutoTestSwitch.value = us?.heartRateAutoTestSwitch ?? false;
+    bloodOxygenAutoTestSwitch.value = us?.bloodOxygenAutoTestSwitch ?? false;
+    heartRateAutoTestInterval.value =
+        (us?.heartRateAutoTestInterval ?? 5).toString();
+    bloodOxygenAutoTestInterval.value =
+        (us?.bloodOxygenAutoTestInterval ?? 4).toString();
   }
 
   @override
@@ -27,59 +36,47 @@ class AutomaticSettingsController extends GetxController {
   }
 
   void onChangeHeart(bool state) {
-    heartstate.value = state;
+    heartRateAutoTestSwitch.value = state;
+    _requestData({"heartRateAutoTestSwitch": state});
   }
 
   void onChangeBloodoxy(bool state) {
-    bloodoxygenstate.value = state;
+    bloodOxygenAutoTestSwitch.value = state;
+    _requestData({"bloodOxygenAutoTestSwitch": state});
   }
 
-  void showHeartrate_Offset() {
-    if (heartstate.value == false) {
-      return;
-    }
-
-    var list = ["5", "30", "60"];
-    int selectIndex = list.indexOf(heartrate_offset.value);
-    // DialogUtils.dialogDataPicker(
-    //   title: "heartrate_interval".tr,
-    //   datas: list,
-    //   symbolText: "  min",
-    //   symbolRight: 100.w,
-    //   initialItem: selectIndex,
-    //   onSelectedItemChanged: (index) {
-    //     selectIndex = index;
-    //   },
-    //   onConfirm: () {
-    //     if (selectIndex == null) {
-    //       return;
-    //     }
-    //     heartrate_offset.value = list[selectIndex!];
-    //   },
-    // );
+  void showHeartrate_Offset() async {
+    final arrs = ListEx.generateHeartRateAutoTestInterval();
+    final selectIndex = await DialogUtils.dialogDataPicker(
+      title: "heartrate_interval".tr,
+      datas: arrs,
+      symbolText: "  min",
+      symbolRight: 100.w,
+      initialItem: arrs.indexOf(heartRateAutoTestInterval.value),
+    );
+    heartRateAutoTestInterval.value = arrs[selectIndex];
+    _requestData({"heartRateAutoTestInterval": arrs[selectIndex]});
   }
 
-  void showBloodOxygen_Offset() {
-    if (bloodoxygenstate.value == false) {
-      return;
-    }
-    var list = ["4", "6", "8", "12"];
-    int selectIndex = list.indexOf(bloodoxygen_offset.value);
-    // DialogUtils.dialogDataPicker(
-    //   title: "bloodoxygen_interval".tr,
-    //   datas: list,
-    //   symbolText: KHealthDataType.BLOOD_OXYGEN.getSymbol(),
-    //   symbolRight: 100.w,
-    //   initialItem: selectIndex,
-    //   onSelectedItemChanged: (index) {
-    //     selectIndex = index;
-    //   },
-    //   onConfirm: () {
-    //     if (selectIndex == null) {
-    //       return;
-    //     }
-    //     bloodoxygen_offset.value = list[selectIndex!];
-    //   },
-    // );
+  void showBloodOxygen_Offset() async {
+    final arrs = ListEx.generateBloodOxygenAutoTestInterval();
+    final selectIndex = await DialogUtils.dialogDataPicker(
+      title: "bloodoxygen_interval".tr,
+      datas: arrs,
+      symbolText: KHealthDataType.BLOOD_OXYGEN.getSymbol(),
+      symbolRight: 100.w,
+      initialItem: arrs.indexOf(bloodOxygenAutoTestInterval.value),
+    );
+    bloodOxygenAutoTestInterval.value = arrs[selectIndex];
+    _requestData({"bloodOxygenAutoTestInterval": arrs[selectIndex]});
+  }
+
+  void _requestData(Map<String, dynamic> params) {
+    AppApi.editUserInfo(model: params).onSuccess((value) {
+      HWToast.showSucText(text: "modify_success".tr);
+      // Get.backDelay();
+    }).onError((r) {
+      HWToast.showErrText(text: r.error ?? "");
+    });
   }
 }

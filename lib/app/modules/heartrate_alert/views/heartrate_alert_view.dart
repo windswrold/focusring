@@ -8,9 +8,6 @@ import '../controllers/heartrate_alert_controller.dart';
 class HeartrateAlertView extends GetView<HeartrateAlertController> {
   const HeartrateAlertView({Key? key}) : super(key: key);
 
-
-  
-
   @override
   Widget build(BuildContext context) {
     return KBasePageView(
@@ -34,7 +31,7 @@ class HeartrateAlertView extends GetView<HeartrateAlertController> {
                 ),
                 Obx(
                   () => Switch(
-                    value: controller.state.value,
+                    value: controller.alertSwitch.value ?? false,
                     onChanged: (a) {
                       controller.onChanged(a);
                     },

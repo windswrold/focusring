@@ -21,28 +21,43 @@ class UserInfo {
   String? lastPeriodStartTime; //上次经期开始时间
   int? periodDuration; //经期持续天数
   int? periodStartInterval; //经期开始日间隔天数
+  bool? heartRateWarnSwitch; //心率预警开关
+  int? maxHeartRate; //最大心率
+  int? minHeartRate; //最小心率
+  bool? heartRateAutoTestSwitch; //心率自动测试开关
+  int? heartRateAutoTestInterval; //心率自动测试间隔时间
+  bool? bloodOxygenAutoTestSwitch; //血氧自动测试开关
+  int? bloodOxygenAutoTestInterval; //血氧自动测试间隔时间
 
-  UserInfo(
-      {this.accessToken,
-      this.id,
-      this.username,
-      this.avatar,
-      this.sex,
-      this.birthday,
-      this.country,
-      this.stepsPlan,
-      this.caloriePlan,
-      this.distancePlan,
-      this.sleepPlan,
-      this.units,
-      this.tempUnit,
-      this.heightMetric,
-      this.heightBritish,
-      this.weightMetric,
-      this.weightBritish,
-      this.lastPeriodStartTime,
-      this.periodDuration,
-      this.periodStartInterval});
+  UserInfo({
+    this.accessToken,
+    this.id,
+    this.username,
+    this.avatar,
+    this.sex,
+    this.birthday,
+    this.country,
+    this.stepsPlan,
+    this.caloriePlan,
+    this.distancePlan,
+    this.sleepPlan,
+    this.units,
+    this.tempUnit,
+    this.heightMetric,
+    this.heightBritish,
+    this.weightMetric,
+    this.weightBritish,
+    this.lastPeriodStartTime,
+    this.periodDuration,
+    this.periodStartInterval,
+    this.bloodOxygenAutoTestSwitch,
+    this.heartRateAutoTestSwitch,
+    this.heartRateWarnSwitch,
+    this.bloodOxygenAutoTestInterval,
+    this.heartRateAutoTestInterval,
+    this.maxHeartRate,
+    this.minHeartRate,
+  });
 
   UserInfo.fromJson(Map json) {
     accessToken = json.stringFor("accessToken");
@@ -65,6 +80,14 @@ class UserInfo {
     lastPeriodStartTime = json['lastPeriodStartTime'];
     periodDuration = json['periodDuration'];
     periodStartInterval = json['periodStartInterval'];
+
+    heartRateWarnSwitch = json["heartRateWarnSwitch"] ?? false;
+    maxHeartRate = json["maxHeartRate"] ?? 160;
+    minHeartRate = json["minHeartRate"] ?? 40;
+    heartRateAutoTestSwitch = json["heartRateAutoTestSwitch"] ?? false;
+    heartRateAutoTestInterval = json["heartRateAutoTestInterval"] ?? 5;
+    bloodOxygenAutoTestSwitch = json["bloodOxygenAutoTestSwitch"] ?? false;
+    bloodOxygenAutoTestInterval = json["bloodOxygenAutoTestInterval"] ?? 4;
   }
 
   Map<String, dynamic> toJson() {
@@ -89,6 +112,14 @@ class UserInfo {
     data['lastPeriodStartTime'] = this.lastPeriodStartTime;
     data['periodDuration'] = this.periodDuration;
     data['periodStartInterval'] = this.periodStartInterval;
+
+    data['heartRateWarnSwitch'] = this.heartRateWarnSwitch;
+    data['maxHeartRate'] = this.maxHeartRate;
+    data['minHeartRate'] = this.minHeartRate;
+    data['heartRateAutoTestSwitch'] = this.heartRateAutoTestSwitch;
+    data['heartRateAutoTestInterval'] = this.heartRateAutoTestInterval;
+    data['bloodOxygenAutoTestSwitch'] = this.bloodOxygenAutoTestSwitch;
+    data['bloodOxygenAutoTestInterval'] = this.bloodOxygenAutoTestInterval;
 
     return data;
   }

@@ -161,4 +161,12 @@ extension ListEx<E> on List<E> {
   static List<String> generateHeartRateMinArr() {
     return ListEx.generateArray<String>(20, 90, 1);
   }
+
+  static List<String> generateHeartRateAutoTestInterval() {
+    return ["5", "30", "60"];
+  }
+
+  static List<String> generateBloodOxygenAutoTestInterval() {
+    return ["4", "6", "8", "12"];
+  }
 }
