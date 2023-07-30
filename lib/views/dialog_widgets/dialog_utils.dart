@@ -304,7 +304,13 @@ class DialogUtils {
                     Expanded(
                       child: NextButton(
                         onPressed: () {
-                          Get.back(result: contenEC.text);
+                          final text = contenEC.text;
+                          if (text.isEmpty) {
+                            HWToast.showErrText(text: "input_nickname".tr);
+                            return;
+                          }
+
+                          Get.back(result: text);
                         },
                         title: "confirm".tr,
                         height: 57.w,

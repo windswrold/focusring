@@ -33,6 +33,9 @@ class SettingUserInfoController extends GetxController {
 
     if (index == 0) {
       final name = await DialogUtils.dialogInputNickname();
+      if (name == null) {
+        return;
+      }
       params["username"] = name;
     } else if (index == 1) {
       final selectIndex = await DialogUtils.dialogDataPicker(
