@@ -1,5 +1,6 @@
 import 'package:floor/floor.dart';
 import 'package:flutter/material.dart';
+import 'package:focusring/app/modules/app_view/controllers/app_view_controller.dart';
 import 'package:focusring/app/modules/home_devices/views/home_devices_view.dart';
 import 'package:focusring/app/modules/edit_card/views/home_edit_card_view.dart';
 import 'package:focusring/app/routes/app_pages.dart';
@@ -42,38 +43,36 @@ class HomeStateView extends GetView<HomeStateController> {
     );
   }
 
-  Widget _buildHeaderItem(
-      {required String title,
-      required String icon,
-      required String value,
-      required String valueColor,
-      required String maxValue}) {
+  Widget _buildHeaderItem({
+    required Rx<RadioGaugeChartData> data,
+  }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Text(title, style: Get.textTheme.displayMedium),
+        Text(data.value.title!.tr, style: Get.textTheme.displayMedium),
         Container(
           margin: EdgeInsets.only(bottom: 11.42.w, top: 11.42.w),
           child: Row(
             children: [
               LoadAssetsImage(
-                icon,
+                data.value.icon!,
                 width: 20,
                 height: 21,
               ),
               Container(
                 margin: EdgeInsets.only(left: 5),
                 child: Text(
-                  value,
+                  (data.value.current ?? 0).toString(),
                   style: Get.textTheme.displayMedium?.copyWith(
-                    color: ColorUtils.fromHex(valueColor),
+                    color: data.value.color,
                   ),
                 ),
               ),
               Container(
                 margin: EdgeInsets.only(left: 5),
-                child: Text("/$maxValue", style: Get.textTheme.displaySmall),
+                child: Text("/ ${data.value.all}${data.value.symbol}",
+                    style: Get.textTheme.displaySmall),
               ),
             ],
           ),
@@ -90,30 +89,23 @@ class HomeStateView extends GetView<HomeStateController> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              width: Get.size.width / 2 - 40.w,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  _buildHeaderItem(
-                      title: "mileage".tr,
-                      icon: "icons/status_target_distance",
-                      value: "11",
-                      valueColor: "#FF00CEFF",
-                      maxValue: "${controller.mileageDefault}km"),
-                  _buildHeaderItem(
-                      title: "pedometer".tr,
-                      icon: "icons/status_target_steps",
-                      value: "111",
-                      valueColor: "#FF34E050",
-                      maxValue: "${controller.pedometerDefault}steps"),
-                  _buildHeaderItem(
-                      title: "exercise".tr,
-                      icon: "icons/status_target_calorie",
-                      value: "500",
-                      valueColor: "#FFFF723E",
-                      maxValue: "${controller.exerciseDefault}kcal"),
-                ],
+            Obx(
+              () => Container(
+                width: Get.size.width / 2 - 40.w,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    _buildHeaderItem(
+                      data: controller.licheng,
+                    ),
+                    _buildHeaderItem(
+                      data: controller.steps,
+                    ),
+                    _buildHeaderItem(
+                      data: controller.calorie,
+                    ),
+                  ],
+                ),
               ),
             ),
             Obx(
@@ -125,11 +117,15 @@ class HomeStateView extends GetView<HomeStateController> {
                         cornerStyle: CornerStyle.bothCurve,
                         gap: '10%',
                         radius: '90%',
-                        dataSource: controller.gaugeDatas..reversed.toList(),
+                        dataSource: [
+                          controller.licheng.value,
+                          controller.steps.value,
+                          controller.calorie.value
+                        ].reversed.toList(),
                         xValueMapper: (RadioGaugeChartData data, _) =>
-                            data.name ?? "",
+                            data.title ?? "",
                         yValueMapper: (RadioGaugeChartData data, _) =>
-                            data.percent,
+                            data.current,
                         trackOpacity: 0.38,
                         trackColor: Colors.white38,
                         pointColorMapper: (RadioGaugeChartData data, _) =>

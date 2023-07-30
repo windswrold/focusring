@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:focusring/app/data/user_info.dart';
+import 'package:focusring/app/modules/home_state/controllers/home_state_controller.dart';
 import 'package:focusring/const/constant.dart';
 import 'package:focusring/net/app_api.dart';
 import 'package:focusring/utils/console_logger.dart';
@@ -41,6 +42,9 @@ class AppViewController extends GetxController {
       // user.value = value;
       user = value.obs;
       update([userinfoID]);
+
+      final vc = Get.find<HomeStateController>();
+      vc.initData();
     });
   }
 

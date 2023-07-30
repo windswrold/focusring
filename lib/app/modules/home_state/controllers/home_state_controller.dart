@@ -1,37 +1,67 @@
 import 'dart:math';
 
-import 'package:focusring/app/routes/app_pages.dart';
+import 'package:focusring/app/modules/app_view/controllers/app_view_controller.dart';
 import 'package:focusring/public.dart';
+import 'package:focusring/utils/console_logger.dart';
 import 'package:focusring/views/charts/home_card/model/home_card_type.dart';
 import 'package:focusring/views/charts/home_card/model/home_card_x.dart';
 import 'package:focusring/views/charts/radio_gauge_chart/model/radio_gauge_chart_model.dart';
+import 'package:get/get.dart';
 
 class HomeStateController extends GetxController {
   //TODO: Implement HomeStateController
 
-  RxList<RadioGaugeChartData> gaugeDatas = <RadioGaugeChartData>[].obs;
+  static String tag = "HomeStateControllerTag";
+
+  Rx<RadioGaugeChartData> licheng = RadioGaugeChartData().obs;
+  Rx<RadioGaugeChartData> steps = RadioGaugeChartData().obs;
+  Rx<RadioGaugeChartData> calorie = RadioGaugeChartData().obs;
 
   RxList<KHomeCardModel> dataTypes = <KHomeCardModel>[].obs;
 
-  String mileageDefault = "5.00";
-  String pedometerDefault = "8000";
-  String exerciseDefault = "400";
   @override
   void onInit() {
     super.onInit();
 
-    _initData();
+    initData();
   }
 
-  void _initData() {
-    RadioGaugeChartData a = RadioGaugeChartData(
-        percent: Random.secure().nextInt(100), color: const Color(0xFF00CEFF));
-    RadioGaugeChartData b = RadioGaugeChartData(
-        percent: Random.secure().nextInt(100), color: const Color(0xFF34E050));
-    RadioGaugeChartData c = RadioGaugeChartData(
-        percent: Random.secure().nextInt(100), color: const Color(0xFFFF723E));
+  void initData() {
+    vmPrint("initData");
+    final us =
+        (Get.find<AppViewController>(tag: AppViewController.tag)).user.value;
 
-    gaugeDatas.value = [a, b, c];
+    final currentDistance = Random.secure().nextInt(100);
+    final currentSteps = Random.secure().nextInt(100);
+    final currentCalorie = Random.secure().nextInt(100);
+
+    licheng.value = RadioGaugeChartData(
+      title: "mileage",
+      color: KHealthDataType.LiCheng.getTypeMainColor(),
+      all: us?.distancePlan,
+      current: currentDistance,
+      icon: "icons/status_target_distance",
+      symbol: KHealthDataType.LiCheng.getSymbol(),
+    );
+
+    steps.value = RadioGaugeChartData(
+      title: "pedometer",
+      color: KHealthDataType.STEPS.getTypeMainColor(),
+      all: us?.stepsPlan,
+      current: currentSteps,
+      icon: "icons/status_target_steps",
+      symbol: KHealthDataType.STEPS.getSymbol(),
+    );
+
+    calorie.value = RadioGaugeChartData(
+      title: "exercise",
+      color: KHealthDataType.CALORIES_BURNED.getTypeMainColor(),
+      all: us?.caloriePlan,
+      current: currentCalorie,
+      icon: "icons/status_target_steps",
+      symbol: KHealthDataType.CALORIES_BURNED.getSymbol(),
+    );
+
     List<KHomeCardModel> dataArr = [];
     KHealthDataType.values.forEach((element) {
       var data = List.generate(
@@ -66,7 +96,7 @@ class HomeStateController extends GetxController {
 
     Future.delayed(Duration(seconds: 5)).then((value) => {
           vmPrint("delayeddelayeddelayed"),
-          _initData(),
+          initData(),
         });
   }
 
