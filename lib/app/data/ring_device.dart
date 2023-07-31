@@ -4,8 +4,15 @@ class RingDevice {
   final String? remoteId;
   final String? localName;
   final String? macAddress;
+  final bool? isConnect;
+  final int? bat;
 
-  RingDevice({this.remoteId, this.localName, this.macAddress});
+  RingDevice(
+      {this.remoteId,
+      this.localName,
+      this.macAddress,
+      this.isConnect,
+      this.bat});
 
   factory RingDevice.fromResult(ScanResult result) {
     return RingDevice(
