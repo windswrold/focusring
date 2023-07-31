@@ -131,14 +131,14 @@ class BloodOxygenReportChart extends StatelessWidget {
         tooltipSettings: InteractiveTooltip(),
       ),
       series: [
-        CustomRangeColumnSeries<KChartCellData, String>(
-          dataSource: data,
-          // borderWidth: 2,
-          xValueMapper: (KChartCellData sales, _) => sales.x,
-          lowValueMapper: (KChartCellData sales, _) => sales.y - 200,
-          highValueMapper: (KChartCellData sales, _) => sales.y,
-          averageValueMapper: (KChartCellData sales, _) => sales.y,
-        ),
+        // CustomRangeColumnSeries<KChartCellData, String>(
+        //   dataSource: data,
+        //   // borderWidth: 2,
+        //   xValueMapper: (KChartCellData sales, _) => sales.x,
+        //   lowValueMapper: (KChartCellData sales, _) => sales.y - 200,
+        //   highValueMapper: (KChartCellData sales, _) => sales.y,
+        //   averageValueMapper: (KChartCellData sales, _) => sales.y,
+        // ),
       ],
     );
   }

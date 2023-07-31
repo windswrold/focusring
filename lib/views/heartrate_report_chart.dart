@@ -89,10 +89,16 @@ class HeartChartReportChart extends StatelessWidget {
   }
 
   Widget _buildWeek() {
+    final a = Random.secure().nextInt(400);
     var data = List.generate(
-        30,
-        (index) => KChartCellData(
-            x: index.toString(), y: Random.secure().nextInt(1000)));
+      30,
+      (index) => KChartCellData(
+        x: index.toString(),
+        y: a,
+        z: a + Random.secure().nextInt(200),
+        a: a + Random.secure().nextInt(100),
+      ),
+    );
 
     return Column(
       children: [
@@ -143,21 +149,31 @@ class HeartChartReportChart extends StatelessWidget {
               tooltipSettings: InteractiveTooltip(),
             ),
             series: [
-              CustomRangeColumnSeries<KChartCellData, String>(
+              // CustomRangeColumnSeries<KChartCellData, String>(
+              //   dataSource: data,
+              //   // borderWidth: 2,
+              //   xValueMapper: (KChartCellData sales, _) => sales.x,
+              //   lowValueMapper: (KChartCellData sales, _) => sales.y - 200,
+              //   highValueMapper: (KChartCellData sales, _) => sales.y,
+              //   averageValueMapper: (KChartCellData sales, _) => sales.y,
+              //   // pointColorMapper: (datum, index) => Colors.red,
+              //   // dataLabelSettings: DataLabelSettings(
+              //   //   labelAlignment: ChartDataLabelAlignment.top,
+              //   //   textStyle: const TextStyle(fontSize: 10),
+              //   // ),
+              //   onCreateRenderer: (ChartSeries<dynamic, dynamic> series) {
+              //     return CustomRangeColumnRenderer();
+              //   },
+              // ),
+
+              RangeColumnSeries<KChartCellData, String>(
                 dataSource: data,
-                // borderWidth: 2,
                 xValueMapper: (KChartCellData sales, _) => sales.x,
-                lowValueMapper: (KChartCellData sales, _) => sales.y - 200,
-                highValueMapper: (KChartCellData sales, _) => sales.y,
-                averageValueMapper: (KChartCellData sales, _) => sales.y,
-                // pointColorMapper: (datum, index) => Colors.red,
-                // dataLabelSettings: DataLabelSettings(
-                //   labelAlignment: ChartDataLabelAlignment.top,
-                //   textStyle: const TextStyle(fontSize: 10),
-                // ),
-                // onCreateRenderer: (ChartSeries<dynamic, dynamic> series) {
-                //   return CustomRangeColumnRenderer();
-                // },
+                highValueMapper: (KChartCellData sales, _) => sales.z,
+                lowValueMapper: (KChartCellData sales, _) => sales.y,
+                onCreateRenderer: (ChartSeries<dynamic, dynamic> series) {
+                  return CustomRangeColumnRenderer(data);
+                },
               ),
             ],
           ),

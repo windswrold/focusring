@@ -89,20 +89,16 @@ class AppApi {
   ///查询数据
   ///数据类型；bloodOxygen：血氧；femalePeriod：女性生理期；heartRate：心率；sleep 睡眠；step 计步；temp：温度
   static VMApiStream<VMResult> queryAppData(
-      {required String dataType,
-      required String startTime,
-      required String endTime}) {
+      {String? dataType, required String startTime, required String endTime}) {
     return _api.request(
       re: VMRequest()
         ..vmMethod = VMMethod.POST
         ..needAccessToken = true
         ..httpBody = {
-          "queryAppDataDto": {
-            "dataType": dataType,
-            "startTime": startTime,
-            "endTime": endTime,
-          }..recursivelyRemoveNullItems()
-        }
+          "dataType": dataType,
+          "startTime": startTime,
+          "endTime": endTime,
+        }.recursivelyRemoveNullItems()
         ..path = "/app/data/query",
     );
   }

@@ -255,3 +255,63 @@ class PressureData {
         "dataForHour": dataForHour,
       };
 }
+
+class HealthData {
+  List<BloodOxygenData>? bloodOxygenData;
+  List<FemalePeriodData>? femalePeriodData;
+  List<HeartRateData>? heartRateData;
+  List<SleepData>? sleepData;
+  List<TempData>? tempData;
+  List<StepData>? stepData;
+  List<EmotionData>? emotionData;
+  List<PressureData>? pressureData;
+
+  HealthData({
+    this.bloodOxygenData,
+    this.femalePeriodData,
+    this.heartRateData,
+    this.sleepData,
+    this.tempData,
+    this.stepData,
+    this.emotionData,
+    this.pressureData,
+  });
+
+  factory HealthData.fromJson(Map<String, dynamic> json) => HealthData(
+        bloodOxygenData: (json["bloodOxygenData"] as List)
+            .map((i) => BloodOxygenData.fromJson(i))
+            .toList(),
+        femalePeriodData: (json["femalePeriodData"] as List)
+            .map((i) => FemalePeriodData.fromJson(i))
+            .toList(),
+        heartRateData: (json["heartRateData"] as List)
+            .map((i) => HeartRateData.fromJson(i))
+            .toList(),
+        sleepData: (json["sleepData"] as List)
+            .map((i) => SleepData.fromJson(i))
+            .toList(),
+        tempData: (json["tempData"] as List)
+            .map((i) => TempData.fromJson(i))
+            .toList(),
+        stepData: (json["stepData"] as List)
+            .map((i) => StepData.fromJson(i))
+            .toList(),
+        emotionData: (json["emotionData"] as List)
+            .map((i) => EmotionData.fromJson(i))
+            .toList(),
+        pressureData: (json["pressureData"] as List)
+            .map((i) => PressureData.fromJson(i))
+            .toList(),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "bloodOxygenData": bloodOxygenData?.map((x) => x.toJson()).toList(),
+        "femalePeriodData": femalePeriodData?.map((x) => x.toJson()).toList(),
+        "heartRateData": heartRateData?.map((x) => x.toJson()).toList(),
+        "sleepData": sleepData?.map((x) => x.toJson()).toList(),
+        "tempData": tempData?.map((x) => x.toJson()).toList(),
+        "stepData": stepData?.map((x) => x.toJson()).toList(),
+        "emotionData": emotionData?.map((x) => x.toJson()).toList(),
+        "pressureData": pressureData?.map((x) => x.toJson()).toList(),
+      };
+}

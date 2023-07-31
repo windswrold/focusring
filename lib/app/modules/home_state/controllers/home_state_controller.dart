@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:focusring/app/modules/app_view/controllers/app_view_controller.dart';
+import 'package:focusring/net/app_api.dart';
 import 'package:focusring/public.dart';
 import 'package:focusring/utils/console_logger.dart';
 import 'package:focusring/views/charts/home_card/model/home_card_type.dart';
@@ -65,7 +66,13 @@ class HomeStateController extends GetxController {
     List<KHomeCardModel> dataArr = [];
     KHealthDataType.values.forEach((element) {
       var data = List.generate(
-          30, (index) => KChartCellData(x: index.toString(), y: 1000));
+        30,
+        (index) => KChartCellData(
+          x: index.toString(),
+          y: Random.secure().nextDouble() * 500,
+          state: KSleepStatus.values[Random.secure().nextInt(3)],
+        ),
+      );
       KHomeCardModel card = KHomeCardModel(
         type: element,
         datas: element == KHealthDataType.EMOTION
@@ -88,6 +95,8 @@ class HomeStateController extends GetxController {
     });
 
     dataTypes.value = dataArr;
+
+    // AppApi.queryAppData(startTime: startTime, endTime: endTime);
   }
 
   @override

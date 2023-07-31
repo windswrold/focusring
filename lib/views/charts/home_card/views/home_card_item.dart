@@ -179,24 +179,29 @@ class HomeCardView extends StatelessWidget {
   }
 
   Widget _buildSleep() {
-    Widget _buildSleepItem({required double width}) {
+    Widget _buildSleepItem({required KChartCellData item}) {
       return Container(
         height: 85.w,
-        width: width,
-        margin: EdgeInsets.only(right: 10.w),
+        width: item.y.toDouble(),
         child: Column(
           children: [
             Expanded(
                 child: Container(
-              color: Colors.red,
+              color: item.state == KSleepStatus.awake
+                  ? KSleepStatus.awake.getStatusColor()
+                  : Colors.transparent,
             )),
             Expanded(
                 child: Container(
-              color: Colors.blue,
+              color: item.state == KSleepStatus.lightSleep
+                  ? KSleepStatus.lightSleep.getStatusColor()
+                  : Colors.transparent,
             )),
             Expanded(
                 child: Container(
-              color: Colors.yellow,
+              color: item.state == KSleepStatus.deepSleep
+                  ? KSleepStatus.deepSleep.getStatusColor()
+                  : Colors.transparent,
             )),
           ],
         ),
@@ -206,10 +211,11 @@ class HomeCardView extends StatelessWidget {
     return Container(
       height: 85.w,
       child: ListView.builder(
-        itemCount: 30,
+        itemCount: model.datas.first.length,
         scrollDirection: Axis.horizontal,
         itemBuilder: (BuildContext context, int index) {
-          return _buildSleepItem(width: Random.secure().nextDouble() * 100);
+          final item = model.datas.first[index];
+          return _buildSleepItem(item: item);
         },
       ),
     );

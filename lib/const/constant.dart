@@ -45,7 +45,7 @@ enum KState { idle, loading, success, fail }
 enum KReportType { day, week, moneth }
 
 enum KSleepStatus {
-  interval,
+  // interval,
   awake,
   lightSleep,
   deepSleep,
