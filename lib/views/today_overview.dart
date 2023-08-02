@@ -9,9 +9,12 @@ class TodayOverViewModel {
 }
 
 class TodayOverView extends StatelessWidget {
-  const TodayOverView({Key? key, required this.datas}) : super(key: key);
+  const TodayOverView({Key? key, required this.datas, required this.type})
+      : super(key: key);
 
   final List<TodayOverViewModel> datas;
+
+  final KReportType type;
 
   Widget _buildItem(String a, String b) {
     return Container(
@@ -51,7 +54,7 @@ class TodayOverView extends StatelessWidget {
               ),
               10.rowWidget,
               Text(
-                "today_overview".tr,
+                type.getOverviewTitle(),
                 style: Get.textTheme.displayLarge,
               ),
             ],

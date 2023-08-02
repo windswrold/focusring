@@ -13,7 +13,7 @@ class BloodOxygenReportChart extends StatelessWidget {
   const BloodOxygenReportChart({Key? key, required this.pageType})
       : super(key: key);
 
-  final int pageType;
+  final KReportType pageType;
 
   Widget _buildDay() {
     return SfCartesianChart(
@@ -175,15 +175,19 @@ class BloodOxygenReportChart extends StatelessWidget {
         children: [
           SizedBox(
             height: 233.w,
-            child: pageType == 0 ? _buildDay() : _buildWeek(),
+            child: pageType == KReportType.day ? _buildDay() : _buildWeek(),
           ),
           Container(
             margin: EdgeInsets.only(left: 12.w, right: 12.w),
-            child: TodayOverView(datas: [
-              TodayOverViewModel(title: "max_bloodoxygen".tr, content: "1"),
-              TodayOverViewModel(title: "mininum_bloodoxygen".tr, content: "2"),
-              TodayOverViewModel(title: "exception_number".tr, content: "3"),
-            ]),
+            child: TodayOverView(
+              datas: [
+                TodayOverViewModel(title: "max_bloodoxygen".tr, content: "1"),
+                TodayOverViewModel(
+                    title: "mininum_bloodoxygen".tr, content: "2"),
+                TodayOverViewModel(title: "exception_number".tr, content: "3"),
+              ],
+              type: pageType,
+            ),
           ),
           const ReportFooter(
             type: KHealthDataType.BLOOD_OXYGEN,

@@ -1,7 +1,5 @@
 import 'dart:math';
 
-import 'package:focusring/utils/custom_segment_render.dart';
-import 'package:focusring/views/heartrate_report_chart.dart';
 import 'package:focusring/views/report_footer.dart';
 import 'package:focusring/views/today_overview.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -13,7 +11,7 @@ class BodyTemperatureReportChart extends StatelessWidget {
   const BodyTemperatureReportChart({Key? key, required this.pageType})
       : super(key: key);
 
-  final int pageType;
+  final KReportType pageType;
 
   Widget _buildDay() {
     return SfCartesianChart(
@@ -172,15 +170,18 @@ class BodyTemperatureReportChart extends StatelessWidget {
         Container(
           height: 233.w,
           margin: EdgeInsets.only(left: 12.w, right: 12.w, top: 40.w),
-          child: pageType == 0 ? _buildDay() : _buildWeek(),
+          child: pageType == KReportType.day ? _buildDay() : _buildWeek(),
         ),
         Container(
           margin: EdgeInsets.only(left: 12.w, right: 12.w),
-          child: TodayOverView(datas: [
-            TodayOverViewModel(title: "max_bloodoxygen".tr, content: "1"),
-            TodayOverViewModel(title: "mininum_bloodoxygen".tr, content: "2"),
-            TodayOverViewModel(title: "exception_number".tr, content: "3"),
-          ]),
+          child: TodayOverView(
+            datas: [
+              TodayOverViewModel(title: "max_bloodoxygen".tr, content: "1"),
+              TodayOverViewModel(title: "mininum_bloodoxygen".tr, content: "2"),
+              TodayOverViewModel(title: "exception_number".tr, content: "3"),
+            ],
+            type: pageType,
+          ),
         ),
         const ReportFooter(
           type: KHealthDataType.BLOOD_OXYGEN,

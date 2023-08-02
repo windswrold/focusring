@@ -3,9 +3,7 @@ import 'dart:math';
 import 'package:focusring/utils/custom_segment_render.dart';
 import 'package:focusring/views/charts/home_card/model/home_card_x.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import "package:syncfusion_flutter_charts/src/chart/chart_series/series.dart";
 import '../public.dart';
-import "package:syncfusion_flutter_charts/src/chart/chart_series/series_renderer_properties.dart";
 
 class HeartChartReportChart extends StatelessWidget {
   const HeartChartReportChart({Key? key, required this.pageType})

@@ -1,5 +1,3 @@
-import 'package:focusring/theme/theme.dart';
-
 import '../public.dart';
 import 'charts/progress_chart.dart';
 

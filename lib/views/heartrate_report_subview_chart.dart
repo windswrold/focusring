@@ -6,10 +6,10 @@ import '../public.dart';
 import 'charts/home_card/model/home_card_x.dart';
 
 class HeartrateReportSubviewChart extends StatelessWidget {
-  const HeartrateReportSubviewChart({Key? key, required this.pageType})
+  const HeartrateReportSubviewChart({Key? key, required this.type})
       : super(key: key);
 
-  final int pageType;
+  final KReportType type;
 
   Widget _getTitle() {
     return Row(
@@ -132,13 +132,16 @@ class HeartrateReportSubviewChart extends StatelessWidget {
       children: [
         Container(
           margin: EdgeInsets.only(left: 12.w, right: 12.w),
-          child: TodayOverView(datas: [
-            TodayOverViewModel(title: "resting_heartrate".tr, content: "1"),
-            TodayOverViewModel(title: "max_heartrate".tr, content: "2"),
-            TodayOverViewModel(title: "min_heartrate".tr, content: "3"),
-          ]),
+          child: TodayOverView(
+            datas: [
+              TodayOverViewModel(title: "resting_heartrate".tr, content: "1"),
+              TodayOverViewModel(title: "max_heartrate".tr, content: "2"),
+              TodayOverViewModel(title: "min_heartrate".tr, content: "3"),
+            ],
+            type: type,
+          ),
         ),
-        pageType == 0 ? _getDay() : _getWeek(),
+        type == KReportType.day ? _getDay() : _getWeek(),
         // _getFooter(),
         const ReportFooter(
           type: KHealthDataType.HEART_RATE,

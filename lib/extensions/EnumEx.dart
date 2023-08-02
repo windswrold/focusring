@@ -338,6 +338,14 @@ extension KReportTypeEX on KReportType {
       "month_activity".tr,
     ][index];
   }
+
+  String getOverviewTitle() {
+    return [
+      "today_overview".tr,
+      "week_overview".tr,
+      "moneth_overview".tr,
+    ][index];
+  }
 }
 
 extension KSleepStatusEX on KSleepStatus {
