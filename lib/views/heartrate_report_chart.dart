@@ -149,23 +149,6 @@ class HeartChartReportChart extends StatelessWidget {
               tooltipSettings: InteractiveTooltip(),
             ),
             series: [
-              // CustomRangeColumnSeries<KChartCellData, String>(
-              //   dataSource: data,
-              //   // borderWidth: 2,
-              //   xValueMapper: (KChartCellData sales, _) => sales.x,
-              //   lowValueMapper: (KChartCellData sales, _) => sales.y - 200,
-              //   highValueMapper: (KChartCellData sales, _) => sales.y,
-              //   averageValueMapper: (KChartCellData sales, _) => sales.y,
-              //   // pointColorMapper: (datum, index) => Colors.red,
-              //   // dataLabelSettings: DataLabelSettings(
-              //   //   labelAlignment: ChartDataLabelAlignment.top,
-              //   //   textStyle: const TextStyle(fontSize: 10),
-              //   // ),
-              //   onCreateRenderer: (ChartSeries<dynamic, dynamic> series) {
-              //     return CustomRangeColumnRenderer();
-              //   },
-              // ),
-
               RangeColumnSeries<KChartCellData, String>(
                 dataSource: data,
                 xValueMapper: (KChartCellData sales, _) => sales.x,

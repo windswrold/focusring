@@ -130,13 +130,12 @@ class BodyTemperatureReportChart extends StatelessWidget {
         tooltipSettings: InteractiveTooltip(),
       ),
       series: [
-        // CustomRangeColumnSeries<KChartCellData, String>(
-        //   dataSource: data,
-        //   xValueMapper: (KChartCellData sales, _) => sales.x,
-        //   lowValueMapper: (KChartCellData sales, _) => sales.y - 200,
-        //   highValueMapper: (KChartCellData sales, _) => sales.y,
-        //   averageValueMapper: (KChartCellData sales, _) => sales.y - 100,
-        // ),
+        RangeColumnSeries<KChartCellData, String>(
+          dataSource: data,
+          xValueMapper: (KChartCellData sales, _) => sales.x,
+          lowValueMapper: (KChartCellData sales, _) => sales.y - 200,
+          highValueMapper: (KChartCellData sales, _) => sales.y,
+        ),
       ],
     );
   }

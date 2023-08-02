@@ -31,12 +31,6 @@ class ReportInfoStepsView extends GetView<ReportInfoStepsController> {
   }
 
   Widget _getTabbarTitle() {
-    if (controller.currentType == KHealthDataType.EMOTION ||
-        controller.currentType == KHealthDataType.STRESS ||
-        controller.currentType == KHealthDataType.FEMALE_HEALTH) {
-      return Container();
-    }
-
     return Container(
       decoration: BoxDecoration(
         color: ColorUtils.fromHex("#FF000000"),
@@ -69,18 +63,9 @@ class ReportInfoStepsView extends GetView<ReportInfoStepsController> {
     );
   }
 
-  Widget _getArrowTitle() {
-    if (controller.currentType == KHealthDataType.FEMALE_HEALTH) {
-      return Container();
-    }
-    return TraLedButton();
-  }
-
   Widget _getBigTitle() {
     return Visibility(
-        visible: (controller.currentType != KHealthDataType.SLEEP &&
-            controller.currentType != KHealthDataType.STRESS &&
-            controller.currentType != KHealthDataType.FEMALE_HEALTH),
+        visible: (controller.currentType != KHealthDataType.SLEEP),
         child: Container(
           margin: EdgeInsets.only(top: 10.w),
           child: Column(
@@ -165,8 +150,6 @@ class ReportInfoStepsView extends GetView<ReportInfoStepsController> {
 
   @override
   Widget build(BuildContext context) {
-    if (controller.currentType == KHealthDataType.FEMALE_HEALTH) {}
-
     return KBasePageView(
       hiddenAppBar: true,
       safeAreaTop: false,
@@ -180,11 +163,11 @@ class ReportInfoStepsView extends GetView<ReportInfoStepsController> {
             children: [
               _getAppBar(),
               _getTabbarTitle(),
-              _getArrowTitle(),
+              TraLedButton(),
               _getBigTitle(),
               Expanded(
                 child: TabBarView(
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   controller: controller.tabController,
                   children: [
                     _getPageViewWidget(0),
@@ -199,4 +182,24 @@ class ReportInfoStepsView extends GetView<ReportInfoStepsController> {
       ),
     );
   }
+}
+
+class ReportInfoChildView extends StatefulWidget {
+  ReportInfoChildView({Key? key}) : super(key: key);
+
+  @override
+  State<ReportInfoChildView> createState() => _ReportInfoChildViewState();
+}
+
+class _ReportInfoChildViewState extends State<ReportInfoChildView>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  Widget build(BuildContext context) {
+    vmPrint("_ReportInfoChildViewState");
+    return Container();
+  }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

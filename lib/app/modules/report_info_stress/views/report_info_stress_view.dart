@@ -196,7 +196,7 @@ class ReportInfoStressView extends GetView<ReportInfoStressController> {
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.w),
-      margin: EdgeInsets.only(left: 12.w, right: 12.w),
+      margin: EdgeInsets.only(left: 12.w, right: 12.w, bottom: 30.w),
       decoration: BoxDecoration(
         color: ColorUtils.fromHex("#FF000000"),
         borderRadius: BorderRadius.circular(12),

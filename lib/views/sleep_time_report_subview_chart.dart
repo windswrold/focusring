@@ -48,24 +48,39 @@ class SleepTimeSubviewChart extends StatelessWidget {
             ),
             Expanded(
               child: Container(
-                  // child:
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //   children: [
-                  //     LoadAssetsImage(
-                  //       "icons/sleep_line_ltow",
-                  //       width: 2,
-                  //       height: 28,
-                  //     ),
-                  //     LoadAssetsImage(
-                  //       "icons/sleep_line_wtol",
-                  //       width: 2,
-                  //       height: 28,
-                  //     ),
-                  //   ],
-                  // ),
+                decoration: BoxDecoration(
+                  border: Border(
+                    right: BorderSide(
+                      color: status == KSleepStatus.awake
+                          ? Colors.red
+                          : Colors.transparent,
+                    ),
+                    left: BorderSide(
+                      color: status == KSleepStatus.lightSleep
+                          ? Colors.red
+                          : Colors.transparent,
+                    ),
                   ),
+                ),
+              ),
             ),
+            // child: Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //   children: [
+            //     LoadAssetsImage(
+            //       "icons/sleep_line_ltow",
+            //       width: 2,
+            //       height: 28,
+            //     ),
+            //     LoadAssetsImage(
+            //       "icons/sleep_line_wtol",
+            //       width: 2,
+            //       height: 28,
+            //     ),
+            //   ],
+            // ),
+            //   ),
+            // ),
             Expanded(
               child: Container(
                 color: status == KSleepStatus.lightSleep
@@ -74,9 +89,18 @@ class SleepTimeSubviewChart extends StatelessWidget {
               ),
             ),
             Expanded(
-                child: Container(
-              color: Colors.transparent,
-            )),
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border(
+                    left: BorderSide(
+                      color: status == KSleepStatus.lightSleep
+                          ? Colors.red
+                          : Colors.transparent,
+                    ),
+                  ),
+                ),
+              ),
+            ),
             Expanded(
               child: Container(
                 color: status == KSleepStatus.deepSleep
@@ -134,7 +158,7 @@ class SleepTimeSubviewChart extends StatelessWidget {
               itemBuilder: (BuildContext context, int index) {
                 return _buildSleepItem(
                   width: Random.secure().nextInt(30).toDouble(),
-                  status: KSleepStatus.values[Random.secure().nextInt(4)],
+                  status: KSleepStatus.values[Random.secure().nextInt(3)],
                 );
               },
             ),

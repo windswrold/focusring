@@ -65,8 +65,8 @@ class BloodOxygenReportChart extends StatelessWidget {
       ),
       series: [
         ScatterSeries<KChartCellData, String>(
-          dataSource: List.generate(30,
-              (index) => KChartCellData(x: "$index", y: index.toDouble())),
+          dataSource: List.generate(
+              30, (index) => KChartCellData(x: "$index", y: index.toDouble())),
           xValueMapper: (KChartCellData sales, _) => sales.x,
           yValueMapper: (KChartCellData sales, _) => sales.y,
           markerSettings: const MarkerSettings(
@@ -131,14 +131,12 @@ class BloodOxygenReportChart extends StatelessWidget {
         tooltipSettings: InteractiveTooltip(),
       ),
       series: [
-        // CustomRangeColumnSeries<KChartCellData, String>(
-        //   dataSource: data,
-        //   // borderWidth: 2,
-        //   xValueMapper: (KChartCellData sales, _) => sales.x,
-        //   lowValueMapper: (KChartCellData sales, _) => sales.y - 200,
-        //   highValueMapper: (KChartCellData sales, _) => sales.y,
-        //   averageValueMapper: (KChartCellData sales, _) => sales.y,
-        // ),
+        RangeColumnSeries<KChartCellData, String>(
+          dataSource: data,
+          xValueMapper: (KChartCellData sales, _) => sales.x,
+          lowValueMapper: (KChartCellData sales, _) => sales.y - 200,
+          highValueMapper: (KChartCellData sales, _) => sales.y,
+        ),
       ],
     );
   }
