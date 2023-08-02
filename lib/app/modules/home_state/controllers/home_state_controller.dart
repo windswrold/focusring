@@ -125,6 +125,10 @@ class HomeStateController extends GetxController {
 
     if (type.type == KHealthDataType.FEMALE_HEALTH) {
       Get.toNamed(Routes.REPORT_INFO_FEMMALEHEALTH);
+    } else if (type.type == KHealthDataType.EMOTION) {
+      Get.toNamed(Routes.REPORT_INFO_EMOTION);
+    } else if (type.type == KHealthDataType.STRESS) {
+      Get.toNamed(Routes.REPORT_INFO_STRESS);
     } else {
       Get.toNamed(Routes.REPORT_INFO_STEPS, arguments: type.type);
     }

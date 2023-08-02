@@ -7,15 +7,14 @@ import 'package:focusring/views/bloodoxygen_report_chart.dart';
 import 'package:focusring/views/body_temperature_report_chart.dart';
 import 'package:focusring/views/charts/home_card/model/home_card_x.dart';
 import 'package:focusring/views/charts/progress_chart.dart';
-import 'package:focusring/views/emotion_report_chart.dart';
 import 'package:focusring/views/heartrate_report_chart.dart';
 import 'package:focusring/views/heartrate_report_subview_chart.dart';
 import 'package:focusring/views/sleep_time_report_chart.dart';
 import 'package:focusring/views/sleep_time_report_subview_chart.dart';
 import 'package:focusring/views/steps_licheng_report_chart.dart';
 import 'package:focusring/views/steps_licheng_report_subview_chart.dart';
-import 'package:focusring/views/stress_report_chart.dart';
 import 'package:focusring/views/target_completion_rate.dart';
+import 'package:focusring/views/tra_led_button.dart';
 
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
@@ -74,33 +73,7 @@ class ReportInfoStepsView extends GetView<ReportInfoStepsController> {
     if (controller.currentType == KHealthDataType.FEMALE_HEALTH) {
       return Container();
     }
-    return Container(
-      margin: EdgeInsets.only(left: 61.w, right: 61.w, top: 12.w),
-      child: Row(
-        children: [
-          NextButton(
-            onPressed: () {},
-            width: 29,
-            height: 29,
-            bgImg: assetsImages + "icons/report_arrow_left@3x.png",
-            title: "",
-          ),
-          Expanded(
-            child: Text(
-              "data",
-              textAlign: TextAlign.center,
-            ),
-          ),
-          NextButton(
-            onPressed: () {},
-            width: 29,
-            height: 29,
-            bgImg: assetsImages + "icons/report_arrow_right@3x.png",
-            title: "",
-          ),
-        ],
-      ),
-    );
+    return TraLedButton();
   }
 
   Widget _getBigTitle() {
@@ -151,15 +124,8 @@ class ReportInfoStepsView extends GetView<ReportInfoStepsController> {
       return BloodOxygenReportChart(pageType: pageType);
     }
 
-    if (controller.currentType == KHealthDataType.EMOTION) {
-      return EmotionReportChart();
-    }
     if (controller.currentType == KHealthDataType.BODY_TEMPERATURE) {
       return BodyTemperatureReportChart(pageType: pageType);
-    }
-
-    if (controller.currentType == KHealthDataType.STRESS) {
-      return StressReportChart(pageType: pageType);
     }
 
     if (controller.currentType == KHealthDataType.STEPS ||
