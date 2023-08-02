@@ -85,7 +85,7 @@ class ReportInfoStepsView extends GetView<ReportInfoStepsController> {
         ));
   }
 
-  Widget _getPageViewWidget(int pageType) {
+  Widget _getPageViewWidget(KReportType pageType) {
     return SingleChildScrollView(
       child: Container(
         child: Column(
@@ -98,7 +98,7 @@ class ReportInfoStepsView extends GetView<ReportInfoStepsController> {
     );
   }
 
-  Widget _buildChart(int pageType) {
+  Widget _buildChart(KReportType pageType) {
     if (controller.currentType == KHealthDataType.SLEEP) {
       return SleepTimeReportChart(pageType: pageType);
     }
@@ -122,7 +122,7 @@ class ReportInfoStepsView extends GetView<ReportInfoStepsController> {
     return Container();
   }
 
-  Widget _getSubView(int pageType) {
+  Widget _getSubView(KReportType pageType) {
     if (controller.currentType == KHealthDataType.BLOOD_OXYGEN) {
       return Container();
     }
@@ -133,7 +133,7 @@ class ReportInfoStepsView extends GetView<ReportInfoStepsController> {
     }
 
     if (controller.currentType == KHealthDataType.HEART_RATE) {
-      return HeartrateReportSubviewChart(pageType: pageType);
+      return HeartrateReportSubviewChart(type: pageType);
     }
 
     if (controller.currentType == KHealthDataType.STEPS ||
@@ -170,9 +170,9 @@ class ReportInfoStepsView extends GetView<ReportInfoStepsController> {
                   physics: const NeverScrollableScrollPhysics(),
                   controller: controller.tabController,
                   children: [
-                    _getPageViewWidget(0),
-                    _getPageViewWidget(1),
-                    _getPageViewWidget(2),
+                    _getPageViewWidget(KReportType.day),
+                    _getPageViewWidget(KReportType.week),
+                    _getPageViewWidget(KReportType.moneth),
                   ],
                 ),
               ),
@@ -184,22 +184,22 @@ class ReportInfoStepsView extends GetView<ReportInfoStepsController> {
   }
 }
 
-class ReportInfoChildView extends StatefulWidget {
-  ReportInfoChildView({Key? key}) : super(key: key);
+// class ReportInfoChildView extends StatefulWidget {
+//   ReportInfoChildView({Key? key}) : super(key: key);
 
-  @override
-  State<ReportInfoChildView> createState() => _ReportInfoChildViewState();
-}
+//   @override
+//   State<ReportInfoChildView> createState() => _ReportInfoChildViewState();
+// }
 
-class _ReportInfoChildViewState extends State<ReportInfoChildView>
-    with AutomaticKeepAliveClientMixin {
-  @override
-  Widget build(BuildContext context) {
-    vmPrint("_ReportInfoChildViewState");
-    return Container();
-  }
+// class _ReportInfoChildViewState extends State<ReportInfoChildView>
+//     with AutomaticKeepAliveClientMixin {
+//   @override
+//   Widget build(BuildContext context) {
+//     vmPrint("_ReportInfoChildViewState");
+//     return Container();
+//   }
 
-  @override
-  // TODO: implement wantKeepAlive
-  bool get wantKeepAlive => true;
-}
+//   @override
+//   // TODO: implement wantKeepAlive
+//   bool get wantKeepAlive => true;
+// }

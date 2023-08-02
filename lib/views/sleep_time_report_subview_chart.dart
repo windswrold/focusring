@@ -10,7 +10,7 @@ class SleepTimeSubviewChart extends StatelessWidget {
   const SleepTimeSubviewChart({Key? key, required this.pageType})
       : super(key: key);
 
-  final int pageType;
+  final KReportType pageType;
 
   Widget _getTitle() {
     return Container(
@@ -253,7 +253,7 @@ class SleepTimeSubviewChart extends StatelessWidget {
           child: Column(
             children: [
               _getTitle(),
-              pageType == 0 ? _getDay() : _getWeek(),
+              pageType == KReportType.day ? _getDay() : _getWeek(),
             ],
           ),
         ),

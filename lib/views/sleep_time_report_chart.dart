@@ -18,7 +18,7 @@ class SleepTimeReportChart extends StatelessWidget {
   final double? sleepTimeSecond;
   final double? wakeTimeSecond;
   final TimeOfDay? sleepTime;
-  final int pageType;
+  final KReportType pageType;
 
   Widget _getDayChart() {
     const thickness = 0.15;
@@ -272,7 +272,7 @@ class SleepTimeReportChart extends StatelessWidget {
     return Container(
       height: 283.w,
       padding: EdgeInsets.only(top: 20.w),
-      child: pageType == 0 ? _getDayChart() : _getWeekChart(),
+      child: pageType == KReportType.day ? _getDayChart() : _getWeekChart(),
     );
   }
 }

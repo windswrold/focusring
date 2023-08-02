@@ -22,7 +22,7 @@ class TargetCompletionRate extends StatelessWidget {
       required this.datas})
       : super(key: key);
 
-  final int pageType;
+  final KReportType pageType;
 
   final KHealthDataType type;
 
@@ -139,9 +139,9 @@ class TargetCompletionRate extends StatelessWidget {
         color: ColorUtils.fromHex("#FF000000"),
         borderRadius: BorderRadius.circular(12),
       ),
-      child: pageType == 0
+      child: pageType == KReportType.day
           ? _getDayComplation()
-          : pageType == 1
+          : pageType == KReportType.week
               ? _getWeekComplation()
               : _getMonethComplation(),
     );

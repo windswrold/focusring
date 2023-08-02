@@ -11,7 +11,7 @@ class StepsLiChengSubviewChart extends StatelessWidget {
       {Key? key, required this.pageType, required this.type})
       : super(key: key);
 
-  final int pageType;
+  final KReportType pageType;
 
   final KHealthDataType type;
 
@@ -20,9 +20,9 @@ class StepsLiChengSubviewChart extends StatelessWidget {
     required String cardIcon,
     required String type,
     required String value,
-    required int pageType,
+    required KReportType pageType,
   }) {
-    if (pageType == 0) {
+    if (pageType == KReportType.day) {
       return Container(
         width: 170.w,
         height: 70.w,
@@ -98,7 +98,7 @@ class StepsLiChengSubviewChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Widget> datas = [];
-    if (pageType == 0) {
+    if (pageType == KReportType.day) {
       if (type == KHealthDataType.STEPS) {
         datas.add(
           _getCardItem(

@@ -9,7 +9,7 @@ class HeartChartReportChart extends StatelessWidget {
   const HeartChartReportChart({Key? key, required this.pageType})
       : super(key: key);
 
-  final int pageType;
+  final KReportType pageType;
 
   Widget _buildDay() {
     return Column(
@@ -168,7 +168,7 @@ class HeartChartReportChart extends StatelessWidget {
     return Container(
       height: 278.w,
       padding: EdgeInsets.only(top: 40.w),
-      child: pageType == 0 ? _buildDay() : _buildWeek(),
+      child: pageType == KReportType.day ? _buildDay() : _buildWeek(),
     );
   }
 }
