@@ -27,6 +27,8 @@ abstract class Routes {
   static const FAQ_INFO_VIEW = _Paths.FAQ_INFO_VIEW;
   static const COMMON_HTML_VIEW = _Paths.COMMON_HTML_VIEW;
   static const REPORT_INFO_FEMMALEHEALTH = _Paths.REPORT_INFO_FEMMALEHEALTH;
+  static const REPORT_INFO_EMOTION = _Paths.REPORT_INFO_EMOTION;
+  static const REPORT_INFO_STRESS = _Paths.REPORT_INFO_STRESS;
 }
 
 abstract class _Paths {
@@ -55,4 +57,6 @@ abstract class _Paths {
   static const FAQ_INFO_VIEW = '/faq-info-view';
   static const COMMON_HTML_VIEW = '/common-html-view';
   static const REPORT_INFO_FEMMALEHEALTH = '/report-info-femmalehealth';
+  static const REPORT_INFO_EMOTION = '/report-info-emotion';
+  static const REPORT_INFO_STRESS = '/report-info-stress';
 }

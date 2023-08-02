@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Focusring</string>
+	<string>Beefit</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -15,7 +15,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>focusring</string>
+	<string>Beefit</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -36,11 +36,11 @@
 	<key>NSBluetoothPeripheralUsageDescription</key>
 	<string>Need BLE permission</string>
 	<key>NSCameraUsageDescription</key>
-	<string>Focusring needs your consent to access the camera identification QR code</string>
+	<string>Beefit needs your consent to access the camera identification QR code</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Focusring needs your permission to add pictures to the album</string>
+	<string>Beefit needs your permission to add pictures to the album</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Focusring needs your permission to access the album to identify the transfer QR code</string>
+	<string>Beefit needs your permission to access the album to identify the transfer QR code</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>

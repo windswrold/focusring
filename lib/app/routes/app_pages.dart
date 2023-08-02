@@ -32,10 +32,14 @@ import '../modules/home_tabbar/bindings/home_tabbar_binding.dart';
 import '../modules/home_tabbar/views/home_tabbar_view.dart';
 import '../modules/language_unit/bindings/language_unit_binding.dart';
 import '../modules/language_unit/views/language_unit_view.dart';
+import '../modules/report_info_emotion/bindings/report_info_emotion_binding.dart';
+import '../modules/report_info_emotion/views/report_info_emotion_view.dart';
 import '../modules/report_info_femmalehealth/bindings/report_info_femmalehealth_binding.dart';
 import '../modules/report_info_femmalehealth/views/report_info_femmalehealth_view.dart';
 import '../modules/report_info_steps/bindings/report_info_steps_binding.dart';
 import '../modules/report_info_steps/views/report_info_steps_view.dart';
+import '../modules/report_info_stress/bindings/report_info_stress_binding.dart';
+import '../modules/report_info_stress/views/report_info_stress_view.dart';
 import '../modules/setting_feedback/bindings/setting_feedback_binding.dart';
 import '../modules/setting_feedback/views/setting_feedback_view.dart';
 import '../modules/setting_user_info/bindings/setting_user_info_binding.dart';
@@ -168,6 +172,16 @@ class AppPages {
       name: _Paths.REPORT_INFO_FEMMALEHEALTH,
       page: () => const ReportInfoFemmalehealthView(),
       binding: ReportInfoFemmalehealthBinding(),
+    ),
+    GetPage(
+      name: _Paths.REPORT_INFO_EMOTION,
+      page: () => const ReportInfoEmotionView(),
+      binding: ReportInfoEmotionBinding(),
+    ),
+    GetPage(
+      name: _Paths.REPORT_INFO_STRESS,
+      page: () => const ReportInfoStressView(),
+      binding: ReportInfoStressBinding(),
     ),
   ];
 }
