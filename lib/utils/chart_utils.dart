@@ -9,12 +9,12 @@ class ChartUtils {
     required String icon,
     double? width,
     double? height,
-    double bottom = 0,
+    EdgeInsetsGeometry? margin,
   }) {
     return Container(
       width: width,
       height: height,
-      margin: EdgeInsets.only(bottom: bottom),
+      margin: margin,
       alignment: Alignment.center,
       decoration: BoxDecoration(
         image: DecorationImage(

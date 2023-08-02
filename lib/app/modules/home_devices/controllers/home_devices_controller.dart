@@ -1,3 +1,4 @@
+import 'package:focusring/app/data/ring_device.dart';
 import 'package:focusring/public.dart';
 import 'package:get/get.dart';
 
@@ -5,6 +6,8 @@ class HomeDevicesController extends GetxController {
   //TODO: Implement HomeDevicesController
 
   RxList<Map> my_defaultList = <Map>[].obs;
+
+  Rx<RingDevice?> connectDevice = null.obs;
 
   @override
   void onInit() {

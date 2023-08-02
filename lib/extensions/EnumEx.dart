@@ -342,12 +342,17 @@ extension KReportTypeEX on KReportType {
 
 extension KSleepStatusEX on KSleepStatus {
   Color getStatusColor() {
-    return [
-      Colors.transparent,
-      const Color(0xFFFFD802),
-      const Color(0xFF02FFE2),
-      const Color(0xFF766AFF),
-    ][index];
+    if (this == KSleepStatus.awake) {
+      return const Color(0xFFFFD802);
+    }
+    if (this == KSleepStatus.lightSleep) {
+      return const Color(0xFF02FFE2);
+    }
+    if (this == KSleepStatus.deepSleep) {
+      return const Color(0xFF766AFF);
+    }
+
+    return Colors.transparent;
   }
 
   String getStatusDesc() {

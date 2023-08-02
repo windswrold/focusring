@@ -8,7 +8,6 @@ import 'package:focusring/views/body_temperature_report_chart.dart';
 import 'package:focusring/views/charts/home_card/model/home_card_x.dart';
 import 'package:focusring/views/charts/progress_chart.dart';
 import 'package:focusring/views/emotion_report_chart.dart';
-import 'package:focusring/views/femmale_health_report_chart.dart';
 import 'package:focusring/views/heartrate_report_chart.dart';
 import 'package:focusring/views/heartrate_report_subview_chart.dart';
 import 'package:focusring/views/sleep_time_report_chart.dart';
@@ -161,14 +160,6 @@ class ReportInfoStepsView extends GetView<ReportInfoStepsController> {
 
     if (controller.currentType == KHealthDataType.STRESS) {
       return StressReportChart(pageType: pageType);
-    }
-
-    if (controller.currentType == KHealthDataType.FEMALE_HEALTH) {
-      DateRangePickerController vc = DateRangePickerController();
-
-      return FemmaleHealthReportChart(
-        controller: vc,
-      );
     }
 
     if (controller.currentType == KHealthDataType.STEPS ||

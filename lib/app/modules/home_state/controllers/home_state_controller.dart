@@ -119,25 +119,14 @@ class HomeStateController extends GetxController {
   }
 
   void onTapCardType(KHomeCardModel type) {
-    Get.toNamed(Routes.REPORT_INFO_STEPS, arguments: type.type);
+    // Get.toNamed(Routes.REPORT_INFO_STEPS, arguments: type.type);
 
-    return;
+    // return;
 
-    // if (type == KHealthDataType.STEPS ||
-    //     type == KHealthDataType.LiCheng ||
-    //     type == KHealthDataType.CALORIES_BURNED ||
-    //     type == KHealthDataType.STRESS) {
-    //   Get.toNamed(Routes.REPORT_INFO_STEPS);
-    // } else if (type == KHealthDataType.SLEEP) {
-    //   Get.toNamed(Routes.REPORT_INFO_SLEEP);
-    // } else if (type == KHealthDataType.HEART_RATE) {
-    //   Get.toNamed(Routes.REPORT_INFO_HEARTRATE);
-    // } else if (type == KHealthDataType.BLOOD_OXYGEN ||
-    //     type == KHealthDataType.BODY_TEMPERATURE) {
-    //   Get.toNamed(Routes.REPORT_INFO_BLOODOXYGEN);
-    // } else if (type == KHealthDataType.EMOTION) {
-    // } else if (type == KHealthDataType.FEMALE_HEALTH) {
-    //   Get.toNamed(Routes.REPORT_INFO_FEMMALEHEALTH);
-    // }
+    if (type.type == KHealthDataType.FEMALE_HEALTH) {
+      Get.toNamed(Routes.REPORT_INFO_FEMMALEHEALTH);
+    } else {
+      Get.toNamed(Routes.REPORT_INFO_STEPS, arguments: type.type);
+    }
   }
 }

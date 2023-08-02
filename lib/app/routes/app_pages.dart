@@ -32,6 +32,8 @@ import '../modules/home_tabbar/bindings/home_tabbar_binding.dart';
 import '../modules/home_tabbar/views/home_tabbar_view.dart';
 import '../modules/language_unit/bindings/language_unit_binding.dart';
 import '../modules/language_unit/views/language_unit_view.dart';
+import '../modules/report_info_femmalehealth/bindings/report_info_femmalehealth_binding.dart';
+import '../modules/report_info_femmalehealth/views/report_info_femmalehealth_view.dart';
 import '../modules/report_info_steps/bindings/report_info_steps_binding.dart';
 import '../modules/report_info_steps/views/report_info_steps_view.dart';
 import '../modules/setting_feedback/bindings/setting_feedback_binding.dart';
@@ -161,6 +163,11 @@ class AppPages {
       name: _Paths.COMMON_HTML_VIEW,
       page: () => const CommonHtmlViewView(),
       binding: CommonHtmlViewBinding(),
+    ),
+    GetPage(
+      name: _Paths.REPORT_INFO_FEMMALEHEALTH,
+      page: () => const ReportInfoFemmalehealthView(),
+      binding: ReportInfoFemmalehealthBinding(),
     ),
   ];
 }

@@ -17,82 +17,84 @@ class HomeCardView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isEmpty = model.datas.isEmpty;
-
     return Container(
       width: 351.w,
-      height: isEmpty ? 72.w : 200.w,
+      height: model.datas.isEmpty ? 72.w : 200.w,
       decoration: BoxDecoration(
         image: DecorationImage(
           image: AssetImage(
-            "$assetsImages${model.type!.getIcon(isBgIcon: true, isEmptyIcon: isEmpty)}@3x.png",
+            "$assetsImages${model.type!.getIcon(isBgIcon: true, isEmptyIcon: model.datas.isEmpty)}@3x.png",
           ),
           fit: BoxFit.contain,
         ),
       ),
       child: Column(
         children: [
-          Container(
-            margin: EdgeInsets.only(left: 14.w, top: 15.w, right: 14.w),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    LoadAssetsImage(
-                      model.type!.getIcon(isCardIcon: true),
-                      width: 35,
-                      height: 35,
-                    ),
-                    11.rowWidget,
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          model.type!.getDisplayName(),
-                          style: Get.textTheme.bodySmall,
-                        ),
-                        2.columnWidget,
-                        Text(
-                          model.date ?? "",
-                          style: Get.textTheme.bodyMedium,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Visibility(
-                      visible: !isEmpty,
-                      child: RichText(
-                        text: TextSpan(
-                          text: (model.result ?? ""),
-                          style: Get.textTheme.bodyLarge,
-                          children: [
-                            TextSpan(
-                              text: model.type!.getSymbol(),
-                              style: Get.textTheme.labelSmall,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Visibility(
-                      visible: model.resultDesc != null,
-                      child: Text(
-                        model.resultDesc ?? "",
-                      ),
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ),
+          _buildTitle(),
           _buildChart(),
           _buildFooter(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTitle() {
+    return Container(
+      margin: EdgeInsets.only(left: 14.w, top: 15.w, right: 14.w),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              LoadAssetsImage(
+                model.type!.getIcon(isCardIcon: true),
+                width: 35,
+                height: 35,
+              ),
+              11.rowWidget,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    model.type!.getDisplayName(),
+                    style: Get.textTheme.bodySmall,
+                  ),
+                  2.columnWidget,
+                  Text(
+                    model.date ?? "",
+                    style: Get.textTheme.bodyMedium,
+                  ),
+                ],
+              ),
+            ],
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Visibility(
+                visible: (model.datas.isNotEmpty),
+                child: RichText(
+                  text: TextSpan(
+                    text: (model.result ?? ""),
+                    style: Get.textTheme.bodyLarge,
+                    children: [
+                      TextSpan(
+                        text: model.type!.getSymbol(),
+                        style: Get.textTheme.labelSmall,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Visibility(
+                visible: model.resultDesc != null,
+                child: Text(
+                  model.resultDesc ?? "",
+                ),
+              ),
+            ],
+          )
         ],
       ),
     );
@@ -101,33 +103,33 @@ class HomeCardView extends StatelessWidget {
   Widget _buildChart() {
     return Visibility(
       visible: model.datas.isNotEmpty,
-      child: Container(
-        height: 85.w,
-        margin: EdgeInsets.only(top: 18.w),
-        child: _buildChartItem(),
+      child: Expanded(
+        child: Container(
+          margin: EdgeInsets.only(top: 22.w, left: 10.w, right: 10.w),
+          child: _buildChartItem(),
+        ),
       ),
     );
   }
 
   Widget _buildFooter() {
-    return Visibility(
-      // visible: model.startDesc != null && model.endDesc != null,
-      child: Expanded(
-        child: Container(
-          margin: EdgeInsets.only(left: 10.w, right: 10.w, bottom: 10.w),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                model.startDesc ?? "",
-                style: Get.textTheme.labelLarge,
-              ),
-              Text(
-                model.endDesc ?? "",
-                style: Get.textTheme.labelLarge,
-              ),
-            ],
-          ),
+    return Container(
+      margin: EdgeInsets.only(left: 10.w, right: 10.w),
+      height: 36.w,
+      child: Visibility(
+        visible: model.type != KHealthDataType.FEMALE_HEALTH,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              model.startDesc ?? "",
+              style: Get.textTheme.labelLarge,
+            ),
+            Text(
+              model.endDesc ?? "",
+              style: Get.textTheme.labelLarge,
+            ),
+          ],
         ),
       ),
     );
@@ -140,7 +142,7 @@ class HomeCardView extends StatelessWidget {
       return SfDateRangePicker(
         headerHeight: 0,
         showNavigationArrow: false,
-        showTodayButton: false,
+        // showTodayButton: false,
         initialDisplayDate: DateTime.now(),
         selectionColor: Colors.transparent,
         todayHighlightColor: Get.textTheme.labelMedium?.color,
@@ -159,7 +161,12 @@ class HomeCardView extends StatelessWidget {
           var textString = cellDetails.date.day.toString();
           var anquanqi = KFemmaleStatus.normal.image();
           return ChartUtils.getDateCellItem(
-              text: textString, icon: anquanqi, width: 30.w, bottom: 30.w);
+            text: textString,
+            icon: anquanqi,
+            width: 30,
+            height: 30,
+            margin: EdgeInsets.only(left: 10.w, right: 10.w),
+          );
         },
       );
     } else {
@@ -172,6 +179,7 @@ class HomeCardView extends StatelessWidget {
           isVisible: false,
           maximum: model.maximum,
         ),
+        margin: EdgeInsets.zero,
         series: ChartUtils.getHomeItemServices(
             type: model.type!, datas: model.datas),
       );
@@ -179,35 +187,6 @@ class HomeCardView extends StatelessWidget {
   }
 
   Widget _buildSleep() {
-    Widget _buildSleepItem({required KChartCellData item}) {
-      return Container(
-        height: 85.w,
-        width: item.y.toDouble(),
-        child: Column(
-          children: [
-            Expanded(
-                child: Container(
-              color: item.state == KSleepStatus.awake
-                  ? KSleepStatus.awake.getStatusColor()
-                  : Colors.transparent,
-            )),
-            Expanded(
-                child: Container(
-              color: item.state == KSleepStatus.lightSleep
-                  ? KSleepStatus.lightSleep.getStatusColor()
-                  : Colors.transparent,
-            )),
-            Expanded(
-                child: Container(
-              color: item.state == KSleepStatus.deepSleep
-                  ? KSleepStatus.deepSleep.getStatusColor()
-                  : Colors.transparent,
-            )),
-          ],
-        ),
-      );
-    }
-
     return Container(
       height: 85.w,
       child: ListView.builder(
@@ -221,50 +200,34 @@ class HomeCardView extends StatelessWidget {
     );
   }
 
-  Widget _buildEMOTION() {
-    Widget _buildSleepItem({required double width}) {
-      return Container(
-        height: 85.w,
-        width: width,
-        margin: EdgeInsets.only(right: 4),
-        decoration: BoxDecoration(
-          color: ColorUtils.fromHex("#FF212526"),
-          borderRadius: BorderRadius.circular(3),
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(3),
-          child: Column(
-            children: [
-              Expanded(
-                  flex: 0,
-                  child: Container(
-                    color: Colors.yellow,
-                  )),
-              Expanded(
-                  child: Container(
-                color: Colors.red,
-              )),
-              Expanded(
-                // flex: 0,
-                child: Container(
-                  color: Colors.blue,
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-    }
-
+  Widget _buildSleepItem({required KChartCellData item}) {
     return Container(
       height: 85.w,
-      padding: EdgeInsets.only(left: 10.w, right: 10.w),
-      child: ListView.builder(
-        itemCount: 48,
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (BuildContext context, int index) {
-          return _buildSleepItem(width: 6);
-        },
+      width: item.y.toDouble(),
+      child: Column(
+        children: [
+          Expanded(
+            child: Container(
+              color: item.state == KSleepStatus.awake
+                  ? KSleepStatus.awake.getStatusColor()
+                  : Colors.transparent,
+            ),
+          ),
+          Expanded(
+            child: Container(
+              color: item.state == KSleepStatus.lightSleep
+                  ? KSleepStatus.lightSleep.getStatusColor()
+                  : Colors.transparent,
+            ),
+          ),
+          Expanded(
+            child: Container(
+              color: item.state == KSleepStatus.deepSleep
+                  ? KSleepStatus.deepSleep.getStatusColor()
+                  : Colors.transparent,
+            ),
+          ),
+        ],
       ),
     );
   }
