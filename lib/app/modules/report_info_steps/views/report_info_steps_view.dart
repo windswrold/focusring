@@ -8,11 +8,8 @@ import 'package:focusring/views/body_temperature_report_chart.dart';
 import 'package:focusring/views/charts/home_card/model/home_card_x.dart';
 import 'package:focusring/views/charts/progress_chart.dart';
 import 'package:focusring/views/heartrate_report_chart.dart';
-import 'package:focusring/views/heartrate_report_subview_chart.dart';
 import 'package:focusring/views/sleep_time_report_chart.dart';
-import 'package:focusring/views/sleep_time_report_subview_chart.dart';
 import 'package:focusring/views/steps_licheng_report_chart.dart';
-import 'package:focusring/views/steps_licheng_report_subview_chart.dart';
 import 'package:focusring/views/target_completion_rate.dart';
 import 'package:focusring/views/tra_led_button.dart';
 
@@ -87,14 +84,7 @@ class ReportInfoStepsView extends GetView<ReportInfoStepsController> {
 
   Widget _getPageViewWidget(KReportType pageType) {
     return SingleChildScrollView(
-      child: Container(
-        child: Column(
-          children: [
-            _buildChart(pageType),
-            _getSubView(pageType),
-          ],
-        ),
-      ),
+      child: _buildChart(pageType),
     );
   }
 
@@ -116,30 +106,7 @@ class ReportInfoStepsView extends GetView<ReportInfoStepsController> {
     if (controller.currentType == KHealthDataType.STEPS ||
         controller.currentType == KHealthDataType.LiCheng ||
         controller.currentType == KHealthDataType.CALORIES_BURNED) {
-      return StepsLiChengReportChart();
-    }
-
-    return Container();
-  }
-
-  Widget _getSubView(KReportType pageType) {
-    if (controller.currentType == KHealthDataType.BLOOD_OXYGEN) {
-      return Container();
-    }
-    if (controller.currentType == KHealthDataType.SLEEP) {
-      return SleepTimeSubviewChart(
-        pageType: pageType,
-      );
-    }
-
-    if (controller.currentType == KHealthDataType.HEART_RATE) {
-      return HeartrateReportSubviewChart(type: pageType);
-    }
-
-    if (controller.currentType == KHealthDataType.STEPS ||
-        controller.currentType == KHealthDataType.LiCheng ||
-        controller.currentType == KHealthDataType.CALORIES_BURNED) {
-      return StepsLiChengSubviewChart(
+      return StepsLiChengReportChart(
         pageType: pageType,
         type: controller.currentType,
       );
