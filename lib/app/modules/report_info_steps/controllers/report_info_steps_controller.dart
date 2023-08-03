@@ -1,4 +1,8 @@
+import 'dart:async';
+import 'dart:math';
+
 import 'package:focusring/public.dart';
+import 'package:focusring/views/tra_led_button.dart';
 import 'package:get/get.dart';
 
 class ReportInfoStepsController extends GetxController
@@ -8,9 +12,11 @@ class ReportInfoStepsController extends GetxController
   late List<Tab> myTabbas = [];
   late TabController tabController;
   late Rx<KReportType> reportType = KReportType.day.obs;
-
   late KHealthDataType currentType;
-  
+
+  late RxString allResult = "-".obs;
+
+  late StreamSubscription dateSc;
 
   @override
   void onInit() {
@@ -34,17 +40,21 @@ class ReportInfoStepsController extends GetxController
   @override
   void onReady() {
     super.onReady();
+    final a = Get.find<TraLedButtonController>();
+    dateSc = a.displayTimeStream.listen((event) {
+      vmPrint("displayTimeStream $event");
+    });
   }
 
   @override
   void onClose() {
+    dateSc.cancel();
     super.onClose();
   }
 
   void onTapType(int type) {
     reportType.value = KReportType.values[type];
 
-
-
+    allResult.value = Random.secure().nextInt(10000).toString();
   }
 }

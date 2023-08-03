@@ -216,7 +216,9 @@ class DateUtil {
     } else {
       now = isUtc ? DateTime.now().toUtc() : DateTime.now().toLocal();
     }
-    return old.year == now!.year && old.month == now.month && old.day == now.day;
+    return old.year == now!.year &&
+        old.month == now.month &&
+        old.day == now.day;
   }
 
   /// is yesterday by dateTime.
@@ -255,8 +257,9 @@ class DateUtil {
       _now = isUtc ? DateTime.now().toUtc() : DateTime.now().toLocal();
     }
 
-    DateTime old =
-        _now!.millisecondsSinceEpoch > _old.millisecondsSinceEpoch ? _old : _now;
+    DateTime old = _now!.millisecondsSinceEpoch > _old.millisecondsSinceEpoch
+        ? _old
+        : _now;
     DateTime now =
         _now.millisecondsSinceEpoch > _old.millisecondsSinceEpoch ? _now : _old;
     return (now.weekday >= old.weekday) &&
@@ -268,6 +271,10 @@ class DateUtil {
   /// 是否同年.
   static bool yearIsEqual(DateTime dateTime, DateTime locDateTime) {
     return dateTime.year == locDateTime.year;
+  }
+
+  static bool dayIsEqual(DateTime dateTime, DateTime locDateTime) {
+    return dateTime.day == locDateTime.day;
   }
 
   /// year is equal.

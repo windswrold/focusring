@@ -67,10 +67,12 @@ class ReportInfoStepsView extends GetView<ReportInfoStepsController> {
           margin: EdgeInsets.only(top: 10.w),
           child: Column(
             children: [
-              Text(
-                "89000",
-                style: Get.textTheme.headlineSmall,
-                textAlign: TextAlign.center,
+              Obx(
+                () => Text(
+                  controller.allResult.value,
+                  style: Get.textTheme.headlineSmall,
+                  textAlign: TextAlign.center,
+                ),
               ),
               Text(
                 controller.currentType.getDisplayName(isReportSmallTotal: true),
