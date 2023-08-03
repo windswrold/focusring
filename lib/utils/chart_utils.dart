@@ -1,3 +1,4 @@
+import 'package:focusring/utils/custom_segment_render.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../public.dart';
@@ -202,7 +203,8 @@ class ChartUtils {
 
   static List<ChartSeries> getChartReportServices(
       {required KHealthDataType type,
-      required List<List<KChartCellData>> datas}) {
+      required List<List<KChartCellData>> datas,
+      KReportType? reportType}) {
     if (type == KHealthDataType.STEPS ||
         type == KHealthDataType.LiCheng ||
         type == KHealthDataType.CALORIES_BURNED) {
@@ -274,17 +276,34 @@ class ChartUtils {
         ),
       ];
     } else if (type == KHealthDataType.HEART_RATE) {
-      return [
-        SplineAreaSeries<KChartCellData, String>(
-          dataSource: datas.first,
-          gradient: const LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Colors.red, Colors.transparent],
+      if (reportType == KReportType.day) {
+        return [
+          SplineAreaSeries<KChartCellData, String>(
+            dataSource: datas.first,
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                KHealthDataType.HEART_RATE.getTypeMainColor()!,
+                Colors.transparent,
+              ],
+            ),
+            borderWidth: 2,
+            xValueMapper: (KChartCellData sales, _) => sales.x,
+            yValueMapper: (KChartCellData sales, _) => sales.y,
           ),
-          borderWidth: 2,
+        ];
+      }
+      return [
+        RangeColumnSeries<KChartCellData, String>(
+          dataSource: datas.first,
           xValueMapper: (KChartCellData sales, _) => sales.x,
-          yValueMapper: (KChartCellData sales, _) => sales.y,
+          highValueMapper: (KChartCellData sales, _) => sales.z,
+          lowValueMapper: (KChartCellData sales, _) => sales.y,
+          pointColorMapper: (datum, index) => datum.color,
+          onCreateRenderer: (ChartSeries<dynamic, dynamic> series) {
+            return CustomRangeColumnRenderer(datas.first);
+          },
         ),
       ];
     } else if (type == KHealthDataType.BLOOD_OXYGEN ||
