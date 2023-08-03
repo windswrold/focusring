@@ -313,6 +313,7 @@ extension KHealthDataEX on KHealthDataType {
       return Color(0xFF00BBE7);
     } else if (this == KHealthDataType.EMOTION) {
     } else if (this == KHealthDataType.STRESS) {
+      return Color(0xFF00DCE7);
     } else if (this == KHealthDataType.FEMALE_HEALTH) {}
   }
 

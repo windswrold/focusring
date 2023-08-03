@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:focusring/public.dart';
+import 'package:focusring/views/charts/home_card/model/home_card_x.dart';
 import 'package:focusring/views/tra_led_button.dart';
 import 'package:get/get.dart';
 
@@ -8,10 +10,15 @@ class ReportInfoStressController extends GetxController {
   //TODO: Implement ReportInfoStressController
 
   late StreamSubscription dateSc;
+  late RxString chartTipValue = "".obs;
+  static const String id_data_souce_update = "id_data_souce_update_stress";
+  late RxList<List<KChartCellData>> dataSource = [<KChartCellData>[]].obs;
 
   @override
   void onInit() {
     super.onInit();
+
+    _queryDataSource();
   }
 
   @override
@@ -28,5 +35,38 @@ class ReportInfoStressController extends GetxController {
   void onClose() {
     dateSc.cancel();
     super.onClose();
+  }
+
+  void _queryDataSource() {
+    dataSource.value = [
+      List.generate(
+        30,
+        (index) => KChartCellData(
+          x: index.toString(),
+          y: Random.secure().nextDouble() * 500,
+          color:
+              KStressStatus.values[Random.secure().nextInt(4)].getStatusColor(),
+        ),
+      )
+    ];
+
+    update([id_data_souce_update]);
+  }
+
+  void onTrackballPositionChanging(int? index) {
+    if (index == null) {
+      return;
+    }
+    //11:30-11:59:765 steps
+
+    String text = "";
+
+    // chartTipValue.value = "${item.x}:${item.y} steps";
+    text = "aaa";
+
+    chartTipValue.value = text;
+    Future.delayed(const Duration(seconds: 3)).then((value) => {
+          chartTipValue.value = "",
+        });
   }
 }

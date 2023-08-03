@@ -62,26 +62,27 @@ class ReportInfoStepsView extends GetView<ReportInfoStepsController> {
 
   Widget _getBigTitle() {
     return Visibility(
-        visible: (controller.currentType != KHealthDataType.SLEEP),
-        child: Container(
-          margin: EdgeInsets.only(top: 10.w),
-          child: Column(
-            children: [
-              Obx(
-                () => Text(
-                  controller.allResult.value,
-                  style: Get.textTheme.headlineSmall,
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              Text(
-                controller.currentType.getDisplayName(isReportSmallTotal: true),
-                style: Get.textTheme.displaySmall,
+      visible: (controller.currentType != KHealthDataType.SLEEP),
+      child: Container(
+        margin: EdgeInsets.only(top: 10.w),
+        child: Column(
+          children: [
+            Obx(
+              () => Text(
+                controller.allResult.value,
+                style: Get.textTheme.headlineSmall,
                 textAlign: TextAlign.center,
               ),
-            ],
-          ),
-        ));
+            ),
+            Text(
+              controller.currentType.getDisplayName(isReportSmallTotal: true),
+              style: Get.textTheme.displaySmall,
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _getPageViewWidget(KReportType pageType) {

@@ -26,25 +26,8 @@ class ReportInfoEmotionView extends GetView<ReportInfoEmotionController> {
               KHealthDataType.EMOTION.getDisplayName(isReport: true),
             ),
             TraLedButton(),
-            Container(
-              margin: EdgeInsets.only(top: 10.w),
-              child: Column(
-                children: [
-                  Text(
-                    "89000",
-                    style: Get.textTheme.headlineSmall,
-                    textAlign: TextAlign.center,
-                  ),
-                  Text(
-                    KHealthDataType.EMOTION
-                        .getDisplayName(isReportSmallTotal: true),
-                    style: Get.textTheme.displaySmall,
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
-            ),
-            _getChart(),
+            _getBigTitle(),
+            _buildChart(),
             _getOtherView(),
             NextButton(
               onPressed: () {},
@@ -64,121 +47,74 @@ class ReportInfoEmotionView extends GetView<ReportInfoEmotionController> {
     );
   }
 
-  Widget _getArrowTitle() {
+  Widget _getBigTitle() {
     return Container(
-      margin: EdgeInsets.only(left: 61.w, right: 61.w, top: 12.w),
-      child: Row(
+      margin: EdgeInsets.only(top: 10.w),
+      child: Column(
         children: [
-          NextButton(
-            onPressed: () {},
-            width: 29,
-            height: 29,
-            bgImg: assetsImages + "icons/report_arrow_left@3x.png",
-            title: "",
-          ),
-          Expanded(
-            child: Text(
-              "data",
+          Obx(
+            () => Text(
+              controller.allResult.value,
+              style: Get.textTheme.headlineSmall,
               textAlign: TextAlign.center,
             ),
           ),
-          NextButton(
-            onPressed: () {},
-            width: 29,
-            height: 29,
-            bgImg: assetsImages + "icons/report_arrow_right@3x.png",
-            title: "",
+          Text(
+            KHealthDataType.EMOTION.getDisplayName(isReportSmallTotal: true),
+            style: Get.textTheme.displaySmall,
+            textAlign: TextAlign.center,
           ),
         ],
       ),
     );
   }
 
-  Widget _getChart() {
+  Widget _buildChart() {
     return Container(
-      height: 265.w,
-      margin: EdgeInsets.symmetric(horizontal: 12.w),
-      alignment: Alignment.center,
-      child: SfCartesianChart(
-        plotAreaBorderWidth: 0,
-        margin: EdgeInsets.only(left: 5, right: 10),
-        primaryXAxis: ChartUtils.getCategoryAxis(),
-        primaryYAxis: ChartUtils.getNumericAxis(),
-        onSelectionChanged: (selectionArgs) {
-          vmPrint("onSelectionChanged" + selectionArgs.seriesIndex.toString());
-        },
-        trackballBehavior: ChartUtils.getTrackballBehavior(
-          color: KHealthDataType.STEPS.getTypeMainColor()!,
-        ),
-        onTrackballPositionChanging: (trackballArgs) {
-          vmPrint("onTrackballPositionChanging" +
-              trackballArgs.chartPointInfo.dataPointIndex.toString());
-        },
-        series: [
-          StackedColumnSeries<KChartCellData, String>(
-            dataSource: List.generate(
-                30,
-                (index) => KChartCellData(
-                      x: "$index",
-                      y: 40,
-                    )),
-            isTrackVisible: false,
-            spacing: 0,
-            borderRadius: BorderRadius.only(
-              bottomRight: Radius.circular(3),
-              bottomLeft: Radius.circular(3),
-            ),
-            xValueMapper: (KChartCellData sales, _) => sales.x,
-            yValueMapper: (KChartCellData sales, _) => sales.y,
-            pointColorMapper: (datum, index) => Colors.red,
-            dataLabelSettings: const DataLabelSettings(
-              isVisible: false,
-            ),
-            onPointTap: (pointInteractionDetails) {
-              vmPrint(pointInteractionDetails.seriesIndex);
-            },
-          ),
-          StackedColumnSeries<KChartCellData, String>(
-            dataSource: List.generate(
-                30,
-                (index) => KChartCellData(
-                      x: "$index",
-                      y: 15,
-                    )),
-            isTrackVisible: false,
-            spacing: 0,
-            borderRadius: BorderRadius.zero,
-            xValueMapper: (KChartCellData sales, _) => sales.x,
-            yValueMapper: (KChartCellData sales, _) => sales.y,
-            pointColorMapper: (datum, index) => Colors.blue,
-            dataLabelSettings: const DataLabelSettings(
-              isVisible: false,
-            ),
-            onPointTap: (pointInteractionDetails) {
-              vmPrint(pointInteractionDetails.seriesIndex);
-            },
-          ),
-          StackedColumnSeries<KChartCellData, String>(
-            dataSource: List.generate(
-                30,
-                (index) => KChartCellData(
-                      x: "$index",
-                      y: 100,
-                    )),
-            isTrackVisible: false,
-            spacing: 0,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(3),
-              topRight: Radius.circular(3),
-            ),
-            xValueMapper: (KChartCellData sales, _) => sales.x,
-            yValueMapper: (KChartCellData sales, _) => sales.y,
-            pointColorMapper: (datum, index) => Colors.yellow,
-            dataLabelSettings: const DataLabelSettings(
-              isVisible: false,
-            ),
-            onPointTap: (pointInteractionDetails) {
-              vmPrint(pointInteractionDetails.seriesIndex);
+      height: 280.w,
+      padding: EdgeInsets.only(top: 40.w, bottom: 10.w),
+      child: Column(
+        children: [
+          GetX<ReportInfoEmotionController>(builder: (a) {
+            return AnimatedOpacity(
+              opacity: a.chartTipValue.value.isEmpty ? 0 : 1,
+              duration: const Duration(milliseconds: 300),
+              child: Container(
+                padding:
+                    EdgeInsets.only(left: 21.w, right: 21.w, top: 4, bottom: 4),
+                margin: const EdgeInsets.only(bottom: 10),
+                decoration: BoxDecoration(
+                  color: KHealthDataType.EMOTION.getTypeMainColor(),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Text(
+                  a.chartTipValue.value,
+                  style: Get.textTheme.labelSmall,
+                ),
+              ),
+            );
+          }),
+          GetBuilder<ReportInfoEmotionController>(
+            id: ReportInfoEmotionController.id_data_souce_update,
+            builder: (a) {
+              return Expanded(
+                child: SfCartesianChart(
+                  plotAreaBorderWidth: controller.allResult.isEmpty ? 0 : 0,
+                  margin: const EdgeInsets.only(left: 5, right: 10),
+                  primaryXAxis: ChartUtils.getCategoryAxis(),
+                  primaryYAxis: ChartUtils.getNumericAxis(),
+                  onTrackballPositionChanging: (trackballArgs) {
+                    vmPrint("onTrackballPositionChanging" +
+                        trackballArgs.chartPointInfo.dataPointIndex.toString());
+                    a.onTrackballPositionChanging(
+                        trackballArgs.chartPointInfo.dataPointIndex);
+                  },
+                  series: ChartUtils.getChartReportServices(
+                    datas: a.dataSource,
+                    type: KHealthDataType.EMOTION,
+                  ),
+                ),
+              );
             },
           ),
         ],

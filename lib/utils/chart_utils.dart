@@ -207,7 +207,9 @@ class ChartUtils {
       KReportType? reportType}) {
     if (type == KHealthDataType.STEPS ||
         type == KHealthDataType.LiCheng ||
-        type == KHealthDataType.CALORIES_BURNED) {
+        type == KHealthDataType.CALORIES_BURNED||
+        type == KHealthDataType.STRESS
+        ) {
       return [
         ColumnSeries<KChartCellData, String>(
           dataSource: datas.first,
@@ -221,7 +223,8 @@ class ChartUtils {
           ),
         ),
       ];
-    } else if (type == KHealthDataType.SLEEP) {
+    } else if (type == KHealthDataType.SLEEP ||
+        type == KHealthDataType.EMOTION) {
       return [
         StackedColumnSeries<KChartCellData, String>(
           dataSource: datas[0],
