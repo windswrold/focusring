@@ -144,6 +144,8 @@ class HomeCardView extends StatelessWidget {
         showNavigationArrow: false,
         // showTodayButton: false,
         initialDisplayDate: DateTime.now(),
+        initialSelectedDate: DateTime.now(),
+        selectionMode: DateRangePickerSelectionMode.single,
         selectionColor: Colors.transparent,
         todayHighlightColor: Get.textTheme.labelMedium?.color,
         enablePastDates: false,

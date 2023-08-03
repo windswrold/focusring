@@ -71,6 +71,7 @@ class HomeStateController extends GetxController {
           x: index.toString(),
           y: Random.secure().nextDouble() * 500,
           state: KSleepStatus.values[Random.secure().nextInt(3)],
+          color: element.getTypeMainColor(),
         ),
       );
       KHomeCardModel card = KHomeCardModel(
