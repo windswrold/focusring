@@ -28,7 +28,7 @@ class HeartChartReportChart extends StatelessWidget {
               child: Container(
                 padding:
                     EdgeInsets.only(left: 21.w, right: 21.w, top: 4, bottom: 4),
-                margin: const EdgeInsets.only(bottom: 5),
+                margin: const EdgeInsets.only(bottom: 10),
                 decoration: BoxDecoration(
                   color: KHealthDataType.HEART_RATE.getTypeMainColor(),
                   borderRadius: BorderRadius.circular(12),

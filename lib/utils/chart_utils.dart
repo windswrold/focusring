@@ -308,29 +308,31 @@ class ChartUtils {
       ];
     } else if (type == KHealthDataType.BLOOD_OXYGEN ||
         type == KHealthDataType.BODY_TEMPERATURE) {
-      return [
-        ColumnSeries<KChartCellData, String>(
-          dataSource: List.generate(datas.first.length,
-              (index) => KChartCellData(x: index.toString(), y: 0.toDouble())),
-          isTrackVisible: true,
-          trackColor: ColorUtils.fromHex("#212621"),
-          borderRadius: BorderRadius.circular(3),
-          trackBorderWidth: 0,
-          xValueMapper: (KChartCellData sales, _) => sales.x,
-          yValueMapper: (KChartCellData sales, _) => sales.y,
-          dataLabelSettings: const DataLabelSettings(
-            isVisible: false,
+      if (reportType == KReportType.day) {
+        return [
+          ScatterSeries<KChartCellData, String>(
+            dataSource: datas.first,
+            xValueMapper: (KChartCellData sales, _) => sales.x,
+            yValueMapper: (KChartCellData sales, _) => sales.y,
+            markerSettings: const MarkerSettings(
+              height: 3,
+              width: 3,
+            ),
+            pointColorMapper: (datum, index) => datum.color,
           ),
-        ),
-        ScatterSeries<KChartCellData, String>(
+        ];
+      }
+
+      return [
+        RangeColumnSeries<KChartCellData, String>(
           dataSource: datas.first,
           xValueMapper: (KChartCellData sales, _) => sales.x,
-          yValueMapper: (KChartCellData sales, _) => sales.y,
-          markerSettings: const MarkerSettings(
-            height: 3,
-            width: 3,
-          ),
+          highValueMapper: (KChartCellData sales, _) => sales.z,
+          lowValueMapper: (KChartCellData sales, _) => sales.y,
           pointColorMapper: (datum, index) => datum.color,
+          onCreateRenderer: (ChartSeries<dynamic, dynamic> series) {
+            return CustomRangeColumnRenderer(datas.first);
+          },
         ),
       ];
     }

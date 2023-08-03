@@ -195,7 +195,7 @@ class SleepTimeReportChart extends StatelessWidget {
               child: Container(
                 padding:
                     EdgeInsets.only(left: 21.w, right: 21.w, top: 4, bottom: 4),
-                margin: const EdgeInsets.only(bottom: 12),
+                margin: const EdgeInsets.only(bottom: 10),
                 decoration: BoxDecoration(
                   color: KHealthDataType.SLEEP.getTypeMainColor(),
                   borderRadius: BorderRadius.circular(12),
