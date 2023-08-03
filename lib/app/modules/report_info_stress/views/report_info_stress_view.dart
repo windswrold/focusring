@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:focusring/public.dart';
+import 'package:focusring/utils/chart_utils.dart';
 import 'package:focusring/views/charts/home_card/model/home_card_x.dart';
 import 'package:focusring/views/tra_led_button.dart';
 
@@ -62,49 +63,19 @@ class ReportInfoStressView extends GetView<ReportInfoStressController> {
       margin: EdgeInsets.only(left: 12.w, right: 12.w),
       child: SfCartesianChart(
         plotAreaBorderWidth: 0,
-        primaryXAxis: CategoryAxis(
-          majorGridLines: MajorGridLines(width: 0), // 设置主要网格线样式
-          minorGridLines: MinorGridLines(width: 0),
-          majorTickLines: MajorTickLines(width: 0),
-          minorTickLines: MinorTickLines(width: 0),
-          axisLine: AxisLine(
-            color: ColorUtils.fromHex("#FF2C2F2F"),
-          ),
-          labelStyle: Get.textTheme.displaySmall,
+        margin: EdgeInsets.only(left: 5, right: 10),
+        primaryXAxis: ChartUtils.getCategoryAxis(),
+        primaryYAxis: ChartUtils.getNumericAxis(),
+        onSelectionChanged: (selectionArgs) {
+          vmPrint("onSelectionChanged" + selectionArgs.seriesIndex.toString());
+        },
+        trackballBehavior: ChartUtils.getTrackballBehavior(
+          color: KHealthDataType.STEPS.getTypeMainColor()!,
         ),
-        primaryYAxis: NumericAxis(
-          majorGridLines: MajorGridLines(
-              dashArray: [1, 2], color: ColorUtils.fromHex("#FF2C2F2F")),
-          minorGridLines: MinorGridLines(width: 0),
-          majorTickLines: MajorTickLines(width: 0),
-          minorTickLines: MinorTickLines(width: 0),
-          axisLine: AxisLine(
-            width: 0,
-          ),
-          labelStyle: Get.textTheme.displaySmall,
-        ),
-        tooltipBehavior: TooltipBehavior(
-          enable: true,
-          tooltipPosition: TooltipPosition.auto,
-        ),
-        trackballBehavior: TrackballBehavior(
-          enable: true,
-          activationMode: ActivationMode.singleTap,
-          tooltipAlignment: ChartAlignment.near,
-          markerSettings: TrackballMarkerSettings(
-            // markerVisibility: TrackballVisibilityMode.visible,
-            width: 8,
-            height: 8,
-            color: Colors.blue, // 设置标记点的颜色
-            borderWidth: 2,
-            borderColor: Colors.white,
-          ),
-          lineColor: ColorUtils.fromHex("#FF34E050").withOpacity(0.5),
-          lineType: TrackballLineType.vertical,
-          lineWidth: 11,
-          shouldAlwaysShow: true,
-          tooltipSettings: InteractiveTooltip(),
-        ),
+        onTrackballPositionChanging: (trackballArgs) {
+          vmPrint("onTrackballPositionChanging" +
+              trackballArgs.chartPointInfo.dataPointIndex.toString());
+        },
         series: [
           ColumnSeries<KChartCellData, String>(
             dataSource: List.generate(

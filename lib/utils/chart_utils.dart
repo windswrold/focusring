@@ -4,6 +4,49 @@ import '../public.dart';
 import '../views/charts/home_card/model/home_card_x.dart';
 
 class ChartUtils {
+  static CategoryAxis getCategoryAxis() {
+    return CategoryAxis(
+      majorGridLines: const MajorGridLines(width: 0), // 设置主要网格线样式
+      minorGridLines: const MinorGridLines(width: 0),
+      majorTickLines: const MajorTickLines(width: 0),
+      minorTickLines: const MinorTickLines(width: 0),
+      axisLine: AxisLine(
+        color: ColorUtils.fromHex("#FF2C2F2F"),
+      ),
+      labelStyle: Get.textTheme.displaySmall,
+    );
+  }
+
+  static NumericAxis getNumericAxis() {
+    return NumericAxis(
+      // 设置主要网格线样式
+      majorGridLines: MajorGridLines(
+          dashArray: [1, 2], color: ColorUtils.fromHex("#FF2C2F2F")),
+      minorGridLines: MinorGridLines(width: 0),
+      majorTickLines: MajorTickLines(width: 0),
+      minorTickLines: MinorTickLines(width: 0),
+      axisLine: AxisLine(
+        width: 0,
+      ),
+      labelStyle: Get.textTheme.displaySmall,
+    );
+  }
+
+  static TrackballBehavior getTrackballBehavior({required Color color}) {
+    return TrackballBehavior(
+      enable: true,
+      activationMode: ActivationMode.singleTap,
+      tooltipAlignment: ChartAlignment.near,
+      lineColor: color.withOpacity(0.5),
+      lineType: TrackballLineType.vertical,
+      lineWidth: 11,
+      shouldAlwaysShow: true,
+      builder: (context, trackballDetails) {
+        return Container();
+      },
+    );
+  }
+
   static getDateCellItem({
     required String text,
     required String icon,

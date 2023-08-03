@@ -10,6 +10,7 @@ class ReportInfoStepsController extends GetxController
   late Rx<KReportType> reportType = KReportType.day.obs;
 
   late KHealthDataType currentType;
+  
 
   @override
   void onInit() {
@@ -38,10 +39,12 @@ class ReportInfoStepsController extends GetxController
   @override
   void onClose() {
     super.onClose();
-
   }
 
   void onTapType(int type) {
     reportType.value = KReportType.values[type];
+
+
+
   }
 }

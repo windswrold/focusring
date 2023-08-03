@@ -1,3 +1,4 @@
+import 'package:focusring/utils/chart_utils.dart';
 import 'package:focusring/views/charts/home_card/model/home_card_x.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -12,7 +13,6 @@ class StepsLiChengReportChart extends StatelessWidget {
         height: 278.w,
         padding: EdgeInsets.only(top: 40.w, bottom: 10.w),
         child: Column(
-          // alignment: Alignment.topCenter,
           children: [
             Offstage(
               offstage: false,
@@ -30,44 +30,15 @@ class StepsLiChengReportChart extends StatelessWidget {
             Expanded(
               child: SfCartesianChart(
                 plotAreaBorderWidth: 0,
-                primaryXAxis: CategoryAxis(
-                  majorGridLines: MajorGridLines(width: 0), // 设置主要网格线样式
-                  minorGridLines: MinorGridLines(width: 0),
-                  majorTickLines: MajorTickLines(width: 0),
-                  minorTickLines: MinorTickLines(width: 0),
-                  axisLine: AxisLine(
-                    color: ColorUtils.fromHex("#FF2C2F2F"),
-                  ),
-                  labelStyle: Get.textTheme.displaySmall,
-                ),
-                primaryYAxis: NumericAxis(
-                  // 设置主要网格线样式
-                  majorGridLines: MajorGridLines(
-                      dashArray: [1, 2],
-                      color: ColorUtils.fromHex("#FF2C2F2F")),
-                  minorGridLines: MinorGridLines(width: 0),
-                  majorTickLines: MajorTickLines(width: 0),
-                  minorTickLines: MinorTickLines(width: 0),
-                  axisLine: AxisLine(
-                    width: 0,
-                  ),
-                  labelStyle: Get.textTheme.displaySmall,
-                ),
+                margin: EdgeInsets.only(left: 5, right: 10),
+                primaryXAxis: ChartUtils.getCategoryAxis(),
+                primaryYAxis: ChartUtils.getNumericAxis(),
                 onSelectionChanged: (selectionArgs) {
                   vmPrint("onSelectionChanged" +
                       selectionArgs.seriesIndex.toString());
                 },
-                trackballBehavior: TrackballBehavior(
-                  enable: true,
-                  activationMode: ActivationMode.singleTap,
-                  tooltipAlignment: ChartAlignment.near,
-                  lineColor: ColorUtils.fromHex("#FF34E050").withOpacity(0.5),
-                  lineType: TrackballLineType.vertical,
-                  lineWidth: 11,
-                  shouldAlwaysShow: true,
-                  builder: (context, trackballDetails) {
-                    return Container();
-                  },
+                trackballBehavior: ChartUtils.getTrackballBehavior(
+                  color: KHealthDataType.STEPS.getTypeMainColor()!,
                 ),
                 onTrackballPositionChanging: (trackballArgs) {
                   vmPrint("onTrackballPositionChanging" +
@@ -97,5 +68,85 @@ class StepsLiChengReportChart extends StatelessWidget {
             ),
           ],
         ));
+  }
+
+  Widget _getCardItem({
+    required String bgIcon,
+    required String cardIcon,
+    required String type,
+    required String value,
+    required KReportType pageType,
+  }) {
+    if (pageType == KReportType.day) {
+      return Container(
+        width: 170.w,
+        height: 70.w,
+        padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.w),
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("$assetsImages$bgIcon@3x.png"),
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            LoadAssetsImage(
+              cardIcon,
+              width: 30,
+              height: 30,
+            ),
+            11.rowWidget,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    type,
+                    style: Get.textTheme.displayLarge,
+                  ),
+                  4.columnWidget,
+                  Text(
+                    value,
+                    style: Get.textTheme.labelMedium,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    return Container(
+      width: 110.w,
+      height: 140.w,
+      padding: EdgeInsets.only(top: 20.w, left: 2, right: 2),
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage("$assetsImages$bgIcon@3x.png"),
+        ),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          LoadAssetsImage(
+            cardIcon,
+            width: 26,
+            height: 28,
+          ),
+          21.columnWidget,
+          Text(
+            type,
+            style: Get.textTheme.displayLarge,
+          ),
+          4.columnWidget,
+          Text(
+            value,
+            style: Get.textTheme.labelMedium,
+          ),
+        ],
+      ),
+    );
   }
 }
