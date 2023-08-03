@@ -160,16 +160,45 @@ class ReportInfoStepsController extends GetxController
   }
 
   void _queryDataSource() {
-    var data = List.generate(
-      30,
-      (index) => KChartCellData(
-        x: index.toString(),
-        y: Random.secure().nextDouble() * 500,
-        state: KSleepStatus.values[Random.secure().nextInt(3)],
-        color: currentType.getTypeMainColor(),
-      ),
-    );
-    dataSource.value = [data];
+    if (currentType == KHealthDataType.SLEEP) {
+      dataSource.value = [
+        List.generate(
+          30,
+          (index) => KChartCellData(
+            x: index.toString(),
+            y: Random.secure().nextDouble() * 500,
+            color: KSleepStatus.deepSleep.getStatusColor(),
+          ),
+        ),
+        List.generate(
+          30,
+          (index) => KChartCellData(
+            x: index.toString(),
+            y: Random.secure().nextDouble() * 500,
+            color: KSleepStatus.lightSleep.getStatusColor(),
+          ),
+        ),
+        List.generate(
+          30,
+          (index) => KChartCellData(
+            x: index.toString(),
+            y: Random.secure().nextDouble() * 500,
+            color: KSleepStatus.awake.getStatusColor(),
+          ),
+        )
+      ];
+    } else {
+      var data = List.generate(
+        30,
+        (index) => KChartCellData(
+          x: index.toString(),
+          y: Random.secure().nextDouble() * 500,
+          color: currentType.getTypeMainColor(),
+        ),
+      );
+      dataSource.value = [data];
+    }
+
     update([id_data_souce_update]);
   }
 

@@ -219,6 +219,60 @@ class ChartUtils {
           ),
         ),
       ];
+    } else if (type == KHealthDataType.SLEEP) {
+      return [
+        StackedColumnSeries<KChartCellData, String>(
+          dataSource: datas[0],
+          isTrackVisible: false,
+          spacing: 0,
+          borderRadius: const BorderRadius.only(
+            bottomRight: Radius.circular(3),
+            bottomLeft: Radius.circular(3),
+          ),
+          xValueMapper: (KChartCellData sales, _) => sales.x,
+          yValueMapper: (KChartCellData sales, _) => sales.y,
+          pointColorMapper: (datum, index) => datum.color,
+          dataLabelSettings: const DataLabelSettings(
+            isVisible: false,
+          ),
+          onPointTap: (pointInteractionDetails) {
+            vmPrint(pointInteractionDetails.seriesIndex);
+          },
+        ),
+        StackedColumnSeries<KChartCellData, String>(
+          dataSource: datas[1],
+          isTrackVisible: false,
+          spacing: 0,
+          borderRadius: BorderRadius.zero,
+          xValueMapper: (KChartCellData sales, _) => sales.x,
+          yValueMapper: (KChartCellData sales, _) => sales.y,
+          pointColorMapper: (datum, index) => datum.color,
+          dataLabelSettings: const DataLabelSettings(
+            isVisible: false,
+          ),
+          onPointTap: (pointInteractionDetails) {
+            vmPrint(pointInteractionDetails.seriesIndex);
+          },
+        ),
+        StackedColumnSeries<KChartCellData, String>(
+          dataSource: datas[2],
+          isTrackVisible: false,
+          spacing: 0,
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(3),
+            topRight: Radius.circular(3),
+          ),
+          xValueMapper: (KChartCellData sales, _) => sales.x,
+          yValueMapper: (KChartCellData sales, _) => sales.y,
+          pointColorMapper: (datum, index) => datum.color,
+          dataLabelSettings: const DataLabelSettings(
+            isVisible: false,
+          ),
+          onPointTap: (pointInteractionDetails) {
+            vmPrint(pointInteractionDetails.seriesIndex);
+          },
+        ),
+      ];
     } else if (type == KHealthDataType.HEART_RATE) {
       return [
         SplineAreaSeries<KChartCellData, String>(
@@ -258,65 +312,6 @@ class ChartUtils {
             width: 3,
           ),
           pointColorMapper: (datum, index) => datum.color,
-        ),
-      ];
-    } else if (type == KHealthDataType.EMOTION) {
-      return [
-        StackedColumnSeries<KChartCellData, String>(
-          dataSource: datas[0],
-          isTrackVisible: true,
-          trackColor: ColorUtils.fromHex("#FF212526"),
-          trackBorderWidth: 0,
-          spacing: 0,
-          borderRadius: const BorderRadius.only(
-            bottomRight: Radius.circular(3),
-            bottomLeft: Radius.circular(3),
-          ),
-          xValueMapper: (KChartCellData sales, _) => sales.x,
-          yValueMapper: (KChartCellData sales, _) => sales.y,
-          pointColorMapper: (datum, index) =>
-              KEMOTIONStatus.positive.getStatusColor(),
-          dataLabelSettings: const DataLabelSettings(
-            isVisible: false,
-          ),
-          onPointTap: (pointInteractionDetails) {
-            vmPrint(pointInteractionDetails.seriesIndex);
-          },
-        ),
-        StackedColumnSeries<KChartCellData, String>(
-          dataSource: datas[1],
-          isTrackVisible: false,
-          spacing: 0,
-          borderRadius: BorderRadius.zero,
-          xValueMapper: (KChartCellData sales, _) => sales.x,
-          yValueMapper: (KChartCellData sales, _) => sales.y,
-          pointColorMapper: (datum, index) =>
-              KEMOTIONStatus.neutral.getStatusColor(),
-          dataLabelSettings: const DataLabelSettings(
-            isVisible: false,
-          ),
-          onPointTap: (pointInteractionDetails) {
-            vmPrint(pointInteractionDetails.seriesIndex);
-          },
-        ),
-        StackedColumnSeries<KChartCellData, String>(
-          dataSource: datas[2],
-          isTrackVisible: false,
-          spacing: 0,
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(3),
-            topRight: Radius.circular(3),
-          ),
-          xValueMapper: (KChartCellData sales, _) => sales.x,
-          yValueMapper: (KChartCellData sales, _) => sales.y,
-          pointColorMapper: (datum, index) =>
-              KEMOTIONStatus.negative.getStatusColor(),
-          dataLabelSettings: const DataLabelSettings(
-            isVisible: false,
-          ),
-          onPointTap: (pointInteractionDetails) {
-            vmPrint(pointInteractionDetails.seriesIndex);
-          },
         ),
       ];
     }
