@@ -139,6 +139,16 @@ class ReportInfoStepsView extends GetView<ReportInfoStepsController> {
                   physics: const NeverScrollableScrollPhysics(),
                   controller: controller.tabController,
                   children: [
+                    // ReportInfoChildView(
+                    //     currentType: controller.currentType,
+                    //     pageType: KReportType.day),
+                    // ReportInfoChildView(
+                    //     currentType: controller.currentType,
+                    //     pageType: KReportType.week),
+                    // ReportInfoChildView(
+                    //     currentType: controller.currentType,
+                    //     pageType: KReportType.moneth),
+
                     _getPageViewWidget(KReportType.day),
                     _getPageViewWidget(KReportType.week),
                     _getPageViewWidget(KReportType.moneth),
@@ -153,22 +163,56 @@ class ReportInfoStepsView extends GetView<ReportInfoStepsController> {
   }
 }
 
-// class ReportInfoChildView extends StatefulWidget {
-//   ReportInfoChildView({Key? key}) : super(key: key);
+class ReportInfoChildView extends StatefulWidget {
+  ReportInfoChildView(
+      {Key? key, required this.currentType, required this.pageType})
+      : super(key: key);
 
-//   @override
-//   State<ReportInfoChildView> createState() => _ReportInfoChildViewState();
-// }
+  final KHealthDataType currentType;
+  final KReportType pageType;
 
-// class _ReportInfoChildViewState extends State<ReportInfoChildView>
-//     with AutomaticKeepAliveClientMixin {
-//   @override
-//   Widget build(BuildContext context) {
-//     vmPrint("_ReportInfoChildViewState");
-//     return Container();
-//   }
+  @override
+  State<ReportInfoChildView> createState() => _ReportInfoChildViewState();
+}
 
-//   @override
-//   // TODO: implement wantKeepAlive
-//   bool get wantKeepAlive => true;
-// }
+class _ReportInfoChildViewState extends State<ReportInfoChildView>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  Widget build(BuildContext context) {
+    vmPrint("_ReportInfoChildViewState");
+    return SingleChildScrollView(
+      child: _buildChart(widget.pageType),
+    );
+  }
+
+  Widget _buildChart(KReportType pageType) {
+    if (widget.currentType == KHealthDataType.SLEEP) {
+      return SleepTimeReportChart(pageType: pageType);
+    }
+    if (widget.currentType == KHealthDataType.HEART_RATE) {
+      return HeartChartReportChart(pageType: pageType);
+    }
+    if (widget.currentType == KHealthDataType.BLOOD_OXYGEN) {
+      return BloodOxygenReportChart(pageType: pageType);
+    }
+
+    if (widget.currentType == KHealthDataType.BODY_TEMPERATURE) {
+      return BodyTemperatureReportChart(pageType: pageType);
+    }
+
+    if (widget.currentType == KHealthDataType.STEPS ||
+        widget.currentType == KHealthDataType.LiCheng ||
+        widget.currentType == KHealthDataType.CALORIES_BURNED) {
+      return StepsLiChengReportChart(
+        pageType: pageType,
+        type: widget.currentType,
+      );
+    }
+
+    return Container();
+  }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
+}

@@ -28,7 +28,7 @@ class HeartChartReportChart extends StatelessWidget {
                   "onSelectionChanged" + selectionArgs.seriesIndex.toString());
             },
             trackballBehavior: ChartUtils.getTrackballBehavior(
-              color: KHealthDataType.STEPS.getTypeMainColor()!,
+              color: KHealthDataType.HEART_RATE.getTypeMainColor()!,
             ),
             onTrackballPositionChanging: (trackballArgs) {
               vmPrint("onTrackballPositionChanging" +
@@ -45,8 +45,8 @@ class HeartChartReportChart extends StatelessWidget {
                   end: Alignment.bottomCenter,
                   colors: [
                     // mySnTheme.titleColorReverse.withOpacity(0.6),
-                    Colors.red,
-                    Colors.transparent
+                    KHealthDataType.HEART_RATE.getTypeMainColor()!,
+                    Colors.transparent,
                   ],
                 ),
                 borderWidth: 2,
@@ -113,8 +113,8 @@ class HeartChartReportChart extends StatelessWidget {
     return Column(
       children: [
         Container(
-          height: 278.w,
-          padding: EdgeInsets.only(top: 40.w),
+          height: 280.w,
+          padding: EdgeInsets.only(top: 40.w, bottom: 10.w),
           child: pageType == KReportType.day ? _buildDay() : _buildWeek(),
         ),
         Container(

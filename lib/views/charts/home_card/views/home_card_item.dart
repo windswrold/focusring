@@ -182,7 +182,7 @@ class HomeCardView extends StatelessWidget {
           maximum: model.maximum,
         ),
         margin: EdgeInsets.zero,
-        series: ChartUtils.getHomeItemServices(
+        series: ChartUtils.getChartServices(
             type: model.type!, datas: model.datas),
       );
     }

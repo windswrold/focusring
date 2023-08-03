@@ -314,4 +314,12 @@ class HealthData {
         "emotionData": emotionData?.map((x) => x.toJson()).toList(),
         "pressureData": pressureData?.map((x) => x.toJson()).toList(),
       };
+
+
+
+  queryHealthData(){
+
+    
+  }
+  
 }

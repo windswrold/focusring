@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:focusring/app/data/steps_card_model.dart';
+import 'package:focusring/app/modules/report_info_steps/controllers/report_info_steps_controller.dart';
 import 'package:focusring/theme/theme.dart';
 import 'package:focusring/utils/chart_utils.dart';
 import 'package:focusring/views/charts/home_card/model/home_card_x.dart';
@@ -20,150 +22,62 @@ class StepsLiChengReportChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> datas = [];
-    if (pageType == KReportType.day) {
-      if (type == KHealthDataType.STEPS) {
-        datas.add(
-          _getCardItem(
-              bgIcon: "bg/dayreport_bg_carolies",
-              cardIcon: "icons/mine_icon_calories",
-              type: "all_xiaohao".tr,
-              pageType: pageType,
-              value: "123 kcal"),
-        );
-        datas.add(
-          _getCardItem(
-              bgIcon: "bg/dayreport_bg_distance",
-              cardIcon: "icons/mine_icon_distance",
-              type: "all_lichen".tr,
-              pageType: pageType,
-              value: "123 kcal"),
-        );
-      } else if (type == KHealthDataType.CALORIES_BURNED) {
-        datas.add(
-          _getCardItem(
-              bgIcon: "bg/dayreport_bg_steps",
-              cardIcon: "icons/mine_icon_steps",
-              type: "all_stepsnum".tr,
-              pageType: pageType,
-              value: "123 kcal"),
-        );
-        datas.add(
-          _getCardItem(
-              bgIcon: "bg/dayreport_bg_distance",
-              cardIcon: "icons/mine_icon_distance",
-              type: "all_lichen".tr,
-              pageType: pageType,
-              value: "123 kcal"),
-        );
-      } else if (type == KHealthDataType.LiCheng) {
-        datas.add(
-          _getCardItem(
-              bgIcon: "bg/dayreport_bg_carolies",
-              cardIcon: "icons/mine_icon_calories",
-              type: "all_stepsnum".tr,
-              pageType: pageType,
-              value: "123 kcal"),
-        );
-        datas.add(
-          _getCardItem(
-              bgIcon: "bg/dayreport_bg_steps",
-              cardIcon: "icons/mine_icon_steps",
-              type: "all_stepsnum".tr,
-              pageType: pageType,
-              value: "123 kcal"),
-        );
-      }
-    } else {
-      datas.add(
-        _getCardItem(
-          bgIcon: "bg/weekreport_bg_steps",
-          cardIcon: "icons/mine_icon_steps",
-          type: "average_stepsnum".tr,
-          value: "123 kcal",
-          pageType: pageType,
-        ),
-      );
-      datas.add(
-        _getCardItem(
-            bgIcon: "bg/weekreport_bg_carolies",
-            cardIcon: "icons/mine_icon_calories",
-            type: "all_xiaohao".tr,
-            pageType: pageType,
-            value: "123 kcal"),
-      );
-      datas.add(
-        _getCardItem(
-            bgIcon: "bg/weekreport_bg_distance",
-            cardIcon: "icons/mine_icon_distance",
-            type: "all_lichen".tr,
-            pageType: pageType,
-            value: "123 kcal"),
-      );
-    }
-
     return Column(
       children: [
         Container(
-            height: 278.w,
-            padding: EdgeInsets.only(top: 40.w, bottom: 10.w),
-            child: Column(
-              children: [
-                Offstage(
-                  offstage: false,
+          height: 280.w,
+          padding: EdgeInsets.only(top: 40.w, bottom: 10.w),
+          child: Column(
+            children: [
+              GetX<ReportInfoStepsController>(builder: (a) {
+                return AnimatedOpacity(
+                  opacity: a.chartTipValue.value.isEmpty ? 0 : 1,
+                  duration: const Duration(milliseconds: 300),
                   child: Container(
-                    height: 25.w,
-                    width: 154.w,
-                    alignment: Alignment.center,
+                    padding: EdgeInsets.only(
+                        left: 21.w, right: 21.w, top: 4, bottom: 4),
+                    margin: const EdgeInsets.only(bottom: 12),
                     decoration: BoxDecoration(
-                      color: Colors.red,
+                      color: type.getTypeMainColor(),
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: Text("data"),
-                  ),
-                ),
-                Expanded(
-                  child: SfCartesianChart(
-                    plotAreaBorderWidth: 0,
-                    margin: EdgeInsets.only(left: 5, right: 10),
-                    primaryXAxis: ChartUtils.getCategoryAxis(),
-                    primaryYAxis: ChartUtils.getNumericAxis(),
-                    onSelectionChanged: (selectionArgs) {
-                      vmPrint("onSelectionChanged" +
-                          selectionArgs.seriesIndex.toString());
-                    },
-                    trackballBehavior: ChartUtils.getTrackballBehavior(
-                      color: KHealthDataType.STEPS.getTypeMainColor()!,
+                    child: Text(
+                      a.chartTipValue.value,
+                      style: Get.textTheme.labelSmall,
                     ),
-                    onTrackballPositionChanging: (trackballArgs) {
-                      vmPrint("onTrackballPositionChanging" +
-                          trackballArgs.chartPointInfo.dataPointIndex
-                              .toString());
-                    },
-                    series: <ColumnSeries<KChartCellData, String>>[
-                      ColumnSeries<KChartCellData, String>(
-                        dataSource: List.generate(
-                            30,
-                            (index) => KChartCellData(
-                                x: "15:$index", y: index.toDouble())),
-                        isTrackVisible: false,
-                        borderRadius: BorderRadius.circular(3),
-                        xValueMapper: (KChartCellData sales, _) => sales.x,
-                        yValueMapper: (KChartCellData sales, _) => sales.y,
-                        pointColorMapper: (datum, index) => datum.color,
-                        dataLabelSettings: const DataLabelSettings(
-                          isVisible: false,
-                        ),
-                        onPointTap: (pointInteractionDetails) {
-                          vmPrint("onPointTap" +
-                              pointInteractionDetails.pointIndex.toString());
-                        },
-                      ),
-                    ],
                   ),
-                ),
-              ],
-            )),
+                );
+              }),
+              GetBuilder<ReportInfoStepsController>(
+                id: ReportInfoStepsController.id_data_souce_update,
+                builder: (a) {
+                  return Expanded(
+                    child: SfCartesianChart(
+                      plotAreaBorderWidth: 0,
+                      margin: const EdgeInsets.only(left: 5, right: 10),
+                      primaryXAxis: ChartUtils.getCategoryAxis(),
+                      primaryYAxis: ChartUtils.getNumericAxis(),
+                      trackballBehavior: ChartUtils.getTrackballBehavior(
+                        color: type.getTypeMainColor()!,
+                      ),
+                      onTrackballPositionChanging: (trackballArgs) {
+                        vmPrint("onTrackballPositionChanging" +
+                            trackballArgs.chartPointInfo.dataPointIndex
+                                .toString());
+                        a.onTrackballPositionChanging(
+                            trackballArgs.chartPointInfo.dataPointIndex);
+                      },
+                      series: ChartUtils.getChartReportServices(
+                        datas: a.dataSource,
+                        type: type,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
         TargetCompletionRate(
           pageType: pageType,
           type: type,
@@ -178,10 +92,14 @@ class StepsLiChengReportChart extends StatelessWidget {
         ),
         Container(
           margin: EdgeInsets.only(left: 12.w, right: 12.w, top: 12.w),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: datas,
-          ),
+          child: GetX<ReportInfoStepsController>(builder: (a) {
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: a.stepsCards
+                  .map((element) => _getCardItem(model: element))
+                  .toList(),
+            );
+          }),
         ),
         ReportFooter(
           type: type,
@@ -190,13 +108,7 @@ class StepsLiChengReportChart extends StatelessWidget {
     );
   }
 
-  Widget _getCardItem({
-    required String bgIcon,
-    required String cardIcon,
-    required String type,
-    required String value,
-    required KReportType pageType,
-  }) {
+  Widget _getCardItem({required StepsCardModel model}) {
     if (pageType == KReportType.day) {
       return Container(
         width: 170.w,
@@ -204,14 +116,14 @@ class StepsLiChengReportChart extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.w),
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("$assetsImages$bgIcon@3x.png"),
+            image: AssetImage("$assetsImages${model.bgIcon}@3x.png"),
           ),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             LoadAssetsImage(
-              cardIcon,
+              model.cardIcon,
               width: 30,
               height: 30,
             ),
@@ -222,12 +134,12 @@ class StepsLiChengReportChart extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    type,
+                    model.type,
                     style: Get.textTheme.displayLarge,
                   ),
                   4.columnWidget,
                   Text(
-                    value,
+                    model.value,
                     style: Get.textTheme.labelMedium,
                   ),
                 ],
@@ -244,25 +156,25 @@ class StepsLiChengReportChart extends StatelessWidget {
       padding: EdgeInsets.only(top: 20.w, left: 2, right: 2),
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("$assetsImages$bgIcon@3x.png"),
+          image: AssetImage("$assetsImages${model.bgIcon}@3x.png"),
         ),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           LoadAssetsImage(
-            cardIcon,
+            model.cardIcon,
             width: 26,
             height: 28,
           ),
           21.columnWidget,
           Text(
-            type,
+            model.type,
             style: Get.textTheme.displayLarge,
           ),
           4.columnWidget,
           Text(
-            value,
+            model.value,
             style: Get.textTheme.labelMedium,
           ),
         ],

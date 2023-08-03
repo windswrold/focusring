@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:focusring/app/modules/report_info_steps/controllers/report_info_steps_controller.dart';
 import 'package:focusring/theme/theme.dart';
 import 'package:focusring/utils/chart_utils.dart';
 import 'package:focusring/views/charts/home_card/model/home_card_x.dart';
@@ -27,212 +28,270 @@ class SleepTimeReportChart extends StatelessWidget {
   Widget _getDayChart() {
     const thickness = 0.15;
     const maximum = 12.0;
-    return Column(
-      children: [
-        Expanded(
-          child: SfRadialGauge(
-            axes: <RadialAxis>[
-              RadialAxis(
-                axisLineStyle: const AxisLineStyle(
-                  thickness: thickness + 0.05,
-                  thicknessUnit: GaugeSizeUnit.factor,
-                  color: Colors.transparent,
-                ),
-                minorTicksPerInterval: 15, //间隔
-                majorTickStyle: MajorTickStyle(
-                  color: ColorUtils.fromHex("#FF9EA3AE"),
-                  length: 6,
-                ),
-                minorTickStyle: MinorTickStyle(
-                  length: 2,
-                  color: ColorUtils.fromHex("#FFE5E6EB"),
-                ),
-                maximum: maximum,
-                interval: 3,
-                startAngle: 270,
-                endAngle: 270,
-                radiusFactor: 1,
-                onLabelCreated: (AxisLabelCreatedArgs args) {
-                  if (args.text == "0") {
-                    args.text = "12";
-                  }
-                  args.labelStyle = GaugeTextStyle(
-                    fontFamily: fontFamilyRoboto,
-                    fontSize: 10.sp,
+    return Container(
+      padding: EdgeInsets.only(top: 20.w, bottom: 16.w),
+      height: 270.w,
+      child: Column(
+        children: [
+          Expanded(
+            child: SfRadialGauge(
+              axes: <RadialAxis>[
+                RadialAxis(
+                  axisLineStyle: const AxisLineStyle(
+                    thickness: thickness + 0.05,
+                    thicknessUnit: GaugeSizeUnit.factor,
+                    color: Colors.transparent,
+                  ),
+                  minorTicksPerInterval: 15, //间隔
+                  majorTickStyle: MajorTickStyle(
                     color: ColorUtils.fromHex("#FF9EA3AE"),
-                    fontWeight: FontWeight.w400,
-                  );
-                },
-                annotations: <GaugeAnnotation>[
-                  //中间子
-                  GaugeAnnotation(
-                    axisValue: 0,
-                    widget: Container(
-                      child: sleepTime == null
-                          ? null
-                          : RichText(
-                              text: TextSpan(
-                                text: sleepTime?.hour.toString(),
-                                style: Get.textTheme.titleLarge,
-                                children: [
-                                  TextSpan(
-                                      text: "h",
+                    length: 6,
+                  ),
+                  minorTickStyle: MinorTickStyle(
+                    length: 2,
+                    color: ColorUtils.fromHex("#FFE5E6EB"),
+                  ),
+                  maximum: maximum,
+                  interval: 3,
+                  startAngle: 270,
+                  endAngle: 270,
+                  radiusFactor: 1,
+                  onLabelCreated: (AxisLabelCreatedArgs args) {
+                    if (args.text == "0") {
+                      args.text = "12";
+                    }
+                    args.labelStyle = GaugeTextStyle(
+                      fontFamily: fontFamilyRoboto,
+                      fontSize: 10.sp,
+                      color: ColorUtils.fromHex("#FF9EA3AE"),
+                      fontWeight: FontWeight.w400,
+                    );
+                  },
+                  annotations: <GaugeAnnotation>[
+                    //中间子
+                    GaugeAnnotation(
+                      axisValue: 0,
+                      widget: Container(
+                        child: sleepTime == null
+                            ? null
+                            : RichText(
+                                text: TextSpan(
+                                  text: sleepTime?.hour.toString(),
+                                  style: Get.textTheme.titleLarge,
+                                  children: [
+                                    TextSpan(
+                                        text: "h",
+                                        style: Get.textTheme.bodyMedium
+                                            ?.copyWith(fontSize: 16.sp)),
+                                    TextSpan(
+                                      text: sleepTime?.minute.toString(),
+                                      style: Get.textTheme.titleLarge,
+                                    ),
+                                    TextSpan(
+                                      text: "min",
                                       style: Get.textTheme.bodyMedium
-                                          ?.copyWith(fontSize: 16.sp)),
-                                  TextSpan(
-                                    text: sleepTime?.minute.toString(),
-                                    style: Get.textTheme.titleLarge,
-                                  ),
-                                  TextSpan(
-                                    text: "min",
-                                    style: Get.textTheme.bodyMedium
-                                        ?.copyWith(fontSize: 16.sp),
-                                  ),
-                                ],
+                                          ?.copyWith(fontSize: 16.sp),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
+                      ),
                     ),
-                  ),
-                ],
-                ranges: [
-                  GaugeRange(
-                    startValue: 0,
-                    endValue: maximum,
-                    sizeUnit: GaugeSizeUnit.factor,
-                    color: ColorUtils.fromHex("#FF232126"),
-                    startWidth: thickness,
-                    endWidth: thickness,
-                  ),
-                  GaugeRange(
-                    startValue: sleepTimeSecond ?? 0,
-                    endValue: wakeTimeSecond ?? 0,
-                    sizeUnit: GaugeSizeUnit.factor,
-                    color: ColorUtils.fromHex("#FF766AFF"),
-                    startWidth: thickness,
-                    endWidth: thickness,
-                  ),
-                ],
-              )
-            ],
+                  ],
+                  ranges: [
+                    GaugeRange(
+                      startValue: 0,
+                      endValue: maximum,
+                      sizeUnit: GaugeSizeUnit.factor,
+                      color: ColorUtils.fromHex("#FF232126"),
+                      startWidth: thickness,
+                      endWidth: thickness,
+                    ),
+                    GaugeRange(
+                      startValue: sleepTimeSecond ?? 0,
+                      endValue: wakeTimeSecond ?? 0,
+                      sizeUnit: GaugeSizeUnit.factor,
+                      color: ColorUtils.fromHex("#FF766AFF"),
+                      startWidth: thickness,
+                      endWidth: thickness,
+                    ),
+                  ],
+                )
+              ],
+            ),
           ),
-        ),
-        Container(
-          padding: EdgeInsets.only(top: 25.w, bottom: 16.w),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Column(
-                children: [
-                  Text(
-                    "sleep_time".tr,
-                    style: Get.textTheme.bodyMedium,
-                  ),
-                  11.columnWidget,
-                  Row(
-                    children: [
-                      LoadAssetsImage(
-                        "icons/sleep_icon_bedtime",
-                        width: 13,
-                        height: 13,
-                      ),
-                      5.rowWidget,
-                      Text(
-                        "result",
-                        style: Get.textTheme.displayLarge,
-                      ),
-                    ],
-                  )
-                ],
-              ),
-              115.rowWidget,
-              Column(
-                children: [
-                  Text(
-                    "wakeup_time".tr,
-                    style: Get.textTheme.bodyMedium,
-                  ),
-                  11.columnWidget,
-                  Row(
-                    children: [
-                      LoadAssetsImage(
-                        "icons/sleep_icon_wakeup",
-                        width: 13,
-                        height: 13,
-                      ),
-                      5.rowWidget,
-                      Text(
-                        "result",
-                        style: Get.textTheme.displayLarge,
-                      ),
-                    ],
-                  )
-                ],
-              ),
-            ],
+          Container(
+            padding: EdgeInsets.only(
+              top: 25.w,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Column(
+                  children: [
+                    Text(
+                      "sleep_time".tr,
+                      style: Get.textTheme.bodyMedium,
+                    ),
+                    11.columnWidget,
+                    Row(
+                      children: [
+                        LoadAssetsImage(
+                          "icons/sleep_icon_bedtime",
+                          width: 13,
+                          height: 13,
+                        ),
+                        5.rowWidget,
+                        Text(
+                          "result",
+                          style: Get.textTheme.displayLarge,
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+                115.rowWidget,
+                Column(
+                  children: [
+                    Text(
+                      "wakeup_time".tr,
+                      style: Get.textTheme.bodyMedium,
+                    ),
+                    11.columnWidget,
+                    Row(
+                      children: [
+                        LoadAssetsImage(
+                          "icons/sleep_icon_wakeup",
+                          width: 13,
+                          height: 13,
+                        ),
+                        5.rowWidget,
+                        Text(
+                          "result",
+                          style: Get.textTheme.displayLarge,
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
   Widget _getWeekChart() {
-    return SfCartesianChart(
-      plotAreaBorderWidth: 0,
-      margin: EdgeInsets.only(left: 5, right: 10),
-      primaryXAxis: ChartUtils.getCategoryAxis(),
-      primaryYAxis: ChartUtils.getNumericAxis(),
-      onSelectionChanged: (selectionArgs) {
-        vmPrint("onSelectionChanged" + selectionArgs.seriesIndex.toString());
-      },
-      trackballBehavior: ChartUtils.getTrackballBehavior(
-        color: KHealthDataType.STEPS.getTypeMainColor()!,
+    return Container(
+      padding: EdgeInsets.only(top: 30.w, bottom: 10.w),
+      height: 308.w,
+      child: Column(
+        children: [
+          GetX<ReportInfoStepsController>(builder: (a) {
+            return AnimatedOpacity(
+              opacity: a.chartTipValue.value.isEmpty ? 0 : 1,
+              duration: const Duration(milliseconds: 300),
+              child: Container(
+                padding:
+                    EdgeInsets.only(left: 21.w, right: 21.w, top: 4, bottom: 4),
+                margin: const EdgeInsets.only(bottom: 12),
+                decoration: BoxDecoration(
+                  color: KHealthDataType.SLEEP.getTypeMainColor(),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Text(
+                  a.chartTipValue.value,
+                  style: Get.textTheme.labelSmall,
+                ),
+              ),
+            );
+          }),
+          GetBuilder<ReportInfoStepsController>(
+              id: ReportInfoStepsController.id_data_souce_update,
+              builder: (a) {
+                return Expanded(
+                    child: SfCartesianChart(
+                  plotAreaBorderWidth: 0,
+                  margin: const EdgeInsets.only(left: 5, right: 10),
+                  primaryXAxis: ChartUtils.getCategoryAxis(),
+                  primaryYAxis: ChartUtils.getNumericAxis(),
+                  trackballBehavior: ChartUtils.getTrackballBehavior(
+                    color: KHealthDataType.SLEEP.getTypeMainColor()!,
+                  ),
+                  onTrackballPositionChanging: (trackballArgs) {
+                    vmPrint("onTrackballPositionChanging" +
+                        trackballArgs.chartPointInfo.dataPointIndex.toString());
+
+                    final index = trackballArgs.chartPointInfo.dataPointIndex;
+                    a.onTrackballPositionChanging(index);
+                  },
+                  series: [
+                    StackedColumnSeries<KChartCellData, String>(
+                      dataSource: List.generate(
+                          30,
+                          (index) => KChartCellData(
+                                x: "$index",
+                                y: Random.secure().nextInt(40),
+                              )),
+                      isTrackVisible: false,
+                      spacing: 0,
+                      borderRadius: BorderRadius.zero,
+                      xValueMapper: (KChartCellData sales, _) => sales.x,
+                      yValueMapper: (KChartCellData sales, _) => sales.y,
+                      pointColorMapper: (datum, index) => Colors.red,
+                      dataLabelSettings: const DataLabelSettings(
+                        isVisible: false,
+                      ),
+                      onPointTap: (pointInteractionDetails) {
+                        vmPrint(pointInteractionDetails.seriesIndex);
+                      },
+                    ),
+                    StackedColumnSeries<KChartCellData, String>(
+                      dataSource: List.generate(
+                          30,
+                          (index) => KChartCellData(
+                                x: "$index",
+                                y: Random.secure().nextInt(40),
+                              )),
+                      isTrackVisible: false,
+                      spacing: 0,
+                      borderRadius: BorderRadius.zero,
+                      xValueMapper: (KChartCellData sales, _) => sales.x,
+                      yValueMapper: (KChartCellData sales, _) => sales.y,
+                      pointColorMapper: (datum, index) => datum.color,
+                      dataLabelSettings: const DataLabelSettings(
+                        isVisible: false,
+                      ),
+                      onPointTap: (pointInteractionDetails) {
+                        vmPrint(pointInteractionDetails.seriesIndex);
+                      },
+                    ),
+                    StackedColumnSeries<KChartCellData, String>(
+                      dataSource: List.generate(
+                          30,
+                          (index) => KChartCellData(
+                                x: "$index",
+                                y: Random.secure().nextInt(40),
+                              )),
+                      isTrackVisible: false,
+                      spacing: 0,
+                      borderRadius: BorderRadius.zero,
+                      xValueMapper: (KChartCellData sales, _) => sales.x,
+                      yValueMapper: (KChartCellData sales, _) => sales.y,
+                      pointColorMapper: (datum, index) => datum.color,
+                      dataLabelSettings: const DataLabelSettings(
+                        isVisible: false,
+                      ),
+                      onPointTap: (pointInteractionDetails) {
+                        vmPrint(pointInteractionDetails.seriesIndex);
+                      },
+                    ),
+                  ],
+                ));
+              })
+        ],
       ),
-      onTrackballPositionChanging: (trackballArgs) {
-        vmPrint("onTrackballPositionChanging" +
-            trackballArgs.chartPointInfo.dataPointIndex.toString());
-      },
-      series: [
-        StackedColumnSeries<KChartCellData, String>(
-          dataSource: List.generate(
-              30,
-              (index) => KChartCellData(
-                    x: "$index",
-                    y: Random.secure().nextInt(40),
-                  )),
-          isTrackVisible: false,
-          spacing: 0,
-          borderRadius: BorderRadius.zero,
-          xValueMapper: (KChartCellData sales, _) => sales.x,
-          yValueMapper: (KChartCellData sales, _) => sales.y,
-          pointColorMapper: (datum, index) => Colors.red,
-          dataLabelSettings: const DataLabelSettings(
-            isVisible: false,
-          ),
-          onPointTap: (pointInteractionDetails) {
-            vmPrint(pointInteractionDetails.seriesIndex);
-          },
-        ),
-        StackedColumnSeries<KChartCellData, String>(
-          dataSource: List.generate(
-              30,
-              (index) => KChartCellData(
-                    x: "$index",
-                    y: Random.secure().nextInt(40),
-                  )),
-          isTrackVisible: false,
-          spacing: 0,
-          borderRadius: BorderRadius.zero,
-          xValueMapper: (KChartCellData sales, _) => sales.x,
-          yValueMapper: (KChartCellData sales, _) => sales.y,
-          pointColorMapper: (datum, index) => datum.color,
-          dataLabelSettings: const DataLabelSettings(
-            isVisible: false,
-          ),
-          onPointTap: (pointInteractionDetails) {
-            vmPrint(pointInteractionDetails.seriesIndex);
-          },
-        ),
-      ],
     );
   }
 
@@ -455,11 +514,7 @@ class SleepTimeReportChart extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
-          height: 283.w,
-          padding: EdgeInsets.only(top: 20.w),
-          child: pageType == KReportType.day ? _getDayChart() : _getWeekChart(),
-        ),
+        pageType == KReportType.day ? _getDayChart() : _getWeekChart(),
         TargetCompletionRate(
           pageType: pageType,
           type: KHealthDataType.SLEEP,
