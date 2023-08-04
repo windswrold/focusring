@@ -8,6 +8,7 @@ import 'package:focusring/views/water_wave.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import '../controllers/find_devices_controller.dart';
+import 'package:extended_sliver/extended_sliver.dart';
 
 class FindDevicesView extends GetView<FindDevicesController> {
   const FindDevicesView({Key? key}) : super(key: key);
@@ -64,6 +65,43 @@ class FindDevicesView extends GetView<FindDevicesController> {
     );
   }
 
+  Widget _buildHeader() {
+    return Column(children: [
+      Container(
+        alignment: Alignment.center,
+        margin: EdgeInsets.only(top: 25.w),
+        width: 229.w,
+        height: 229.w,
+        child: KRippleWave(
+          color: ColorUtils.fromHex("#FF05E6E7"),
+          onCreate: (AnimationController c) {
+            controller.onCreate(c);
+          },
+          child: LoadAssetsImage(
+            "icons/search_revolve",
+            width: 92,
+            height: 92,
+          ),
+        ),
+      ),
+      Container(
+        margin: EdgeInsets.only(left: 6, right: 6, top: 25.w),
+        child: Text(
+          "search_devices".tr,
+          style: Get.textTheme.bodyLarge,
+        ),
+      ),
+      Container(
+        margin: EdgeInsets.only(left: 6, right: 6, top: 9, bottom: 25.w),
+        child: Text(
+          "search_devicestip".tr,
+          textAlign: TextAlign.center,
+          style: Get.textTheme.labelMedium,
+        ),
+      ),
+    ]);
+  }
+
   @override
   Widget build(BuildContext context) {
     return KBasePageView(
@@ -74,51 +112,36 @@ class FindDevicesView extends GetView<FindDevicesController> {
         onRefresh: () {
           controller.onRefresh();
         },
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Center(
-              child: Container(
-                alignment: Alignment.center,
-                margin: EdgeInsets.only(top: 25.w),
-                width: 229.w,
-                height: 229.w,
-                child: KRippleWave(
-                  color: ColorUtils.fromHex("#FF05E6E7"),
-                  onCreate: (AnimationController c) {
-                    controller.onCreate(c);
-                  },
-                  child: LoadAssetsImage(
-                    "icons/search_revolve",
-                    width: 92,
-                    height: 92,
-                  ),
+        child: CustomScrollView(
+          //滚动方向
+          scrollDirection: Axis.vertical,
+          physics: const BouncingScrollPhysics(),
+          slivers: <Widget>[
+            SliverPadding(
+              padding: EdgeInsets.only(top: 25.w),
+              sliver: SliverAppBar(
+                elevation: 0,
+                leading: Container(),
+                forceElevated: true,
+                expandedHeight: 355.w,
+                backgroundColor: Colors.transparent,
+                floating: true,
+                snap: true,
+                pinned: true,
+                flexibleSpace: FlexibleSpaceBar(
+                  background: _buildHeader(),
+                  collapseMode: CollapseMode.none,
                 ),
               ),
             ),
-            Container(
-              margin: EdgeInsets.only(left: 6, right: 6, top: 25.w),
-              child: Text(
-                "search_devices".tr,
-                style: Get.textTheme.bodyLarge,
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 6, right: 6, top: 9, bottom: 25.w),
-              child: Text(
-                "search_devicestip".tr,
-                textAlign: TextAlign.center,
-                style: Get.textTheme.labelMedium,
-              ),
-            ),
-            Expanded(
-              child: Obx(
-                () => ListView.builder(
-                    itemCount: controller.scanResults.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      var item = controller.scanResults[index];
-                      return _buildListItem(item);
-                    }),
+            Obx(
+              () => SliverList(
+                delegate: SliverChildBuilderDelegate(
+                    (BuildContext context, int index) {
+                  var item = controller.scanResults[index];
+                  return _buildListItem(item);
+                }, childCount: controller.scanResults.length //30个列表项
+                    ),
               ),
             ),
           ],
@@ -127,3 +150,59 @@ class FindDevicesView extends GetView<FindDevicesController> {
     );
   }
 }
+
+//         Column(
+//           crossAxisAlignment: CrossAxisAlignment.center,
+//           children: [
+//             Center(
+//               child: Container(
+//                 alignment: Alignment.center,
+//                 margin: EdgeInsets.only(top: 25.w),
+//                 width: 229.w,
+//                 height: 229.w,
+//                 child: KRippleWave(
+//                   color: ColorUtils.fromHex("#FF05E6E7"),
+//                   onCreate: (AnimationController c) {
+//                     controller.onCreate(c);
+//                   },
+//                   child: LoadAssetsImage(
+//                     "icons/search_revolve",
+//                     width: 92,
+//                     height: 92,
+//                   ),
+//                 ),
+//               ),
+//             ),
+//             Container(
+//               margin: EdgeInsets.only(left: 6, right: 6, top: 25.w),
+//               child: Text(
+//                 "search_devices".tr,
+//                 style: Get.textTheme.bodyLarge,
+//               ),
+//             ),
+//             Container(
+//               margin: EdgeInsets.only(left: 6, right: 6, top: 9, bottom: 25.w),
+//               child: Text(
+//                 "search_devicestip".tr,
+//                 textAlign: TextAlign.center,
+//                 style: Get.textTheme.labelMedium,
+//               ),
+//             ),
+
+//             Expanded(
+//               child: Obx(
+//                 () => ListView.builder(
+//                     itemCount: controller.scanResults.length,
+//                     itemBuilder: (BuildContext context, int index) {
+//                       var item = controller.scanResults[index];
+//                       return _buildListItem(item);
+//                     }),
+//               ),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
+

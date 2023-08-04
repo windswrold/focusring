@@ -1,3 +1,5 @@
+import 'package:focusring/public.dart';
+
 class BloodOxygenData {
   int? appUserId;
   String? mac;
@@ -315,11 +317,6 @@ class HealthData {
         "pressureData": pressureData?.map((x) => x.toJson()).toList(),
       };
 
-
-
-  queryHealthData(){
-
-    
-  }
-  
+ static queryHealthData(
+      {required Duration queryTime, required List<KHealthDataType> types}) {}
 }

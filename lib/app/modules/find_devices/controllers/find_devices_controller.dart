@@ -16,7 +16,7 @@ class FindDevicesController extends GetxController {
 
   late RxList<RingDevice> scanResults = <RingDevice>[].obs;
 
-  late StreamSubscription scanStream;
+  late StreamSubscription scanStream, isScan;
 
   late RefreshController refreshController = RefreshController();
 
@@ -40,11 +40,11 @@ class FindDevicesController extends GetxController {
 
     KBLEManager.startScan();
     scanStream = KBLEManager.scanResults.listen((event) {
-      vmPrint("scanResults ${event.toString()}");
+      vmPrint("scanResults ${event.length}");
       scanResults.value = event.map((e) => RingDevice.fromResult(e)).toList();
     });
 
-    KBLEManager.isScanning.listen((event) {
+    isScan = KBLEManager.isScanning.listen((event) {
       vmPrint("isScanning ${event.toString()}");
       if (event == true) {
         resumeAnimation();
@@ -74,8 +74,9 @@ class FindDevicesController extends GetxController {
 
   @override
   void onClose() {
-    scanStream.cancel();
     KBLEManager.stopScan();
+    scanStream.cancel();
+    isScan.cancel();
     super.onClose();
   }
 
