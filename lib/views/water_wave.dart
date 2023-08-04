@@ -44,13 +44,6 @@ class KRippleWaveState extends State<KRippleWave>
       duration: widget.duration,
       vsync: this,
     );
-    if (widget.repeat) {
-      _controller.repeat();
-    } else {
-      _controller.forward();
-      Future.delayed(widget.duration).then((value) => _controller.stop());
-    }
-
     widget.onCreate(_controller);
   }
 
