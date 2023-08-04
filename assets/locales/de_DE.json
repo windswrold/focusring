@@ -96,7 +96,7 @@
   "search_devicestip": "Entfernen Sie das Gerät, laden Sie es auf, aktivieren Sie es und bringen Sie es dann in die Nähe Ihres Telefons.",
   "click_scan": "Zum erneuten Scannen klicken",
   "whynodevices": "Warum finde ich das Gerät nicht?",
-  "whynodevicestip": "1. Stellen Sie sicher, dass Ihr Telefon sich ausreichend nahe am Gerät befindet und es keine Verbindungsprobleme in der Umgebung gibt.\n2. Wenn Sie das Gerät immer noch nicht finden können, ist es möglicherweise bereits mit einem anderen Benutzer verbunden. Wenn Sie nicht wissen, wer es verbunden hat, entfernen Sie den Ring aus der aktuellen Position und verbinden Sie ihn erneut, nachdem er getrennt wurde. Sie können auch versuchen, das Bluetooth auf Ihrem Telefon neu zu starten und das Gerät erneut zu scannen.\n3. Stellen Sie sicher, dass das Bluetooth auf Ihrem Telefon aktiviert ist.",
+  "whynodevicestip": "1. Stellen Sie sicher, dass Ihr Telefon sich ausreichend nahe am Gerät befindet und es keine Verbindungsprobleme in der Umgebung gibt.\n\n2. Wenn Sie das Gerät immer noch nicht finden können, ist es möglicherweise bereits mit einem anderen Benutzer verbunden. Wenn Sie nicht wissen, wer es verbunden hat, entfernen Sie den Ring aus der aktuellen Position und verbinden Sie ihn erneut, nachdem er getrennt wurde. Sie können auch versuchen, das Bluetooth auf Ihrem Telefon neu zu starten und das Gerät erneut zu scannen.\n\n3. Stellen Sie sicher, dass das Bluetooth auf Ihrem Telefon aktiviert ist.",
   "permission_err": "Berechtigung nicht aktiviert",
   "Day": "Tag",
   "Week": "Woche",

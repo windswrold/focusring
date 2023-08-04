@@ -84,21 +84,54 @@ class FindDevicesView extends GetView<FindDevicesController> {
           ),
         ),
       ),
-      Container(
-        margin: EdgeInsets.only(left: 6, right: 6, top: 25.w),
-        child: Text(
-          "search_devices".tr,
-          style: Get.textTheme.bodyLarge,
-        ),
-      ),
-      Container(
-        margin: EdgeInsets.only(left: 6, right: 6, top: 9, bottom: 25.w),
-        child: Text(
-          "search_devicestip".tr,
-          textAlign: TextAlign.center,
-          style: Get.textTheme.labelMedium,
-        ),
-      ),
+      Obx(() => controller.scanResults.isEmpty
+          ? Column(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(left: 6, right: 6, top: 25.w),
+                  child: Text(
+                    "empty_device".tr,
+                    style: Get.textTheme.bodyLarge,
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    controller.emptyDeviceTip();
+                  },
+                  child: Container(
+                    margin:
+                        EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.w),
+                    child: Text(
+                      "whynodevices".tr,
+                      textAlign: TextAlign.center,
+                      style: Get.textTheme.bodySmall?.copyWith(
+                        color: ColorUtils.fromHex("#FF05E6E7"),
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            )
+          : Column(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(left: 6, right: 6, top: 25.w),
+                  child: Text(
+                    "search_devices".tr,
+                    style: Get.textTheme.bodyLarge,
+                  ),
+                ),
+                Container(
+                  margin:
+                      EdgeInsets.only(left: 6, right: 6, top: 9, bottom: 25.w),
+                  child: Text(
+                    "search_devicestip".tr,
+                    textAlign: TextAlign.center,
+                    style: Get.textTheme.labelMedium,
+                  ),
+                ),
+              ],
+            )),
     ]);
   }
 
@@ -135,14 +168,30 @@ class FindDevicesView extends GetView<FindDevicesController> {
               ),
             ),
             Obx(
-              () => SliverList(
-                delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, int index) {
-                  var item = controller.scanResults[index];
-                  return _buildListItem(item);
-                }, childCount: controller.scanResults.length //30个列表项
+              () => controller.scanResults.isEmpty
+                  ? SliverToBoxAdapter(
+                      child: NextButton(
+                          onPressed: () {
+                            controller.startScan();
+                          },
+                          margin: EdgeInsets.only(
+                              left: 12.w, right: 12.w, bottom: 50.w),
+                          textStyle: Get.textTheme.displayLarge,
+                          height: 44.w,
+                          gradient: LinearGradient(colors: [
+                            ColorUtils.fromHex("#FF0E9FF5"),
+                            ColorUtils.fromHex("#FF02FFE2"),
+                          ]),
+                          borderRadius: 22,
+                          title: "click_scan".tr),
+                    )
+                  : SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                          (BuildContext context, int index) {
+                        var item = controller.scanResults[index];
+                        return _buildListItem(item);
+                      }, childCount: controller.scanResults.length),
                     ),
-              ),
             ),
           ],
         ),
@@ -205,4 +254,3 @@ class FindDevicesView extends GetView<FindDevicesController> {
 //     );
 //   }
 // }
-

@@ -30,20 +30,13 @@ class FindDevicesController extends GetxController {
   }
 
   void onRefresh() {
-    KBLEManager.startScan();
+    startScan();
     refreshController.refreshCompleted();
   }
 
   @override
-  void onReady() async {
+  void onReady() {
     super.onReady();
-
-    final state = await KBLEManager.checkBle();
-    if (state == false) {
-      return;
-    }
-    KBLEManager.startScan();
-    controller.repeat();
 
     scanStream = KBLEManager.scanResults.listen((event) {
       vmPrint("scanResults ${event.length}");
@@ -58,6 +51,17 @@ class FindDevicesController extends GetxController {
         pauseAnimation();
       }
     });
+
+    startScan();
+  }
+
+  void startScan() async {
+    final state = await KBLEManager.checkBle();
+    if (state == false) {
+      return;
+    }
+    KBLEManager.startScan();
+    controller.repeat();
   }
 
   void onTapItem(RingDevice item) async {
@@ -96,5 +100,50 @@ class FindDevicesController extends GetxController {
     if (!controller.isAnimating) {
       controller.repeat();
     }
+  }
+
+  void emptyDeviceTip() {
+    Get.bottomSheet(
+      IntrinsicHeight(
+        child: Container(
+          margin: EdgeInsets.symmetric(horizontal: 12.w),
+          padding: EdgeInsets.symmetric(horizontal: 16.w),
+          decoration: BoxDecoration(
+            color: ColorUtils.fromHex("#FF232126"),
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Column(
+            children: [
+              Container(
+                width: 38,
+                height: 6,
+                margin: EdgeInsets.only(top: 16.w),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.3),
+                  borderRadius: BorderRadius.circular(3),
+                ),
+              ),
+              Container(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "whynodevices".tr,
+                  style: Get.textTheme.bodySmall,
+                ),
+                margin: EdgeInsets.only(top: 16.w),
+              ),
+              Container(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "whynodevicestip".tr,
+                  style: Get.textTheme.bodyMedium,
+                ),
+                margin: EdgeInsets.only(top: 12.w,bottom: 30.w),
+              ),
+            ],
+          ),
+        ),
+      ),
+      backgroundColor: Colors.transparent,
+    );
   }
 }

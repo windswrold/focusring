@@ -96,7 +96,7 @@
   "search_devicestip": "Estrai il dispositivo, ricaricalo, attivalo e poi avvicinalo al tuo telefono.",
   "click_scan": "Clicca per Scansionare nuovamente",
   "whynodevices": "Perché non trovo il dispositivo?",
-  "whynodevicestip": "1. Assicurati che il tuo telefono sia sufficientemente vicino al dispositivo e che non ci siano problemi di connessione di rete circostante.\n2. Se non riesci ancora a trovare il dispositivo, potrebbe essere già collegato a un altro utente. Se non sei sicuro di chi lo ha collegato, puoi allontanare l'anello dal luogo attuale e quindi provare a collegarlo di nuovo dopo che si è scollegato. Puoi anche provare a riavviare il Bluetooth del telefono e quindi scansionare nuovamente il dispositivo.\n3. Assicurati che il Bluetooth del tuo telefono sia attivo.",
+  "whynodevicestip": "1. Assicurati che il tuo telefono sia sufficientemente vicino al dispositivo e che non ci siano problemi di connessione di rete circostante.\n\n2. Se non riesci ancora a trovare il dispositivo, potrebbe essere già collegato a un altro utente. Se non sei sicuro di chi lo ha collegato, puoi allontanare l'anello dal luogo attuale e quindi provare a collegarlo di nuovo dopo che si è scollegato. Puoi anche provare a riavviare il Bluetooth del telefono e quindi scansionare nuovamente il dispositivo.\n\n3. Assicurati che il Bluetooth del tuo telefono sia attivo.",
   "permission_err": "Permesso Non Abilitato",
   "Day": "Giorno",
   "Week": "Settimana",

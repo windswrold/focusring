@@ -96,7 +96,7 @@
   "search_devicestip": "tag enheden ud, oplad den for at aktivere den, og hold den tæt på din telefon.",
   "click_scan": "klik for at scanne igen",
   "whynodevices": "hvorfor kan jeg ikke finde nogen enheder?",
-  "whynodevicestip": "1. Sørg for, at din telefon er tæt nok på enheden, og at dit netværk fungerer korrekt.\n2. Hvis du stadig ikke kan finde enheden, kan det skyldes, at enheden allerede er tilsluttet til en anden bruger. Hvis du ikke ved, hvem der har forbindelse til den, kan du tage enheden med dig væk fra din nuværende placering. Når enheden er frakoblet, kan du forsøge at oprette forbindelse igen. Du kan også prøve at genstarte telefonens Bluetooth og derefter scanne for enheden igen.\n3. Sørg for, at din telefons Bluetooth er tændt.",
+  "whynodevicestip": "1. Sørg for, at din telefon er tæt nok på enheden, og at dit netværk fungerer korrekt.\n\n2. Hvis du stadig ikke kan finde enheden, kan det skyldes, at enheden allerede er tilsluttet til en anden bruger. Hvis du ikke ved, hvem der har forbindelse til den, kan du tage enheden med dig væk fra din nuværende placering. Når enheden er frakoblet, kan du forsøge at oprette forbindelse igen. Du kan også prøve at genstarte telefonens Bluetooth og derefter scanne for enheden igen.\n\n3. Sørg for, at din telefons Bluetooth er tændt.",
   "permission_err": "tilladelse ikke givet",
   "Day": "Dag",
   "Week": "Uge",

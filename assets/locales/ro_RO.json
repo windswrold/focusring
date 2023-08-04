@@ -97,7 +97,7 @@
   "search_devicestip": "Scoateți dispozitivul, încărcați-l pentru a-l activa, apoi apropiați-l de telefon.",
   "click_scan": "Click pentru a scana din nou",
   "whynodevices": "De ce nu se găsesc dispozitive?",
-  "whynodevicestip": "1. Asigurați-vă că telefonul și dispozitivul sunt suficient de aproape unul de celălalt și că rețeaua din jur este în ordine.\n2. Dacă tot nu puteți descoperi dispozitivul, este posibil ca acesta să fie deja conectat de altcineva. Dacă nu știți cine l-a conectat, puteți lua inelul și să vă îndepărtați de locația actuală. Odată ce inelul se deconectează, puteți încerca din nou să vă conectați. De asemenea, puteți încerca să reporniți bluetooth-ul telefonului și să scanați din nou dispozitivul.\n3. Verificați dacă bluetooth-ul telefonului este pornit.",
+  "whynodevicestip": "1. Asigurați-vă că telefonul și dispozitivul sunt suficient de aproape unul de celălalt și că rețeaua din jur este în ordine.\n\n2. Dacă tot nu puteți descoperi dispozitivul, este posibil ca acesta să fie deja conectat de altcineva. Dacă nu știți cine l-a conectat, puteți lua inelul și să vă îndepărtați de locația actuală. Odată ce inelul se deconectează, puteți încerca din nou să vă conectați. De asemenea, puteți încerca să reporniți bluetooth-ul telefonului și să scanați din nou dispozitivul.\n\n3. Verificați dacă bluetooth-ul telefonului este pornit.",
   "permission_err": "Permisiunea nu este activată",
   "Day": "Zi",
   "Week": "Săptămână",

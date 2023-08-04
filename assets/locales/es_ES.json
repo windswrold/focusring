@@ -96,7 +96,7 @@
   "search_devicestip": "Saque el dispositivo, cárguelo, actívelo y luego acérquelo a su teléfono.",
   "click_scan": "Haga clic para Escanear de Nuevo",
   "whynodevices": "¿Por qué no puedo encontrar ningún dispositivo?",
-  "whynodevicestip": "1. Asegúrese de que su teléfono esté lo suficientemente cerca del dispositivo y que la red circundante estéfuncionando correctamente.\n2. Si aún no puede encontrar el dispositivo, es posible que el dispositivo ya esté conectado a otra persona. Si no está seguro de quién lo conectó, puede alejar el anillo del lugar actual y luego intentar conectarlo nuevamente después de que se desconecte. También puede intentar reiniciar el Bluetooth del teléfono y luego escanear el dispositivo nuevamente.\n3. Asegúrese de que el Bluetooth de su teléfono esté activado.",
+  "whynodevicestip": "1. Asegúrese de que su teléfono esté lo suficientemente cerca del dispositivo y que la red circundante estéfuncionando correctamente.\n\n2. Si aún no puede encontrar el dispositivo, es posible que el dispositivo ya esté conectado a otra persona. Si no está seguro de quién lo conectó, puede alejar el anillo del lugar actual y luego intentar conectarlo nuevamente después de que se desconecte. También puede intentar reiniciar el Bluetooth del teléfono y luego escanear el dispositivo nuevamente.\n\n3. Asegúrese de que el Bluetooth de su teléfono esté activado.",
   "permission_err": "Permiso No Habilitado",
   "Day": "Día",
   "Week": "Semana",

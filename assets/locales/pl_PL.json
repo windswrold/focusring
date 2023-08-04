@@ -96,7 +96,7 @@
   "search_devicestip": "Wyjmij urządzenie, naładuj je, aktywuj i zbliż je do telefonu.",
   "click_scan": "Kliknij, aby ponownie przeskanować",
   "whynodevices": "Dlaczego nie można znaleźć urządzenia?",
-  "whynodevicestip": "1. Upewnij się, że telefon jest wystarczająco blisko urządzenia i nie ma problemów z siecią w okolicy.\n2. Jeśli ciągle nie można znaleźć urządzenia, może być ono już połączone z inną osobą. Jeśli nie wiesz, z kim, oddal urządzenie od obecnej lokalizacji, a następnie spróbuj ponownie je sparować. Możesz także spróbować zrestartować Bluetooth w telefonie przed ponownym skanowaniem urządzenia.\n3. Upewnij się, że Bluetooth w telefonie jest włączony.",
+  "whynodevicestip": "1. Upewnij się, że telefon jest wystarczająco blisko urządzenia i nie ma problemów z siecią w okolicy.\n\n2. Jeśli ciągle nie można znaleźć urządzenia, może być ono już połączone z inną osobą. Jeśli nie wiesz, z kim, oddal urządzenie od obecnej lokalizacji, a następnie spróbuj ponownie je sparować. Możesz także spróbować zrestartować Bluetooth w telefonie przed ponownym skanowaniem urządzenia.\n\n3. Upewnij się, że Bluetooth w telefonie jest włączony.",
   "permission_err": "Brak uprawnień",
   "Day": "Dzień",
   "Week": "Tydzień",

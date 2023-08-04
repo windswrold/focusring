@@ -96,7 +96,7 @@
   "search_devicestip": "Vyjměte zařízení, nasaďte ho na nabíječku, aktivujte ho a přibližte ho k vašemu telefonu.",
   "click_scan": "Kliknutím opakujte skenování",
   "whynodevices": "Proč nebylo nalezeno žádné zařízení?",
-  "whynodevicestip": "1. Ujistěte se, že váš telefon je dostatečně blízko k zařízení a že v okolí není problém s síťovým signálem.\n2. Pokud stále nenaleznete zařízení, mohlo být již připojeno k jinému uživateli. Pokud nevíte, ke komu je připojeno, odneste zařízení z jeho současného místa a zkuste ho znovu připojit. Před opakovaným skenováním zařízení zkuste znovu spustit Bluetooth ve vašem telefonu.\n3. Ověřte, zda je Bluetooth ve vašem telefonu zapnutý.",
+  "whynodevicestip": "1. Ujistěte se, že váš telefon je dostatečně blízko k zařízení a že v okolí není problém s síťovým signálem.\n\n2. Pokud stále nenaleznete zařízení, mohlo být již připojeno k jinému uživateli. Pokud nevíte, ke komu je připojeno, odneste zařízení z jeho současného místa a zkuste ho znovu připojit. Před opakovaným skenováním zařízení zkuste znovu spustit Bluetooth ve vašem telefonu.\n\n3. Ověřte, zda je Bluetooth ve vašem telefonu zapnutý.",
   "permission_err": "Povolení Neuděleno",
   "Day": "Den",
   "Week": "Týden",

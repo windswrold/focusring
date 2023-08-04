@@ -96,7 +96,7 @@
   "search_devicestip": "Retirez l'appareil, chargez-le, activez-le, puis rapprochez-le de votre téléphone.",
   "click_scan": "Cliquez pour Scanner à Nouveau",
   "whynodevices": "Pourquoi je ne trouve pas l'appareil ?",
-  "whynodevicestip": "1. Assurez-vous que votre téléphone est suffisamment proche de l'appareil et qu'il n'y a pas de problèmes de connexion réseau environnants.\n2. Si vous ne parvenez toujours pas à trouver l'appareil, il est peut-être déjà connecté à un autre utilisateur. Si vous ne savez pas qui l'a connecté, éloignez l'anneau de l'emplacement actuel, puis essayez de le reconnecter après qu'il se soit déconnecté. Vous pouvez également essayer de redémarrer le Bluetooth de votre téléphone, puis de scanner à nouveau l'appareil.\n3. Assurez-vous que le Bluetooth de votre téléphone est activé.",
+  "whynodevicestip": "1. Assurez-vous que votre téléphone est suffisamment proche de l'appareil et qu'il n'y a pas de problèmes de connexion réseau environnants.\n\n2. Si vous ne parvenez toujours pas à trouver l'appareil, il est peut-être déjà connecté à un autre utilisateur. Si vous ne savez pas qui l'a connecté, éloignez l'anneau de l'emplacement actuel, puis essayez de le reconnecter après qu'il se soit déconnecté. Vous pouvez également essayer de redémarrer le Bluetooth de votre téléphone, puis de scanner à nouveau l'appareil.\n\n3. Assurez-vous que le Bluetooth de votre téléphone est activé.",
   "permission_err": "Autorisation Non Activée",
   "Day": "Jour",
   "Week": "Semaine",

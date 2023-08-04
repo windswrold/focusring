@@ -96,7 +96,7 @@
   "search_devicestip": "Verwijder het apparaat, laad het op, activeer het en houd het dicht bij uw telefoon.",
   "click_scan": "Klik om opnieuw te scannen",
   "whynodevices": "Waarom kan ik geen apparaten vinden?",
-  "whynodevicestip": "1. Zorg ervoor dat uw telefoon dicht genoeg bij het apparaat is en dat er geen problemen zijn met het netwerk in de omgeving. \n2. Als u het apparaat nog steeds niet kunt vinden, kan het zijn dat het al door iemand anders is verbonden. Als u niet zeker weet wie het heeft verbonden, kunt u de ring meenemen en ver van uw huidige locatie verwijderd houden, zodat de ring wordt losgekoppeld voordat u opnieuw verbinding maakt. U kunt ook proberen de Bluetooth van uw telefoon te herstarten en opnieuw te scannen naar apparaten. \n3. Controleer of de Bluetooth op uw telefoon correct is ingeschakeld.",
+  "whynodevicestip": "1. Zorg ervoor dat uw telefoon dicht genoeg bij het apparaat is en dat er geen problemen zijn met het netwerk in de omgeving. \n\n2. Als u het apparaat nog steeds niet kunt vinden, kan het zijn dat het al door iemand anders is verbonden. Als u niet zeker weet wie het heeft verbonden, kunt u de ring meenemen en ver van uw huidige locatie verwijderd houden, zodat de ring wordt losgekoppeld voordat u opnieuw verbinding maakt. U kunt ook proberen de Bluetooth van uw telefoon te herstarten en opnieuw te scannen naar apparaten. \n\n3. Controleer of de Bluetooth op uw telefoon correct is ingeschakeld.",
   "permission_err": "Machtiging niet geopend",
   "Day": "Dag",
   "Week": "Week",

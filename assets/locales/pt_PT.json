@@ -96,7 +96,7 @@
   "search_devicestip": "Retire o dispositivo, carregue-o, ative-o e aproxime-o do telefone.",
   "click_scan": "Clique para escanear novamente",
   "whynodevices": "Por que o dispositivo não está sendo encontrado?",
-  "whynodevicestip": "1. Certifique-se de que o telefone esteja próximo o suficiente ao dispositivo e que não há problemas com a rede ao redor;\n2. Se o dispositivo não puder ser encontrado, pode ser que ele esteja conectado a outra pessoa. Se você não tem certeza de quem está conectado ao dispositivo, afaste-se do local atual com o anel e tente conectar novamente após o anel ser desconectado. Você também pode tentar reiniciar o Bluetooth do telefone e, em seguida, escanear os dispositivos novamente;\n3. Verifique se o Bluetooth do seu telefone está ativado e funcionando corretamente.",
+  "whynodevicestip": "1. Certifique-se de que o telefone esteja próximo o suficiente ao dispositivo e que não há problemas com a rede ao redor;\n\n2. Se o dispositivo não puder ser encontrado, pode ser que ele esteja conectado a outra pessoa. Se você não tem certeza de quem está conectado ao dispositivo, afaste-se do local atual com o anel e tente conectar novamente após o anel ser desconectado. Você também pode tentar reiniciar o Bluetooth do telefone e, em seguida, escanear os dispositivos novamente;\n\n3. Verifique se o Bluetooth do seu telefone está ativado e funcionando corretamente.",
   "permission_err": "Permissão Não Concedida",
   "Day": "Dia",
   "Week": "Semana",

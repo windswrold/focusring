@@ -96,7 +96,7 @@
   "search_devicestip": "Take out the device, charge it, activate it, and then bring it close to your phone.",
   "click_scan": "Click to Rescan",
   "whynodevices": "Why can't I find any devices?",
-  "whynodevicestip": "1. Please make sure your phone is close enough to the device and the surrounding network is working properly.\n2. If you still can't find the device, it may have been connected by someone else. If you are not sure who has connected it, you can take the ring away from the current location, wait for it to disconnect, and then try to connect again. You can also try restarting your phone's Bluetooth and then scanning for devices.\n3. Make sure your phone's Bluetooth is properly turned on.",
+  "whynodevicestip": "1. Please make sure your phone is close enough to the device and the surrounding network is working properly.\n\n2. If you still can't find the device, it may have been connected by someone else. If you are not sure who has connected it, you can take the ring away from the current location, wait for it to disconnect, and then try to connect again. You can also try restarting your phone's Bluetooth and then scanning for devices.\n\n3. Make sure your phone's Bluetooth is properly turned on.",
   "permission_err": "Permission Not Enabled",
   "Day": "Day",
   "Week": "Week",

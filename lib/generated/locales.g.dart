@@ -229,6 +229,9 @@ class LocaleKeys {
   static const nl_NL = 'nl_NL';
   static const pt_BR = 'pt_BR';
   static const ro_RO = 'ro_RO';
+  static const week_overview = 'week_overview';
+  static const moneth_overview = 'moneth_overview';
+  static const empty_device = 'empty_device';
   static const emotion_report = 'emotion_report';
   static const about_activitytip = 'about_activitytip';
   static const about_activitytip01 = 'about_activitytip01';
@@ -344,7 +347,7 @@ class Locales {
     'click_scan': 'Clique para escanear novamente',
     'whynodevices': 'Por que o dispositivo não está sendo encontrado?',
     'whynodevicestip':
-        '1. Certifique-se de que o telefone esteja próximo o suficiente ao dispositivo e que não há problemas com a rede ao redor;\n2. Se o dispositivo não puder ser encontrado, pode ser que ele esteja conectado a outra pessoa. Se você não tem certeza de quem está conectado ao dispositivo, afaste-se do local atual com o anel e tente conectar novamente após o anel ser desconectado. Você também pode tentar reiniciar o Bluetooth do telefone e, em seguida, escanear os dispositivos novamente;\n3. Verifique se o Bluetooth do seu telefone está ativado e funcionando corretamente.',
+        '1. Certifique-se de que o telefone esteja próximo o suficiente ao dispositivo e que não há problemas com a rede ao redor;\n\n2. Se o dispositivo não puder ser encontrado, pode ser que ele esteja conectado a outra pessoa. Se você não tem certeza de quem está conectado ao dispositivo, afaste-se do local atual com o anel e tente conectar novamente após o anel ser desconectado. Você também pode tentar reiniciar o Bluetooth do telefone e, em seguida, escanear os dispositivos novamente;\n\n3. Verifique se o Bluetooth do seu telefone está ativado e funcionando corretamente.',
     'permission_err': 'Permissão Não Concedida',
     'Day': 'Dia',
     'Week': 'Semana',
@@ -566,7 +569,7 @@ class Locales {
     'click_scan': 'Haga clic para Escanear de Nuevo',
     'whynodevices': '¿Por qué no puedo encontrar ningún dispositivo?',
     'whynodevicestip':
-        '1. Asegúrese de que su teléfono esté lo suficientemente cerca del dispositivo y que la red circundante estéfuncionando correctamente.\n2. Si aún no puede encontrar el dispositivo, es posible que el dispositivo ya esté conectado a otra persona. Si no está seguro de quién lo conectó, puede alejar el anillo del lugar actual y luego intentar conectarlo nuevamente después de que se desconecte. También puede intentar reiniciar el Bluetooth del teléfono y luego escanear el dispositivo nuevamente.\n3. Asegúrese de que el Bluetooth de su teléfono esté activado.',
+        '1. Asegúrese de que su teléfono esté lo suficientemente cerca del dispositivo y que la red circundante estéfuncionando correctamente.\n\n2. Si aún no puede encontrar el dispositivo, es posible que el dispositivo ya esté conectado a otra persona. Si no está seguro de quién lo conectó, puede alejar el anillo del lugar actual y luego intentar conectarlo nuevamente después de que se desconecte. También puede intentar reiniciar el Bluetooth del teléfono y luego escanear el dispositivo nuevamente.\n\n3. Asegúrese de que el Bluetooth de su teléfono esté activado.',
     'permission_err': 'Permiso No Habilitado',
     'Day': 'Día',
     'Week': 'Semana',
@@ -782,7 +785,7 @@ class Locales {
     'click_scan': '再スキャンをクリック',
     'whynodevices': 'なぜデバイスが見つからないのですか？',
     'whynodevicestip':
-        '1.携帯電話とデバイスとの距離が十分に近いこと、そして周辺のネットワークに問題がないことを確認してください。\n2.他の人に接続されている可能性があります。誰が接続したかわからない場合は、リングを持って現在の位置から離れ、リングが切断されたら接続を試みてみてください。携帯電話のBluetoothを再起動してから再度デバイスをスキャンしてみてもいいでしょう。\n3.携帯電話のBluetoothが正常にオンになっていることを確認してください。',
+        '1.携帯電話とデバイスとの距離が十分に近いこと、そして周辺のネットワークに問題がないことを確認してください。\n\n2.他の人に接続されている可能性があります。誰が接続したかわからない場合は、リングを持って現在の位置から離れ、リングが切断されたら接続を試みてみてください。携帯電話のBluetoothを再起動してから再度デバイスをスキャンしてみてもいいでしょう。\n\n3.携帯電話のBluetoothが正常にオンになっていることを確認してください。',
     'permission_err': '権限が開かれていません',
     'Day': '日',
     'Week': '週',
@@ -997,7 +1000,7 @@ class Locales {
     'click_scan': '点击重新扫描',
     'whynodevices': '为什么搜索不到设备？',
     'whynodevicestip':
-        '1.请确保手机与设备之间的距离足够近，，同时确保周围网络无问题。\n2.若始终无法发现设备，可能存在设备已被他人连接。如果您并不清楚被谁连接，可以携带戒指远离当前位置，戒指断连后再进行连接。还可以尝试重启手机蓝牙后再扫描设备。\n3.确保手机蓝牙是否正常开启。',
+        '1.请确保手机与设备之间的距离足够近，，同时确保周围网络无问题。\n\n2.若始终无法发现设备，可能存在设备已被他人连接。如果您并不清楚被谁连接，可以携带戒指远离当前位置，戒指断连后再进行连接。还可以尝试重启手机蓝牙后再扫描设备。\n\n3.确保手机蓝牙是否正常开启。',
     'permission_err': '权限未开启',
     'Day': 'Day',
     'Week': 'Week',
@@ -1109,6 +1112,9 @@ class Locales {
     'nl_NL': '荷兰语',
     'pt_BR': '葡萄牙语（巴西）',
     'ro_RO': '罗马尼亚语',
+    'week_overview': '本周概述',
+    'moneth_overview': '本月概述',
+    'empty_device': '没有发现设备',
   };
   static const it_IT = {
     'tabbar_status': 'Stato',
@@ -1218,7 +1224,7 @@ class Locales {
     'click_scan': 'Clicca per Scansionare nuovamente',
     'whynodevices': 'Perché non trovo il dispositivo?',
     'whynodevicestip':
-        '1. Assicurati che il tuo telefono sia sufficientemente vicino al dispositivo e che non ci siano problemi di connessione di rete circostante.\n2. Se non riesci ancora a trovare il dispositivo, potrebbe essere già collegato a un altro utente. Se non sei sicuro di chi lo ha collegato, puoi allontanare l\'anello dal luogo attuale e quindi provare a collegarlo di nuovo dopo che si è scollegato. Puoi anche provare a riavviare il Bluetooth del telefono e quindi scansionare nuovamente il dispositivo.\n3. Assicurati che il Bluetooth del tuo telefono sia attivo.',
+        '1. Assicurati che il tuo telefono sia sufficientemente vicino al dispositivo e che non ci siano problemi di connessione di rete circostante.\n\n2. Se non riesci ancora a trovare il dispositivo, potrebbe essere già collegato a un altro utente. Se non sei sicuro di chi lo ha collegato, puoi allontanare l\'anello dal luogo attuale e quindi provare a collegarlo di nuovo dopo che si è scollegato. Puoi anche provare a riavviare il Bluetooth del telefono e quindi scansionare nuovamente il dispositivo.\n\n3. Assicurati che il Bluetooth del tuo telefono sia attivo.',
     'permission_err': 'Permesso Non Abilitato',
     'Day': 'Giorno',
     'Week': 'Settimana',
@@ -1435,7 +1441,7 @@ class Locales {
     'click_scan': 'Click to Rescan',
     'whynodevices': 'Why can\'t I find any devices?',
     'whynodevicestip':
-        '1. Please make sure your phone is close enough to the device and the surrounding network is working properly.\n2. If you still can\'t find the device, it may have been connected by someone else. If you are not sure who has connected it, you can take the ring away from the current location, wait for it to disconnect, and then try to connect again. You can also try restarting your phone\'s Bluetooth and then scanning for devices.\n3. Make sure your phone\'s Bluetooth is properly turned on.',
+        '1. Please make sure your phone is close enough to the device and the surrounding network is working properly.\n\n2. If you still can\'t find the device, it may have been connected by someone else. If you are not sure who has connected it, you can take the ring away from the current location, wait for it to disconnect, and then try to connect again. You can also try restarting your phone\'s Bluetooth and then scanning for devices.\n\n3. Make sure your phone\'s Bluetooth is properly turned on.',
     'permission_err': 'Permission Not Enabled',
     'Day': 'Day',
     'Week': 'Week',
@@ -1655,7 +1661,7 @@ class Locales {
     'click_scan': 'Klik om opnieuw te scannen',
     'whynodevices': 'Waarom kan ik geen apparaten vinden?',
     'whynodevicestip':
-        '1. Zorg ervoor dat uw telefoon dicht genoeg bij het apparaat is en dat er geen problemen zijn met het netwerk in de omgeving. \n2. Als u het apparaat nog steeds niet kunt vinden, kan het zijn dat het al door iemand anders is verbonden. Als u niet zeker weet wie het heeft verbonden, kunt u de ring meenemen en ver van uw huidige locatie verwijderd houden, zodat de ring wordt losgekoppeld voordat u opnieuw verbinding maakt. U kunt ook proberen de Bluetooth van uw telefoon te herstarten en opnieuw te scannen naar apparaten. \n3. Controleer of de Bluetooth op uw telefoon correct is ingeschakeld.',
+        '1. Zorg ervoor dat uw telefoon dicht genoeg bij het apparaat is en dat er geen problemen zijn met het netwerk in de omgeving. \n\n2. Als u het apparaat nog steeds niet kunt vinden, kan het zijn dat het al door iemand anders is verbonden. Als u niet zeker weet wie het heeft verbonden, kunt u de ring meenemen en ver van uw huidige locatie verwijderd houden, zodat de ring wordt losgekoppeld voordat u opnieuw verbinding maakt. U kunt ook proberen de Bluetooth van uw telefoon te herstarten en opnieuw te scannen naar apparaten. \n\n3. Controleer of de Bluetooth op uw telefoon correct is ingeschakeld.',
     'permission_err': 'Machtiging niet geopend',
     'Day': 'Dag',
     'Week': 'Week',
@@ -1873,7 +1879,7 @@ class Locales {
     'click_scan': 'klik for at scanne igen',
     'whynodevices': 'hvorfor kan jeg ikke finde nogen enheder?',
     'whynodevicestip':
-        '1. Sørg for, at din telefon er tæt nok på enheden, og at dit netværk fungerer korrekt.\n2. Hvis du stadig ikke kan finde enheden, kan det skyldes, at enheden allerede er tilsluttet til en anden bruger. Hvis du ikke ved, hvem der har forbindelse til den, kan du tage enheden med dig væk fra din nuværende placering. Når enheden er frakoblet, kan du forsøge at oprette forbindelse igen. Du kan også prøve at genstarte telefonens Bluetooth og derefter scanne for enheden igen.\n3. Sørg for, at din telefons Bluetooth er tændt.',
+        '1. Sørg for, at din telefon er tæt nok på enheden, og at dit netværk fungerer korrekt.\n\n2. Hvis du stadig ikke kan finde enheden, kan det skyldes, at enheden allerede er tilsluttet til en anden bruger. Hvis du ikke ved, hvem der har forbindelse til den, kan du tage enheden med dig væk fra din nuværende placering. Når enheden er frakoblet, kan du forsøge at oprette forbindelse igen. Du kan også prøve at genstarte telefonens Bluetooth og derefter scanne for enheden igen.\n\n3. Sørg for, at din telefons Bluetooth er tændt.',
     'permission_err': 'tilladelse ikke givet',
     'Day': 'Dag',
     'Week': 'Uge',
@@ -2094,7 +2100,7 @@ class Locales {
     'click_scan': 'Zum erneuten Scannen klicken',
     'whynodevices': 'Warum finde ich das Gerät nicht?',
     'whynodevicestip':
-        '1. Stellen Sie sicher, dass Ihr Telefon sich ausreichend nahe am Gerät befindet und es keine Verbindungsprobleme in der Umgebung gibt.\n2. Wenn Sie das Gerät immer noch nicht finden können, ist es möglicherweise bereits mit einem anderen Benutzer verbunden. Wenn Sie nicht wissen, wer es verbunden hat, entfernen Sie den Ring aus der aktuellen Position und verbinden Sie ihn erneut, nachdem er getrennt wurde. Sie können auch versuchen, das Bluetooth auf Ihrem Telefon neu zu starten und das Gerät erneut zu scannen.\n3. Stellen Sie sicher, dass das Bluetooth auf Ihrem Telefon aktiviert ist.',
+        '1. Stellen Sie sicher, dass Ihr Telefon sich ausreichend nahe am Gerät befindet und es keine Verbindungsprobleme in der Umgebung gibt.\n\n2. Wenn Sie das Gerät immer noch nicht finden können, ist es möglicherweise bereits mit einem anderen Benutzer verbunden. Wenn Sie nicht wissen, wer es verbunden hat, entfernen Sie den Ring aus der aktuellen Position und verbinden Sie ihn erneut, nachdem er getrennt wurde. Sie können auch versuchen, das Bluetooth auf Ihrem Telefon neu zu starten und das Gerät erneut zu scannen.\n\n3. Stellen Sie sicher, dass das Bluetooth auf Ihrem Telefon aktiviert ist.',
     'permission_err': 'Berechtigung nicht aktiviert',
     'Day': 'Tag',
     'Week': 'Woche',
@@ -2317,7 +2323,7 @@ class Locales {
     'click_scan': 'Clique para reescanear',
     'whynodevices': 'Por que não consigo encontrar o dispositivo?',
     'whynodevicestip':
-        '1.Por favor, certifique-se que o dispositivo está próximo o suficientepara o telefone e que a rede ao redor está funcionando corretamente.\n2.Se o dispositivo não pode ser encontrado, ele pode já estar conectado a outra pessoa. Se você não sabe quem está conectado, você pode levar o anel para longe do local atual. Depois que o anel estiver desconectado, você pode tentar conectar novamente. Você também pode tentar reiniciar o Bluetooth do telefone e digitalizar o dispositivo novamente.\n3.Verifique se o Bluetooth do telefone está ligado.',
+        '1.Por favor, certifique-se que o dispositivo está próximo o suficientepara o telefone e que a rede ao redor está funcionando corretamente.\n\n2.Se o dispositivo não pode ser encontrado, ele pode já estar conectado a outra pessoa. Se você não sabe quem está conectado, você pode levar o anel para longe do local atual. Depois que o anel estiver desconectado, você pode tentar conectar novamente. Você também pode tentar reiniciar o Bluetooth do telefone e digitalizar o dispositivo novamente.\n\n3.Verifique se o Bluetooth do telefone está ligado.',
     'permission_err': 'Permissão não concedida',
     'Day': 'Dia',
     'Week': 'Semana',
@@ -2539,7 +2545,7 @@ class Locales {
     'click_scan': 'Cliquez pour Scanner à Nouveau',
     'whynodevices': 'Pourquoi je ne trouve pas l\'appareil ?',
     'whynodevicestip':
-        '1. Assurez-vous que votre téléphone est suffisamment proche de l\'appareil et qu\'il n\'y a pas de problèmes de connexion réseau environnants.\n2. Si vous ne parvenez toujours pas à trouver l\'appareil, il est peut-être déjà connecté à un autre utilisateur. Si vous ne savez pas qui l\'a connecté, éloignez l\'anneau de l\'emplacement actuel, puis essayez de le reconnecter après qu\'il se soit déconnecté. Vous pouvez également essayer de redémarrer le Bluetooth de votre téléphone, puis de scanner à nouveau l\'appareil.\n3. Assurez-vous que le Bluetooth de votre téléphone est activé.',
+        '1. Assurez-vous que votre téléphone est suffisamment proche de l\'appareil et qu\'il n\'y a pas de problèmes de connexion réseau environnants.\n\n2. Si vous ne parvenez toujours pas à trouver l\'appareil, il est peut-être déjà connecté à un autre utilisateur. Si vous ne savez pas qui l\'a connecté, éloignez l\'anneau de l\'emplacement actuel, puis essayez de le reconnecter après qu\'il se soit déconnecté. Vous pouvez également essayer de redémarrer le Bluetooth de votre téléphone, puis de scanner à nouveau l\'appareil.\n\n3. Assurez-vous que le Bluetooth de votre téléphone est activé.',
     'permission_err': 'Autorisation Non Activée',
     'Day': 'Jour',
     'Week': 'Semaine',
@@ -2758,7 +2764,7 @@ class Locales {
     'click_scan': 'Kliknutím opakujte skenování',
     'whynodevices': 'Proč nebylo nalezeno žádné zařízení?',
     'whynodevicestip':
-        '1. Ujistěte se, že váš telefon je dostatečně blízko k zařízení a že v okolí není problém s síťovým signálem.\n2. Pokud stále nenaleznete zařízení, mohlo být již připojeno k jinému uživateli. Pokud nevíte, ke komu je připojeno, odneste zařízení z jeho současného místa a zkuste ho znovu připojit. Před opakovaným skenováním zařízení zkuste znovu spustit Bluetooth ve vašem telefonu.\n3. Ověřte, zda je Bluetooth ve vašem telefonu zapnutý.',
+        '1. Ujistěte se, že váš telefon je dostatečně blízko k zařízení a že v okolí není problém s síťovým signálem.\n\n2. Pokud stále nenaleznete zařízení, mohlo být již připojeno k jinému uživateli. Pokud nevíte, ke komu je připojeno, odneste zařízení z jeho současného místa a zkuste ho znovu připojit. Před opakovaným skenováním zařízení zkuste znovu spustit Bluetooth ve vašem telefonu.\n\n3. Ověřte, zda je Bluetooth ve vašem telefonu zapnutý.',
     'permission_err': 'Povolení Neuděleno',
     'Day': 'Den',
     'Week': 'Týden',
@@ -2981,7 +2987,7 @@ class Locales {
     'click_scan': 'Click pentru a scana din nou',
     'whynodevices': 'De ce nu se găsesc dispozitive?',
     'whynodevicestip':
-        '1. Asigurați-vă că telefonul și dispozitivul sunt suficient de aproape unul de celălalt și că rețeaua din jur este în ordine.\n2. Dacă tot nu puteți descoperi dispozitivul, este posibil ca acesta să fie deja conectat de altcineva. Dacă nu știți cine l-a conectat, puteți lua inelul și să vă îndepărtați de locația actuală. Odată ce inelul se deconectează, puteți încerca din nou să vă conectați. De asemenea, puteți încerca să reporniți bluetooth-ul telefonului și să scanați din nou dispozitivul.\n3. Verificați dacă bluetooth-ul telefonului este pornit.',
+        '1. Asigurați-vă că telefonul și dispozitivul sunt suficient de aproape unul de celălalt și că rețeaua din jur este în ordine.\n\n2. Dacă tot nu puteți descoperi dispozitivul, este posibil ca acesta să fie deja conectat de altcineva. Dacă nu știți cine l-a conectat, puteți lua inelul și să vă îndepărtați de locația actuală. Odată ce inelul se deconectează, puteți încerca din nou să vă conectați. De asemenea, puteți încerca să reporniți bluetooth-ul telefonului și să scanați din nou dispozitivul.\n\n3. Verificați dacă bluetooth-ul telefonului este pornit.',
     'permission_err': 'Permisiunea nu este activată',
     'Day': 'Zi',
     'Week': 'Săptămână',
@@ -3201,7 +3207,7 @@ class Locales {
     'click_scan': 'Kliknij, aby ponownie przeskanować',
     'whynodevices': 'Dlaczego nie można znaleźć urządzenia?',
     'whynodevicestip':
-        '1. Upewnij się, że telefon jest wystarczająco blisko urządzenia i nie ma problemów z siecią w okolicy.\n2. Jeśli ciągle nie można znaleźć urządzenia, może być ono już połączone z inną osobą. Jeśli nie wiesz, z kim, oddal urządzenie od obecnej lokalizacji, a następnie spróbuj ponownie je sparować. Możesz także spróbować zrestartować Bluetooth w telefonie przed ponownym skanowaniem urządzenia.\n3. Upewnij się, że Bluetooth w telefonie jest włączony.',
+        '1. Upewnij się, że telefon jest wystarczająco blisko urządzenia i nie ma problemów z siecią w okolicy.\n\n2. Jeśli ciągle nie można znaleźć urządzenia, może być ono już połączone z inną osobą. Jeśli nie wiesz, z kim, oddal urządzenie od obecnej lokalizacji, a następnie spróbuj ponownie je sparować. Możesz także spróbować zrestartować Bluetooth w telefonie przed ponownym skanowaniem urządzenia.\n\n3. Upewnij się, że Bluetooth w telefonie jest włączony.',
     'permission_err': 'Brak uprawnień',
     'Day': 'Dzień',
     'Week': 'Tydzień',
