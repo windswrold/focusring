@@ -7,6 +7,7 @@ import '../controllers/testdfu_controller.dart';
 
 class TestdfuView extends GetView<TestdfuController> {
   const TestdfuView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return KBasePageView(
@@ -23,6 +24,19 @@ class TestdfuView extends GetView<TestdfuController> {
             child: Text("选择文件"),
           ),
           Text("升级操作"),
+
+          Row(
+            children: [
+              Obx(
+                () => Switch(
+                    value: controller.isfastMode.value,
+                    onChanged: (e) {
+                      controller.onChange(e);
+                    }),
+              ),
+              Text("isfastMode"),
+            ],
+          ),
           TextButton(
             onPressed: () {
               controller.normalDFU();
@@ -47,56 +61,56 @@ class TestdfuView extends GetView<TestdfuController> {
               ),
             ],
           ),
-          TextButton(
-            onPressed: () {
-              controller.fastDFU();
-            },
-            child: Text("fast普通升级，小升大"),
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: TextField(
-                  controller: controller.copy2,
-                  decoration: InputDecoration(
-                    hintText: "fast拷贝地址(不包含0x)",
-                  ),
-                ),
-              ),
-              TextButton(
-                onPressed: () {
-                  controller.fastCopyDFU();
-                },
-                child: Text("fast拷贝升级"),
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: TextField(
-                  controller: controller.copy3,
-                  decoration: InputDecoration(
-                    hintText: "资源地址(不包含0x)",
-                  ),
-                ),
-              ),
-              Obx(
-                () => Switch(
-                    value: controller.isExtFlash.value,
-                    onChanged: (e) {
-                      controller.onChange(e);
-                    }),
-              ),
-              Text("外部Flash"),
-              TextButton(
-                onPressed: () {
-                  controller.fastDFUResource();
-                },
-                child: Text("fast资源升级"),
-              ),
-            ],
-          ),
+          // TextButton(
+          //   onPressed: () {
+          //     controller.fastDFU();
+          //   },
+          //   child: Text("fast普通升级，小升大"),
+          // ),
+          // Row(
+          //   children: [
+          //     Expanded(
+          //       child: TextField(
+          //         controller: controller.copy2,
+          //         decoration: InputDecoration(
+          //           hintText: "fast拷贝地址(不包含0x)",
+          //         ),
+          //       ),
+          //     ),
+          //     TextButton(
+          //       onPressed: () {
+          //         controller.fastCopyDFU();
+          //       },
+          //       child: Text("fast拷贝升级"),
+          //     ),
+          //   ],
+          // ),
+          // Row(
+          //   children: [
+          //     Expanded(
+          //       child: TextField(
+          //         controller: controller.copy3,
+          //         decoration: InputDecoration(
+          //           hintText: "资源地址(不包含0x)",
+          //         ),
+          //       ),
+          //     ),
+          //     Obx(
+          //       () => Switch(
+          //           value: controller.isExtFlash.value,
+          //           onChanged: (e) {
+          //             controller.onChange(e);
+          //           }),
+          //     ),
+          //     Text("外部Flash"),
+          //     TextButton(
+          //       onPressed: () {
+          //         controller.fastDFUResource();
+          //       },
+          //       child: Text("fast资源升级"),
+          //     ),
+          //   ],
+          // ),
         ],
       ),
     );

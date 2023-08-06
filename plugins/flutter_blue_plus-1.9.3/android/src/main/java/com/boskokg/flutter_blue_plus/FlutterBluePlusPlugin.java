@@ -64,12 +64,9 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.PluginRegistry.RequestPermissionsResultListener;
 
-import com.goodix.ble.gr.toolbox.app.libfastdfu.DfuProgressCallback;
-import com.goodix.ble.gr.toolbox.app.libfastdfu.EasyDfu2;
-import com.goodix.ble.libcomx.task.Task;
-import com.goodix.ble.gr.toolbox.app.libfastdfu.FastDfu;
-import com.goodix.ble.gr.toolbox.app.libfastdfu.FastDfuProgressCallback;
-import com.goodix.ble.gr.toolbox.app.libfastdfu.task.FastDfuProfile;
+import com.goodix.ble.gr.lib.dfu.v2.DfuProgressListener;
+import com.goodix.ble.gr.lib.dfu.v2.EasyDfu2;
+import com.goodix.ble.gr.lib.dfu.v2.fastdfu.FastDfu;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -79,7 +76,7 @@ public class FlutterBluePlusPlugin implements
     FlutterPlugin,
     MethodCallHandler,
     RequestPermissionsResultListener,
-    ActivityAware,DfuProgressCallback,FastDfuProgressCallback
+    ActivityAware,DfuProgressListener
 {
     private static final String TAG = "FlutterBluePlugin";
     private final Object initializationLock = new Object();
@@ -218,10 +215,10 @@ public class FlutterBluePlusPlugin implements
     }
 
     @Override
-    public void onDfuProgress(int i) {
-        android.util.Log.d(TAG, "onDfuProgress() called with: i = [" + i + "]");
+    public void onDfuProgress(int percent, int speed, String message) {
+        android.util.Log.d(TAG, "onDfuProgress() called with: i = [" + percent + "]");
         HashMap<String, Object> map = new HashMap<>();
-        map.put("progress", i);
+        map.put("progress", percent);
         invokeMethodUIThread("onDfuProgress",map);
     }
 
@@ -233,29 +230,17 @@ public class FlutterBluePlusPlugin implements
     }
 
     @Override
-    public void onDfuError(String s, Error error) {
-        android.util.Log.d(TAG, "onDfuError() called with: s = [" + s + "], error = [" + error + "]");
-        String a = "[" + s + "], error = [" + error + "]";
+    public void onDfuError(String message, Error error) {
+        android.util.Log.d(TAG, "onDfuError() called with: s = [" + message + "], error = [" + error + "]");
+        String a = "[" + message + "], error = [" + error + "]";
         HashMap<String, Object> map = new HashMap<>();
         map.put("error", a);
         invokeMethodUIThread("onDfuError",map);
     }
 
 
-    @Override
-    public void onDfuError(int code, String msg, Error error) {
-        Log.d(TAG, "onDfuError() called with: s = [" + msg + "], error = [" + error + "]");
-        String a = "[" + msg + "], error = [" + error + "]";
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("error", a);
-        invokeMethodUIThread("onDfuError",map);
-    }
 
 
-    @Override
-    public void onDfuErase(int i) {
-        Log.d(TAG, "onDfuErase() called with: i = [" + i + "]");
-    }
 
     public InputStream getInputStreamFromFilePath(String filePath) {
         InputStream inputStream = null;
@@ -312,6 +297,7 @@ public class FlutterBluePlusPlugin implements
                        String remoteId = (String) data.get("remote_id");
                        String filePath = (String) data.get("filePath");
                        int type = (int) data.get("type");
+                       boolean fastMode = (boolean) data.get("fastMode") ;
                        BluetoothDevice targetDevice = mBluetoothAdapter.getRemoteDevice(remoteId);
                        int cs = mBluetoothManager.getConnectionState(targetDevice, BluetoothProfile.GATT);
                        if(cs != BluetoothProfile.STATE_CONNECTED) {
@@ -321,14 +307,16 @@ public class FlutterBluePlusPlugin implements
                        InputStream a = getInputStreamFromFilePath(filePath);
                         if (type == 0 ){
 
-                            EasyDfu2 dfu2 = new EasyDfu2();
+                            final EasyDfu2 dfu2 = new EasyDfu2();
                             dfu2.setListener(this);
+                            dfu2.setFastMode(fastMode);
                             dfu2.startDfu(context, targetDevice, a);
                         } else if (type ==1) {
 
                             int copyAddr = (int) data.get("copyAddr");
-                            EasyDfu2 dfu2 = new EasyDfu2();
+                            final EasyDfu2 dfu2 = new EasyDfu2();
                             dfu2.setListener(this);
+                            dfu2.setFastMode(fastMode);
                             dfu2.startDfuInCopyMode(context, targetDevice, a, copyAddr);
                         } else if (type == 2 ) {
 

@@ -16,6 +16,7 @@ class TestdfuController extends GetxController {
   TextEditingController copy3 = TextEditingController();
 
   RxBool isExtFlash = false.obs;
+  RxBool isfastMode = true.obs;
 
   @override
   void onInit() {
@@ -46,7 +47,7 @@ class TestdfuController extends GetxController {
   }
 
   void onChange(bool state) {
-    isExtFlash.value = state;
+    isfastMode.value = state;
   }
 
   void openFile() async {
@@ -77,7 +78,8 @@ class TestdfuController extends GetxController {
       return;
     }
     RingDevice de = Get.arguments;
-    KBLEManager.getDevice(device: de).startDfu(filePath: currentFile.value);
+    KBLEManager.getDevice(device: de)
+        .startDfu(filePath: currentFile.value, fastMode: isfastMode.value);
   }
 
   void copyDFU() {
@@ -93,7 +95,9 @@ class TestdfuController extends GetxController {
 
     RingDevice de = Get.arguments;
     KBLEManager.getDevice(device: de).startCopyDfu(
-        filePath: currentFile.value, copyAdd: int.parse(text, radix: 16));
+        filePath: currentFile.value,
+        copyAdd: int.parse(text, radix: 16),
+        fastMode: isfastMode.value);
   }
 
   void fastDFU() {
