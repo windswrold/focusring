@@ -8,7 +8,6 @@ import 'package:focusring/views/water_wave.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import '../controllers/find_devices_controller.dart';
-import 'package:extended_sliver/extended_sliver.dart';
 
 class FindDevicesView extends GetView<FindDevicesController> {
   const FindDevicesView({Key? key}) : super(key: key);

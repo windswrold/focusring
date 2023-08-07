@@ -61,10 +61,28 @@ class HomeDevicesController extends GetxController {
   }
 
   void onTapManualHeartrate() {
+    if (connectDevice.value == null) {
+      DialogUtils.defaultDialog(
+        title: "empty_unbind".tr,
+        content: "empty_unbindtip".tr,
+        alignment: Alignment.center,
+      );
+      return;
+    }
+
     Get.toNamed(Routes.USER_MANUALTEST, arguments: KHealthDataType.HEART_RATE);
   }
 
   void onTapBloodOxygen() {
+    if (connectDevice.value == null) {
+      DialogUtils.defaultDialog(
+        title: "empty_unbind".tr,
+        content: "empty_unbindtip".tr,
+        alignment: Alignment.center,
+      );
+      return;
+    }
+
     Get.toNamed(Routes.USER_MANUALTEST,
         arguments: KHealthDataType.BLOOD_OXYGEN);
   }

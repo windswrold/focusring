@@ -14,12 +14,58 @@ class DialogUtils {
     return Get.bottomSheet(DialogModifyGoalsPage());
   }
 
-  static defaultDialog({
+  static Future dialogNDeviceTip() {
+    return Get.bottomSheet(
+      IntrinsicHeight(
+        child: Container(
+          margin: EdgeInsets.symmetric(horizontal: 12.w),
+          padding: EdgeInsets.symmetric(horizontal: 16.w),
+          decoration: BoxDecoration(
+            color: ColorUtils.fromHex("#FF232126"),
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Column(
+            children: [
+              Container(
+                width: 38,
+                height: 6,
+                margin: EdgeInsets.only(top: 16.w),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.3),
+                  borderRadius: BorderRadius.circular(3),
+                ),
+              ),
+              Container(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "whynodevices".tr,
+                  style: Get.textTheme.bodySmall,
+                ),
+                margin: EdgeInsets.only(top: 16.w),
+              ),
+              Container(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "whynodevicestip".tr,
+                  style: Get.textTheme.bodyMedium,
+                ),
+                margin: EdgeInsets.only(top: 12.w, bottom: 30.w),
+              ),
+            ],
+          ),
+        ),
+      ),
+      backgroundColor: Colors.transparent,
+    );
+  }
+
+  static Future defaultDialog({
     required String title,
     String? content,
     VoidCallback? onCancel,
     VoidCallback? onConfirm,
     bool hiddenCancel = false,
+    AlignmentGeometry? alignment,
   }) {
     return Get.dialog(
       AlertDialog(
@@ -27,7 +73,7 @@ class DialogUtils {
         content: SingleChildScrollView(
           child: Container(
             width: 256.w,
-            padding: EdgeInsets.only(left: 12, right: 12),
+            padding: const EdgeInsets.only(left: 12, right: 12),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
               color: ColorUtils.fromHex("#FF232126"),
@@ -35,7 +81,8 @@ class DialogUtils {
             child: Column(
               children: [
                 Container(
-                  margin: EdgeInsets.only(top: 35.w),
+                  margin: EdgeInsets.only(
+                      top: 35.w, bottom: content != null ? 0 : 30.w),
                   alignment: Alignment.center,
                   child: Text(
                     title,
@@ -47,7 +94,7 @@ class DialogUtils {
                   visible: content != null,
                   child: Container(
                     margin: EdgeInsets.only(top: 10.w, bottom: 30.w),
-                    alignment: Alignment.centerLeft,
+                    alignment: alignment ?? Alignment.centerLeft,
                     child: Text(
                       content ?? "",
                       style: Get.textTheme.displayLarge,
@@ -109,72 +156,14 @@ class DialogUtils {
     );
   }
 
-  static dialogResetDevices({
+  static Future dialogResetDevices({
     VoidCallback? onCancel,
     VoidCallback? onConfirm,
   }) {
-    return Get.dialog(
-      AlertDialog(
-        backgroundColor: Colors.transparent,
-        content: SingleChildScrollView(
-          child: Container(
-            width: 256.w,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              color: ColorUtils.fromHex("#FF232126"),
-            ),
-            child: Column(
-              children: [
-                Container(
-                  margin: EdgeInsets.only(top: 35.w, bottom: 30.w),
-                  alignment: Alignment.center,
-                  child: Text(
-                    "sure_reset".tr,
-                    style: Get.textTheme.displayLarge,
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: NextButton(
-                        onPressed: () {
-                          Get.back();
-                          if (onCancel != null) {
-                            onCancel();
-                          }
-                        },
-                        title: "cancel".tr,
-                        activeColor: Colors.transparent,
-                        textStyle: Get.textTheme.titleMedium,
-                      ),
-                    ),
-                    Container(
-                      width: 1,
-                      height: 32.w,
-                      color: ColorUtils.fromHex("#FF707070"),
-                    ),
-                    Expanded(
-                      child: NextButton(
-                        onPressed: () {
-                          Get.back();
-                          if (onConfirm != null) {
-                            onConfirm();
-                          }
-                        },
-                        title: "confirm".tr,
-                        activeColor: Colors.transparent,
-                        textStyle: Get.textTheme.displayLarge,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
+    return defaultDialog(
+      title: "sure_reset".tr,
+      onCancel: onCancel,
+      onConfirm: onConfirm,
     );
   }
 

@@ -193,102 +193,107 @@ class HomeDevicesView extends GetView<HomeDevicesController> {
   }
 
   Widget _getDevicesCard() {
-    bool isOk = true;
-    return isOk
-        ? Container(
-            height: 138.w,
-            margin: EdgeInsets.only(left: 12.w, right: 12.w),
-            padding: EdgeInsets.only(left: 29.w, right: 57.w),
-            decoration: BoxDecoration(
-              color: ColorUtils.fromHex("#FF000000"),
-              borderRadius: BorderRadius.circular(14),
-            ),
-            child: InkWell(
-              onTap: () {
-                controller.onTapAddDevices();
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    // margin: EdgeInsets.only(top: 26.w),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Focus Ring 01",
-                          style: Get.textTheme.bodySmall,
-                        ),
-                        4.columnWidget,
-                        Text(
-                          "FR:00:12:29:0A:F4",
-                          style: Get.textTheme.displaySmall,
-                        ),
-                        3.columnWidget,
-                        Text(
-                          "Linked",
-                          style: Get.textTheme.titleSmall,
-                        ),
-                        7.columnWidget,
-                        Row(
-                          children: [
-                            LoadAssetsImage(
-                              "bat/bat_100",
-                              width: 23,
-                              height: 12,
-                            ),
-                            5.rowWidget,
-                            Text(
-                              "100%",
-                              style: Get.textTheme.displaySmall,
-                            ),
-                          ],
-                        )
-                      ],
+    bool isOk = false;
+    return Obx(
+      () => controller.connectDevice.value != null
+          ? Container(
+              height: 138.w,
+              margin: EdgeInsets.only(left: 12.w, right: 12.w),
+              padding: EdgeInsets.only(left: 29.w, right: 57.w),
+              decoration: BoxDecoration(
+                color: ColorUtils.fromHex("#FF000000"),
+                borderRadius: BorderRadius.circular(14),
+              ),
+              child: InkWell(
+                onTap: () {
+                  controller.onTapAddDevices();
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      // margin: EdgeInsets.only(top: 26.w),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            controller.connectDevice.value?.localName ?? "",
+                            style: Get.textTheme.bodySmall,
+                          ),
+                          4.columnWidget,
+                          Text(
+                            controller.connectDevice.value?.macAddress ?? "",
+                            style: Get.textTheme.displaySmall,
+                          ),
+                          3.columnWidget,
+                          Text(
+                            controller.connectDevice.value?.isConnect == true
+                                ? "Linked"
+                                : "UnLink",
+                            style: Get.textTheme.titleSmall,
+                          ),
+                          7.columnWidget,
+                          Row(
+                            children: [
+                              LoadAssetsImage(
+                                controller.connectDevice.value?.getBatIcon() ??
+                                    "bat/bat_less10",
+                                width: 23,
+                                height: 12,
+                              ),
+                              5.rowWidget,
+                              Text(
+                                "${controller.connectDevice.value?.bat ?? 0}%",
+                                style: Get.textTheme.displaySmall,
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                  LoadAssetsImage(
-                    "icons/device",
-                    width: 84,
-                    height: 86,
-                  ),
-                ],
+                    LoadAssetsImage(
+                      "icons/device",
+                      width: 84,
+                      height: 86,
+                    ),
+                  ],
+                ),
+              ),
+            )
+          : Container(
+              height: 138.w,
+              margin: EdgeInsets.only(left: 12.w, right: 12.w),
+              decoration: BoxDecoration(
+                color: ColorUtils.fromHex("#FF000000"),
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(
+                  color: ColorUtils.fromHex("#FF05E6E7"),
+                  width: 2,
+                ),
+              ),
+              child: InkWell(
+                onTap: () {
+                  controller.onTapAddDevices();
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    LoadAssetsImage(
+                      "icons/device_icon_add",
+                      width: 48,
+                      height: 51,
+                    ),
+                    20.rowWidget,
+                    Text(
+                      "add_device".tr,
+                      style: Get.textTheme.bodySmall,
+                    ),
+                  ],
+                ),
               ),
             ),
-          )
-        : Container(
-            height: 138.w,
-            margin: EdgeInsets.only(left: 12.w, right: 12.w),
-            decoration: BoxDecoration(
-              color: ColorUtils.fromHex("#FF000000"),
-              borderRadius: BorderRadius.circular(14),
-              border: Border.all(
-                color: ColorUtils.fromHex("#FF05E6E7"),
-                width: 2,
-              ),
-            ),
-            child: InkWell(
-              onTap: () {
-                controller.onTapAddDevices();
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  LoadAssetsImage(
-                    "icons/device_icon_add",
-                    width: 48,
-                    height: 51,
-                  ),
-                  20.rowWidget,
-                  Text(
-                    "add_device".tr,
-                    style: Get.textTheme.bodySmall,
-                  ),
-                ],
-              ),
-            ),
-          );
+    );
   }
 
   @override
