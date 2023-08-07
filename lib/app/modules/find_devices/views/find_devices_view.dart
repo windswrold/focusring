@@ -14,17 +14,17 @@ class FindDevicesView extends GetView<FindDevicesController> {
   const FindDevicesView({Key? key}) : super(key: key);
 
   Widget _buildListItem(RingDevice item) {
-    return InkWell(
-      onTap: () {
-        controller.onTapItem(item);
-      },
-      child: Container(
-        margin: EdgeInsets.only(left: 12.w, right: 12.w, bottom: 12.w),
-        padding: EdgeInsets.all(16.w),
-        decoration: BoxDecoration(
-          color: ColorUtils.fromHex("#FF000000"),
-          borderRadius: BorderRadius.circular(14),
-        ),
+    return Container(
+      margin: EdgeInsets.only(left: 12.w, right: 12.w, bottom: 12.w),
+      padding: EdgeInsets.all(16.w),
+      decoration: BoxDecoration(
+        color: ColorUtils.fromHex("#FF000000"),
+        borderRadius: BorderRadius.circular(14),
+      ),
+      child: InkWell(
+        onTap: () {
+          controller.onTapItem(item);
+        },
         child: Row(
           children: [
             LoadAssetsImage(
@@ -156,7 +156,7 @@ class FindDevicesView extends GetView<FindDevicesController> {
                 elevation: 0,
                 leading: Container(),
                 forceElevated: true,
-                expandedHeight: 355.w,
+                expandedHeight: 360.w,
                 backgroundColor: Colors.transparent,
                 floating: true,
                 snap: true,
