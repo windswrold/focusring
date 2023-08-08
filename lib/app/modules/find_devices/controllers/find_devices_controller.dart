@@ -79,6 +79,8 @@ class FindDevicesController extends GetxController {
           HWToast.showSucText(text: "已连接");
           KBLEManager.stopScan();
           Get.toNamed(Routes.TESTDFU, arguments: item);
+
+          KBLEManager.findCharacteristics(KBLEManager.getDevice(device: item));
         }
       });
     } catch (e) {

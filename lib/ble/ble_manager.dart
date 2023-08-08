@@ -83,7 +83,7 @@ class KBLEManager {
   }
 
   ///发现外设
-  void findCharacteristics(BluetoothDevice bluetoothDevice) async {
+  static void findCharacteristics(BluetoothDevice bluetoothDevice) async {
     vmPrint("开始找特征 _findCharacteristics");
     List<BluetoothService> services = await bluetoothDevice.discoverServices();
     for (var service in services) {
