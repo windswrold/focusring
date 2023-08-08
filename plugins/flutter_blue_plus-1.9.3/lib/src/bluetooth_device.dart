@@ -81,16 +81,14 @@ class BluetoothDevice {
         .invokeMethod('disconnect', remoteId.str);
   }
 
-  Future<void> startDfu(
-      {required String filePath, required bool fastMode}) async {
+  Future startDfu({required String filePath, required bool fastMode}) async {
     final Map params = {
       "remote_id": remoteId.str,
       "filePath": filePath,
       "type": 0,
       "fastMode": fastMode
     };
-    return await FlutterBluePlus.instance._channel
-        .invokeMethod('startDfu', params);
+    return FlutterBluePlus.instance._channel.invokeMethod('startDfu', params);
   }
 
   Future<void> startCopyDfu(
@@ -104,8 +102,7 @@ class BluetoothDevice {
       "copyAddr": copyAdd,
       "fastMode": fastMode
     };
-    return await FlutterBluePlus.instance._channel
-        .invokeMethod('startDfu', params);
+    return FlutterBluePlus.instance._channel.invokeMethod('startDfu', params);
   }
 
   Future<void> fastDfu({required String filePath}) async {

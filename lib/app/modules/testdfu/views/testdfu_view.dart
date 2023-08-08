@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:focusring/ble/ble_manager.dart';
 import 'package:focusring/public.dart';
 
 import 'package:get/get.dart';
+import 'package:hex/hex.dart';
 
 import '../controllers/testdfu_controller.dart';
 
@@ -61,12 +63,13 @@ class TestdfuView extends GetView<TestdfuController> {
               ),
             ],
           ),
-          // TextButton(
-          //   onPressed: () {
-          //     controller.fastDFU();
-          //   },
-          //   child: Text("fast普通升级，小升大"),
-          // ),
+          TextButton(
+            onPressed: () {
+              controller.sendota();
+            },
+            child: Text("发送 ota 状态设定 "),
+          ),
+
           // Row(
           //   children: [
           //     Expanded(

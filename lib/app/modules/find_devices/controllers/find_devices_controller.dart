@@ -66,20 +66,24 @@ class FindDevicesController extends GetxController {
 
   void onTapItem(RingDevice item) async {
     vmPrint(item.localName);
-    Stream<BluetoothConnectionState>? a =
-        await KBLEManager.connect(device: item);
-    if (a == null) {
-      return;
-    }
-    HWToast.showLoading();
-    var stateConnect = a.listen((event) {
-      vmPrint("BluetoothConnectionState ${event.toString()}");
-      if (event == BluetoothConnectionState.connected) {
-        HWToast.showSucText(text: "已连接");
-        KBLEManager.stopScan();
-        Get.toNamed(Routes.TESTDFU, arguments: item);
+    try {
+      Stream<BluetoothConnectionState>? a =
+          await KBLEManager.connect(device: item);
+      if (a == null) {
+        return;
       }
-    });
+      HWToast.showLoading();
+      var stateConnect = a.listen((event) {
+        vmPrint("BluetoothConnectionState ${event.toString()}");
+        if (event == BluetoothConnectionState.connected) {
+          HWToast.showSucText(text: "已连接");
+          KBLEManager.stopScan();
+          Get.toNamed(Routes.TESTDFU, arguments: item);
+        }
+      });
+    } catch (e) {
+      HWToast.showErrText(text: e.toString());
+    }
   }
 
   @override

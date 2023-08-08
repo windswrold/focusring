@@ -73,9 +73,10 @@ dependencies:
     path : plugins/syncfusion_flutter_datepicker-22.1.39
   syncfusion_flutter_core : "22.1.39"
   file_picker: ^5.3.3
-  kr_builder: ^1.0.2
+  # kr_builder: ^1.0.2
   flutter_widget_from_html: ^0.10.3
   flutter_device_identifier: ^0.0.1
+  hex: ^0.2.0
   
 
 dev_dependencies:

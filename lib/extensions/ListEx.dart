@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:focusring/public.dart';
+import 'package:hex/hex.dart';
 
 extension ListEx<E> on List<E> {
   static List<T> generateArray<T>(int minValue, int maxValue, int interval) {
@@ -169,4 +170,5 @@ extension ListEx<E> on List<E> {
   static List<String> generateBloodOxygenAutoTestInterval() {
     return ["4", "6", "8", "12"];
   }
+
 }
