@@ -1,3 +1,7 @@
+import 'package:focusring/app/modules/home_state/controllers/home_state_controller.dart';
+import 'package:focusring/net/app_api.dart';
+import 'package:focusring/public.dart';
+import 'package:focusring/utils/sp_manager.dart';
 import 'package:get/get.dart';
 
 class LoginViewController extends GetxController {
@@ -19,5 +23,17 @@ class LoginViewController extends GetxController {
     super.onClose();
   }
 
-  void increment() => count.value++;
+  void onTapLogin() async {
+    final id = await SPManager.getPhoneID();
+    AppApi.visitorLogin(
+      phoneId: id,
+      systemType: getSystemType(),
+    ).onError((r) {
+      HWToast.showErrText(text: r.error ?? "a");
+    }).onSuccess((value) {
+      Get.offNamed(Routes.HOME_TABBAR);
+    }).onError((r) {
+      HWToast.showErrText(text: r.error ?? "");
+    });
+  }
 }

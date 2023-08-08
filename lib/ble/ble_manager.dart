@@ -16,9 +16,9 @@ class KBLEManager {
   static StreamSubscription? _notifySubscription, _mtuSubscripation;
   static List<int> _allValues = []; //接收缓存数据
 
-  static Stream<List<int>> get receiveDataStream =>
-      _nameController.stream.asBroadcastStream();
-  static final _nameController = StreamController<List<int>>();
+  // static Stream<List<int>> get receiveDataStream =>
+  //     _nameController.stream.asBroadcastStream();
+  // static final _nameController = StreamController<List<int>>();
 
   static clean() {
     _allValues.clear();
@@ -125,7 +125,8 @@ class KBLEManager {
   }
 
   static void onValueReceived(List<int> values) {
-    _nameController.add(values);
+    final a = HEX.encode(values);
+    HWToast.showSucText(text: "收到的数据 $a");
   }
 
   static BluetoothDevice getDevice({

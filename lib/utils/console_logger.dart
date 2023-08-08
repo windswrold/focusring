@@ -1,7 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
-
 int _maxLen = 4000;
 
 void vmPrint(final dynamic message, [int? level]) {

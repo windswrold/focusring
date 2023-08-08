@@ -232,6 +232,10 @@ class LocaleKeys {
   static const week_overview = 'week_overview';
   static const moneth_overview = 'moneth_overview';
   static const empty_device = 'empty_device';
+  static const empty_unbind = 'empty_unbind';
+  static const empty_unbindtip = 'empty_unbindtip';
+  static const welecome_to = 'welecome_to';
+  static const visit_login = 'visit_login';
   static const emotion_report = 'emotion_report';
   static const about_activitytip = 'about_activitytip';
   static const about_activitytip01 = 'about_activitytip01';
@@ -1115,6 +1119,10 @@ class Locales {
     'week_overview': '本周概述',
     'moneth_overview': '本月概述',
     'empty_device': '没有发现设备',
+    'empty_unbind': '当前暂无绑定设备',
+    'empty_unbindtip': '是否前往绑定设备',
+    'welecome_to': '欢迎来到',
+    'visit_login': '游客登录',
   };
   static const it_IT = {
     'tabbar_status': 'Stato',

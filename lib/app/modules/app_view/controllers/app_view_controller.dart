@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:focusring/app/data/user_info.dart';
 import 'package:focusring/app/modules/home_state/controllers/home_state_controller.dart';
+import 'package:focusring/app/routes/app_pages.dart';
 import 'package:focusring/const/constant.dart';
 import 'package:focusring/net/app_api.dart';
 import 'package:focusring/utils/console_logger.dart';
@@ -45,6 +46,9 @@ class AppViewController extends GetxController {
 
       final vc = Get.find<HomeStateController>();
       vc.initData();
+    }).onError((r) {
+      HWToast.showErrText(text: r.error ?? "");
+      Get.offNamed(Routes.LOGIN_VIEW);
     });
   }
 

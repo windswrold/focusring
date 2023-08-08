@@ -44,10 +44,10 @@ class TestdfuController extends GetxController {
       HWToast.showSucText(text: "onDfuComplete");
     });
 
-    receiveDataStream = KBLEManager.receiveDataStream.listen((event) {
-      final a = HEX.encode(event);
-      HWToast.showSucText(text: "收到的数据 $a");
-    });
+    // receiveDataStream = KBLEManager.receiveDataStream.listen((event) {
+    //   final a = HEX.encode(event);
+    //   HWToast.showSucText(text: "收到的数据 $a");
+    // });
   }
 
   @override

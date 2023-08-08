@@ -209,5 +209,7 @@
   "moneth_overview": "本月概述",
   "empty_device": "没有发现设备",
   "empty_unbind": "当前暂无绑定设备",
-  "empty_unbindtip": "是否前往绑定设备"
+  "empty_unbindtip": "是否前往绑定设备",
+  "welecome_to": "欢迎来到",
+  "visit_login": "游客登录"
 }
