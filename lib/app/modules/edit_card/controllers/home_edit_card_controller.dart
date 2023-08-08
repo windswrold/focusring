@@ -68,8 +68,10 @@ class HomeEditCardController extends GetxController {
         children: KHealthDataType.values
             .map((e) => DragAndDropItem(child: _getItemCard(e)))
             .toList(),
+        canDrag: false,
       ),
       DragAndDropList(
+        canDrag: false,
         header: _getItemTitle("hidden_Items".tr),
         contentsWhenEmpty: DottedBorder(
           color: ColorUtils.fromHex("#FF3C454A"),
@@ -119,40 +121,19 @@ class HomeEditCardController extends GetxController {
     super.onClose();
   }
 
-  onItemReorder(
+  void onItemReorder(
       int oldItemIndex, int oldListIndex, int newItemIndex, int newListIndex) {
     var movedItem = datas[oldListIndex].children.removeAt(oldItemIndex);
     datas[newListIndex].children.insert(newItemIndex, movedItem);
 
+    vmPrint(datas.toJson());
+
     update();
   }
 
-  onListReorder(int oldListIndex, int newListIndex) {
+  void onListReorder(int oldListIndex, int newListIndex) {
     var movedList = datas.removeAt(oldListIndex);
     datas.insert(newListIndex, movedList);
     update();
-    ;
   }
-
-  move1(int oldIndex, int newIndex) {
-    // if (newIndex > list1.length) {
-    //   newIndex -= (list1.length + 1); // Add 1 for header
-    //   if (oldIndex > list1.length) {
-    //     oldIndex -= (list1.length + 1);
-    //   } else {
-    //     oldIndex = -1; // Set to an invalid index so that it won't affect list1
-    //   }
-    //   ListItem item = list2.removeAt(oldIndex);
-    //   list2.value.insert(newIndex, item);
-    // } else if (oldIndex > list1.length) {
-    //   ListItem item = list2.removeAt(oldIndex -
-    //       (list1.length + 1)); // Subtract list1 length and 1 for header
-    //   list1.value.insert(newIndex, item);
-    // } else {
-    //   ListItem item = list1.removeAt(oldIndex - 1); // Subtract 1 for header
-    //   list1.value.insert(newIndex, item);
-    // }
-  }
-
-  move2(int oldIndex, int newIndex) {}
 }

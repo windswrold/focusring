@@ -52,6 +52,14 @@ class HomeDevicesController extends GetxController {
     } else if (indx == 2) {
       Get.toNamed(Routes.DEVICE_INFO);
     } else if (indx == 3) {
+      if (connectDevice.value == null) {
+        DialogUtils.defaultDialog(
+          title: "empty_unbind".tr,
+          content: "empty_unbindtip".tr,
+          alignment: Alignment.center,
+        );
+        return;
+      }
       DialogUtils.dialogResetDevices();
     }
   }
