@@ -32,6 +32,8 @@ import '../modules/home_tabbar/bindings/home_tabbar_binding.dart';
 import '../modules/home_tabbar/views/home_tabbar_view.dart';
 import '../modules/language_unit/bindings/language_unit_binding.dart';
 import '../modules/language_unit/views/language_unit_view.dart';
+import '../modules/login_view/bindings/login_view_binding.dart';
+import '../modules/login_view/views/login_view_view.dart';
 import '../modules/report_info_emotion/bindings/report_info_emotion_binding.dart';
 import '../modules/report_info_emotion/views/report_info_emotion_view.dart';
 import '../modules/report_info_femmalehealth/bindings/report_info_femmalehealth_binding.dart';
@@ -182,6 +184,11 @@ class AppPages {
       name: _Paths.REPORT_INFO_STRESS,
       page: () => const ReportInfoStressView(),
       binding: ReportInfoStressBinding(),
+    ),
+    GetPage(
+      name: _Paths.LOGIN_VIEW,
+      page: () => const LoginViewView(),
+      binding: LoginViewBinding(),
     ),
   ];
 }

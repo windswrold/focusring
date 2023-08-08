@@ -1,4 +1,3 @@
-import 'dart:math';
 
 import 'package:focusring/app/modules/report_info_steps/controllers/report_info_steps_controller.dart';
 import 'package:focusring/utils/chart_utils.dart';
@@ -7,7 +6,6 @@ import 'package:focusring/views/today_overview.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../public.dart';
-import 'charts/home_card/model/home_card_x.dart';
 
 class BodyTemperatureReportChart extends StatelessWidget {
   const BodyTemperatureReportChart({Key? key, required this.pageType})

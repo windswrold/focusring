@@ -1,7 +1,3 @@
-import 'package:bottom_picker/bottom_picker.dart';
-import 'package:bottom_picker/widgets/simple_picker.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:focusring/utils/console_logger.dart';
 import 'package:focusring/views/dialog_widgets/dialog_header.dart';
 import 'package:focusring/views/dialog_widgets/views/dialog_modify_goals.dart';
 import 'package:focusring/views/dialog_widgets/views/dialog_defaultpicker.dart';

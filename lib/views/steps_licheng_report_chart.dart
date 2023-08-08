@@ -4,7 +4,6 @@ import 'package:focusring/app/data/steps_card_model.dart';
 import 'package:focusring/app/modules/report_info_steps/controllers/report_info_steps_controller.dart';
 import 'package:focusring/theme/theme.dart';
 import 'package:focusring/utils/chart_utils.dart';
-import 'package:focusring/views/charts/home_card/model/home_card_x.dart';
 import 'package:focusring/views/report_footer.dart';
 import 'package:focusring/views/target_completion_rate.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';

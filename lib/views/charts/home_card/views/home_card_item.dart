@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:focusring/public.dart';
 import 'package:focusring/utils/chart_utils.dart';

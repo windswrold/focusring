@@ -1,4 +1,3 @@
-import 'package:decimal/decimal.dart';
 
 import '../../../../public.dart';
 

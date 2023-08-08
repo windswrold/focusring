@@ -1,7 +1,4 @@
-import 'dart:math';
 
-import 'package:dotted_border/dotted_border.dart';
-import 'package:drag_and_drop_lists/drag_and_drop_lists.dart';
 import 'package:get/get.dart';
 
 import '../../../../public.dart';

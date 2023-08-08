@@ -28,9 +28,9 @@ class KBasePageView extends StatelessWidget {
       this.leadingWidth})
       : super(key: key);
 
-  Widget body;
-  Widget? title;
-  String? titleStr;
+  final Widget body;
+  final Widget? title;
+  final String? titleStr;
   final PreferredSizeWidget? bottom;
   final bool? hiddenAppBar;
   final bool? hiddenLeading;

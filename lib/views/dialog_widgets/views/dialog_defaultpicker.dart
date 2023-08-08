@@ -82,14 +82,10 @@ class KCupertinoPicker extends StatefulWidget {
     required List<Widget> children,
     this.selectionOverlay = const CupertinoPickerDefaultSelectionOverlay(),
     bool looping = false,
-  })  : assert(children != null),
-        assert(diameterRatio != null),
-        assert(diameterRatio > 0.0,
+  })  : assert(diameterRatio > 0.0,
             RenderListWheelViewport.diameterRatioZeroMessage),
         assert(magnification > 0),
-        assert(itemExtent != null),
         assert(itemExtent > 0),
-        assert(squeeze != null),
         assert(squeeze > 0),
         childDelegate = looping
             ? ListWheelChildLoopingListDelegate(children: children)
@@ -126,14 +122,10 @@ class KCupertinoPicker extends StatefulWidget {
     required NullableIndexedWidgetBuilder itemBuilder,
     int? childCount,
     this.selectionOverlay = const CupertinoPickerDefaultSelectionOverlay(),
-  })  : assert(itemBuilder != null),
-        assert(diameterRatio != null),
-        assert(diameterRatio > 0.0,
+  })  : assert(diameterRatio > 0.0,
             RenderListWheelViewport.diameterRatioZeroMessage),
         assert(magnification > 0),
-        assert(itemExtent != null),
         assert(itemExtent > 0),
-        assert(squeeze != null),
         assert(squeeze > 0),
         childDelegate = ListWheelChildBuilderDelegate(
             builder: itemBuilder, childCount: childCount);
@@ -257,7 +249,6 @@ class _KCupertinoPickerState extends State<KCupertinoPicker> {
         hasSuitableHapticHardware = false;
         break;
     }
-    assert(hasSuitableHapticHardware != null);
     if (hasSuitableHapticHardware && index != _lastHapticIndex) {
       _lastHapticIndex = index;
       HapticFeedback.selectionClick();
@@ -360,9 +351,7 @@ class CupertinoPickerDefaultSelectionOverlay extends StatelessWidget {
     this.background = CupertinoColors.tertiarySystemFill,
     this.capStartEdge = true,
     this.capEndEdge = true,
-  })  : assert(background != null),
-        assert(capStartEdge != null),
-        assert(capEndEdge != null);
+  });
 
   /// Whether to use the default use rounded corners and margin on the start side.
   final bool capStartEdge;
