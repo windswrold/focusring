@@ -187,6 +187,15 @@ int getSystemType() {
   return isIOS ? 1 : 2;
 }
 
+bool compareUUID(String a, String b) {
+  a = a.toLowerCase().replaceAll("-", "");
+  b = b.toLowerCase().replaceAll("-", "");
+  vmPrint("a $a b $b");
+
+  HWToast.showSucText(text: "比对 id\n$a\napp: $b\n结果 ${a == b}");
+  return a == b;
+}
+
 class GlobalValues {
   static MSDeviceInfo deviceInfo = MSDeviceInfo();
 

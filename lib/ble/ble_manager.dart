@@ -88,29 +88,41 @@ class KBLEManager {
     List<BluetoothService> services = await bluetoothDevice.discoverServices();
     for (var service in services) {
       //读取服务ID
-      vmPrint("服务ID${service.uuid}");
-      if (service.uuid.toString().toLowerCase() ==
-          BLEConfig.SERVICEUUID.toLowerCase()) {
+      vmPrint("服务ID ${service.uuid}");
+      HWToast.showSucText(text: "服务ID ${service.uuid}");
+      await Future.delayed(Duration(milliseconds: 500));
+
+      if (compareUUID(service.uuid.toString(), BLEConfig.SERVICEUUID) == true) {
         List<BluetoothCharacteristic> characteristics = service.characteristics;
         for (BluetoothCharacteristic characteristic in characteristics) {
           vmPrint("当前id ${characteristic.uuid}");
+          HWToast.showSucText(text: "特征id ${characteristic.uuid}");
+          await Future.delayed(Duration(milliseconds: 500));
           //读取外设ID
-          if (characteristic.uuid.toString().toLowerCase() ==
-              BLEConfig.NOTIFYUUID.toLowerCase()) {
+          if (compareUUID(
+                  characteristic.uuid.toString(), BLEConfig.NOTIFYUUID) ==
+              true) {
             vmPrint("记录通知");
+            vmPrint("找到NOTIFYUUID");
+            HWToast.showSucText(text: "找到NOTIFYUUID");
+            await Future.delayed(Duration(milliseconds: 500));
             _notifyCharacteristic = characteristic;
             characteristic.setNotifyValue(true);
             _notifySubscription =
                 characteristic.onValueReceived.listen((event) {
               onValueReceived(event);
             });
-          } else if (characteristic.uuid.toString().toLowerCase() ==
-              BLEConfig.WRITEUUID.toLowerCase()) {
+          } else if (compareUUID(
+                  characteristic.uuid.toString(), BLEConfig.WRITEUUID) ==
+              true) {
             vmPrint("记录写");
+            HWToast.showSucText(text: "找到WRITEUUID");
+            await Future.delayed(Duration(milliseconds: 500));
             _writeCharacteristic = characteristic;
           }
         }
       }
+      await Future.delayed(Duration(milliseconds: 500));
     }
   }
 
@@ -118,6 +130,7 @@ class KBLEManager {
     required List<int> values,
   }) {
     vmPrint("len ${values.length} sendData ${HEX.encode(values)}");
+    HWToast.showSucText(text: "准备发送数据 ${HEX.encode(values)}");
     if (_writeCharacteristic == null) {
       return;
     }
