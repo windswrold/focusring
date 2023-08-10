@@ -72,11 +72,19 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.PluginRegistry.RequestPermissionsResultListener;
 
+import com.goodix.ble.gr.lib.dfu.v2.DfuProgressListener;
+import com.goodix.ble.gr.lib.dfu.v2.EasyDfu2;
+import com.goodix.ble.gr.lib.dfu.v2.fastdfu.FastDfu;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+
 public class FlutterBluePlusPlugin implements
     FlutterPlugin,
     MethodCallHandler,
     RequestPermissionsResultListener,
-    ActivityAware
+    ActivityAware,DfuProgressListener
 {
     private static final String TAG = "[FBP-Android]";
 
@@ -190,6 +198,49 @@ public class FlutterBluePlusPlugin implements
     // ██       ██   ██  ██       ██
     //  ██████  ██   ██  ███████  ███████
 
+
+
+    @Override
+    public void onDfuStart() {
+        android.util.Log.d(TAG, "onDfuStart() called");
+        HashMap<String, Object> map = new HashMap<>();
+        invokeMethodUIThread("onDfuStart",map);
+    }
+
+    @Override
+    public void onDfuProgress(int percent, int speed, String message) {
+        android.util.Log.d(TAG, "onDfuProgress() called with: i = [" + percent + "]");
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("progress", percent);
+        invokeMethodUIThread("onDfuProgress",map);
+    }
+
+    @Override
+    public void onDfuComplete() {
+        android.util.Log.d(TAG, "onDfuComplete() called");
+        HashMap<String, Object> map = new HashMap<>();
+        invokeMethodUIThread("onDfuComplete",map);
+    }
+
+    @Override
+    public void onDfuError(String message, Error error) {
+        android.util.Log.d(TAG, "onDfuError() called with: s = [" + message + "], error = [" + error + "]");
+        String a = "[" + message + "], error = [" + error + "]";
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("error", a);
+        invokeMethodUIThread("onDfuError",map);
+    }
+
+    public InputStream getInputStreamFromFilePath(String filePath) {
+        InputStream inputStream = null;
+        try {
+            inputStream = new FileInputStream(filePath);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return inputStream;
+    }
+
     @Override
     public void onMethodCall(@NonNull MethodCall call,
                                  @NonNull Result result)
@@ -225,6 +276,62 @@ public class FlutterBluePlusPlugin implements
                     logLevel = LogLevel.values()[idx];
 
                     result.success(null);
+                    break;
+                }
+
+
+                case "startDfu" : {
+
+                   try {
+                       HashMap<String, Object> data = call.arguments();
+                       String remoteId = (String) data.get("remote_id");
+                       String filePath = (String) data.get("filePath");
+                       int type = (int) data.get("type");
+                       boolean fastMode = (boolean) data.get("fastMode") ;
+                       BluetoothDevice targetDevice = mBluetoothAdapter.getRemoteDevice(remoteId);
+                       int cs = mBluetoothManager.getConnectionState(targetDevice, BluetoothProfile.GATT);
+                       if(cs != BluetoothProfile.STATE_CONNECTED) {
+                           result.error("pair", "The device is not connected", null);
+                           break;
+                       }
+                       InputStream a = getInputStreamFromFilePath(filePath);
+                        if (type == 0 ){
+
+                            final EasyDfu2 dfu2 = new EasyDfu2();
+                            dfu2.setListener(this);
+                            dfu2.setFastMode(fastMode);
+                            dfu2.startDfu(context, targetDevice, a);
+                        } else if (type ==1) {
+
+                            int copyAddr = (int) data.get("copyAddr");
+                            final EasyDfu2 dfu2 = new EasyDfu2();
+                            dfu2.setListener(this);
+                            dfu2.setFastMode(fastMode);
+                            dfu2.startDfuInCopyMode(context, targetDevice, a, copyAddr);
+                        } else if (type == 2 ) {
+
+                            FastDfu dfu2 = new FastDfu();
+                            dfu2.setListener(this);
+                            dfu2.startDfu(context, targetDevice, a);
+                        }
+                        else if (type == 3 ) {
+                            int copyAddr = (int) data.get("copyAddr");
+                            FastDfu dfu2 = new FastDfu();
+                            dfu2.setListener(this);
+                            dfu2.startDfuInCopyMode(context, targetDevice, a, copyAddr);
+                        }else {
+                            int toAddr = (int) data.get("toAddr");
+                            boolean toExtFlash = (boolean) data.get("toExtFlash");
+                            FastDfu dfu2 = new FastDfu();
+                            dfu2.setListener(this);
+                            dfu2.startUpdateResource(context, targetDevice, a, toExtFlash, toAddr);
+                        }
+
+                       result.success(null);
+                   } catch (Exception e){
+
+                       result.error("startDfu", e.toString(), null);
+                   }
                     break;
                 }
 
