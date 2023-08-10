@@ -1,0 +1,11 @@
+framework module GRDFUSDK2 {
+  umbrella header "GRDfuSdk2.h"
+
+  export *
+  module * { export * }
+}
+
+module GRDFUSDK2.Swift {
+  header "GRDFUSDK2-Swift.h"
+  requires objc
+}

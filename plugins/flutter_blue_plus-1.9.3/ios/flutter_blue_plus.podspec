@@ -18,6 +18,7 @@ Pod::Spec.new do |s|
   s.framework = 'CoreBluetooth'
   s.vendored_frameworks = 'Framework/*.framework'
   s.vendored_libraries = 'Framework/*.a'
+  s.swift_version = '5.0'
   s.resource ='Framework/*.bundle'
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', }
 end

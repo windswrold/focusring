@@ -117,8 +117,8 @@ class KBLEManager {
               true) {
             vmPrint("记录写");
             HWToast.showSucText(text: "找到WRITEUUID");
-            await Future.delayed(Duration(milliseconds: 500));
             _writeCharacteristic = characteristic;
+            await Future.delayed(Duration(milliseconds: 500));
           }
         }
       }
@@ -128,13 +128,14 @@ class KBLEManager {
 
   static void sendData({
     required List<int> values,
-  }) {
+  }) async {
     vmPrint("len ${values.length} sendData ${HEX.encode(values)}");
-    HWToast.showSucText(text: "准备发送数据 ${HEX.encode(values)}");
+
     if (_writeCharacteristic == null) {
       return;
     }
-    _writeCharacteristic?.write(values);
+    HWToast.showSucText(text: "准备发送数据 ${HEX.encode(values)}");
+    await _writeCharacteristic?.write(values, withoutResponse: true);
   }
 
   static void onValueReceived(List<int> values) {

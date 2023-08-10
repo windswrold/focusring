@@ -1,0 +1,11 @@
+framework module libcomx {
+  umbrella header "libcomx.h"
+
+  export *
+  module * { export * }
+}
+
+module libcomx.Swift {
+  header "libcomx-Swift.h"
+  requires objc
+}
