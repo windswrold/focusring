@@ -8,8 +8,6 @@ import 'package:focusring/utils/permission.dart';
 import 'package:hex/hex.dart';
 
 class KBLEManager {
-  static late FlutterBluePlus flutterBlue = FlutterBluePlus.instance;
-
   static BluetoothCharacteristic? _writeCharacteristic; //写入特征
   static BluetoothCharacteristic? _notifyCharacteristic; //通知特征
   static BluetoothDevice? _mBluetoothDevice; //记录当前链接的蓝牙
@@ -30,27 +28,27 @@ class KBLEManager {
   }
 
   static Stream<List<ScanResult>> get scanResults {
-    return flutterBlue.scanResults;
+    return FlutterBluePlus.scanResults;
   }
 
   static Stream<bool> get isScanning {
-    return flutterBlue.isScanning;
+    return FlutterBluePlus.isScanning;
   }
 
   static Stream<void> get onDfuStart {
-    return flutterBlue.onDfuStart;
+    return FlutterBluePlus.onDfuStart;
   }
 
   static Stream<String> get onDfuProgress {
-    return flutterBlue.onDfuProgress;
+    return FlutterBluePlus.onDfuProgress;
   }
 
   static Stream<String> get onDfuError {
-    return flutterBlue.onDfuError;
+    return FlutterBluePlus.onDfuError;
   }
 
   static Stream<void> get onDfuComplete {
-    return flutterBlue.onDfuComplete;
+    return FlutterBluePlus.onDfuComplete;
   }
 
   static void startScan(
@@ -59,15 +57,15 @@ class KBLEManager {
       return;
     }
 
-    if (flutterBlue.isScanningNow) {
+    if (FlutterBluePlus.isScanningNow) {
       return;
     }
 
-    await flutterBlue.startScan(timeout: timeout);
+    await FlutterBluePlus.startScan(timeout: timeout);
   }
 
   static void stopScan() {
-    flutterBlue.stopScan();
+    FlutterBluePlus.stopScan();
   }
 
   static Future<Stream<BluetoothConnectionState>?> connect(
@@ -157,12 +155,13 @@ class KBLEManager {
       return false;
     }
 
-    while ((await flutterBlue.isAvailable) == false) {
+    while ((await FlutterBluePlus.isAvailable) == false) {
       vmPrint("a");
       await Future.delayed(const Duration(seconds: 2));
     }
 
-    if ((await flutterBlue.isOn) == false) {
+    if ((await FlutterBluePlus.adapterState.first) ==
+        BluetoothAdapterState.turningOff) {
       HWToast.showErrText(text: "turnon_ble".tr);
       return false;
     }

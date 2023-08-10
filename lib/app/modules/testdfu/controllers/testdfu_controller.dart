@@ -102,6 +102,7 @@ class TestdfuController extends GetxController {
       await KBLEManager.getDevice(device: de)
           .startDfu(filePath: currentFile.value, fastMode: isfastMode.value);
     } catch (e) {
+      vmPrint(e);
       HWToast.showErrText(text: e.toString());
     }
   }

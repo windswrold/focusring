@@ -408,10 +408,10 @@ packages:
   flutter_blue_plus:
     dependency: "direct main"
     description:
-      path: "plugins/flutter_blue_plus-1.9.3"
+      path: "plugins/flutter_blue_plus-1.14.1"
       relative: true
     source: path
-    version: "1.9.3"
+    version: "1.14.1"
   flutter_blurhash:
     dependency: transitive
     description:
