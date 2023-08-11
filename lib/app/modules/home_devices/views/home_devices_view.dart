@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:focusring/app/data/ring_device.dart';
 import 'package:focusring/app/modules/app_view/controllers/app_view_controller.dart';
 
 import '../../../../public.dart';
@@ -193,7 +194,6 @@ class HomeDevicesView extends GetView<HomeDevicesController> {
   }
 
   Widget _getDevicesCard() {
-    bool isOk = false;
     return Obx(
       () => controller.connectDevice.value != null
           ? Container(
@@ -222,13 +222,16 @@ class HomeDevicesView extends GetView<HomeDevicesController> {
                             style: Get.textTheme.bodySmall,
                           ),
                           4.columnWidget,
-                          Text(
-                            controller.connectDevice.value?.macAddress ?? "",
-                            style: Get.textTheme.displaySmall,
+                          Container(
+                            width: 150.w,
+                            child: Text(
+                              controller.connectDevice.value?.macAddress ?? "",
+                              style: Get.textTheme.displaySmall,
+                            ),
                           ),
                           3.columnWidget,
                           Text(
-                            controller.connectDevice.value?.isConnect == true
+                            controller.isConnect.value == true
                                 ? "Linked"
                                 : "UnLink",
                             style: Get.textTheme.titleSmall,
@@ -237,14 +240,14 @@ class HomeDevicesView extends GetView<HomeDevicesController> {
                           Row(
                             children: [
                               LoadAssetsImage(
-                                controller.connectDevice.value?.getBatIcon() ??
-                                    "bat/bat_less10",
+                                RingDevice.getBatIcon(
+                                    bat: controller.bat.value),
                                 width: 23,
                                 height: 12,
                               ),
                               5.rowWidget,
                               Text(
-                                "${controller.connectDevice.value?.bat ?? 0}%",
+                                "${controller.bat.value}%",
                                 style: Get.textTheme.displaySmall,
                               ),
                             ],

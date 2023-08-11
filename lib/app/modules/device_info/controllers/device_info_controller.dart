@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:focusring/app/data/ring_device.dart';
 import 'package:focusring/utils/timer_util.dart';
 import 'package:get/get.dart';
 
@@ -10,9 +11,12 @@ class DeviceInfoController extends GetxController {
 
   Rx<KState> buttonState = KState.idle.obs;
   RxDouble progress = 0.0.obs;
+
+  late RingDevice ringDevice;
   @override
   void onInit() {
     super.onInit();
+    ringDevice = Get.arguments;
   }
 
   @override

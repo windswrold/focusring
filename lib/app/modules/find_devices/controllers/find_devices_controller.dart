@@ -78,9 +78,8 @@ class FindDevicesController extends GetxController {
         if (event == BluetoothConnectionState.connected) {
           HWToast.showSucText(text: "已连接");
           KBLEManager.stopScan();
-          Get.toNamed(Routes.TESTDFU, arguments: item);
-
-          KBLEManager.findCharacteristics(KBLEManager.getDevice(device: item));
+          // KBLEManager.findCharacteristics(KBLEManager.getDevice(device: item));
+          Get.back<RingDevice>(result: item);
         }
       });
     } catch (e) {

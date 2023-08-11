@@ -131,7 +131,7 @@ class UserManualtestView extends GetView<UserManualtestController> {
                               height: 32.w,
                               alignment: Alignment.center,
                               child: Text(
-                                "data",
+                                "-",
                                 style: Get.textTheme.displayLarge,
                                 softWrap: true,
                                 textAlign: TextAlign.center,

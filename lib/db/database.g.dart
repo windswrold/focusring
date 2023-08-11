@@ -63,6 +63,8 @@ class _$FlutterDatabase extends FlutterDatabase {
 
   KHealthIndexModelDao? _indexDapInstance;
 
+  RingDeviceDao? _ringDaoInstance;
+
   Future<sqflite.Database> open(
     String path,
     List<Migration> migrations, [
@@ -86,6 +88,8 @@ class _$FlutterDatabase extends FlutterDatabase {
       onCreate: (database, version) async {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `health_index_table` (`appUserId` TEXT NOT NULL, `index` INTEGER NOT NULL, `type` INTEGER NOT NULL, `state` INTEGER NOT NULL, PRIMARY KEY (`appUserId`, `type`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `ring_device_table` (`appUserId` TEXT, `remoteId` TEXT, `localName` TEXT, `macAddress` TEXT, `select` INTEGER, PRIMARY KEY (`appUserId`, `remoteId`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -97,6 +101,11 @@ class _$FlutterDatabase extends FlutterDatabase {
   KHealthIndexModelDao get indexDap {
     return _indexDapInstance ??=
         _$KHealthIndexModelDao(database, changeListener);
+  }
+
+  @override
+  RingDeviceDao get ringDao {
+    return _ringDaoInstance ??= _$RingDeviceDao(database, changeListener);
   }
 }
 
@@ -181,5 +190,101 @@ class _$KHealthIndexModelDao extends KHealthIndexModelDao {
   @override
   Future<void> deleteTokens(KHealthIndexModel model) async {
     await _kHealthIndexModelDeletionAdapter.delete(model);
+  }
+}
+
+class _$RingDeviceDao extends RingDeviceDao {
+  _$RingDeviceDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database),
+        _ringDeviceInsertionAdapter = InsertionAdapter(
+            database,
+            'ring_device_table',
+            (RingDevice item) => <String, Object?>{
+                  'appUserId': item.appUserId,
+                  'remoteId': item.remoteId,
+                  'localName': item.localName,
+                  'macAddress': item.macAddress,
+                  'select': item.select == null ? null : (item.select! ? 1 : 0)
+                }),
+        _ringDeviceUpdateAdapter = UpdateAdapter(
+            database,
+            'ring_device_table',
+            ['appUserId', 'remoteId'],
+            (RingDevice item) => <String, Object?>{
+                  'appUserId': item.appUserId,
+                  'remoteId': item.remoteId,
+                  'localName': item.localName,
+                  'macAddress': item.macAddress,
+                  'select': item.select == null ? null : (item.select! ? 1 : 0)
+                }),
+        _ringDeviceDeletionAdapter = DeletionAdapter(
+            database,
+            'ring_device_table',
+            ['appUserId', 'remoteId'],
+            (RingDevice item) => <String, Object?>{
+                  'appUserId': item.appUserId,
+                  'remoteId': item.remoteId,
+                  'localName': item.localName,
+                  'macAddress': item.macAddress,
+                  'select': item.select == null ? null : (item.select! ? 1 : 0)
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<RingDevice> _ringDeviceInsertionAdapter;
+
+  final UpdateAdapter<RingDevice> _ringDeviceUpdateAdapter;
+
+  final DeletionAdapter<RingDevice> _ringDeviceDeletionAdapter;
+
+  @override
+  Future<List<RingDevice>> queryUserAll(String appUserId) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM ring_device_table WHERE appUserId = ?1',
+        mapper: (Map<String, Object?> row) => RingDevice(
+            appUserId: row['appUserId'] as String?,
+            remoteId: row['remoteId'] as String?,
+            localName: row['localName'] as String?,
+            macAddress: row['macAddress'] as String?,
+            select: row['select'] == null ? null : (row['select'] as int) != 0),
+        arguments: [appUserId]);
+  }
+
+  @override
+  Future<List<RingDevice>> queryUserAllWithSelect(
+    String appUserId,
+    bool select,
+  ) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM ring_device_table WHERE appUserId = ?1 and select = ?2',
+        mapper: (Map<String, Object?> row) => RingDevice(
+            appUserId: row['appUserId'] as String?,
+            remoteId: row['remoteId'] as String?,
+            localName: row['localName'] as String?,
+            macAddress: row['macAddress'] as String?,
+            select: row['select'] == null ? null : (row['select'] as int) != 0),
+        arguments: [appUserId, select ? 1 : 0]);
+  }
+
+  @override
+  Future<void> insertTokens(List<RingDevice> models) async {
+    await _ringDeviceInsertionAdapter.insertList(
+        models, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<void> updateTokens(List<RingDevice> model) async {
+    await _ringDeviceUpdateAdapter.updateList(model, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> deleteTokens(RingDevice model) async {
+    await _ringDeviceDeletionAdapter.delete(model);
   }
 }

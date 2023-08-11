@@ -48,62 +48,6 @@ class KHealthIndexModel {
     final db = await DataBaseConfig.openDataBase();
     return db?.indexDap.updateTokens(model);
   }
-
-//   static Future<bool> moveItem(
-//       KHealthIndexModel oldItem, KHealthIndexModel newItem) async {
-//     try {
-//       FlutterDatabase? database = await DataBaseConfig.openDataBase();
-//       var tokenOwner = oldItem.owner;
-//       var tchainid = oldItem.chainId;
-//       if (oldItem.index == null || newItem.index == null) {
-//         List<MCollectionTokens> datas =
-//             (await database?.tokensDao.findTokens(tokenOwner!, tchainid!)) ??
-//                 [];
-//         int _index = 999;
-//         datas.forEach((element) {
-//           _index -= 1;
-//           var eleIndex =
-//               (element.index ?? _index); //allocate an index if no index
-//           element.index = eleIndex;
-//           if (oldItem.contract == element.contract) {
-//             oldItem = element;
-//           }
-//           if (newItem.contract == element.contract) {
-//             newItem = element;
-//           }
-//           database?.tokensDao.updateTokens(element);
-//         });
-//       }
-//       var oldIndex = oldItem.index ?? 0;
-//       var newIndex = newItem.index ?? 0;
-//       int maxnum = double.maxFinite.toInt();
-//       oldItem.index = maxnum;
-//       database!.tokensDao.updateTokens(oldItem);
-
-//       List<MCollectionTokens> datas =
-//           (await database.tokensDao.findTokens(tokenOwner!, tchainid!));
-//       datas.forEach((element) {
-//         var eleIndex = element.index ?? 0;
-//         if (oldIndex < newIndex) {
-//           if (eleIndex > oldIndex && eleIndex <= newIndex) {
-//             element.index = eleIndex - 1;
-//           }
-//         } else {
-//           if (eleIndex >= newIndex && eleIndex < oldIndex) {
-//             element.index = eleIndex + 1;
-//           }
-//         }
-//         vmPrint('element ${element.token} ${element.index}');
-//         database.tokensDao.updateTokens(element);
-//       });
-//       oldItem.index = newIndex;
-//       database.tokensDao.updateTokens(oldItem);
-//       return true;
-//     } catch (e) {
-//       vmPrint('failed:' + e.toString());
-//       return false;
-//     }
-//   }
 }
 
 @dao

@@ -11,6 +11,7 @@ class DeviceInfoView extends GetView<DeviceInfoController> {
   Widget _getListItem({
     required int index,
     required String title,
+    required String value,
   }) {
     return Container(
       padding: EdgeInsets.only(left: 16.w, right: 16.w),
@@ -22,9 +23,13 @@ class DeviceInfoView extends GetView<DeviceInfoController> {
             title.tr,
             style: Get.textTheme.displayLarge,
           ),
-          Text(
-            title.tr,
-            style: Get.textTheme.headlineLarge,
+          20.rowWidget,
+          Expanded(
+            child: Text(
+              value,
+              textAlign: TextAlign.end,
+              style: Get.textTheme.headlineLarge,
+            ),
           ),
         ],
       ),
@@ -49,7 +54,7 @@ class DeviceInfoView extends GetView<DeviceInfoController> {
             Container(
               margin: EdgeInsets.only(top: 15.w),
               child: Text(
-                "data",
+                controller.ringDevice.localName ?? "",
                 style: Get.textTheme.bodyLarge,
               ),
             ),
@@ -61,8 +66,8 @@ class DeviceInfoView extends GetView<DeviceInfoController> {
               ),
               child: Column(
                 children: [
-                  _getListItem(index: 0, title: "current_v".tr),
-                  _getListItem(index: 0, title: "new_v".tr),
+                  _getListItem(index: 0, title: "current_v".tr, value: "1.0.0"),
+                  _getListItem(index: 0, title: "new_v".tr, value: "1.0.0"),
                 ],
               ),
             ),
@@ -74,7 +79,10 @@ class DeviceInfoView extends GetView<DeviceInfoController> {
               ),
               child: Column(
                 children: [
-                  _getListItem(index: 0, title: "mac_adds".tr),
+                  _getListItem(
+                      index: 0,
+                      title: "mac_adds".tr,
+                      value: controller.ringDevice.macAddress ?? ""),
                 ],
               ),
             ),
@@ -84,8 +92,7 @@ class DeviceInfoView extends GetView<DeviceInfoController> {
                 // alignment: Alignment.centerLeft,
                 children: [
                   Visibility(
-                    visible:
-                        controller.buttonState.value == KState.loading,
+                    visible: controller.buttonState.value == KState.loading,
                     child: Container(
                       height: 44.w,
                       width: controller.progress * 350.w,
@@ -103,29 +110,27 @@ class DeviceInfoView extends GetView<DeviceInfoController> {
                   NextButton(
                     onPressed: () {
                       HWToast.showSucText(text: "no_v".tr);
-                      controller.changeButtonState(KState.loading);
+                      // controller.changeButtonState(KState.loading);
                     },
                     height: 44.w,
                     width: 350.w,
                     borderRadius: 22,
+                    margin: EdgeInsets.only(bottom: 20.w),
                     border: controller.buttonState.value == KState.loading
                         ? Border.all(color: ColorUtils.fromHex("#FF05E6E7"))
                         : null,
-                    gradient:
-                        (controller.buttonState.value == KState.idle ||
-                                controller.buttonState.value ==
-                                    KState.success)
-                            ? LinearGradient(
-                                colors: [
-                                  ColorUtils.fromHex("#FF0E9FF5"),
-                                  ColorUtils.fromHex("#FF02FFE2"),
-                                ],
-                              )
-                            : null,
-                    activeColor:
-                        controller.buttonState.value == KState.fail
-                            ? ColorUtils.fromHex("#FF4D5461")
-                            : null,
+                    gradient: (controller.buttonState.value == KState.idle ||
+                            controller.buttonState.value == KState.success)
+                        ? LinearGradient(
+                            colors: [
+                              ColorUtils.fromHex("#FF0E9FF5"),
+                              ColorUtils.fromHex("#FF02FFE2"),
+                            ],
+                          )
+                        : null,
+                    activeColor: controller.buttonState.value == KState.fail
+                        ? ColorUtils.fromHex("#FF4D5461")
+                        : null,
                     title: controller.buttonState.value == KState.success
                         ? "upgrade_v".tr
                         : controller.buttonState.value == KState.loading

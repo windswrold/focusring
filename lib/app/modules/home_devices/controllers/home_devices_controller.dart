@@ -9,6 +9,9 @@ class HomeDevicesController extends GetxController {
 
   Rx<RingDevice?> connectDevice = null.obs;
 
+  RxBool isConnect = true.obs;
+  RxInt bat = 10.obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -50,7 +53,15 @@ class HomeDevicesController extends GetxController {
     } else if (indx == 1) {
       Get.toNamed(Routes.AUTOMATIC_SETTINGS);
     } else if (indx == 2) {
-      Get.toNamed(Routes.DEVICE_INFO);
+      if (connectDevice.value == null) {
+        DialogUtils.defaultDialog(
+          title: "empty_unbind".tr,
+          content: "empty_unbindtip".tr,
+          alignment: Alignment.center,
+        );
+        return;
+      }
+      Get.toNamed(Routes.DEVICE_INFO, arguments: connectDevice.value);
     } else if (indx == 3) {
       if (connectDevice.value == null) {
         DialogUtils.defaultDialog(
@@ -64,8 +75,12 @@ class HomeDevicesController extends GetxController {
     }
   }
 
-  void onTapAddDevices() {
-    Get.toNamed(Routes.FIND_DEVICES);
+  void onTapAddDevices() async {
+    RingDevice? d = (await Get.toNamed(Routes.FIND_DEVICES)) as RingDevice?;
+    if (d == null) {
+      return;
+    }
+    connectDevice.value = d;
   }
 
   void onTapManualHeartrate() {
