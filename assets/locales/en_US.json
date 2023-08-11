@@ -204,5 +204,16 @@
   "ja_JP": "Japanese",
   "nl_NL": "Dutch",
   "pt_BR": "Portuguese (Brazil)",
-  "ro_RO": "Romanian"
+  "ro_RO": "Romanian",
+  "week_overview": "Week Overview",
+  "moneth_overview": "Month Overview",
+  "empty_device": "No device found",
+  "empty_unbind": "No device currently bound",
+  "empty_unbindtip": "Do you want to bind a device?",
+  "welecome_to": "Welcome to",
+  "visit_login": "Guest Login",
+  "empty_data": "No data report",
+  "positive": "Positive",
+  "neutral": "Neutral",
+  "negative": "Negative"
 }

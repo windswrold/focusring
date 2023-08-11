@@ -204,5 +204,16 @@
   "ja_JP": "Japoneză",
   "nl_NL": "Olandeză",
   "pt_BR": "Portugheză (Brazilia)",
-  "ro_RO": "Română"
+  "ro_RO": "Română",
+  "week_overview": "Rezumatul săptămânii",
+  "moneth_overview": "Rezumatul lunii",
+  "empty_device": "Niciun dispozitiv găsit",
+  "empty_unbind": "Niciun dispozitiv legat în acest moment",
+  "empty_unbindtip": "Doriți să legați un dispozitiv?",
+  "welecome_to": "Bun venit la",
+  "visit_login": "Autentificare ca vizitator",
+  "empty_data": "Niciun raport de date",
+  "positive": "Pozitiv",
+  "neutral": "Neutru",
+  "negative": "Negativ"
 }

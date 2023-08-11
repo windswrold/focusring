@@ -204,5 +204,16 @@
   "ja_JP": "japansk",
   "nl_NL": "hollandsk",
   "pt_BR": "portugisisk (Brasilien)",
-  "ro_RO": "rumænsk"
+  "ro_RO": "rumænsk",
+  "week_overview": "Ugeoversigt",
+  "moneth_overview": "Månedsoversigt",
+  "empty_device": "Ingen enhed fundet",
+  "empty_unbind": "Der er i øjeblikket ingen bundne enheder",
+  "empty_unbindtip": "Ønsker du at binde en enhed?",
+  "welecome_to": "Velkommen til",
+  "visit_login": "Gæst login",
+  "empty_data": "Ingen data rapport",
+  "positive": "Positiv",
+  "neutral": "Neutral",
+  "negative": "Negativ"
 }

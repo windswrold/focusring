@@ -8,6 +8,7 @@ import '../controllers/user_manualtest_controller.dart';
 
 class UserManualtestView extends GetView<UserManualtestController> {
   const UserManualtestView({Key? key}) : super(key: key);
+
   Widget _buildRadialTextAnnotation() {
     return Obx(() {
       return controller.kState.value == KState.idle
@@ -170,10 +171,13 @@ class UserManualtestView extends GetView<UserManualtestController> {
 
   @override
   Widget build(BuildContext context) {
+    final type = Get.arguments as KHealthDataType;
     return KBasePageView(
-      titleStr: (Get.arguments as KHealthDataType) == KHealthDataType.HEART_RATE
+      titleStr: type == KHealthDataType.HEART_RATE
           ? "heartrate_measurement".tr
-          : "bloodoxygen_measurement".tr,
+          : type == KHealthDataType.BLOOD_OXYGEN
+              ? "bloodoxygen_measurement".tr
+              : "test".tr,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,

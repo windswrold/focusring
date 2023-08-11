@@ -31,7 +31,9 @@ class ReportInfoEmotionView extends GetView<ReportInfoEmotionController> {
             _buildChart(),
             _getOtherView(),
             NextButton(
-              onPressed: () {},
+              onPressed: () {
+              controller.stratTest();
+              },
               title: "strat_test".tr,
               margin: EdgeInsets.only(left: 12.w, right: 12.w, top: 20.w),
               textStyle: Get.textTheme.displayLarge,

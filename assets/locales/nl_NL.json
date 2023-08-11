@@ -204,5 +204,16 @@
   "ja_JP": "Japans",
   "nl_NL": "Nederlands",
   "pt_BR": "Portugees (Brazilië)",
-  "ro_RO": "Roemeens"
+  "ro_RO": "Roemeens",
+  "week_overview": "Weekoverzicht",
+  "moneth_overview": "Maandoverzicht",
+  "empty_device": "Geen apparaat gevonden",
+  "empty_unbind": "Er zijn momenteel geen gebonden apparaten",
+  "empty_unbindtip": "Wilt u een apparaat binden?",
+  "welecome_to": "Welkom bij",
+  "visit_login": "Gast login",
+  "empty_data": "Geen data rapport",
+  "positive": "Positief",
+  "neutral": "Neutraal",
+  "negative": "Negatief"
 }

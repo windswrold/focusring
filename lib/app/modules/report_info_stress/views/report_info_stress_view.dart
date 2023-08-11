@@ -41,7 +41,9 @@ class ReportInfoStressView extends GetView<ReportInfoStressController> {
               ),
             ),
             NextButton(
-              onPressed: () {},
+              onPressed: () {
+                controller.stratTest();
+              },
               title: "strat_test".tr,
               margin: EdgeInsets.only(left: 12.w, right: 12.w, bottom: 20.w),
               textStyle: Get.textTheme.displayLarge,

@@ -236,6 +236,10 @@ class LocaleKeys {
   static const empty_unbindtip = 'empty_unbindtip';
   static const welecome_to = 'welecome_to';
   static const visit_login = 'visit_login';
+  static const empty_data = 'empty_data';
+  static const positive = 'positive';
+  static const neutral = 'neutral';
+  static const negative = 'negative';
   static const emotion_report = 'emotion_report';
   static const about_activitytip = 'about_activitytip';
   static const about_activitytip01 = 'about_activitytip01';
@@ -466,6 +470,17 @@ class Locales {
     'nl_NL': 'Holandês',
     'pt_BR': 'Português (Brasil)',
     'ro_RO': 'Romeno',
+    'week_overview': 'Resumo da semana',
+    'moneth_overview': 'Resumo do mês',
+    'empty_device': 'Nenhum dispositivo encontrado',
+    'empty_unbind': 'Atualmente, nenhum dispositivo vinculado',
+    'empty_unbindtip': 'Deseja vincular um dispositivo?',
+    'welecome_to': 'Bem-vindo a',
+    'visit_login': 'Login de visitante',
+    'empty_data': 'Sem relatório de dados',
+    'positive': 'Positivo',
+    'neutral': 'Neutro',
+    'negative': 'Negativo',
   };
   static const es_ES = {
     'tabbar_status': 'Estado',
@@ -687,6 +702,17 @@ class Locales {
     'nl_NL': 'Holandés',
     'pt_BR': 'Portugués (Brasil)',
     'ro_RO': 'Rumano',
+    'week_overview': 'Resumen semanal',
+    'moneth_overview': 'Resumen mensual',
+    'empty_device': 'No se encontró ningún dispositivo',
+    'empty_unbind': 'Actualmente no hay dispositivos vinculados',
+    'empty_unbindtip': '¿Desea vincular un dispositivo?',
+    'welecome_to': 'Bienvenido a',
+    'visit_login': 'Inicio de sesión de invitado',
+    'empty_data': 'No hay informe de datos',
+    'positive': 'Positivo',
+    'neutral': 'Neutral',
+    'negative': 'Negativo',
   };
   static const ja_JP = {
     'tabbar_status': 'ステータス',
@@ -902,6 +928,17 @@ class Locales {
     'nl_NL': 'オランダ語',
     'pt_BR': 'ポルトガル語（ブラジル）',
     'ro_RO': 'ルーマニア語',
+    'week_overview': '週の概要',
+    'moneth_overview': '月の概要',
+    'empty_device': 'デバイスが見つかりません',
+    'empty_unbind': '現在、デバイスはバインドされていません',
+    'empty_unbindtip': 'デバイスをバインドしますか？',
+    'welecome_to': 'ようこそ',
+    'visit_login': 'ゲストログイン',
+    'empty_data': 'データレポートがありません',
+    'positive': 'ポジティブ',
+    'neutral': '中立',
+    'negative': 'ネガティブ',
   };
   static const zh_CN = {
     'tabbar_status': '状态',
@@ -1123,6 +1160,10 @@ class Locales {
     'empty_unbindtip': '是否前往绑定设备',
     'welecome_to': '欢迎来到',
     'visit_login': '游客登录',
+    'empty_data': '没有数据报告',
+    'positive': '积极',
+    'neutral': '平和',
+    'negative': '消极',
   };
   static const it_IT = {
     'tabbar_status': 'Stato',
@@ -1345,6 +1386,17 @@ class Locales {
     'nl_NL': 'Olandese',
     'pt_BR': 'Portoghese (Brasile)',
     'ro_RO': 'Rumeno',
+    'week_overview': 'Panoramica della settimana',
+    'moneth_overview': 'Panoramica del mese',
+    'empty_device': 'Nessun dispositivo trovato',
+    'empty_unbind': 'Nessun dispositivo attualmente collegato',
+    'empty_unbindtip': 'Vuoi collegare un dispositivo?',
+    'welecome_to': 'Benvenuto a',
+    'visit_login': 'Accesso ospite',
+    'empty_data': 'Nessun rapporto sui dati',
+    'positive': 'Positivo',
+    'neutral': 'Neutro',
+    'negative': 'Negativo',
   };
   static const en_US = {
     'tabbar_status': 'Status',
@@ -1563,6 +1615,17 @@ class Locales {
     'nl_NL': 'Dutch',
     'pt_BR': 'Portuguese (Brazil)',
     'ro_RO': 'Romanian',
+    'week_overview': 'Week Overview',
+    'moneth_overview': 'Month Overview',
+    'empty_device': 'No device found',
+    'empty_unbind': 'No device currently bound',
+    'empty_unbindtip': 'Do you want to bind a device?',
+    'welecome_to': 'Welcome to',
+    'visit_login': 'Guest Login',
+    'empty_data': 'No data report',
+    'positive': 'Positive',
+    'neutral': 'Neutral',
+    'negative': 'Negative',
   };
   static const nl_NL = {
     'tabbar_status': 'status',
@@ -1783,6 +1846,17 @@ class Locales {
     'nl_NL': 'Nederlands',
     'pt_BR': 'Portugees (Brazilië)',
     'ro_RO': 'Roemeens',
+    'week_overview': 'Weekoverzicht',
+    'moneth_overview': 'Maandoverzicht',
+    'empty_device': 'Geen apparaat gevonden',
+    'empty_unbind': 'Er zijn momenteel geen gebonden apparaten',
+    'empty_unbindtip': 'Wilt u een apparaat binden?',
+    'welecome_to': 'Welkom bij',
+    'visit_login': 'Gast login',
+    'empty_data': 'Geen data rapport',
+    'positive': 'Positief',
+    'neutral': 'Neutraal',
+    'negative': 'Negatief',
   };
   static const da_DK = {
     'tabbar_status': 'status',
@@ -2000,6 +2074,17 @@ class Locales {
     'nl_NL': 'hollandsk',
     'pt_BR': 'portugisisk (Brasilien)',
     'ro_RO': 'rumænsk',
+    'week_overview': 'Ugeoversigt',
+    'moneth_overview': 'Månedsoversigt',
+    'empty_device': 'Ingen enhed fundet',
+    'empty_unbind': 'Der er i øjeblikket ingen bundne enheder',
+    'empty_unbindtip': 'Ønsker du at binde en enhed?',
+    'welecome_to': 'Velkommen til',
+    'visit_login': 'Gæst login',
+    'empty_data': 'Ingen data rapport',
+    'positive': 'Positiv',
+    'neutral': 'Neutral',
+    'negative': 'Negativ',
   };
   static const de_DE = {
     'tabbar_status': 'Status',
@@ -2223,6 +2308,17 @@ class Locales {
     'nl_NL': 'Niederländisch',
     'pt_BR': 'Portugiesisch (Brasilien)',
     'ro_RO': 'Rumänisch',
+    'week_overview': 'Wochenübersicht',
+    'moneth_overview': 'Monatsübersicht',
+    'empty_device': 'Kein Gerät gefunden',
+    'empty_unbind': 'Derzeit kein Gerät verbunden',
+    'empty_unbindtip': 'Möchten Sie ein Gerät verbinden?',
+    'welecome_to': 'Willkommen bei',
+    'visit_login': 'Gastanmeldung',
+    'empty_data': 'Kein Datenbericht',
+    'positive': 'Positiv',
+    'neutral': 'Neutral',
+    'negative': 'Negativ',
   };
   static const pt_BR = {
     'tabbar_status': 'Status',
@@ -2445,6 +2541,17 @@ class Locales {
     'nl_NL': 'Holandês',
     'pt_BR': 'Português (Brasil)',
     'ro_RO': 'Romeno',
+    'week_overview': 'Visão geral da semana',
+    'moneth_overview': 'Visão geral do mês',
+    'empty_device': 'Nenhum dispositivo encontrado',
+    'empty_unbind': 'Nenhum dispositivo vinculado no momento',
+    'empty_unbindtip': 'Deseja vincular um dispositivo?',
+    'welecome_to': 'Bem-vindo ao',
+    'visit_login': 'Login de visitante',
+    'empty_data': 'Nenhum relatório de dados',
+    'positive': 'Positivo',
+    'neutral': 'Neutro',
+    'negative': 'Negativo',
   };
   static const fr_FR = {
     'tabbar_status': 'Statut',
@@ -2668,6 +2775,17 @@ class Locales {
     'nl_NL': 'Néerlandais',
     'pt_BR': 'Portugais (Brésil)',
     'ro_RO': 'Roumain',
+    'week_overview': 'Aperçu de la semaine',
+    'moneth_overview': 'Aperçu du mois',
+    'empty_device': 'Aucun appareil trouvé',
+    'empty_unbind': 'Aucun appareil actuellement lié',
+    'empty_unbindtip': 'Voulez-vous lier un appareil?',
+    'welecome_to': 'Bienvenue à',
+    'visit_login': 'Connexion invité',
+    'empty_data': 'Aucun rapport de données',
+    'positive': 'Positif',
+    'neutral': 'Neutre',
+    'negative': 'Négatif',
   };
   static const cs_CZ = {
     'tabbar_status': 'Stav',
@@ -2886,6 +3004,17 @@ class Locales {
     'nl_NL': 'Holandština',
     'pt_BR': 'Portugalština (Brazílie)',
     'ro_RO': 'Rumunština',
+    'week_overview': 'Přehled týdne',
+    'moneth_overview': 'Přehled měsíce',
+    'empty_device': 'Žádné zařízení nenalezeno',
+    'empty_unbind': 'Momentálně není připojeno žádné zařízení',
+    'empty_unbindtip': 'Chcete připojit zařízení?',
+    'welecome_to': 'Vítejte v',
+    'visit_login': 'Přihlášení pro návštěvníky',
+    'empty_data': 'Žádná datová zpráva',
+    'positive': 'Pozitivní',
+    'neutral': 'Neutrální',
+    'negative': 'Negativní',
   };
   static const ro_RO = {
     'tabbar_status': 'Statut',
@@ -3109,6 +3238,17 @@ class Locales {
     'nl_NL': 'Olandeză',
     'pt_BR': 'Portugheză (Brazilia)',
     'ro_RO': 'Română',
+    'week_overview': 'Rezumatul săptămânii',
+    'moneth_overview': 'Rezumatul lunii',
+    'empty_device': 'Niciun dispozitiv găsit',
+    'empty_unbind': 'Niciun dispozitiv legat în acest moment',
+    'empty_unbindtip': 'Doriți să legați un dispozitiv?',
+    'welecome_to': 'Bun venit la',
+    'visit_login': 'Autentificare ca vizitator',
+    'empty_data': 'Niciun raport de date',
+    'positive': 'Pozitiv',
+    'neutral': 'Neutru',
+    'negative': 'Negativ',
   };
   static const pl_PL = {
     'tabbar_status': 'Status',
@@ -3328,5 +3468,16 @@ class Locales {
     'nl_NL': 'Holenderski',
     'pt_BR': 'Portugalski (Brazylia)',
     'ro_RO': 'Rumuński',
+    'week_overview': 'Przegląd tygodnia',
+    'moneth_overview': 'Przegląd miesiąca',
+    'empty_device': 'Nie znaleziono urządzenia',
+    'empty_unbind': 'Obecnie brak powiązanego urządzenia',
+    'empty_unbindtip': 'Czy chcesz powiązać urządzenie?',
+    'welecome_to': 'Witaj w',
+    'visit_login': 'Logowanie gościa',
+    'empty_data': 'Brak raportu danych',
+    'positive': 'Pozytywny',
+    'neutral': 'Neutralny',
+    'negative': 'Negatywny',
   };
 }

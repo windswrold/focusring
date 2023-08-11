@@ -204,5 +204,16 @@
   "ja_JP": "Japanisch",
   "nl_NL": "Niederländisch",
   "pt_BR": "Portugiesisch (Brasilien)",
-  "ro_RO": "Rumänisch"
+  "ro_RO": "Rumänisch",
+  "week_overview": "Wochenübersicht",
+  "moneth_overview": "Monatsübersicht",
+  "empty_device": "Kein Gerät gefunden",
+  "empty_unbind": "Derzeit kein Gerät verbunden",
+  "empty_unbindtip": "Möchten Sie ein Gerät verbinden?",
+  "welecome_to": "Willkommen bei",
+  "visit_login": "Gastanmeldung",
+  "empty_data": "Kein Datenbericht",
+  "positive": "Positiv",
+  "neutral": "Neutral",
+  "negative": "Negativ"
 }

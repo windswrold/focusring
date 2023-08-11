@@ -88,4 +88,17 @@ class ReportInfoEmotionController extends GetxController {
           chartTipValue.value = "",
         });
   }
+
+  void stratTest() {
+    // if (connectDevice.value == null) {
+    //   DialogUtils.defaultDialog(
+    //     title: "empty_unbind".tr,
+    //     content: "empty_unbindtip".tr,
+    //     alignment: Alignment.center,
+    //   );
+    //   return;
+    // }
+
+    Get.toNamed(Routes.USER_MANUALTEST, arguments: KHealthDataType.EMOTION);
+  }
 }

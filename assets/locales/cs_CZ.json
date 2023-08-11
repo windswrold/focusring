@@ -204,5 +204,16 @@
   "ja_JP": "Japonština",
   "nl_NL": "Holandština",
   "pt_BR": "Portugalština (Brazílie)",
-  "ro_RO": "Rumunština"
+  "ro_RO": "Rumunština",
+  "week_overview": "Přehled týdne",
+  "moneth_overview": "Přehled měsíce",
+  "empty_device": "Žádné zařízení nenalezeno",
+  "empty_unbind": "Momentálně není připojeno žádné zařízení",
+  "empty_unbindtip": "Chcete připojit zařízení?",
+  "welecome_to": "Vítejte v",
+  "visit_login": "Přihlášení pro návštěvníky",
+  "empty_data": "Žádná datová zpráva",
+  "positive": "Pozitivní",
+  "neutral": "Neutrální",
+  "negative": "Negativní"
 }

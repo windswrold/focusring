@@ -204,5 +204,16 @@
   "ja_JP": "日本語",
   "nl_NL": "オランダ語",
   "pt_BR": "ポルトガル語（ブラジル）",
-  "ro_RO": "ルーマニア語"
+  "ro_RO": "ルーマニア語",
+  "week_overview": "週の概要",
+  "moneth_overview": "月の概要",
+  "empty_device": "デバイスが見つかりません",
+  "empty_unbind": "現在、デバイスはバインドされていません",
+  "empty_unbindtip": "デバイスをバインドしますか？",
+  "welecome_to": "ようこそ",
+  "visit_login": "ゲストログイン",
+  "empty_data": "データレポートがありません",
+  "positive": "ポジティブ",
+  "neutral": "中立",
+  "negative": "ネガティブ"
 }
