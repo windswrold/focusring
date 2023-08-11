@@ -16,24 +16,23 @@ class HomeCardView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 351.w,
-      height: model.datas.isEmpty ? 72.w : 200.w,
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage(
-            "$assetsImages${model.type!.getIcon(isBgIcon: true, isEmptyIcon: model.datas.isEmpty)}@3x.png",
+        width: 351.w,
+        height: model.datas == null ? 72.w : 200.w,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(
+              "$assetsImages${model.type!.getIcon(isBgIcon: true, isEmptyIcon: model.datas == null)}@3x.png",
+            ),
+            fit: BoxFit.contain,
           ),
-          fit: BoxFit.contain,
         ),
-      ),
-      child: Column(
-        children: [
-          _buildTitle(),
-          _buildChart(),
-          _buildFooter(),
-        ],
-      ),
-    );
+        child: Column(
+          children: [
+            _buildTitle(),
+            _buildChart(),
+            _buildFooter(),
+          ],
+        ));
   }
 
   Widget _buildTitle() {
@@ -71,7 +70,7 @@ class HomeCardView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Visibility(
-                visible: (model.datas.isNotEmpty),
+                visible: (model.datas != null),
                 child: RichText(
                   text: TextSpan(
                     text: (model.result ?? ""),
@@ -99,38 +98,39 @@ class HomeCardView extends StatelessWidget {
   }
 
   Widget _buildChart() {
-    return Visibility(
-      visible: model.datas.isNotEmpty,
-      child: Expanded(
-        child: Container(
-          margin: EdgeInsets.only(top: 22.w, left: 10.w, right: 10.w),
-          child: _buildChartItem(),
-        ),
-      ),
-    );
+    return model.datas == null
+        ? Container()
+        : Expanded(
+            child: Container(
+              margin: EdgeInsets.only(top: 22.w, left: 10.w, right: 10.w),
+              child: _buildChartItem(),
+            ),
+          );
   }
 
   Widget _buildFooter() {
-    return Container(
-      margin: EdgeInsets.only(left: 10.w, right: 10.w),
-      height: 36.w,
-      child: Visibility(
-        visible: model.type != KHealthDataType.FEMALE_HEALTH,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              model.startDesc ?? "",
-              style: Get.textTheme.labelLarge,
+    return model.datas == null
+        ? Container()
+        : Container(
+            margin: EdgeInsets.only(left: 10.w, right: 10.w),
+            height: 36.w,
+            child: Visibility(
+              visible: model.type != KHealthDataType.FEMALE_HEALTH,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    model.startDesc ?? "",
+                    style: Get.textTheme.labelLarge,
+                  ),
+                  Text(
+                    model.endDesc ?? "",
+                    style: Get.textTheme.labelLarge,
+                  ),
+                ],
+              ),
             ),
-            Text(
-              model.endDesc ?? "",
-              style: Get.textTheme.labelLarge,
-            ),
-          ],
-        ),
-      ),
-    );
+          );
   }
 
   Widget _buildChartItem() {
@@ -180,8 +180,8 @@ class HomeCardView extends StatelessWidget {
           maximum: model.maximum,
         ),
         margin: EdgeInsets.zero,
-        series: ChartUtils.getChartServices(
-            type: model.type!, datas: model.datas),
+        series:
+            ChartUtils.getChartServices(type: model.type!, datas: model.datas!),
       );
     }
   }
@@ -190,10 +190,10 @@ class HomeCardView extends StatelessWidget {
     return Container(
       height: 85.w,
       child: ListView.builder(
-        itemCount: model.datas.first.length,
+        itemCount: model.datas!.first.length,
         scrollDirection: Axis.horizontal,
         itemBuilder: (BuildContext context, int index) {
-          final item = model.datas.first[index];
+          final item = model.datas!.first[index];
           return _buildSleepItem(item: item);
         },
       ),

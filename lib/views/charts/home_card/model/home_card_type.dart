@@ -14,7 +14,7 @@ class KHomeCardModel {
   final int? index;
   final bool? state;
 
-  final List<List<KChartCellData>> datas;
+  final List<List<KChartCellData>>? datas;
 
   final double? maximum;
 
@@ -28,6 +28,6 @@ class KHomeCardModel {
     this.index,
     this.state,
     this.type = KHealthDataType.STEPS,
-    this.datas = const [],
+    this.datas,
   });
 }

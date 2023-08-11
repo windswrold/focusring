@@ -32,9 +32,13 @@ class HomeStateController extends GetxController {
     final us =
         (Get.find<AppViewController>(tag: AppViewController.tag)).user.value;
 
-    final currentDistance = Random.secure().nextInt(100);
-    final currentSteps = Random.secure().nextInt(100);
-    final currentCalorie = Random.secure().nextInt(100);
+    var currentDistance = Random.secure().nextInt(100);
+    var currentSteps = Random.secure().nextInt(100);
+    var currentCalorie = Random.secure().nextInt(100);
+
+    currentDistance = 0;
+    currentSteps = 0;
+    currentCalorie = 0;
 
     licheng.value = RadioGaugeChartData(
       title: "mileage",
@@ -80,21 +84,21 @@ class HomeStateController extends GetxController {
       );
       KHomeCardModel card = KHomeCardModel(
         type: element.type,
-        datas: element.type == KHealthDataType.EMOTION
-            ? [
-                List.generate(
-                    30, (index) => KChartCellData(x: index.toString(), y: 300)),
-                List.generate(
-                    30, (index) => KChartCellData(x: index.toString(), y: 100)),
-                List.generate(
-                    30, (index) => KChartCellData(x: index.toString(), y: 1000))
-              ]
-            : [data],
-        date: "2022",
-        result: "result",
-        resultDesc: "resultDesc",
-        startDesc: "startDesc",
-        endDesc: "startDesc",
+        // datas: element.type == KHealthDataType.EMOTION
+        //     ? [
+        //         List.generate(
+        //             30, (index) => KChartCellData(x: index.toString(), y: 300)),
+        //         List.generate(
+        //             30, (index) => KChartCellData(x: index.toString(), y: 100)),
+        //         List.generate(
+        //             30, (index) => KChartCellData(x: index.toString(), y: 1000))
+        //       ]
+        //     : [data],
+        date: "2023",
+        result: "",
+        resultDesc: "",
+        startDesc: "",
+        endDesc: "",
       );
       dataArr.add(card);
     }
