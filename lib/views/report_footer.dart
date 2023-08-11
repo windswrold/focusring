@@ -16,19 +16,24 @@ class ReportFooter extends StatelessWidget {
       alignment: Alignment.centerLeft,
       child: (type == KHealthDataType.HEART_RATE ||
               type == KHealthDataType.BLOOD_OXYGEN)
-          ? Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "manual_record".tr,
-                  style: Get.textTheme.displayLarge,
-                ),
-                LoadAssetsImage(
-                  "icons/arrow_right_small",
-                  width: 7,
-                  height: 12,
-                ),
-              ],
+          ? InkWell(
+              onTap: () {
+                Get.toNamed(Routes.USER_MANUA_RECORD);
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "manual_record".tr,
+                    style: Get.textTheme.displayLarge,
+                  ),
+                  LoadAssetsImage(
+                    "icons/arrow_right_small",
+                    width: 7,
+                    height: 12,
+                  ),
+                ],
+              ),
             )
           : Column(
               crossAxisAlignment: CrossAxisAlignment.start,

@@ -30,6 +30,7 @@ abstract class Routes {
   static const REPORT_INFO_EMOTION = _Paths.REPORT_INFO_EMOTION;
   static const REPORT_INFO_STRESS = _Paths.REPORT_INFO_STRESS;
   static const LOGIN_VIEW = _Paths.LOGIN_VIEW;
+  static const USER_MANUA_RECORD = _Paths.USER_MANUA_RECORD;
 }
 
 abstract class _Paths {
@@ -61,4 +62,5 @@ abstract class _Paths {
   static const REPORT_INFO_EMOTION = '/report-info-emotion';
   static const REPORT_INFO_STRESS = '/report-info-stress';
   static const LOGIN_VIEW = '/login-view';
+  static const USER_MANUA_RECORD = '/user-manua-record';
 }

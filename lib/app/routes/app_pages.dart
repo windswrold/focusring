@@ -50,6 +50,8 @@ import '../modules/testdfu/bindings/testdfu_binding.dart';
 import '../modules/testdfu/views/testdfu_view.dart';
 import '../modules/unit_system/bindings/unit_system_binding.dart';
 import '../modules/unit_system/views/unit_system_view.dart';
+import '../modules/user_manua_record/bindings/user_manua_record_binding.dart';
+import '../modules/user_manua_record/views/user_manua_record_view.dart';
 import '../modules/user_manualtest/bindings/user_manualtest_binding.dart';
 import '../modules/user_manualtest/views/user_manualtest_view.dart';
 
@@ -189,6 +191,11 @@ class AppPages {
       name: _Paths.LOGIN_VIEW,
       page: () => const LoginViewView(),
       binding: LoginViewBinding(),
+    ),
+    GetPage(
+      name: _Paths.USER_MANUA_RECORD,
+      page: () => const UserManuaRecordView(),
+      binding: UserManuaRecordBinding(),
     ),
   ];
 }
