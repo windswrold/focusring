@@ -37,15 +37,18 @@ class SPManager {
   static Future<String> getPhoneID() async {
     FlutterSecureStorage flutterSecureStorage = const FlutterSecureStorage();
     String? value = await flutterSecureStorage.read(key: _getPhoneID);
-    if (value == null) {
-      final uuid = const Uuid().v4();
-      value = uuid;
+    final uuid = const Uuid().v4();
+
+    try {
       if (isAndroid) {
         value = await FlutterDeviceIdentifier.androidID;
       }
-      flutterSecureStorage.write(key: _getPhoneID, value: value);
+      vmPrint("imei $value");
+    } catch (e) {
+      vmPrint(e.toString());
     }
-    vmPrint(" imei $value");
+    value ??= uuid;
+    flutterSecureStorage.write(key: _getPhoneID, value: value);
     return value;
   }
 
