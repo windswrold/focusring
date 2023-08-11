@@ -41,10 +41,6 @@ class SPManager {
       final uuid = const Uuid().v4();
       value = uuid;
       if (isAndroid) {
-        bool a = await FlutterDeviceIdentifier.requestPermission();
-        if (a == false) {
-          return uuid;
-        }
         value = await FlutterDeviceIdentifier.androidID;
       }
       flutterSecureStorage.write(key: _getPhoneID, value: value);
