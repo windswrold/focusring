@@ -11,13 +11,18 @@ class CommonHtmlViewView extends GetView<CommonHtmlViewController> {
   @override
   Widget build(BuildContext context) {
     return KBasePageView(
-        body: HtmlWidget(
-      Get.arguments,
-      customWidgetBuilder: (element) {
-        if (element.localName == "title") {
-          return Container();
-        }
-      },
-    ));
+      body: Container(
+        color: Colors.white,
+        child: HtmlWidget(
+          Get.arguments,
+          renderMode: RenderMode.listView,
+          customWidgetBuilder: (element) {
+            if (element.localName == "title") {
+              return Container();
+            }
+          },
+        ),
+      ),
+    );
   }
 }

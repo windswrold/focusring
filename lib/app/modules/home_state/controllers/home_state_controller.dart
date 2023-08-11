@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:focusring/app/data/card_health_index.dart';
 import 'package:focusring/app/modules/app_view/controllers/app_view_controller.dart';
 import 'package:focusring/net/app_api.dart';
 import 'package:focusring/public.dart';
@@ -27,8 +28,7 @@ class HomeStateController extends GetxController {
     initData();
   }
 
-  void initData() {
-    vmPrint("initData");
+  void initData() async {
     final us =
         (Get.find<AppViewController>(tag: AppViewController.tag)).user.value;
 
@@ -64,19 +64,23 @@ class HomeStateController extends GetxController {
     );
 
     List<KHomeCardModel> dataArr = [];
-    KHealthDataType.values.forEach((element) {
+
+    final appUserId = await SPManager.getPhoneID();
+    List<KHealthIndexModel> datas =
+        await KHealthIndexModel.queryAllWithState(appUserId, true);
+    for (var element in datas) {
       var data = List.generate(
         30,
         (index) => KChartCellData(
           x: index.toString(),
           y: Random.secure().nextDouble() * 500,
           state: KSleepStatus.values[Random.secure().nextInt(3)],
-          color: element.getTypeMainColor(),
+          color: element.type.getTypeMainColor(),
         ),
       );
       KHomeCardModel card = KHomeCardModel(
-        type: element,
-        datas: element == KHealthDataType.EMOTION
+        type: element.type,
+        datas: element.type == KHealthDataType.EMOTION
             ? [
                 List.generate(
                     30, (index) => KChartCellData(x: index.toString(), y: 300)),
@@ -93,7 +97,7 @@ class HomeStateController extends GetxController {
         endDesc: "startDesc",
       );
       dataArr.add(card);
-    });
+    }
 
     dataTypes.value = dataArr;
 

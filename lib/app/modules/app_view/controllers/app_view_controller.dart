@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'package:focusring/app/data/card_health_index.dart';
 import 'package:focusring/app/data/user_info.dart';
 import 'package:focusring/app/modules/home_state/controllers/home_state_controller.dart';
 import 'package:focusring/app/routes/app_pages.dart';
@@ -34,6 +35,12 @@ class AppViewController extends GetxController {
 
   void login() async {
     final id = await SPManager.getPhoneID();
+
+    final datas = await KHealthIndexModel.queryAll(id);
+    if (datas.isEmpty) {
+      KHealthIndexModel.insertTokens(KHealthIndexModel.defaultList(id));
+    }
+
     AppApi.visitorLogin(
       phoneId: id,
       systemType: getSystemType(),

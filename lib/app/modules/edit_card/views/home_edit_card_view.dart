@@ -14,22 +14,16 @@ class HomeEditCardView extends GetView<HomeEditCardController> {
   Widget build(BuildContext context) {
     return KBasePageView(
       titleStr: "edit_card".tr,
-      body: Column(
-        children: [
-          Expanded(
-            child: GetBuilder(
-              init: controller,
-              builder: ((_) => DragAndDropLists(
-                    children: controller.datas,
-                    removeTopPadding: true,
-                    listDragOnLongPress: false,
-                    lastItemTargetHeight: 0,
-                    onItemReorder: controller.onItemReorder,
-                    onListReorder: controller.onListReorder,
-                  )),
-            ),
-          ),
-        ],
+      body: GetBuilder(
+        init: controller,
+        builder: ((_) => DragAndDropLists(
+              children: controller.datas,
+              removeTopPadding: true,
+              listDragOnLongPress: false,
+              lastItemTargetHeight: 10,
+              onItemReorder: controller.onItemReorder,
+              onListReorder: controller.onListReorder,
+            )),
       ),
     );
   }
