@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:focusring/app/modules/app_view/controllers/app_view_controller.dart';
 import 'package:focusring/app/modules/report_info_steps/controllers/report_info_steps_controller.dart';
 import 'package:focusring/theme/theme.dart';
 import 'package:focusring/utils/chart_utils.dart';
@@ -41,7 +42,8 @@ class SleepTimeReportChart extends StatelessWidget {
                     thicknessUnit: GaugeSizeUnit.factor,
                     color: Colors.transparent,
                   ),
-                  minorTicksPerInterval: 15, //间隔
+                  minorTicksPerInterval: 15,
+                  //间隔
                   majorTickStyle: MajorTickStyle(
                     color: ColorUtils.fromHex("#FF9EA3AE"),
                     length: 6,
@@ -142,7 +144,7 @@ class SleepTimeReportChart extends StatelessWidget {
                         ),
                         5.rowWidget,
                         Text(
-                          "result",
+                          "-",
                           style: Get.textTheme.displayLarge,
                         ),
                       ],
@@ -166,7 +168,7 @@ class SleepTimeReportChart extends StatelessWidget {
                         ),
                         5.rowWidget,
                         Text(
-                          "result",
+                          "-",
                           style: Get.textTheme.displayLarge,
                         ),
                       ],
@@ -379,7 +381,7 @@ class SleepTimeReportChart extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               itemBuilder: (BuildContext context, int index) {
                 return _buildSleepItem(
-                  width: Random.secure().nextInt(30).toDouble(),
+                  width: 0,
                   status: KSleepStatus.values[Random.secure().nextInt(3)],
                 );
               },
@@ -395,21 +397,21 @@ class SleepTimeReportChart extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "data",
+                  "-",
                   style: Get.textTheme.displaySmall
                       ?.copyWith(fontFamily: fontFamilyRoboto),
                 ),
                 Text(
-                  "data",
+                  "-",
                   style: Get.textTheme.displaySmall
                       ?.copyWith(fontFamily: fontFamilyRoboto),
                 ),
               ],
             ),
           ),
-          _buildSleepTime(status: KSleepStatus.deepSleep, result: "result"),
-          _buildSleepTime(status: KSleepStatus.lightSleep, result: "result"),
-          _buildSleepTime(status: KSleepStatus.awake, result: "result"),
+          _buildSleepTime(status: KSleepStatus.deepSleep, result: "-"),
+          _buildSleepTime(status: KSleepStatus.lightSleep, result: "-"),
+          _buildSleepTime(status: KSleepStatus.awake, result: "-"),
         ],
       ),
     );
@@ -441,9 +443,9 @@ class SleepTimeReportChart extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 13.w),
       child: Column(
         children: [
-          _buildSleepTime(title: "average_sleeptime".tr, result: "result"),
-          _buildSleepTime(title: "average_deepsleeptime".tr, result: "result"),
-          _buildSleepTime(title: "average_lighrsleeptime".tr, result: "result"),
+          _buildSleepTime(title: "average_sleeptime".tr, result: "-"),
+          _buildSleepTime(title: "average_deepsleeptime".tr, result: "-"),
+          _buildSleepTime(title: "average_lighrsleeptime".tr, result: "-"),
         ],
       ),
     );
@@ -454,18 +456,24 @@ class SleepTimeReportChart extends StatelessWidget {
     return Column(
       children: [
         pageType == KReportType.day ? _getDayChart() : _getWeekChart(),
-        TargetCompletionRate(
-          pageType: pageType,
-          type: KHealthDataType.SLEEP,
-          targetNum: "8000",
-          complationNum: 55,
-          datas: KTheme.weekColors
-              .map((e) => TargetWeekCompletionRateModel(
-                  color: e,
-                  dayNum: "1",
-                  complationNum: Random.secure().nextInt(100).toDouble()))
-              .toList(),
-        ),
+        GetBuilder<AppViewController>(
+            id: AppViewController.userinfoID,
+            tag: AppViewController.tag,
+            builder: (a) {
+              return TargetCompletionRate(
+                pageType: pageType,
+                type: KHealthDataType.SLEEP,
+                targetNum: (a.user.value?.sleepPlan ?? 0).toString(),
+                complationNum: 0,
+                datas: KTheme.weekColors
+                    .map(
+                      (e) => TargetWeekCompletionRateModel(
+                          color: e, dayNum: "0", complationNum: 0),
+                    )
+                    .toList(),
+              );
+            }),
+
         Container(
           margin: EdgeInsets.only(left: 12.w, right: 12.w, top: 12.w),
           padding: EdgeInsets.only(top: 16.w, bottom: 12.w),

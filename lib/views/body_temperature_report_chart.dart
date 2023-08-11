@@ -1,4 +1,3 @@
-
 import 'package:focusring/app/modules/report_info_steps/controllers/report_info_steps_controller.dart';
 import 'package:focusring/utils/chart_utils.dart';
 import 'package:focusring/views/report_footer.dart';
@@ -78,9 +77,9 @@ class BodyTemperatureReportChart extends StatelessWidget {
           margin: EdgeInsets.only(left: 12.w, right: 12.w),
           child: TodayOverView(
             datas: [
-              TodayOverViewModel(title: "max_bloodoxygen".tr, content: "1"),
-              TodayOverViewModel(title: "mininum_bloodoxygen".tr, content: "2"),
-              TodayOverViewModel(title: "exception_number".tr, content: "3"),
+              TodayOverViewModel(title: "max_bloodoxygen".tr, content: "-"),
+              TodayOverViewModel(title: "mininum_bloodoxygen".tr, content: "-"),
+              TodayOverViewModel(title: "exception_number".tr, content: "-"),
             ],
             type: pageType,
           ),

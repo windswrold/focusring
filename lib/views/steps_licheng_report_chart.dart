@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:focusring/app/data/steps_card_model.dart';
+import 'package:focusring/app/modules/app_view/controllers/app_view_controller.dart';
 import 'package:focusring/app/modules/report_info_steps/controllers/report_info_steps_controller.dart';
 import 'package:focusring/theme/theme.dart';
 import 'package:focusring/utils/chart_utils.dart';
@@ -77,18 +78,29 @@ class StepsLiChengReportChart extends StatelessWidget {
             ],
           ),
         ),
-        TargetCompletionRate(
-          pageType: pageType,
-          type: type,
-          targetNum: "8000",
-          complationNum: 55,
-          datas: KTheme.weekColors
-              .map((e) => TargetWeekCompletionRateModel(
-                  color: e,
-                  dayNum: "1",
-                  complationNum: Random.secure().nextInt(100).toDouble()))
-              .toList(),
-        ),
+        GetBuilder<AppViewController>(
+            id: AppViewController.userinfoID,
+            tag: AppViewController.tag,
+            builder: (a) {
+              final value = type == KHealthDataType.STEPS
+                  ? a.user.value?.stepsPlan
+                  : type == KHealthDataType.LiCheng
+                      ? a.user.value?.distancePlan
+                      : a.user.value?.caloriePlan;
+
+              return TargetCompletionRate(
+                pageType: pageType,
+                type: type,
+                targetNum: (value ?? 0).toString(),
+                complationNum: 0,
+                datas: KTheme.weekColors
+                    .map(
+                      (e) => TargetWeekCompletionRateModel(
+                          color: e, dayNum: "0", complationNum: 0),
+                    )
+                    .toList(),
+              );
+            }),
         Container(
           margin: EdgeInsets.only(left: 12.w, right: 12.w, top: 12.w),
           child: GetX<ReportInfoStepsController>(builder: (a) {

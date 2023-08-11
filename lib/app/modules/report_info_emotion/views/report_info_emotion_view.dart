@@ -11,6 +11,7 @@ import '../controllers/report_info_emotion_controller.dart';
 
 class ReportInfoEmotionView extends GetView<ReportInfoEmotionController> {
   const ReportInfoEmotionView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return KBasePageView(
@@ -147,30 +148,31 @@ class ReportInfoEmotionView extends GetView<ReportInfoEmotionController> {
                 ),
               ],
             ),
-            _buildItem(),
-            _buildItem(),
-            _buildItem(),
+            _buildItem(type: KEMOTIONStatus.positive, value: "-"),
+            _buildItem(type: KEMOTIONStatus.neutral, value: "-"),
+            _buildItem(type: KEMOTIONStatus.negative, value: "-"),
           ],
         ));
   }
 
-  Widget _buildItem() {
+  Widget _buildItem({required KEMOTIONStatus type, required String value}) {
     return Container(
       margin: EdgeInsets.only(top: 12.w),
       child: Row(
         children: [
-          Text(
-            "data",
-            style: Get.textTheme.displayLarge,
+          Container(
+            width: 70.w,
+            child: Text(
+              type.getStatusDesc(),
+              style: Get.textTheme.displayLarge,
+            ),
           ),
-          10.rowWidget,
           Expanded(
             child: ClipRRect(
               borderRadius: BorderRadius.circular(4),
               child: LinearProgressIndicator(
-                value: 0.5,
-                color: Colors.yellow,
-                // valueColor: AlwaysStoppedAnimation(Colors.red),
+                value: 0,
+                color: type.getStatusColor(),
                 backgroundColor: ColorUtils.fromHex("#FF232126"),
                 minHeight: 8,
               ),
@@ -178,7 +180,7 @@ class ReportInfoEmotionView extends GetView<ReportInfoEmotionController> {
           ),
           10.rowWidget,
           Text(
-            "data",
+            value,
             style: Get.textTheme.displayLarge,
           ),
         ],

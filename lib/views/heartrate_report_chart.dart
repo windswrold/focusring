@@ -1,4 +1,3 @@
-
 import 'package:focusring/app/modules/report_info_steps/controllers/report_info_steps_controller.dart';
 import 'package:focusring/utils/chart_utils.dart';
 import 'package:focusring/views/charts/home_card/model/home_card_x.dart';
@@ -78,9 +77,9 @@ class HeartChartReportChart extends StatelessWidget {
           margin: EdgeInsets.only(left: 12.w, right: 12.w),
           child: TodayOverView(
             datas: [
-              TodayOverViewModel(title: "resting_heartrate".tr, content: "1"),
-              TodayOverViewModel(title: "max_heartrate".tr, content: "2"),
-              TodayOverViewModel(title: "min_heartrate".tr, content: "3"),
+              TodayOverViewModel(title: "resting_heartrate".tr, content: "-"),
+              TodayOverViewModel(title: "max_heartrate".tr, content: "-"),
+              TodayOverViewModel(title: "min_heartrate".tr, content: "-"),
             ],
             type: pageType,
           ),
@@ -195,7 +194,7 @@ class HeartChartReportChart extends StatelessWidget {
             margin: EdgeInsets.only(top: 25.w, left: 12.w, right: 12.w),
             child: Column(
               children: KHeartRateStatus.values
-                  .map((e) => _builditem(e, "value"))
+                  .map((e) => _builditem(e, "-"))
                   .toList(),
             ),
           ),

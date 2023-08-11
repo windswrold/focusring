@@ -43,7 +43,7 @@ class ReportInfoStressController extends GetxController {
         30,
         (index) => KChartCellData(
           x: index.toString(),
-          y: Random.secure().nextDouble() * 500,
+          y: 0,
           color:
               KStressStatus.values[Random.secure().nextInt(4)].getStatusColor(),
         ),
@@ -59,10 +59,9 @@ class ReportInfoStressController extends GetxController {
     }
     //11:30-11:59:765 steps
 
-    String text = "";
+    String text = "-";
 
     // chartTipValue.value = "${item.x}:${item.y} steps";
-    text = "aaa";
 
     chartTipValue.value = text;
     Future.delayed(const Duration(seconds: 3)).then((value) => {

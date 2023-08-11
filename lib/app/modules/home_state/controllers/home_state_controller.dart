@@ -94,7 +94,7 @@ class HomeStateController extends GetxController {
         //             30, (index) => KChartCellData(x: index.toString(), y: 1000))
         //       ]
         //     : [data],
-        date: "2023",
+        date: "empty_data".tr,
         result: "",
         resultDesc: "",
         startDesc: "",

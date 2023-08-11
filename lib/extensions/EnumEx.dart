@@ -459,6 +459,20 @@ extension KEMOTIONStatusEX on KEMOTIONStatus {
       const Color(0xFFFF8B4D),
     ][index];
   }
+
+  String getStatusDesc() {
+    if (this == KEMOTIONStatus.neutral) {
+      return "neutral".tr;
+    }
+    if (this == KEMOTIONStatus.negative) {
+      return "negative".tr;
+    }
+    if (this == KEMOTIONStatus.positive) {
+      return "positive".tr;
+    }
+
+    return "";
+  }
 }
 
 extension KStressStatusEX on KStressStatus {

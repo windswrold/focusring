@@ -31,7 +31,7 @@ class ReportInfoEmotionController extends GetxController {
     final a = Get.find<TraLedButtonController>();
     dateSc = a.displayTimeStream.listen((event) {
       vmPrint("displayTimeStream $event");
-      allResult.value = Random.secure().nextInt(1000).toString();
+      // allResult.value = Random.secure().nextInt(1000).toString();
     });
   }
 
@@ -47,7 +47,7 @@ class ReportInfoEmotionController extends GetxController {
         30,
         (index) => KChartCellData(
           x: index.toString(),
-          y: Random.secure().nextDouble() * 500,
+          y: 0,
           color: KEMOTIONStatus.positive.getStatusColor(),
         ),
       ),
@@ -55,7 +55,7 @@ class ReportInfoEmotionController extends GetxController {
         30,
         (index) => KChartCellData(
           x: index.toString(),
-          y: Random.secure().nextDouble() * 500,
+          y: 0,
           color: KEMOTIONStatus.neutral.getStatusColor(),
         ),
       ),
@@ -63,7 +63,7 @@ class ReportInfoEmotionController extends GetxController {
         30,
         (index) => KChartCellData(
           x: index.toString(),
-          y: Random.secure().nextDouble() * 500,
+          y: 0,
           color: KEMOTIONStatus.negative.getStatusColor(),
         ),
       )

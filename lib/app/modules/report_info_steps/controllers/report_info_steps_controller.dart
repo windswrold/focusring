@@ -67,7 +67,7 @@ class ReportInfoStepsController extends GetxController
   void onTapType(int type) {
     reportType.value = KReportType.values[type];
 
-    allResult.value = Random.secure().nextInt(10000).toString();
+    // allResult.value = Random.secure().nextInt(10000).toString();
 
     configCardData();
     _queryDataSource();
@@ -83,7 +83,7 @@ class ReportInfoStepsController extends GetxController
               cardIcon: "icons/mine_icon_calories",
               type: "all_xiaohao".tr,
               pageType: reportType.value,
-              value: "123 kcal"),
+              value: "0 kcal"),
         );
         datas.add(
           StepsCardModel(
@@ -91,7 +91,7 @@ class ReportInfoStepsController extends GetxController
               cardIcon: "icons/mine_icon_distance",
               type: "all_lichen".tr,
               pageType: reportType.value,
-              value: "123 kcal"),
+              value: "0 kcal"),
         );
       } else if (currentType == KHealthDataType.CALORIES_BURNED) {
         datas.add(
@@ -100,7 +100,7 @@ class ReportInfoStepsController extends GetxController
               cardIcon: "icons/mine_icon_steps",
               type: "all_stepsnum".tr,
               pageType: reportType.value,
-              value: "123 kcal"),
+              value: "0 kcal"),
         );
         datas.add(
           StepsCardModel(
@@ -108,7 +108,7 @@ class ReportInfoStepsController extends GetxController
               cardIcon: "icons/mine_icon_distance",
               type: "all_lichen".tr,
               pageType: reportType.value,
-              value: "123 kcal"),
+              value: "0 kcal"),
         );
       } else if (currentType == KHealthDataType.LiCheng) {
         datas.add(
@@ -117,7 +117,7 @@ class ReportInfoStepsController extends GetxController
               cardIcon: "icons/mine_icon_calories",
               type: "all_stepsnum".tr,
               pageType: reportType.value,
-              value: "123 kcal"),
+              value: "0 kcal"),
         );
         datas.add(
           StepsCardModel(
@@ -125,7 +125,7 @@ class ReportInfoStepsController extends GetxController
               cardIcon: "icons/mine_icon_steps",
               type: "all_stepsnum".tr,
               pageType: reportType.value,
-              value: "123 kcal"),
+              value: "0 kcal"),
         );
       }
     } else {
@@ -134,7 +134,7 @@ class ReportInfoStepsController extends GetxController
           bgIcon: "bg/weekreport_bg_steps",
           cardIcon: "icons/mine_icon_steps",
           type: "average_stepsnum".tr,
-          value: "123 kcal",
+          value: "0 kcal",
           pageType: reportType.value,
         ),
       );
@@ -144,7 +144,7 @@ class ReportInfoStepsController extends GetxController
             cardIcon: "icons/mine_icon_calories",
             type: "all_xiaohao".tr,
             pageType: reportType.value,
-            value: "123 kcal"),
+            value: "0 kcal"),
       );
       datas.add(
         StepsCardModel(
@@ -152,7 +152,7 @@ class ReportInfoStepsController extends GetxController
             cardIcon: "icons/mine_icon_distance",
             type: "all_lichen".tr,
             pageType: reportType.value,
-            value: "123 kcal"),
+            value: "0 kcal"),
       );
     }
 
@@ -166,7 +166,7 @@ class ReportInfoStepsController extends GetxController
           30,
           (index) => KChartCellData(
             x: index.toString(),
-            y: Random.secure().nextDouble() * 500,
+            y: 0,
             color: KSleepStatus.deepSleep.getStatusColor(),
           ),
         ),
@@ -174,7 +174,7 @@ class ReportInfoStepsController extends GetxController
           30,
           (index) => KChartCellData(
             x: index.toString(),
-            y: Random.secure().nextDouble() * 500,
+            y: 0,
             color: KSleepStatus.lightSleep.getStatusColor(),
           ),
         ),
@@ -182,7 +182,7 @@ class ReportInfoStepsController extends GetxController
           30,
           (index) => KChartCellData(
             x: index.toString(),
-            y: Random.secure().nextDouble() * 500,
+            y: 0,
             color: KSleepStatus.awake.getStatusColor(),
           ),
         )
@@ -192,7 +192,7 @@ class ReportInfoStepsController extends GetxController
         30,
         (index) => KChartCellData(
           x: index.toString(),
-          y: Random.secure().nextDouble() * 500,
+          y: 0,
           color: currentType.getTypeMainColor(),
         ),
       );
@@ -211,10 +211,10 @@ class ReportInfoStepsController extends GetxController
     String text = "";
     if (currentType == KHealthDataType.SLEEP) {
       // chartTipValue.value = "${item.x}:${item.y} steps";
-      text = "aaa";
+      text = "-";
     } else {
       final item = dataSource.first[index];
-      text = "${item.x}:${item.y} steps";
+      text = "- ${currentType.getSymbol()}";
     }
     chartTipValue.value = text;
     Future.delayed(const Duration(seconds: 3)).then((value) => {

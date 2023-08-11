@@ -211,5 +211,9 @@
   "empty_unbind": "当前暂无绑定设备",
   "empty_unbindtip": "是否前往绑定设备",
   "welecome_to": "欢迎来到",
-  "visit_login": "游客登录"
+  "visit_login": "游客登录",
+  "empty_data": "没有数据报告",
+  "positive": "积极",
+  "neutral": "平和",
+  "negative": "消极"
 }

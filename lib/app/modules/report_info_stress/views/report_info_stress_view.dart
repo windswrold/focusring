@@ -13,6 +13,7 @@ import '../controllers/report_info_stress_controller.dart';
 
 class ReportInfoStressView extends GetView<ReportInfoStressController> {
   const ReportInfoStressView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return KBasePageView(
@@ -134,9 +135,9 @@ class ReportInfoStressView extends GetView<ReportInfoStressController> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          _buildItem(title: "max_stress".tr, value: '111'),
+          _buildItem(title: "max_stress".tr, value: '-'),
           150.rowWidget,
-          _buildItem(title: "min_stress".tr, value: "222"),
+          _buildItem(title: "min_stress".tr, value: "-"),
         ],
       ),
     );
@@ -168,7 +169,7 @@ class ReportInfoStressView extends GetView<ReportInfoStressController> {
             ClipRRect(
               borderRadius: BorderRadius.circular(4),
               child: LinearProgressIndicator(
-                value: 0.5,
+                value: value,
                 color: status.getStatusColor(),
                 backgroundColor: ColorUtils.fromHex("#FF232126"),
                 minHeight: 8,
@@ -203,10 +204,10 @@ class ReportInfoStressView extends GetView<ReportInfoStressController> {
               ),
             ],
           ),
-          _buildItem(status: KStressStatus.normal, value: 10),
-          _buildItem(status: KStressStatus.mild, value: 10),
-          _buildItem(status: KStressStatus.moderate, value: 10),
-          _buildItem(status: KStressStatus.severe, value: 10),
+          _buildItem(status: KStressStatus.normal, value: 0),
+          _buildItem(status: KStressStatus.mild, value: 0),
+          _buildItem(status: KStressStatus.moderate, value: 0),
+          _buildItem(status: KStressStatus.severe, value: 0),
         ],
       ),
     );
