@@ -32,9 +32,9 @@
 		<true/>
 	</dict>
 	<key>NSBluetoothAlwaysUsageDescription</key>
-	<string>Need BLE permission</string>
+	<string>Beefit needs Bluetooth permissions are required to scan devices.</string>
 	<key>NSBluetoothPeripheralUsageDescription</key>
-	<string>Need BLE permission</string>
+	<string>Beefit needs Bluetooth permissions are required to scan devices.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Beefit needs your consent to access the camera identification QR code</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
