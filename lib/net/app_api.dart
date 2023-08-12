@@ -125,18 +125,16 @@ class AppApi {
 
   ///检查应用更新
   ///系统类型，android：安卓，ios：苹果
-  static VMApiStream<AppUpdateModel> checkAppUpdate(
+  static VMApiStream<VMResult> checkAppUpdate(
       {required int systemType, required String currentVersion}) {
-    return _api
-        .request(
-            re: VMRequest()
-              ..path = "/app/common/checkAppUpdate"
-              ..vmMethod = VMMethod.POST
-              ..httpBody = {
-                "systemType": systemType,
-                "currentVersion": currentVersion,
-              })
-        .convert((r) => AppUpdateModel.fromJson(r.mapResult ?? {}));
+    return _api.request(
+        re: VMRequest()
+          ..path = "/app/common/checkAppUpdate"
+          ..vmMethod = VMMethod.POST
+          ..httpBody = {
+            "systemType": systemType,
+            "currentVersion": currentVersion,
+          });
   }
 
   ///获取常见问题列表

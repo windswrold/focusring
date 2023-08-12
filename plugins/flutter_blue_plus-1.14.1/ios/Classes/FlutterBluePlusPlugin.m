@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 #import "FlutterBluePlusPlugin.h"
-#import <GRDFUSDK2/GRDFUSDK2-Swift.h>
+//#import <GRDFUSDK2/GRDFUSDK2-Swift.h>
 
 @interface ServicePair : NSObject
 @property (strong, nonatomic) CBService *primary;
@@ -37,7 +37,7 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
     verbose = 5,
 };
 
-@interface FlutterBluePlusPlugin ()<DfuListener>
+@interface FlutterBluePlusPlugin ()
 @property(nonatomic, retain) NSObject<FlutterPluginRegistrar> *registrar;
 @property(nonatomic, retain) FlutterMethodChannel *methodChannel;
 @property(nonatomic, retain) CBCentralManager *centralManager;
@@ -194,56 +194,56 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
         }
         else if ([@"startDfu" isEqualToString:call.method])
         {
-            NSDictionary *args = (NSDictionary*)call.arguments;
-            NSString * remote_id = args[@"remote_id"];
-            NSString * filePath = args[@"filePath"];
-            bool fastMode = [args[@"fastMode"] boolValue];
-            int  type = [args[@"type"] intValue]; // 0普通 1 拷贝 2 fast普通 3 fast 拷贝
-            // Find peripheral
-            CBPeripheral *peripheral = [self getConnectedPeripheral:remote_id];
-            if (peripheral == nil) {
-                NSString* s = @"peripheral not found. try reconnecting.";
-                result([FlutterError errorWithCode:@"startDfu" message:s details:NULL]);
-                return;
-            }
-            
-            // check connected
-            if (peripheral.state != CBPeripheralStateConnected) {
-                NSString* s = @"device is not connected";
-                result([FlutterError errorWithCode:@"startDfu" message:s details:NULL]);
-                return;
-            }
-            NSData * fwData = [NSData dataWithContentsOfFile:filePath];
-            if(type == 0 ){
-                
-                EasyDfu2 * dfu2   = [[EasyDfu2 alloc] init];
-                [dfu2 setListenerWithListener:self];
-                [dfu2 setFastModeWithIsFastMode:fastMode];
-                [dfu2 startDfuWithCentral:_centralManager target:peripheral dfuData:fwData];
-                
-            }else if (type ==1){
-                
-                //拷贝升级示例
-                int copyAddr = [args[@"copyAddr"] intValue];
-                EasyDfu2 * dfu2   = [EasyDfu2 init];
-                [dfu2 setListenerWithListener:self];
-                [dfu2 setFastModeWithIsFastMode:fastMode];
-                [dfu2 startDfuInCopyModeWithCentral:_centralManager target:peripheral dfuData:fwData copyAddr:copyAddr];
-            } else if (type ==2){
-                
-            }else if (type == 3){
-                
-                int copyAddr = [args[@"copyAddr"] intValue];
-                //FASTDFU拷贝升级示例
-                
-            }else{
-                
-                //FASTDFU资源升级示例
-                int toAddr = [args[@"toAddr"] intValue];
-                BOOL toExtFlash =  [args[@"toExtFlash"] boolValue];;     //YES表示升级到外部flash，NO表示升级到内部flash。
-            }
-            
-            result(@(true));
+//            NSDictionary *args = (NSDictionary*)call.arguments;
+//            NSString * remote_id = args[@"remote_id"];
+//            NSString * filePath = args[@"filePath"];
+//            bool fastMode = [args[@"fastMode"] boolValue];
+//            int  type = [args[@"type"] intValue]; // 0普通 1 拷贝 2 fast普通 3 fast 拷贝
+//            // Find peripheral
+//            CBPeripheral *peripheral = [self getConnectedPeripheral:remote_id];
+//            if (peripheral == nil) {
+//                NSString* s = @"peripheral not found. try reconnecting.";
+//                result([FlutterError errorWithCode:@"startDfu" message:s details:NULL]);
+//                return;
+//            }
+//            
+//            // check connected
+//            if (peripheral.state != CBPeripheralStateConnected) {
+//                NSString* s = @"device is not connected";
+//                result([FlutterError errorWithCode:@"startDfu" message:s details:NULL]);
+//                return;
+//            }
+//            NSData * fwData = [NSData dataWithContentsOfFile:filePath];
+//            if(type == 0 ){
+//                
+//                EasyDfu2 * dfu2   = [[EasyDfu2 alloc] init];
+//                [dfu2 setListenerWithListener:self];
+//                [dfu2 setFastModeWithIsFastMode:fastMode];
+//                [dfu2 startDfuWithCentral:_centralManager target:peripheral dfuData:fwData];
+//                
+//            }else if (type ==1){
+//                
+//                //拷贝升级示例
+//                int copyAddr = [args[@"copyAddr"] intValue];
+//                EasyDfu2 * dfu2   = [EasyDfu2 init];
+//                [dfu2 setListenerWithListener:self];
+//                [dfu2 setFastModeWithIsFastMode:fastMode];
+//                [dfu2 startDfuInCopyModeWithCentral:_centralManager target:peripheral dfuData:fwData copyAddr:copyAddr];
+//            } else if (type ==2){
+//                
+//            }else if (type == 3){
+//                
+//                int copyAddr = [args[@"copyAddr"] intValue];
+//                //FASTDFU拷贝升级示例
+//                
+//            }else{
+//                
+//                //FASTDFU资源升级示例
+//                int toAddr = [args[@"toAddr"] intValue];
+//                BOOL toExtFlash =  [args[@"toExtFlash"] boolValue];;     //YES表示升级到外部flash，NO表示升级到内部flash。
+//            }
+//            
+//            result(@(true));
         }
         else if ([@"getConnectedSystemDevices" isEqualToString:call.method])
         {

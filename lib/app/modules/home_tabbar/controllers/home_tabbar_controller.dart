@@ -1,3 +1,4 @@
+import 'package:focusring/app/data/app_update_model.dart';
 import 'package:focusring/const/constant.dart';
 import 'package:focusring/net/app_api.dart';
 import 'package:focusring/public.dart';
@@ -25,7 +26,12 @@ class HomeTabbarController extends GetxController {
     AppApi.checkAppUpdate(
             systemType: getSystemType(),
             currentVersion: GlobalValues.deviceInfo.appInfo?.version ?? "1.0.0")
-        .onSuccess((value) {
+        .onSuccess((result) {
+      if (result.mapResult == null) {
+        return;
+      }
+
+      final value = AppUpdateModel.fromJson(result.mapResult!);
       DialogUtils.defaultDialog(
         title: value.version ?? "",
         content: value.remark,
