@@ -17,6 +17,8 @@ class TestdfuController extends GetxController {
   TextEditingController copy1 = TextEditingController();
   TextEditingController copy2 = TextEditingController();
   TextEditingController copy3 = TextEditingController();
+  TextEditingController copy4 = TextEditingController();
+  TextEditingController copy5 = TextEditingController();
 
   RxBool isExtFlash = false.obs;
   RxBool isfastMode = true.obs;
@@ -26,6 +28,8 @@ class TestdfuController extends GetxController {
       onDfuProgress,
       onDfuComplete,
       receiveDataStream;
+
+  RxList<String> receDatas = RxList();
 
   @override
   void onInit() {
@@ -44,10 +48,10 @@ class TestdfuController extends GetxController {
       HWToast.showSucText(text: "onDfuComplete");
     });
 
-    // receiveDataStream = KBLEManager.receiveDataStream.listen((event) {
-    //   final a = HEX.encode(event);
-    //   HWToast.showSucText(text: "收到的数据 $a");
-    // });
+    receiveDataStream = KBLEManager.receiveDataStream.listen((event) {
+      // HWToast.showSucText(text: "收到的数据 $event");
+      receDatas.add(event);
+    });
   }
 
   @override
@@ -62,6 +66,7 @@ class TestdfuController extends GetxController {
     onDfuProgress?.cancel();
     onDfuComplete?.cancel();
     receiveDataStream?.cancel();
+    receiveDataStream = null;
     KBLEManager.clean();
     super.onClose();
   }
@@ -130,15 +135,23 @@ class TestdfuController extends GetxController {
     }
   }
 
-  void sendota() {
-    List<int> datas = [];
-    datas.addAll([0xdd, 0xdd]); //head
-    datas.addAll([0x00, 0x04]); //len = LEN1(CMD)+LEN2(TYPE)+LEN3(VALUE);
-    datas.add(0x02); // cmd
-    datas.add(0x01); // cmd
-    datas.addAll([0x01, 0x01]); // type value
+  void sendota(BLESendData send) {
     try {
-      KBLEManager.sendData(values: datas);
+      KBLEManager.sendData(sendData: send);
+    } catch (e) {
+      HWToast.showSucText(text: e.toString());
+    }
+  }
+
+  void sendcustom() {
+    var text = copy2.text;
+    if (text.isEmpty) {
+      HWToast.showSucText(text: "输入要发送的数据");
+      return;
+    }
+    final a = HEX.decode(text);
+    try {
+      KBLEManager.zhiie(datas: a);
     } catch (e) {
       HWToast.showSucText(text: e.toString());
     }

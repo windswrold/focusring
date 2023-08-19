@@ -126,20 +126,26 @@ class KBLEManager {
   }
 
   static void sendData({
-    required List<int> values,
+    required BLESendData sendData,
   }) async {
-    vmPrint("len ${values.length} sendData ${HEX.encode(values)}");
+    final datas = sendData.getData();
+    zhiie(datas: datas);
+  }
 
+  static void zhiie({
+    required List<int> datas,
+  }) async {
     if (_writeCharacteristic == null) {
       return;
     }
-    HWToast.showSucText(text: "准备发送数据 ${HEX.encode(values)}");
-    await _writeCharacteristic?.write(values, withoutResponse: true);
+
+    _nameController.add("准备发送数据 ${HEX.encode(datas)}");
+    await _writeCharacteristic?.write(datas, withoutResponse: true);
   }
 
   static void onValueReceived(List<int> values) {
     final a = HEX.encode(values);
-    _nameController.add(a);
+    _nameController.add("接收的数据: $a");
     // HWToast.showSucText(text: "收到的数据 $a");
   }
 

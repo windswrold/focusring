@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:focusring/ble/ble_config.dart';
 import 'package:focusring/ble/ble_manager.dart';
 import 'package:focusring/public.dart';
 
@@ -26,7 +27,6 @@ class TestdfuView extends GetView<TestdfuController> {
             child: Text("选择文件"),
           ),
           Text("升级操作"),
-
           Row(
             children: [
               Obx(
@@ -63,57 +63,66 @@ class TestdfuView extends GetView<TestdfuController> {
               ),
             ],
           ),
+          Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: controller.copy2,
+                  decoration: InputDecoration(
+                    hintText: "发送任意命令(不包含0x)",
+                  ),
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  controller.sendcustom();
+                },
+                child: Text("发送任意命令"),
+              ),
+            ],
+          ),
+          TextField(
+            controller: controller.copy3,
+            decoration: InputDecoration(
+              hintText: "cmd(不包含0x)",
+            ),
+          ),
+          TextField(
+            controller: controller.copy4,
+            decoration: InputDecoration(
+              hintText: "type(不包含0x)",
+            ),
+          ),
+          TextField(
+            controller: controller.copy5,
+            decoration: InputDecoration(
+              hintText: "value(不包含0x)",
+            ),
+          ),
           TextButton(
             onPressed: () {
-              controller.sendota();
-            },
-            child: Text("发送 ota 状态设定 "),
-          ),
+                
 
-          // Row(
-          //   children: [
-          //     Expanded(
-          //       child: TextField(
-          //         controller: controller.copy2,
-          //         decoration: InputDecoration(
-          //           hintText: "fast拷贝地址(不包含0x)",
-          //         ),
-          //       ),
-          //     ),
-          //     TextButton(
-          //       onPressed: () {
-          //         controller.fastCopyDFU();
-          //       },
-          //       child: Text("fast拷贝升级"),
-          //     ),
-          //   ],
-          // ),
-          // Row(
-          //   children: [
-          //     Expanded(
-          //       child: TextField(
-          //         controller: controller.copy3,
-          //         decoration: InputDecoration(
-          //           hintText: "资源地址(不包含0x)",
-          //         ),
-          //       ),
-          //     ),
-          //     Obx(
-          //       () => Switch(
-          //           value: controller.isExtFlash.value,
-          //           onChanged: (e) {
-          //             controller.onChange(e);
-          //           }),
-          //     ),
-          //     Text("外部Flash"),
-          //     TextButton(
-          //       onPressed: () {
-          //         controller.fastDFUResource();
-          //       },
-          //       child: Text("fast资源升级"),
-          //     ),
-          //   ],
-          // ),
+              BLESendData send = BLESendData(
+                  cmd: null,
+                  cmdStr: controller.copy3.text,
+                  typeStr: controller.copy4.text,
+                  valueStr: controller.copy5.text);
+
+              controller.sendota(send);
+            },
+            child: Text("发送构造命令"),
+          ),
+          const Text("收到的数据"),
+          Obx(() => Expanded(
+                child: ListView.builder(
+                  itemCount: controller.receDatas.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final value = controller.receDatas[index];
+                    return Text(value);
+                  },
+                ),
+              ))
         ],
       ),
     );

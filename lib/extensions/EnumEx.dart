@@ -624,3 +624,38 @@ extension KSexEX on KSex {
     return KSex.man;
   }
 }
+
+extension KBLECommandEX on KBLECommand {
+  String getBLECommand() {
+    String values = "";
+    if (this == KBLECommand.bindingsverify) {
+      values = "01";
+    }
+    if (this == KBLECommand.system) {
+      values = "02";
+    }
+    if (this == KBLECommand.ppg) {
+      values = "03";
+    }
+    if (this == KBLECommand.gsensor) {
+      values = "04";
+    }
+    if (this == KBLECommand.sleep) {
+      values = "05";
+    }
+    if (this == KBLECommand.battery) {
+      values = "06";
+    }
+    if (this == KBLECommand.charger) {
+      values = "07";
+    }
+    if (this == KBLECommand.factory) {
+      values = "08";
+    }
+    if (this == KBLECommand.debug) {
+      values = "09";
+    }
+
+    return values;
+  }
+}

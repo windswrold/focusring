@@ -113,6 +113,18 @@ enum KTempUnits { celsius, fahrenheit }
 
 enum KSex { man, woman }
 
+enum KBLECommand {
+  bindingsverify, //绑定认证
+  system, //系统
+  ppg,
+  gsensor,
+  sleep,
+  battery,
+  charger,
+  factory,
+  debug
+}
+
 Size calculateTextSize(
   String value,
   double fontSize,
