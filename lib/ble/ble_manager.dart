@@ -4,6 +4,7 @@ import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:focusring/app/data/ring_device.dart';
 import 'package:focusring/ble/ble_config.dart';
 import 'package:focusring/public.dart';
+import 'package:focusring/utils/hex_util.dart';
 import 'package:focusring/utils/permission.dart';
 import 'package:hex/hex.dart';
 
@@ -16,8 +17,8 @@ class KBLEManager {
 
   static BluetoothDevice? _currentDevice;
 
-  static Stream<String> get receiveDataStream => _nameController.stream;
-  static final _nameController = StreamController<String>.broadcast();
+  static Stream<String> get receiveDataStream => _receiveController.stream;
+  static final _receiveController = StreamController<String>.broadcast();
 
   static clean() {
     _allValues.clear();
@@ -106,7 +107,7 @@ class KBLEManager {
             HWToast.showSucText(text: "找到NOTIFYUUID");
             await Future.delayed(Duration(milliseconds: 500));
             _notifyCharacteristic = characteristic;
-            characteristic.setNotifyValue(true);
+            await characteristic.setNotifyValue(true);
             _notifySubscription =
                 characteristic.onValueReceived.listen((event) {
               onValueReceived(event);
@@ -139,13 +140,13 @@ class KBLEManager {
       return;
     }
 
-    _nameController.add("准备发送数据 ${HEX.encode(datas)}");
+    _receiveController.add("准备发送数据 ${HEX.encode(datas)}");
     await _writeCharacteristic?.write(datas, withoutResponse: true);
   }
 
   static void onValueReceived(List<int> values) {
-    final a = HEX.encode(values);
-    _nameController.add("接收的数据: $a");
+    final a = HEXUtil.encode(values);
+    _receiveController.add("接收的数据: $a");
     // HWToast.showSucText(text: "收到的数据 $a");
   }
 

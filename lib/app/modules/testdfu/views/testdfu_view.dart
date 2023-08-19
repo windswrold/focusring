@@ -4,7 +4,6 @@ import 'package:focusring/ble/ble_manager.dart';
 import 'package:focusring/public.dart';
 
 import 'package:get/get.dart';
-import 'package:hex/hex.dart';
 
 import '../controllers/testdfu_controller.dart';
 

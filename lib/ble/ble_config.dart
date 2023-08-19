@@ -1,5 +1,5 @@
 import 'package:focusring/public.dart';
-import 'package:hex/hex.dart';
+import 'package:focusring/utils/hex_util.dart';
 
 class BLEConfig {
   static const String SERVICEUUID = "FB349B5F-8000-0080-0010-000022220000";
@@ -41,10 +41,11 @@ class BLESendData {
   List<int> getData() {
     // len = LEN1(CMD)+LEN2(TYPE)+LEN3(VALUE);
     List<int> datas = [];
-    final master = HEX.decode(head);
-    final command = HEX.decode(cmd != null ? cmd!.getBLECommand() : cmdStr!);
-    final type = HEX.decode(typeStr);
-    final values = HEX.decode(valueStr);
+    final master = HEXUtil.decode(head);
+    final command =
+        HEXUtil.decode(cmd != null ? cmd!.getBLECommand() : cmdStr!);
+    final type = HEXUtil.decode(typeStr);
+    final values = HEXUtil.decode(valueStr);
     int length = command.length + type.length + values.length;
     int highByte = (length & 0xFF00) >> 8;
     int lowByte = length & 0x00FF;
@@ -53,7 +54,7 @@ class BLESendData {
     datas.addAll(command);
     datas.addAll(type);
     datas.addAll(values);
-    vmPrint("getData  ${HEX.encode(datas)}");
+    vmPrint("getData  ${HEXUtil.encode(datas)}");
     return datas;
   }
 }
