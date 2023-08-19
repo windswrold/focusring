@@ -240,6 +240,9 @@ class LocaleKeys {
   static const positive = 'positive';
   static const neutral = 'neutral';
   static const negative = 'negative';
+  static const max_temp = 'max_temp';
+  static const low_temp = 'low_temp';
+  static const err_temp = 'err_temp';
   static const emotion_report = 'emotion_report';
   static const about_activitytip = 'about_activitytip';
   static const about_activitytip01 = 'about_activitytip01';
@@ -481,6 +484,9 @@ class Locales {
     'positive': 'Positivo',
     'neutral': 'Neutro',
     'negative': 'Negativo',
+    'max_temp': 'Temperatura corporal máxima',
+    'low_temp': 'Temperatura corporal mais baixa',
+    'err_temp': 'número de excepções',
   };
   static const es_ES = {
     'tabbar_status': 'Estado',
@@ -713,6 +719,9 @@ class Locales {
     'positive': 'Positivo',
     'neutral': 'Neutral',
     'negative': 'Negativo',
+    'max_temp': 'Temperatura corporal máxima',
+    'low_temp': 'Temperatura corporal más baja',
+    'err_temp': 'Número de excepciones',
   };
   static const ja_JP = {
     'tabbar_status': 'ステータス',
@@ -939,6 +948,9 @@ class Locales {
     'positive': 'ポジティブ',
     'neutral': '中立',
     'negative': 'ネガティブ',
+    'max_temp': '最高体温',
+    'low_temp': '最低体温',
+    'err_temp': '例外の数',
   };
   static const zh_CN = {
     'tabbar_status': '状态',
@@ -1164,6 +1176,9 @@ class Locales {
     'positive': '积极',
     'neutral': '平和',
     'negative': '消极',
+    'max_temp': '最高体温',
+    'low_temp': '最低体温',
+    'err_temp': '异常次数',
   };
   static const it_IT = {
     'tabbar_status': 'Stato',
@@ -1397,6 +1412,9 @@ class Locales {
     'positive': 'Positivo',
     'neutral': 'Neutro',
     'negative': 'Negativo',
+    'max_temp': 'Temperatura corporea massima',
+    'low_temp': 'Temperatura corporea più bassa',
+    'err_temp': 'numero di eccezioni',
   };
   static const en_US = {
     'tabbar_status': 'Status',
@@ -1626,6 +1644,9 @@ class Locales {
     'positive': 'Positive',
     'neutral': 'Neutral',
     'negative': 'Negative',
+    'max_temp': 'Maximum body temperature',
+    'low_temp': 'Lowest body temperature',
+    'err_temp': 'number of exceptions',
   };
   static const nl_NL = {
     'tabbar_status': 'status',
@@ -1857,6 +1878,9 @@ class Locales {
     'positive': 'Positief',
     'neutral': 'Neutraal',
     'negative': 'Negatief',
+    'max_temp': 'Maximale lichaamstemperatuur',
+    'low_temp': 'Laagste lichaamstemperatuur',
+    'err_temp': 'aantal uitzonderingen',
   };
   static const da_DK = {
     'tabbar_status': 'status',
@@ -2085,6 +2109,9 @@ class Locales {
     'positive': 'Positiv',
     'neutral': 'Neutral',
     'negative': 'Negativ',
+    'max_temp': 'Maksimal kropstemperatur',
+    'low_temp': 'Minimum kropstemperatur',
+    'err_temp': 'Antal undtagelser',
   };
   static const de_DE = {
     'tabbar_status': 'Status',
@@ -2319,6 +2346,9 @@ class Locales {
     'positive': 'Positiv',
     'neutral': 'Neutral',
     'negative': 'Negativ',
+    'max_temp': 'Maximale Körpertemperatur',
+    'low_temp': 'Niedrigste Körpertemperatur',
+    'err_temp': 'Anzahl der Ausnahmen',
   };
   static const pt_BR = {
     'tabbar_status': 'Status',
@@ -2552,6 +2582,9 @@ class Locales {
     'positive': 'Positivo',
     'neutral': 'Neutro',
     'negative': 'Negativo',
+    'max_temp': 'Temperatura máxima do corpo',
+    'low_temp': 'Temperatura corporal mais baixa',
+    'err_temp': 'número de exceções',
   };
   static const fr_FR = {
     'tabbar_status': 'Statut',
@@ -2786,6 +2819,9 @@ class Locales {
     'positive': 'Positif',
     'neutral': 'Neutre',
     'negative': 'Négatif',
+    'max_temp': 'Température corporelle maximale',
+    'low_temp': 'Température corporelle la plus basse',
+    'err_temp': 'nombre d\'exceptions',
   };
   static const cs_CZ = {
     'tabbar_status': 'Stav',
@@ -3015,6 +3051,9 @@ class Locales {
     'positive': 'Pozitivní',
     'neutral': 'Neutrální',
     'negative': 'Negativní',
+    'max_temp': 'Maximální tělesná teplota',
+    'low_temp': 'Minimální tělesná teplota',
+    'err_temp': 'Počet výjimek',
   };
   static const ro_RO = {
     'tabbar_status': 'Statut',
@@ -3249,6 +3288,9 @@ class Locales {
     'positive': 'Pozitiv',
     'neutral': 'Neutru',
     'negative': 'Negativ',
+    'max_temp': 'Temperatura maximă a corpului',
+    'low_temp': 'Cea mai scăzută temperatură a corpului',
+    'err_temp': 'numărul de excepții',
   };
   static const pl_PL = {
     'tabbar_status': 'Status',
@@ -3479,5 +3521,8 @@ class Locales {
     'positive': 'Pozytywny',
     'neutral': 'Neutralny',
     'negative': 'Negatywny',
+    'max_temp': 'Maksymalna temperatura ciała',
+    'low_temp': 'Najniższa temperatura ciała',
+    'err_temp': 'liczba wyjątków',
   };
 }

@@ -5,9 +5,7 @@ import 'package:get/get.dart';
 class HomeDevicesController extends GetxController {
   //TODO: Implement HomeDevicesController
 
-  RxList<Map> my_defaultList = <Map>[].obs;
-
-  Rx<RingDevice?> connectDevice = null.obs;
+  Rx<RingDevice?> connectDevice = Rx<RingDevice?>(null);
 
   RxBool isConnect = true.obs;
   RxInt bat = 10.obs;
@@ -15,26 +13,6 @@ class HomeDevicesController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-
-    my_defaultList = [
-      {
-        "a": "icons/device_icon_hrwarning",
-        "b": "heartrate_alert",
-        "d": "On",
-      },
-      {
-        "a": "icons/device_icon_auto",
-        "b": "automatic_settings",
-      },
-      {
-        "a": "icons/device_icon_upgrade",
-        "b": "ota_upgrade",
-      },
-      {
-        "a": "icons/device_icon_reset",
-        "b": "restore_settings",
-      },
-    ].obs;
   }
 
   @override

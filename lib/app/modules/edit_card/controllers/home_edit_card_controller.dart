@@ -23,6 +23,15 @@ class HomeEditCardController extends GetxController {
     final appUserId = await SPManager.getPhoneID();
     visibleItems.value =
         await KHealthIndexModel.queryAllWithState(appUserId, true);
+    visibleItems.value = visibleItems
+        .where((p0) => p0.type != KHealthDataType.BLOOD_OXYGEN)
+        .where((p0) => p0.type != KHealthDataType.HEART_RATE)
+        .toList();
+
+    //     if (element.type == KHealthDataType.BLOOD_OXYGEN ||
+    //     element.type == KHealthDataType.HEART_RATE) {
+    //   continue;
+    // }
     hiddenItems.value =
         await KHealthIndexModel.queryAllWithState(appUserId, false);
     update();
@@ -74,8 +83,8 @@ class HomeEditCardController extends GetxController {
       KHealthIndexModel.updateTokens(visibleItems);
       KHealthIndexModel.updateTokens(hiddenItems);
       update();
-     final c  = Get.find<HomeStateController>();
-     c.initData();
+      final c = Get.find<HomeStateController>();
+      c.initData();
     } catch (e) {
       vmPrint(e.toString());
     }

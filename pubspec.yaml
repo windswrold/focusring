@@ -76,6 +76,7 @@ dependencies:
   flutter_widget_from_html: ^0.10.3
   flutter_device_identifier: ^0.0.1
   hex: ^0.2.0
+ 
   
 
 dev_dependencies:

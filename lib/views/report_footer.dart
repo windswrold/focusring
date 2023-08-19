@@ -15,7 +15,9 @@ class ReportFooter extends StatelessWidget {
       ),
       alignment: Alignment.centerLeft,
       child: (type == KHealthDataType.HEART_RATE ||
-              type == KHealthDataType.BLOOD_OXYGEN)
+              type == KHealthDataType.BLOOD_OXYGEN||
+              type == KHealthDataType.BODY_TEMPERATURE
+              )
           ? InkWell(
               onTap: () {
                 Get.toNamed(Routes.USER_MANUA_RECORD);

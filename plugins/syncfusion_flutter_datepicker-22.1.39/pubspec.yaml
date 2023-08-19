@@ -31,6 +31,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  intl: ^0.18.0
+  intl: 0.18.0
   syncfusion_flutter_core: ^22.1.39
 

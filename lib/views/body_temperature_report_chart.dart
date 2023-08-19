@@ -77,15 +77,15 @@ class BodyTemperatureReportChart extends StatelessWidget {
           margin: EdgeInsets.only(left: 12.w, right: 12.w),
           child: TodayOverView(
             datas: [
-              TodayOverViewModel(title: "max_bloodoxygen".tr, content: "-"),
-              TodayOverViewModel(title: "mininum_bloodoxygen".tr, content: "-"),
-              TodayOverViewModel(title: "exception_number".tr, content: "-"),
+              TodayOverViewModel(title: "max_temp".tr, content: "-"),
+              TodayOverViewModel(title: "low_temp".tr, content: "-"),
+              TodayOverViewModel(title: "err_temp".tr, content: "-"),
             ],
             type: pageType,
           ),
         ),
         const ReportFooter(
-          type: KHealthDataType.BLOOD_OXYGEN,
+          type: KHealthDataType.BODY_TEMPERATURE,
         ),
       ],
     );

@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Beefit</string>
+	<string>Bee Ring</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -15,7 +15,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>Beefit</string>
+	<string>Bee Ring</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -32,15 +32,17 @@
 		<true/>
 	</dict>
 	<key>NSBluetoothAlwaysUsageDescription</key>
-	<string>Beefit needs Bluetooth permissions are required to scan devices.</string>
+	<string>Bee Ring needs Bluetooth permissions are required to scan devices.</string>
 	<key>NSBluetoothPeripheralUsageDescription</key>
-	<string>Beefit needs Bluetooth permissions are required to scan devices.</string>
+	<string>Bee Ring needs Bluetooth permissions are required to scan devices.</string>
 	<key>NSCameraUsageDescription</key>
-	<string>Beefit needs your consent to access the camera identification QR code</string>
+	<string>Bee Ring needs your consent to access the camera identification QR code</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Used to capture audio for image picker plugin </string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Beefit needs your permission to add pictures to the album</string>
+	<string>Bee Ring needs your permission to add pictures to the album</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Beefit needs your permission to access the album to identify the transfer QR code</string>
+	<string>Bee Ring needs your permission to access the album to identify the transfer QR code</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
@@ -53,7 +55,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>Used to capture audio for image picker plugin </string>
 </dict>
 </plist>
