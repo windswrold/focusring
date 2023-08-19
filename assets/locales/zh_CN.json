@@ -215,5 +215,8 @@
   "empty_data": "没有数据报告",
   "positive": "积极",
   "neutral": "平和",
-  "negative": "消极"
+  "negative": "消极",
+  "max_temp": "最高体温",
+  "low_temp": "最低体温",
+  "err_temp": "异常次数"
 }

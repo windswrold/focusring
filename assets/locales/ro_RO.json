@@ -215,5 +215,8 @@
   "empty_data": "Niciun raport de date",
   "positive": "Pozitiv",
   "neutral": "Neutru",
-  "negative": "Negativ"
+  "negative": "Negativ",
+  "max_temp": "Temperatura maximă a corpului",
+  "low_temp": "Cea mai scăzută temperatură a corpului",
+  "err_temp": "numărul de excepții"
 }

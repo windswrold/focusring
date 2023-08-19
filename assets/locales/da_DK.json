@@ -215,5 +215,8 @@
   "empty_data": "Ingen data rapport",
   "positive": "Positiv",
   "neutral": "Neutral",
-  "negative": "Negativ"
+  "negative": "Negativ",
+  "max_temp": "Maksimal kropstemperatur",
+  "low_temp": "Minimum kropstemperatur",
+  "err_temp": "Antal undtagelser"
 }

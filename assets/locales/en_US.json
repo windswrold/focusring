@@ -215,5 +215,8 @@
   "empty_data": "No data report",
   "positive": "Positive",
   "neutral": "Neutral",
-  "negative": "Negative"
+  "negative": "Negative",
+  "max_temp": "Maximum body temperature",
+  "low_temp": "Lowest body temperature",
+  "err_temp": "number of exceptions"
 }

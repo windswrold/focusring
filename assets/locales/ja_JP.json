@@ -215,5 +215,8 @@
   "empty_data": "データレポートがありません",
   "positive": "ポジティブ",
   "neutral": "中立",
-  "negative": "ネガティブ"
+  "negative": "ネガティブ",
+  "max_temp": "最高体温",
+  "low_temp": "最低体温",
+  "err_temp": "例外の数"
 }

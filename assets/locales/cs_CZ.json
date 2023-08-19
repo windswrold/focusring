@@ -215,5 +215,8 @@
   "empty_data": "Žádná datová zpráva",
   "positive": "Pozitivní",
   "neutral": "Neutrální",
-  "negative": "Negativní"
+  "negative": "Negativní",
+  "max_temp": "Maximální tělesná teplota",
+  "low_temp": "Minimální tělesná teplota",
+  "err_temp": "Počet výjimek"
 }

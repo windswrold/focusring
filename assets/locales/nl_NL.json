@@ -215,5 +215,8 @@
   "empty_data": "Geen data rapport",
   "positive": "Positief",
   "neutral": "Neutraal",
-  "negative": "Negatief"
+  "negative": "Negatief",
+  "max_temp": "Maximale lichaamstemperatuur",
+  "low_temp": "Laagste lichaamstemperatuur",
+  "err_temp": "aantal uitzonderingen"
 }
