@@ -69,7 +69,7 @@ class SettingUserInfoController extends GetxController {
           arrs[selectIndex];
     }
 
-    AppApi.editUserInfo(model: params).onSuccess((value) {
+    AppApi.editUserInfoStream(model: params).onSuccess((value) {
       HWToast.showSucText(text: "modify_success".tr);
       // Get.backDelay();
     }).onError((r) {

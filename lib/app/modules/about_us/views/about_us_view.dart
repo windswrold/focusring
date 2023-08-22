@@ -15,7 +15,7 @@ class AboutUsView extends GetView<AboutUsController> {
   }) {
     return InkWell(
       onTap: () {
-        controller.onTapList(index);
+        controller.tapList(index);
       },
       child: Container(
         padding:

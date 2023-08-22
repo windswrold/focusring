@@ -41,7 +41,7 @@ class AppViewController extends GetxController {
       KBaseHealthType.insertTokens(KBaseHealthType.defaultList(id));
     }
 
-    AppApi.visitorLogin(
+    AppApi.visitorLoginStream(
       phoneId: id,
       systemType: getSystemType(),
     ).onError((r) {
@@ -60,7 +60,7 @@ class AppViewController extends GetxController {
   }
 
   void getUserInfo() async {
-    AppApi.getUserInfo().onError((r) {
+    AppApi.getUserInfoStream().onError((r) {
       HWToast.showErrText(text: r.error ?? "a");
     }).onSuccess((value) {
       user.value = value;

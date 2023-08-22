@@ -25,7 +25,7 @@ class LoginViewController extends GetxController {
 
   void onTapLogin() async {
     final id = await SPManager.getPhoneID();
-    AppApi.visitorLogin(
+    AppApi.visitorLoginStream(
       phoneId: id,
       systemType: getSystemType(),
     ).onError((r) {

@@ -32,7 +32,7 @@ class FaqViewController extends GetxController {
   }
 
   void _initData() {
-    AppApi.commonFaq().onSuccess((value) {
+    AppApi.commonFaqStream().onSuccess((value) {
       datas.value = value;
     }).onError((r) {
       HWToast.showSucText(text: r.error ?? "");
@@ -48,7 +48,7 @@ class FaqViewController extends GetxController {
     var item = datas[index];
     HWToast.showLoading();
 
-    AppApi.commonFaqDetail(model: item).onSuccess((value) {
+    AppApi.commonFaqDetailStream(model: item).onSuccess((value) {
       HWToast.hiddenAllToast();
       Get.toNamed(Routes.COMMON_HTML_VIEW, arguments: value.responseBody);
     }).onError((r) {

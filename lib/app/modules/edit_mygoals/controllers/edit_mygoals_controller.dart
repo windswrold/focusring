@@ -77,7 +77,7 @@ class EditMygoalsController extends GetxController {
       "sleepPlan": my_defaultList[3]["v"],
     };
     HWToast.showLoading();
-    AppApi.editUserInfo(model: params).onSuccess((value) {
+    AppApi.editUserInfoStream(model: params).onSuccess((value) {
       HWToast.showSucText(text: "modify_success".tr);
       Get.backDelay();
     }).onError((r) {

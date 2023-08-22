@@ -23,7 +23,7 @@ class HomeTabbarController extends GetxController {
   }
 
   void _initData() async {
-    AppApi.checkAppUpdate(
+    AppApi.checkAppUpdateStream(
             systemType: getSystemType(),
             currentVersion: GlobalValues.appInfo?.version ?? "1.0.0")
         .onSuccess((result) {

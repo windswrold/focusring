@@ -59,7 +59,7 @@ class HeartrateAlertController extends GetxController {
   }
 
   void _requestData(Map<String, dynamic> params) {
-    AppApi.editUserInfo(model: params).onSuccess((value) {
+    AppApi.editUserInfoStream(model: params).onSuccess((value) {
       HWToast.showSucText(text: "modify_success".tr);
       // Get.backDelay();
     }).onError((r) {

@@ -46,7 +46,7 @@ class AppApi {
       });
 
   ///绑定设备
-  static VMApiStream<VMResult> bindDevice({required String mac}) {
+  static VMApiStream<VMResult> bindDeviceStream({required String mac}) {
     return _api.request(
       re: VMRequest()
         ..vmMethod = VMMethod.POST
@@ -59,7 +59,7 @@ class AppApi {
   }
 
   ///获取最新版本的固件
-  static VMApiStream<FirmwareVersionModel> getLatestFirmware() {
+  static VMApiStream<FirmwareVersionModel> getLatestFirmwareStream() {
     return _api
         .request(
       re: VMRequest()
@@ -74,7 +74,7 @@ class AppApi {
   }
 
   ///解绑设备，不传mac地址，默认解绑当前绑定的设备
-  static VMApiStream<VMResult> unBindDevice({String? mac}) {
+  static VMApiStream<VMResult> unBindDeviceStream({String? mac}) {
     return _api.request(
       re: VMRequest()
         ..vmMethod = VMMethod.POST
@@ -88,7 +88,7 @@ class AppApi {
 
   ///查询数据
   ///数据类型；bloodOxygen：血氧；femalePeriod：女性生理期；heartRate：心率；sleep 睡眠；step 计步；temp：温度
-  static VMApiStream<VMResult> queryAppData(
+  static VMApiStream<VMResult> queryAppDataStream(
       {String? dataType, required String startTime, required String endTime}) {
     return _api.request(
       re: VMRequest()
@@ -104,7 +104,7 @@ class AppApi {
   }
 
   ///上传数据
-  static VMApiStream<VMResult> uploadAppData({dynamic params}) {
+  static VMApiStream<VMResult> uploadAppDataStream({dynamic params}) {
     return _api.request(
       re: VMRequest()
         ..vmMethod = VMMethod.POST
@@ -117,7 +117,7 @@ class AppApi {
   }
 
   ///上传数据
-  static VMApiStream<VMResult> queryAgreement() {
+  static VMApiStream<VMResult> queryAgreementStream() {
     return _api.request(
       re: VMRequest()..path = "/app/common/agreement",
     );
@@ -125,7 +125,7 @@ class AppApi {
 
   ///检查应用更新
   ///系统类型，android：安卓，ios：苹果
-  static VMApiStream<VMResult> checkAppUpdate(
+  static VMApiStream<VMResult> checkAppUpdateStream(
       {required int systemType, required String currentVersion}) {
     return _api.request(
         re: VMRequest()
@@ -138,7 +138,7 @@ class AppApi {
   }
 
   ///获取常见问题列表
-  static VMApiStream<List<KCommonFaqsModel>> commonFaq() {
+  static VMApiStream<List<KCommonFaqsModel>> commonFaqStream() {
     return _api
         .request(
             re: VMRequest()
@@ -152,7 +152,7 @@ class AppApi {
   }
 
   ///获取常见问题详情
-  static VMApiStream<VMResult> commonFaqDetail(
+  static VMApiStream<VMResult> commonFaqDetailStream(
       {required KCommonFaqsModel model}) {
     return _api.request(
       re: VMRequest()
@@ -166,7 +166,7 @@ class AppApi {
   }
 
   ///App用户相关接口
-  static VMApiStream<VMResult> editUserInfo(
+  static VMApiStream<VMResult> editUserInfoStream(
       {required Map<String, dynamic> model}) {
     return _api
         .request(
@@ -182,7 +182,7 @@ class AppApi {
   }
 
   ///意见反馈
-  static VMApiStream<VMResult> feedback(
+  static VMApiStream<VMResult> feedbackStream(
       {required String content,
       required String questionType,
       required String phoneNumber}) {
@@ -199,7 +199,7 @@ class AppApi {
   }
 
   ///获取用户信息
-  static VMApiStream<UserInfoModel> getUserInfo() {
+  static VMApiStream<UserInfoModel> getUserInfoStream() {
     return _api
         .request(
             re: VMRequest()
@@ -212,7 +212,7 @@ class AppApi {
   ///App游客登录
   /////手机唯一标识
   ///系统类型，android：安卓，ios：苹果
-  static VMApiStream<UserInfoModel> visitorLogin(
+  static VMApiStream<UserInfoModel> visitorLoginStream(
       {required String phoneId, required int systemType}) {
     return _api
         .request(

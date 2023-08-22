@@ -45,7 +45,7 @@ class UnitSystemController extends GetxController {
       "tempUnit": tempUnits.value.getRaw(),
     };
 
-    AppApi.editUserInfo(model: params).onSuccess((value) {
+    AppApi.editUserInfoStream(model: params).onSuccess((value) {
       HWToast.showSucText(text: "modify_success".tr);
       Get.backDelay();
     }).onError((r) {

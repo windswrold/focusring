@@ -32,10 +32,10 @@ class AboutUsController extends GetxController {
     super.onClose();
   }
 
-  void onTapList(int index) {
+  void tapList(int index) {
     HWToast.showLoading();
 
-    AppApi.queryAgreement().onSuccess((value) {
+    AppApi.queryAgreementStream().onSuccess((value) {
       HWToast.hiddenAllToast();
       Get.toNamed(Routes.COMMON_HTML_VIEW, arguments: value.responseBody);
     }).onError((r) {
