@@ -13,6 +13,9 @@ class HEXUtil {
   static List<int> decode(String encoded) {
     try {
       encoded = encoded.replaceFirst("0x", "");
+      if (encoded.length == 1) {
+        encoded = "0$encoded";
+      }
       return HEX.decode(encoded);
     } catch (e) {
       assert(false, e);

@@ -1,4 +1,4 @@
-import 'package:focusring/utils/console_logger.dart';
+import 'package:beering/utils/console_logger.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../public.dart';
 

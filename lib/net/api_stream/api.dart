@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:typed_data';
-import 'package:focusring/const/constant.dart';
-import 'package:focusring/utils/sp_manager.dart';
+import 'package:beering/const/constant.dart';
+import 'package:beering/utils/sp_manager.dart';
 
 import '../../utils/console_logger.dart';
 import '../interceptors/base_interceptor.dart';

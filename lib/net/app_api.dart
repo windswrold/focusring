@@ -1,14 +1,14 @@
 import 'package:dio/dio.dart';
-import 'package:focusring/app/data/app_update_model.dart';
-import 'package:focusring/app/data/common_faq.dart';
-import 'package:focusring/app/data/firmware_version_model.dart';
-import 'package:focusring/app/data/user_info.dart';
-import 'package:focusring/app/modules/app_view/controllers/app_view_controller.dart';
-import 'package:focusring/const/constant.dart';
-import 'package:focusring/net/api_stream/api.dart';
-import 'package:focusring/net/api_stream/network.dart';
-import 'package:focusring/public.dart' as prefix;
-import 'package:focusring/utils/sp_manager.dart';
+import 'package:beering/app/data/app_update_model.dart';
+import 'package:beering/app/data/common_faq.dart';
+import 'package:beering/app/data/firmware_version_model.dart';
+import 'package:beering/app/data/user_info.dart';
+import 'package:beering/app/modules/app_view/controllers/app_view_controller.dart';
+import 'package:beering/const/constant.dart';
+import 'package:beering/net/api_stream/api.dart';
+import 'package:beering/net/api_stream/network.dart';
+import 'package:beering/public.dart' as prefix;
+import 'package:beering/utils/sp_manager.dart';
 import 'package:get/get_core/get_core.dart';
 import 'api_stream/header.dart';
 

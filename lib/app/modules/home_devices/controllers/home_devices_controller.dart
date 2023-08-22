@@ -1,5 +1,5 @@
-import 'package:focusring/app/data/ring_device.dart';
-import 'package:focusring/public.dart';
+import 'package:beering/app/data/ring_device.dart';
+import 'package:beering/public.dart';
 import 'package:get/get.dart';
 
 class HomeDevicesController extends GetxController {

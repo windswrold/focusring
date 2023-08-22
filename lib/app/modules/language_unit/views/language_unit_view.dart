@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:focusring/generated/locales.g.dart';
-import 'package:focusring/utils/console_logger.dart';
-import 'package:focusring/utils/localeManager.dart';
-import 'package:focusring/views/base/base_pageview.dart';
+import 'package:beering/generated/locales.g.dart';
+import 'package:beering/utils/console_logger.dart';
+import 'package:beering/utils/localeManager.dart';
+import 'package:beering/views/base/base_pageview.dart';
 
 import 'package:get/get.dart';
 

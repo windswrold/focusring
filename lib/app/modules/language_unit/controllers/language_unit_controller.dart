@@ -1,6 +1,6 @@
-import 'package:focusring/generated/locales.g.dart';
-import 'package:focusring/utils/console_logger.dart';
-import 'package:focusring/utils/localeManager.dart';
+import 'package:beering/generated/locales.g.dart';
+import 'package:beering/utils/console_logger.dart';
+import 'package:beering/utils/localeManager.dart';
 import 'package:get/get.dart';
 
 import '../../../../public.dart';

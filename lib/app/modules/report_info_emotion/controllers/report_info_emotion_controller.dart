@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:focusring/public.dart';
-import 'package:focusring/views/charts/home_card/model/home_card_x.dart';
-import 'package:focusring/views/tra_led_button.dart';
+import 'package:beering/public.dart';
+import 'package:beering/views/charts/home_card/model/home_card_x.dart';
+import 'package:beering/views/tra_led_button.dart';
 import 'package:get/get.dart';
 
 class ReportInfoEmotionController extends GetxController {

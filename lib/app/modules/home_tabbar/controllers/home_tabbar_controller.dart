@@ -1,7 +1,7 @@
-import 'package:focusring/app/data/app_update_model.dart';
-import 'package:focusring/const/constant.dart';
-import 'package:focusring/net/app_api.dart';
-import 'package:focusring/public.dart';
+import 'package:beering/app/data/app_update_model.dart';
+import 'package:beering/const/constant.dart';
+import 'package:beering/net/app_api.dart';
+import 'package:beering/public.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 

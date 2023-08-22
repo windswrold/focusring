@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:focusring/utils/date_util.dart';
+import 'package:beering/utils/date_util.dart';
 
 import '../public.dart';
 

@@ -1,10 +1,10 @@
 import 'package:flutter_device_identifier/flutter_device_identifier.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:focusring/app/data/user_info.dart';
-import 'package:focusring/public.dart';
-import 'package:focusring/utils/json_util.dart';
-import 'package:focusring/utils/localeManager.dart';
-import 'package:focusring/utils/permission.dart';
+import 'package:beering/app/data/user_info.dart';
+import 'package:beering/public.dart';
+import 'package:beering/utils/json_util.dart';
+import 'package:beering/utils/localeManager.dart';
+import 'package:beering/utils/permission.dart';
 import 'package:http/retry.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';

@@ -1,5 +1,5 @@
-import 'package:focusring/public.dart';
-import 'package:focusring/utils/hex_util.dart';
+import 'package:beering/public.dart';
+import 'package:beering/utils/hex_util.dart';
 
 class BLEConfig {
   static const String SERVICEUUID = "FB349B5F-8000-0080-0010-000022220000";

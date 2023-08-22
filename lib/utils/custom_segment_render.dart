@@ -1,5 +1,5 @@
-import 'package:focusring/public.dart';
-import 'package:focusring/views/charts/home_card/model/home_card_x.dart';
+import 'package:beering/public.dart';
+import 'package:beering/views/charts/home_card/model/home_card_x.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class CustomRangeColumnRenderer extends RangeColumnSeriesRenderer {

@@ -1,4 +1,4 @@
-import 'package:focusring/net/app_api.dart';
+import 'package:beering/net/app_api.dart';
 import 'package:get/get.dart';
 
 import '../../../../public.dart';

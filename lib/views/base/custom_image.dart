@@ -1,5 +1,5 @@
 import 'package:extended_image/extended_image.dart';
-import 'package:focusring/const/constant.dart';
+import 'package:beering/const/constant.dart';
 
 import '../../public.dart';
 

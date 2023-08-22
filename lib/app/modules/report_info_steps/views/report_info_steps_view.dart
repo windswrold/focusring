@@ -2,16 +2,16 @@ import 'dart:math';
 
 import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:flutter/material.dart';
-import 'package:focusring/theme/theme.dart';
-import 'package:focusring/views/bloodoxygen_report_chart.dart';
-import 'package:focusring/views/body_temperature_report_chart.dart';
-import 'package:focusring/views/charts/home_card/model/home_card_x.dart';
-import 'package:focusring/views/charts/progress_chart.dart';
-import 'package:focusring/views/heartrate_report_chart.dart';
-import 'package:focusring/views/sleep_time_report_chart.dart';
-import 'package:focusring/views/steps_licheng_report_chart.dart';
-import 'package:focusring/views/target_completion_rate.dart';
-import 'package:focusring/views/tra_led_button.dart';
+import 'package:beering/theme/theme.dart';
+import 'package:beering/views/bloodoxygen_report_chart.dart';
+import 'package:beering/views/body_temperature_report_chart.dart';
+import 'package:beering/views/charts/home_card/model/home_card_x.dart';
+import 'package:beering/views/charts/progress_chart.dart';
+import 'package:beering/views/heartrate_report_chart.dart';
+import 'package:beering/views/sleep_time_report_chart.dart';
+import 'package:beering/views/steps_licheng_report_chart.dart';
+import 'package:beering/views/target_completion_rate.dart';
+import 'package:beering/views/tra_led_button.dart';
 
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';

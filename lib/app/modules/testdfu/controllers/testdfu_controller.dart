@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
-import 'package:focusring/app/data/ring_device.dart';
-import 'package:focusring/ble/ble_config.dart';
-import 'package:focusring/ble/ble_manager.dart';
+import 'package:beering/app/data/ring_device.dart';
+import 'package:beering/ble/ble_config.dart';
+import 'package:beering/ble/ble_manager.dart';
 import 'package:get/get.dart';
 import 'package:hex/hex.dart';
 

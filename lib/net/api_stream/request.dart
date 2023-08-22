@@ -1,4 +1,4 @@
-import 'package:focusring/extensions/MapEx.dart';
+import 'package:beering/extensions/MapEx.dart';
 
 import '../../utils/cahce_manager.dart';
 

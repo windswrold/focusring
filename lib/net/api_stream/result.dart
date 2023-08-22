@@ -1,5 +1,5 @@
-import 'package:focusring/extensions/StringEx.dart';
-import 'package:focusring/net/api_stream/request.dart';
+import 'package:beering/extensions/StringEx.dart';
+import 'package:beering/net/api_stream/request.dart';
 import '../../extensions/MapEx.dart';
 
 enum VMResultType { none, cancelled, connectionError, apiFailed, successful }

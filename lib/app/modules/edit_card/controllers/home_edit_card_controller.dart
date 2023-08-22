@@ -1,7 +1,7 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:drag_and_drop_lists/drag_and_drop_lists.dart';
-import 'package:focusring/app/data/card_health_index.dart';
-import 'package:focusring/app/modules/home_state/controllers/home_state_controller.dart';
+import 'package:beering/app/data/card_health_index.dart';
+import 'package:beering/app/modules/home_state/controllers/home_state_controller.dart';
 import 'package:get/get.dart';
 
 import '../../../../public.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:focusring/const/constant.dart';
-import 'package:focusring/public.dart';
+import 'package:beering/const/constant.dart';
+import 'package:beering/public.dart';
 
 class KTheme {
   static final _light = ThemeData(

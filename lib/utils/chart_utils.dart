@@ -1,4 +1,4 @@
-import 'package:focusring/utils/custom_segment_render.dart';
+import 'package:beering/utils/custom_segment_render.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../public.dart';

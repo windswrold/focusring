@@ -1,6 +1,6 @@
-import 'package:focusring/app/routes/app_pages.dart';
-import 'package:focusring/net/app_api.dart';
-import 'package:focusring/utils/custom_toast.dart';
+import 'package:beering/app/routes/app_pages.dart';
+import 'package:beering/net/app_api.dart';
+import 'package:beering/utils/custom_toast.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 

@@ -1,5 +1,5 @@
-import 'package:focusring/net/app_api.dart';
-import 'package:focusring/public.dart';
+import 'package:beering/net/app_api.dart';
+import 'package:beering/public.dart';
 import 'package:get/get.dart';
 
 class HeartrateAlertController extends GetxController {

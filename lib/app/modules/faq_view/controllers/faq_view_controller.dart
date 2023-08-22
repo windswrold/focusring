@@ -1,7 +1,7 @@
-import 'package:focusring/app/data/common_faq.dart';
-import 'package:focusring/app/routes/app_pages.dart';
-import 'package:focusring/net/app_api.dart';
-import 'package:focusring/utils/custom_toast.dart';
+import 'package:beering/app/data/common_faq.dart';
+import 'package:beering/app/routes/app_pages.dart';
+import 'package:beering/net/app_api.dart';
+import 'package:beering/utils/custom_toast.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 

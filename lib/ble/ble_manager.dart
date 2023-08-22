@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
-import 'package:focusring/app/data/ring_device.dart';
-import 'package:focusring/ble/ble_config.dart';
-import 'package:focusring/public.dart';
-import 'package:focusring/utils/hex_util.dart';
-import 'package:focusring/utils/permission.dart';
+import 'package:beering/app/data/ring_device.dart';
+import 'package:beering/ble/ble_config.dart';
+import 'package:beering/public.dart';
+import 'package:beering/utils/hex_util.dart';
+import 'package:beering/utils/permission.dart';
 import 'package:hex/hex.dart';
 
 class KBLEManager {

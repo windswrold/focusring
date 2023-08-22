@@ -1,6 +1,6 @@
-import 'package:focusring/net/app_api.dart';
-import 'package:focusring/public.dart';
-import 'package:focusring/views/dialog_widgets/dialog_utils.dart';
+import 'package:beering/net/app_api.dart';
+import 'package:beering/public.dart';
+import 'package:beering/views/dialog_widgets/dialog_utils.dart';
 import 'package:get/get.dart';
 
 class SettingUserInfoController extends GetxController {

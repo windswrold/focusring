@@ -1,7 +1,7 @@
 import 'package:floor/floor.dart';
-import 'package:focusring/db/database.dart';
-import 'package:focusring/db/database_config.dart';
-import 'package:focusring/public.dart';
+import 'package:beering/db/database.dart';
+import 'package:beering/db/database_config.dart';
+import 'package:beering/public.dart';
 
 const String tableName = 'health_index_table';
 

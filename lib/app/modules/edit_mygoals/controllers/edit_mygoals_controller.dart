@@ -1,8 +1,8 @@
-import 'package:focusring/app/modules/app_view/controllers/app_view_controller.dart';
-import 'package:focusring/net/app_api.dart';
-import 'package:focusring/public.dart';
-import 'package:focusring/utils/console_logger.dart';
-import 'package:focusring/views/dialog_widgets/controllers/dialog_modify_goals_controller.dart';
+import 'package:beering/app/modules/app_view/controllers/app_view_controller.dart';
+import 'package:beering/net/app_api.dart';
+import 'package:beering/public.dart';
+import 'package:beering/utils/console_logger.dart';
+import 'package:beering/views/dialog_widgets/controllers/dialog_modify_goals_controller.dart';
 import 'package:get/get.dart';
 
 class EditMygoalsController extends GetxController {

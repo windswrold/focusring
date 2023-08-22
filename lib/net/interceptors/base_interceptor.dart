@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:focusring/public.dart';
-import 'package:focusring/utils/localeManager.dart';
+import 'package:beering/public.dart';
+import 'package:beering/utils/localeManager.dart';
 
 class BaseInterceptor extends InterceptorsWrapper {
   final Dio _dio;

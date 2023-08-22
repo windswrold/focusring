@@ -1,6 +1,6 @@
-import 'package:focusring/views/dialog_widgets/dialog_header.dart';
-import 'package:focusring/views/dialog_widgets/views/dialog_modify_goals.dart';
-import 'package:focusring/views/dialog_widgets/views/dialog_defaultpicker.dart';
+import 'package:beering/views/dialog_widgets/dialog_header.dart';
+import 'package:beering/views/dialog_widgets/views/dialog_modify_goals.dart';
+import 'package:beering/views/dialog_widgets/views/dialog_defaultpicker.dart';
 import '../../public.dart';
 
 class DialogUtils {

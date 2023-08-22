@@ -1,10 +1,10 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:focusring/app/routes/app_pages.dart';
-import 'package:focusring/generated/locales.g.dart';
-import 'package:focusring/theme/theme.dart';
-import 'package:focusring/utils/localeManager.dart';
+import 'package:beering/app/routes/app_pages.dart';
+import 'package:beering/generated/locales.g.dart';
+import 'package:beering/theme/theme.dart';
+import 'package:beering/utils/localeManager.dart';
 
 import 'package:get/get.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';

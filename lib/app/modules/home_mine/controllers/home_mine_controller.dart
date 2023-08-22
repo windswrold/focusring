@@ -1,8 +1,8 @@
-import 'package:focusring/app/routes/app_pages.dart';
-import 'package:focusring/generated/locales.g.dart';
-import 'package:focusring/public.dart';
-import 'package:focusring/utils/console_logger.dart';
-import 'package:focusring/views/dialog_widgets/controllers/dialog_modify_goals_controller.dart';
+import 'package:beering/app/routes/app_pages.dart';
+import 'package:beering/generated/locales.g.dart';
+import 'package:beering/public.dart';
+import 'package:beering/utils/console_logger.dart';
+import 'package:beering/views/dialog_widgets/controllers/dialog_modify_goals_controller.dart';
 import 'package:get/get.dart';
 
 class HomeMineController extends GetxController {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:focusring/public.dart';
-import 'package:focusring/utils/custom_toast.dart';
+import 'package:beering/public.dart';
+import 'package:beering/utils/custom_toast.dart';
 
 import 'package:get/get.dart';
 import '../controllers/device_info_controller.dart';

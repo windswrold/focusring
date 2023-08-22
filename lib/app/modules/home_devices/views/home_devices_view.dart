@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:focusring/app/data/ring_device.dart';
-import 'package:focusring/app/modules/app_view/controllers/app_view_controller.dart';
+import 'package:beering/app/data/ring_device.dart';
+import 'package:beering/app/modules/app_view/controllers/app_view_controller.dart';
 
 import '../../../../public.dart';
 import '../controllers/home_devices_controller.dart';

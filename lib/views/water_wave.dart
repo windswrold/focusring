@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math show sin, pi, sqrt;
 
-import 'package:focusring/public.dart';
+import 'package:beering/public.dart';
 
 class KRippleWave extends StatefulWidget {
   const KRippleWave({

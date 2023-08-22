@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:floor/floor.dart';
-import 'package:focusring/app/data/card_health_index.dart';
-import 'package:focusring/app/data/ring_device.dart';
-import 'package:focusring/const/constant.dart';
+import 'package:beering/app/data/card_health_index.dart';
+import 'package:beering/app/data/ring_device.dart';
+import 'package:beering/const/constant.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
 part 'database.g.dart';
 

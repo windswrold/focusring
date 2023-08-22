@@ -1,4 +1,4 @@
-import 'package:focusring/const/constant.dart';
+import 'package:beering/const/constant.dart';
 
 import 'home_card_x.dart';
 

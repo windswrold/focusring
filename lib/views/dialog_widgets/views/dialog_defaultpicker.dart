@@ -7,7 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:focusring/public.dart';
+import 'package:beering/public.dart';
 
 // Eyeballed values comparing with a native picker to produce the right
 // curvatures and densities.

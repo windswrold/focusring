@@ -1,9 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:focusring/public.dart';
-import 'package:focusring/utils/chart_utils.dart';
-import 'package:focusring/views/base/base_pageview.dart';
+import 'package:beering/public.dart';
+import 'package:beering/utils/chart_utils.dart';
+import 'package:beering/views/base/base_pageview.dart';
 
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';

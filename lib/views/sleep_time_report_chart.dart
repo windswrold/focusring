@@ -1,11 +1,11 @@
 import 'dart:math';
 
-import 'package:focusring/app/modules/app_view/controllers/app_view_controller.dart';
-import 'package:focusring/app/modules/report_info_steps/controllers/report_info_steps_controller.dart';
-import 'package:focusring/theme/theme.dart';
-import 'package:focusring/utils/chart_utils.dart';
-import 'package:focusring/views/report_footer.dart';
-import 'package:focusring/views/target_completion_rate.dart';
+import 'package:beering/app/modules/app_view/controllers/app_view_controller.dart';
+import 'package:beering/app/modules/report_info_steps/controllers/report_info_steps_controller.dart';
+import 'package:beering/theme/theme.dart';
+import 'package:beering/utils/chart_utils.dart';
+import 'package:beering/views/report_footer.dart';
+import 'package:beering/views/target_completion_rate.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 

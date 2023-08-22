@@ -1,7 +1,7 @@
-import 'package:focusring/app/modules/home_state/controllers/home_state_controller.dart';
-import 'package:focusring/net/app_api.dart';
-import 'package:focusring/public.dart';
-import 'package:focusring/utils/sp_manager.dart';
+import 'package:beering/app/modules/home_state/controllers/home_state_controller.dart';
+import 'package:beering/net/app_api.dart';
+import 'package:beering/public.dart';
+import 'package:beering/utils/sp_manager.dart';
 import 'package:get/get.dart';
 
 class LoginViewController extends GetxController {

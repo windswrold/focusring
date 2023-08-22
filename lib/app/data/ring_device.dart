@@ -1,6 +1,6 @@
 import 'package:floor/floor.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
-import 'package:focusring/db/database_config.dart';
+import 'package:beering/db/database_config.dart';
 
 const String tableName = 'ring_device_table';
 

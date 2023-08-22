@@ -2,7 +2,7 @@
 import 'dart:convert';
 import 'dart:math';
 
-import 'package:focusring/public.dart';
+import 'package:beering/public.dart';
 import 'package:hex/hex.dart';
 
 extension ListEx<E> on List<E> {

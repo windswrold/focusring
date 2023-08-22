@@ -9,7 +9,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:focusring/app/modules/home_tabbar/views/home_tabbar_view.dart';
+import 'package:beering/app/modules/home_tabbar/views/home_tabbar_view.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {

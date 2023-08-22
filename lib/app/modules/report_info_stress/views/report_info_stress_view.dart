@@ -1,10 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:focusring/public.dart';
-import 'package:focusring/utils/chart_utils.dart';
-import 'package:focusring/views/charts/home_card/model/home_card_x.dart';
-import 'package:focusring/views/tra_led_button.dart';
+import 'package:beering/public.dart';
+import 'package:beering/utils/chart_utils.dart';
+import 'package:beering/views/charts/home_card/model/home_card_x.dart';
+import 'package:beering/views/tra_led_button.dart';
 
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';

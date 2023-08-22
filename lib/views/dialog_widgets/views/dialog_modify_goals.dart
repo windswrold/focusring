@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:focusring/views/dialog_widgets/controllers/dialog_modify_goals_controller.dart';
-import 'package:focusring/views/dialog_widgets/dialog_header.dart';
+import 'package:beering/views/dialog_widgets/controllers/dialog_modify_goals_controller.dart';
+import 'package:beering/views/dialog_widgets/dialog_header.dart';
 
 import '../../../public.dart';
 

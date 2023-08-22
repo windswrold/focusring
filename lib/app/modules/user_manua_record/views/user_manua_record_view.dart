@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:focusring/public.dart';
+import 'package:beering/public.dart';
 
 import 'package:get/get.dart';
 

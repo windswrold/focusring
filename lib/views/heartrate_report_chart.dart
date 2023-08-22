@@ -1,8 +1,8 @@
-import 'package:focusring/app/modules/report_info_steps/controllers/report_info_steps_controller.dart';
-import 'package:focusring/utils/chart_utils.dart';
-import 'package:focusring/views/charts/home_card/model/home_card_x.dart';
-import 'package:focusring/views/report_footer.dart';
-import 'package:focusring/views/today_overview.dart';
+import 'package:beering/app/modules/report_info_steps/controllers/report_info_steps_controller.dart';
+import 'package:beering/utils/chart_utils.dart';
+import 'package:beering/views/charts/home_card/model/home_card_x.dart';
+import 'package:beering/views/report_footer.dart';
+import 'package:beering/views/today_overview.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import '../public.dart';
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:focusring/app/modules/app_view/controllers/app_view_controller.dart';
-import 'package:focusring/public.dart';
-import 'package:focusring/views/base/base_pageview.dart';
+import 'package:beering/app/modules/app_view/controllers/app_view_controller.dart';
+import 'package:beering/public.dart';
+import 'package:beering/views/base/base_pageview.dart';
 
 import 'package:get/get.dart';
 

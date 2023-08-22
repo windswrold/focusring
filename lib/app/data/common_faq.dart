@@ -1,4 +1,4 @@
-import 'package:focusring/public.dart';
+import 'package:beering/public.dart';
 
 class CommonFaqModel {
   int? id;

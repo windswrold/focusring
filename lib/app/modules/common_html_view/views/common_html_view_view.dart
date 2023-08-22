@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
-import 'package:focusring/views/base/base_pageview.dart';
+import 'package:beering/views/base/base_pageview.dart';
 
 import 'package:get/get.dart';
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:focusring/views/base/base_pageview.dart';
-import 'package:focusring/views/base/custom_image.dart';
+import 'package:beering/views/base/base_pageview.dart';
+import 'package:beering/views/base/custom_image.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 import '../../../../public.dart';

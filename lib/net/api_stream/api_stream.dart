@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:focusring/net/api_stream/header.dart';
+import 'package:beering/net/api_stream/header.dart';
 import '../../utils/console_logger.dart';
 import '../protocols/can_cancel.dart';
 import 'package:dio/dio.dart';

@@ -1,8 +1,8 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
-import 'package:focusring/app/modules/home_devices/views/home_devices_view.dart';
-import 'package:focusring/app/modules/home_mine/views/home_mine_view.dart';
-import 'package:focusring/app/modules/home_state/views/home_state_view.dart';
+import 'package:beering/app/modules/home_devices/views/home_devices_view.dart';
+import 'package:beering/app/modules/home_mine/views/home_mine_view.dart';
+import 'package:beering/app/modules/home_state/views/home_state_view.dart';
 
 import 'package:get/get.dart';
 

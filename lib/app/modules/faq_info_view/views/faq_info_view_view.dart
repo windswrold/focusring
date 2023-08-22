@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
-import 'package:focusring/app/data/common_faq.dart';
-import 'package:focusring/public.dart';
-import 'package:focusring/utils/color_utils.dart';
-import 'package:focusring/views/base/base_pageview.dart';
+import 'package:beering/app/data/common_faq.dart';
+import 'package:beering/public.dart';
+import 'package:beering/utils/color_utils.dart';
+import 'package:beering/views/base/base_pageview.dart';
 
 import 'package:get/get.dart';
 

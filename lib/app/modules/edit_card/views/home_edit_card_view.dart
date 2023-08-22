@@ -1,6 +1,6 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
-import 'package:focusring/utils/console_logger.dart';
+import 'package:beering/utils/console_logger.dart';
 
 import 'package:get/get.dart';
 

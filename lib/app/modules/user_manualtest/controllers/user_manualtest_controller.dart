@@ -1,4 +1,4 @@
-import 'package:focusring/utils/timer_util.dart';
+import 'package:beering/utils/timer_util.dart';
 import 'package:get/get.dart';
 import 'package:gif/gif.dart';
 
