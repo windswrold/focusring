@@ -9,8 +9,8 @@ import '../../../../public.dart';
 class HomeEditCardController extends GetxController {
   //TODO: Implement HomeEditCardController
 
-  RxList<KHealthIndexModel> visibleItems = <KHealthIndexModel>[].obs;
-  RxList<KHealthIndexModel> hiddenItems = <KHealthIndexModel>[].obs;
+  RxList<KBaseHealthType> visibleItems = <KBaseHealthType>[].obs;
+  RxList<KBaseHealthType> hiddenItems = <KBaseHealthType>[].obs;
 
   @override
   void onInit() {
@@ -22,7 +22,7 @@ class HomeEditCardController extends GetxController {
   void _initData() async {
     final appUserId = await SPManager.getPhoneID();
     visibleItems.value =
-        await KHealthIndexModel.queryAllWithState(appUserId, true);
+        await KBaseHealthType.queryAllWithState(appUserId, true);
     visibleItems.value = visibleItems
         .where((p0) => p0.type != KHealthDataType.BLOOD_OXYGEN)
         .where((p0) => p0.type != KHealthDataType.HEART_RATE)
@@ -33,7 +33,7 @@ class HomeEditCardController extends GetxController {
     //   continue;
     // }
     hiddenItems.value =
-        await KHealthIndexModel.queryAllWithState(appUserId, false);
+        await KBaseHealthType.queryAllWithState(appUserId, false);
     update();
   }
 
@@ -49,7 +49,7 @@ class HomeEditCardController extends GetxController {
 
   void onItemReorder(
       int oldItemIndex, int oldListIndex, int newItemIndex, int newListIndex) {
-    KHealthIndexModel draggedItem;
+    KBaseHealthType draggedItem;
     try {
       // 从旧列表中提取被拖动的项
       if (oldListIndex == 0) {
@@ -80,8 +80,8 @@ class HomeEditCardController extends GetxController {
         hiddenItems[i].index = i;
       }
 
-      KHealthIndexModel.updateTokens(visibleItems);
-      KHealthIndexModel.updateTokens(hiddenItems);
+      KBaseHealthType.updateTokens(visibleItems);
+      KBaseHealthType.updateTokens(hiddenItems);
       update();
       final c = Get.find<HomeStateController>();
       c.initData();

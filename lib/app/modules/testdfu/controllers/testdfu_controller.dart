@@ -102,7 +102,7 @@ class TestdfuController extends GetxController {
       HWToast.showSucText(text: "先选择一个文件");
       return;
     }
-    RingDevice de = Get.arguments;
+    RingDeviceModel de = Get.arguments;
     try {
       await KBLEManager.getDevice(device: de)
           .startDfu(filePath: currentFile.value, fastMode: isfastMode.value);
@@ -123,7 +123,7 @@ class TestdfuController extends GetxController {
       return;
     }
 
-    RingDevice de = Get.arguments;
+    RingDeviceModel de = Get.arguments;
 
     try {
       await KBLEManager.getDevice(device: de).startCopyDfu(
@@ -162,7 +162,7 @@ class TestdfuController extends GetxController {
       HWToast.showSucText(text: "先选择一个文件");
       return;
     }
-    RingDevice de = Get.arguments;
+    RingDeviceModel de = Get.arguments;
 
     try {
       KBLEManager.getDevice(device: de).fastDfu(filePath: currentFile.value);
@@ -182,7 +182,7 @@ class TestdfuController extends GetxController {
       return;
     }
 
-    RingDevice de = Get.arguments;
+    RingDeviceModel de = Get.arguments;
     try {
       KBLEManager.getDevice(device: de).fastCopyDfu(
           filePath: currentFile.value, copyAdd: int.parse(text, radix: 16));
@@ -202,7 +202,7 @@ class TestdfuController extends GetxController {
       return;
     }
 
-    RingDevice de = Get.arguments;
+    RingDeviceModel de = Get.arguments;
 
     try {
       KBLEManager.getDevice(device: de).fastDFUResource(

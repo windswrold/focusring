@@ -22,7 +22,7 @@ class ReportInfoStepsController extends GetxController
 
   late StreamSubscription dateSc;
 
-  late RxList<StepsCardModel> stepsCards = <StepsCardModel>[].obs;
+  late RxList<StepsCardAssetsModel> stepsCards = <StepsCardAssetsModel>[].obs;
 
   late RxString chartTipValue = "".obs;
 
@@ -74,11 +74,11 @@ class ReportInfoStepsController extends GetxController
   }
 
   void configCardData() {
-    List<StepsCardModel> datas = [];
+    List<StepsCardAssetsModel> datas = [];
     if (reportType.value == KReportType.day) {
       if (currentType == KHealthDataType.STEPS) {
         datas.add(
-          StepsCardModel(
+          StepsCardAssetsModel(
               bgIcon: "bg/dayreport_bg_carolies",
               cardIcon: "icons/mine_icon_calories",
               type: "all_xiaohao".tr,
@@ -86,7 +86,7 @@ class ReportInfoStepsController extends GetxController
               value: "0 kcal"),
         );
         datas.add(
-          StepsCardModel(
+          StepsCardAssetsModel(
               bgIcon: "bg/dayreport_bg_distance",
               cardIcon: "icons/mine_icon_distance",
               type: "all_lichen".tr,
@@ -95,7 +95,7 @@ class ReportInfoStepsController extends GetxController
         );
       } else if (currentType == KHealthDataType.CALORIES_BURNED) {
         datas.add(
-          StepsCardModel(
+          StepsCardAssetsModel(
               bgIcon: "bg/dayreport_bg_steps",
               cardIcon: "icons/mine_icon_steps",
               type: "all_stepsnum".tr,
@@ -103,7 +103,7 @@ class ReportInfoStepsController extends GetxController
               value: "0 kcal"),
         );
         datas.add(
-          StepsCardModel(
+          StepsCardAssetsModel(
               bgIcon: "bg/dayreport_bg_distance",
               cardIcon: "icons/mine_icon_distance",
               type: "all_lichen".tr,
@@ -112,7 +112,7 @@ class ReportInfoStepsController extends GetxController
         );
       } else if (currentType == KHealthDataType.LiCheng) {
         datas.add(
-          StepsCardModel(
+          StepsCardAssetsModel(
               bgIcon: "bg/dayreport_bg_carolies",
               cardIcon: "icons/mine_icon_calories",
               type: "all_stepsnum".tr,
@@ -120,7 +120,7 @@ class ReportInfoStepsController extends GetxController
               value: "0 kcal"),
         );
         datas.add(
-          StepsCardModel(
+          StepsCardAssetsModel(
               bgIcon: "bg/dayreport_bg_steps",
               cardIcon: "icons/mine_icon_steps",
               type: "all_stepsnum".tr,
@@ -130,7 +130,7 @@ class ReportInfoStepsController extends GetxController
       }
     } else {
       datas.add(
-        StepsCardModel(
+        StepsCardAssetsModel(
           bgIcon: "bg/weekreport_bg_steps",
           cardIcon: "icons/mine_icon_steps",
           type: "average_stepsnum".tr,
@@ -139,7 +139,7 @@ class ReportInfoStepsController extends GetxController
         ),
       );
       datas.add(
-        StepsCardModel(
+        StepsCardAssetsModel(
             bgIcon: "bg/weekreport_bg_carolies",
             cardIcon: "icons/mine_icon_calories",
             type: "all_xiaohao".tr,
@@ -147,7 +147,7 @@ class ReportInfoStepsController extends GetxController
             value: "0 kcal"),
       );
       datas.add(
-        StepsCardModel(
+        StepsCardAssetsModel(
             bgIcon: "bg/weekreport_bg_distance",
             cardIcon: "icons/mine_icon_distance",
             type: "all_lichen".tr,

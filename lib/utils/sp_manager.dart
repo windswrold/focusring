@@ -54,15 +54,15 @@ class SPManager {
 
   static const String _globalUser = '_globalUser';
 
-  static UserInfo? getGlobalUser() {
+  static UserInfoModel? getGlobalUser() {
     var userJson = sp.getString(_globalUser);
     if (userJson != null) {
-      return UserInfo.fromJson(JsonUtil.getObj(userJson));
+      return UserInfoModel.fromJson(JsonUtil.getObj(userJson));
     }
     return null;
   }
 
-  static void setGlobalUser(UserInfo user) async {
+  static void setGlobalUser(UserInfoModel user) async {
     var json = JsonUtil.encodeObj(user.toJson());
 
     await sp.setString(_globalUser, json!);

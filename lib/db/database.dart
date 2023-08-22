@@ -10,8 +10,8 @@ part 'database.g.dart';
 const int dbCurrentVersion = 1;
 
 @Database(version: dbCurrentVersion, entities: [
-  KHealthIndexModel,
-  RingDevice,
+  KBaseHealthType,
+  RingDeviceModel,
 ])
 abstract class FlutterDatabase extends FloorDatabase {
   KHealthIndexModelDao get indexDap;

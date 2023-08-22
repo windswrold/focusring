@@ -12,7 +12,7 @@ class DeviceInfoController extends GetxController {
   Rx<KState> buttonState = KState.idle.obs;
   RxDouble progress = 0.0.obs;
 
-  late RingDevice ringDevice;
+  late RingDeviceModel ringDevice;
   @override
   void onInit() {
     super.onInit();

@@ -10,8 +10,7 @@ class LoginViewView extends GetView<LoginViewController> {
   @override
   Widget build(BuildContext context) {
     return KBasePageView(
-      titleStr:
-          "welecome_to".tr + (GlobalValues.deviceInfo.appInfo?.appName ?? ""),
+      titleStr: "welecome_to".tr + (GlobalValues.appInfo?.appName ?? ""),
       centerTitle: false,
       hiddenLeading: true,
       body: Column(

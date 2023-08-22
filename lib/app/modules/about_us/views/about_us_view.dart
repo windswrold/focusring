@@ -63,13 +63,13 @@ class AboutUsView extends GetView<AboutUsController> {
             margin: EdgeInsets.only(top: 21.w),
             alignment: Alignment.center,
             child: Text(
-              GlobalValues.deviceInfo.appInfo?.appName ?? "",
+              GlobalValues.appInfo?.appName ?? "",
               style: Get.textTheme.bodyLarge,
             ),
           ),
           Container(
             child: Text(
-              "v" + (GlobalValues.deviceInfo.appInfo?.version ?? ""),
+              "v" + (GlobalValues.appInfo?.version ?? ""),
               style: Get.textTheme.bodyMedium,
             ),
           ),

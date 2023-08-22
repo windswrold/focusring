@@ -119,7 +119,7 @@ class StepsLiChengReportChart extends StatelessWidget {
     );
   }
 
-  Widget _getCardItem({required StepsCardModel model}) {
+  Widget _getCardItem({required StepsCardAssetsModel model}) {
     if (pageType == KReportType.day) {
       return Container(
         width: 170.w,

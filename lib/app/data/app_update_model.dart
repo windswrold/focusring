@@ -1,6 +1,6 @@
 import 'package:beering/public.dart';
 
-class AppUpdateModel {
+class AppUpdateVersionModel {
   String? version;
   String? downloadUrl;
   int? fileSize;
@@ -8,7 +8,7 @@ class AppUpdateModel {
   bool? forceUpdate;
   String? createTime;
 
-  AppUpdateModel(
+  AppUpdateVersionModel(
       {this.version,
       this.downloadUrl,
       this.fileSize,
@@ -16,7 +16,7 @@ class AppUpdateModel {
       this.forceUpdate,
       this.createTime});
 
-  AppUpdateModel.fromJson(Map json) {
+  AppUpdateVersionModel.fromJson(Map json) {
     version = json.stringFor("version");
     downloadUrl = json.stringFor("downloadUrl");
     fileSize = json.intFor("fileSize");

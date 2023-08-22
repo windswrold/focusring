@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 class HomeDevicesController extends GetxController {
   //TODO: Implement HomeDevicesController
 
-  Rx<RingDevice?> connectDevice = Rx<RingDevice?>(null);
+  Rx<RingDeviceModel?> connectDevice = Rx<RingDeviceModel?>(null);
 
   RxBool isConnect = true.obs;
   RxInt bat = 10.obs;
@@ -54,7 +54,7 @@ class HomeDevicesController extends GetxController {
   }
 
   void onTapAddDevices() async {
-    RingDevice? d = (await Get.toNamed(Routes.FIND_DEVICES)) as RingDevice?;
+    RingDeviceModel? d = (await Get.toNamed(Routes.FIND_DEVICES)) as RingDeviceModel?;
     if (d == null) {
       return;
     }

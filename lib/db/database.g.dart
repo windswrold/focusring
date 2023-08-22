@@ -117,7 +117,7 @@ class _$KHealthIndexModelDao extends KHealthIndexModelDao {
         _kHealthIndexModelInsertionAdapter = InsertionAdapter(
             database,
             'health_index_table',
-            (KHealthIndexModel item) => <String, Object?>{
+            (KBaseHealthType item) => <String, Object?>{
                   'appUserId': item.appUserId,
                   'index': item.index,
                   'type': item.type.index,
@@ -127,7 +127,7 @@ class _$KHealthIndexModelDao extends KHealthIndexModelDao {
             database,
             'health_index_table',
             ['appUserId', 'type'],
-            (KHealthIndexModel item) => <String, Object?>{
+            (KBaseHealthType item) => <String, Object?>{
                   'appUserId': item.appUserId,
                   'index': item.index,
                   'type': item.type.index,
@@ -137,7 +137,7 @@ class _$KHealthIndexModelDao extends KHealthIndexModelDao {
             database,
             'health_index_table',
             ['appUserId', 'type'],
-            (KHealthIndexModel item) => <String, Object?>{
+            (KBaseHealthType item) => <String, Object?>{
                   'appUserId': item.appUserId,
                   'index': item.index,
                   'type': item.type.index,
@@ -150,45 +150,45 @@ class _$KHealthIndexModelDao extends KHealthIndexModelDao {
 
   final QueryAdapter _queryAdapter;
 
-  final InsertionAdapter<KHealthIndexModel> _kHealthIndexModelInsertionAdapter;
+  final InsertionAdapter<KBaseHealthType> _kHealthIndexModelInsertionAdapter;
 
-  final UpdateAdapter<KHealthIndexModel> _kHealthIndexModelUpdateAdapter;
+  final UpdateAdapter<KBaseHealthType> _kHealthIndexModelUpdateAdapter;
 
-  final DeletionAdapter<KHealthIndexModel> _kHealthIndexModelDeletionAdapter;
+  final DeletionAdapter<KBaseHealthType> _kHealthIndexModelDeletionAdapter;
 
   @override
-  Future<List<KHealthIndexModel>> queryAll(String appUserId) async {
+  Future<List<KBaseHealthType>> queryAll(String appUserId) async {
     return _queryAdapter.queryList(
         'SELECT * FROM health_index_table WHERE appUserId = ?1 ORDER BY \"index\" asc',
-        mapper: (Map<String, Object?> row) => KHealthIndexModel(row['appUserId'] as String, row['index'] as int, KHealthDataType.values[row['type'] as int], (row['state'] as int) != 0),
+        mapper: (Map<String, Object?> row) => KBaseHealthType(row['appUserId'] as String, row['index'] as int, KHealthDataType.values[row['type'] as int], (row['state'] as int) != 0),
         arguments: [appUserId]);
   }
 
   @override
-  Future<List<KHealthIndexModel>> queryAllWithState(
+  Future<List<KBaseHealthType>> queryAllWithState(
     String appUserId,
     bool state,
   ) async {
     return _queryAdapter.queryList(
         'SELECT * FROM health_index_table WHERE appUserId = ?1 and state = ?2  ORDER BY \"index\" asc',
-        mapper: (Map<String, Object?> row) => KHealthIndexModel(row['appUserId'] as String, row['index'] as int, KHealthDataType.values[row['type'] as int], (row['state'] as int) != 0),
+        mapper: (Map<String, Object?> row) => KBaseHealthType(row['appUserId'] as String, row['index'] as int, KHealthDataType.values[row['type'] as int], (row['state'] as int) != 0),
         arguments: [appUserId, state ? 1 : 0]);
   }
 
   @override
-  Future<void> insertTokens(List<KHealthIndexModel> models) async {
+  Future<void> insertTokens(List<KBaseHealthType> models) async {
     await _kHealthIndexModelInsertionAdapter.insertList(
         models, OnConflictStrategy.replace);
   }
 
   @override
-  Future<void> updateTokens(List<KHealthIndexModel> model) async {
+  Future<void> updateTokens(List<KBaseHealthType> model) async {
     await _kHealthIndexModelUpdateAdapter.updateList(
         model, OnConflictStrategy.abort);
   }
 
   @override
-  Future<void> deleteTokens(KHealthIndexModel model) async {
+  Future<void> deleteTokens(KBaseHealthType model) async {
     await _kHealthIndexModelDeletionAdapter.delete(model);
   }
 }
@@ -201,7 +201,7 @@ class _$RingDeviceDao extends RingDeviceDao {
         _ringDeviceInsertionAdapter = InsertionAdapter(
             database,
             'ring_device_table',
-            (RingDevice item) => <String, Object?>{
+            (RingDeviceModel item) => <String, Object?>{
                   'appUserId': item.appUserId,
                   'remoteId': item.remoteId,
                   'localName': item.localName,
@@ -212,7 +212,7 @@ class _$RingDeviceDao extends RingDeviceDao {
             database,
             'ring_device_table',
             ['appUserId', 'remoteId'],
-            (RingDevice item) => <String, Object?>{
+            (RingDeviceModel item) => <String, Object?>{
                   'appUserId': item.appUserId,
                   'remoteId': item.remoteId,
                   'localName': item.localName,
@@ -223,7 +223,7 @@ class _$RingDeviceDao extends RingDeviceDao {
             database,
             'ring_device_table',
             ['appUserId', 'remoteId'],
-            (RingDevice item) => <String, Object?>{
+            (RingDeviceModel item) => <String, Object?>{
                   'appUserId': item.appUserId,
                   'remoteId': item.remoteId,
                   'localName': item.localName,
@@ -237,17 +237,17 @@ class _$RingDeviceDao extends RingDeviceDao {
 
   final QueryAdapter _queryAdapter;
 
-  final InsertionAdapter<RingDevice> _ringDeviceInsertionAdapter;
+  final InsertionAdapter<RingDeviceModel> _ringDeviceInsertionAdapter;
 
-  final UpdateAdapter<RingDevice> _ringDeviceUpdateAdapter;
+  final UpdateAdapter<RingDeviceModel> _ringDeviceUpdateAdapter;
 
-  final DeletionAdapter<RingDevice> _ringDeviceDeletionAdapter;
+  final DeletionAdapter<RingDeviceModel> _ringDeviceDeletionAdapter;
 
   @override
-  Future<List<RingDevice>> queryUserAll(String appUserId) async {
+  Future<List<RingDeviceModel>> queryUserAll(String appUserId) async {
     return _queryAdapter.queryList(
         'SELECT * FROM ring_device_table WHERE appUserId = ?1',
-        mapper: (Map<String, Object?> row) => RingDevice(
+        mapper: (Map<String, Object?> row) => RingDeviceModel(
             appUserId: row['appUserId'] as String?,
             remoteId: row['remoteId'] as String?,
             localName: row['localName'] as String?,
@@ -257,13 +257,13 @@ class _$RingDeviceDao extends RingDeviceDao {
   }
 
   @override
-  Future<List<RingDevice>> queryUserAllWithSelect(
+  Future<List<RingDeviceModel>> queryUserAllWithSelect(
     String appUserId,
     bool select,
   ) async {
     return _queryAdapter.queryList(
         'SELECT * FROM ring_device_table WHERE appUserId = ?1 and select = ?2',
-        mapper: (Map<String, Object?> row) => RingDevice(
+        mapper: (Map<String, Object?> row) => RingDeviceModel(
             appUserId: row['appUserId'] as String?,
             remoteId: row['remoteId'] as String?,
             localName: row['localName'] as String?,
@@ -273,18 +273,18 @@ class _$RingDeviceDao extends RingDeviceDao {
   }
 
   @override
-  Future<void> insertTokens(List<RingDevice> models) async {
+  Future<void> insertTokens(List<RingDeviceModel> models) async {
     await _ringDeviceInsertionAdapter.insertList(
         models, OnConflictStrategy.replace);
   }
 
   @override
-  Future<void> updateTokens(List<RingDevice> model) async {
+  Future<void> updateTokens(List<RingDeviceModel> model) async {
     await _ringDeviceUpdateAdapter.updateList(model, OnConflictStrategy.abort);
   }
 
   @override
-  Future<void> deleteTokens(RingDevice model) async {
+  Future<void> deleteTokens(RingDeviceModel model) async {
     await _ringDeviceDeletionAdapter.delete(model);
   }
 }

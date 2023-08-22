@@ -1,6 +1,6 @@
 import 'package:beering/public.dart';
 
-class StepsCardModel {
+class StepsCardAssetsModel {
   final String bgIcon;
   final String cardIcon;
 
@@ -10,7 +10,7 @@ class StepsCardModel {
 
   final String value;
 
-  StepsCardModel(
+  StepsCardAssetsModel(
       {required this.bgIcon,
       required this.cardIcon,
       required this.type,

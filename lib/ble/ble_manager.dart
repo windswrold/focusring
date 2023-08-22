@@ -71,7 +71,7 @@ class KBLEManager {
   }
 
   static Future<Stream<BluetoothConnectionState>?> connect(
-      {required RingDevice device,
+      {required RingDeviceModel device,
       Duration timeout = const Duration(seconds: 20)}) async {
     if ((await checkBle()) == false) {
       return null;
@@ -151,7 +151,7 @@ class KBLEManager {
   }
 
   static BluetoothDevice getDevice({
-    required RingDevice device,
+    required RingDeviceModel device,
   }) {
     var bleDevice = BluetoothDevice.fromId(device.remoteId!);
     return bleDevice;

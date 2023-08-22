@@ -5,14 +5,14 @@ import 'package:beering/db/database_config.dart';
 const String tableName = 'ring_device_table';
 
 @Entity(tableName: tableName, primaryKeys: ["appUserId", "remoteId"])
-class RingDevice {
+class RingDeviceModel {
   final String? appUserId;
   final String? remoteId;
   final String? localName;
   final String? macAddress;
   final bool? select;
 
-  RingDevice({
+  RingDeviceModel({
     this.appUserId,
     this.remoteId,
     this.localName,
@@ -20,8 +20,8 @@ class RingDevice {
     this.select,
   });
 
-  factory RingDevice.fromResult(ScanResult result) {
-    return RingDevice(
+  factory RingDeviceModel.fromResult(ScanResult result) {
+    return RingDeviceModel(
       remoteId: result.device.remoteId.str,
       localName: result.device.localName,
       macAddress: result.device.remoteId.str,
@@ -60,26 +60,26 @@ class RingDevice {
     return name;
   }
 
-  static Future<List<RingDevice>> queryUserAll(
+  static Future<List<RingDeviceModel>> queryUserAll(
       String appUserId, bool state) async {
     final db = await DataBaseConfig.openDataBase();
     final datas = await db?.ringDao.queryUserAll(appUserId);
     return datas ?? [];
   }
 
-  static Future<List<RingDevice>> queryUserAllWithSelect(
+  static Future<List<RingDeviceModel>> queryUserAllWithSelect(
       String appUserId, bool select) async {
     final db = await DataBaseConfig.openDataBase();
     final datas = await db?.ringDao.queryUserAllWithSelect(appUserId, select);
     return datas ?? [];
   }
 
-  static Future<void> insertTokens(List<RingDevice> models) async {
+  static Future<void> insertTokens(List<RingDeviceModel> models) async {
     final db = await DataBaseConfig.openDataBase();
     return db?.ringDao.insertTokens(models);
   }
 
-  static Future<void> updateTokens(List<RingDevice> model) async {
+  static Future<void> updateTokens(List<RingDeviceModel> model) async {
     final db = await DataBaseConfig.openDataBase();
     return db?.ringDao.updateTokens(model);
   }
@@ -88,19 +88,19 @@ class RingDevice {
 @dao
 abstract class RingDeviceDao {
   @Query('SELECT * FROM $tableName WHERE appUserId = :appUserId ')
-  Future<List<RingDevice>> queryUserAll(String appUserId);
+  Future<List<RingDeviceModel>> queryUserAll(String appUserId);
 
   @Query(
       'SELECT * FROM $tableName WHERE appUserId = :appUserId and select = :select ')
-  Future<List<RingDevice>> queryUserAllWithSelect(
+  Future<List<RingDeviceModel>> queryUserAllWithSelect(
       String appUserId, bool select);
 
   @Insert(onConflict: OnConflictStrategy.replace)
-  Future<void> insertTokens(List<RingDevice> models);
+  Future<void> insertTokens(List<RingDeviceModel> models);
 
   @delete
-  Future<void> deleteTokens(RingDevice model);
+  Future<void> deleteTokens(RingDeviceModel model);
 
   @update
-  Future<void> updateTokens(List<RingDevice> model);
+  Future<void> updateTokens(List<RingDeviceModel> model);
 }

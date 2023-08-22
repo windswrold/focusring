@@ -59,7 +59,7 @@ class AppApi {
   }
 
   ///获取最新版本的固件
-  static VMApiStream<FirmwareVersion> getLatestFirmware() {
+  static VMApiStream<FirmwareVersionModel> getLatestFirmware() {
     return _api
         .request(
       re: VMRequest()
@@ -69,7 +69,7 @@ class AppApi {
     )
         .convert((r) {
       var info = r.mapResult ?? {};
-      return FirmwareVersion.fromJson(info);
+      return FirmwareVersionModel.fromJson(info);
     });
   }
 
@@ -138,7 +138,7 @@ class AppApi {
   }
 
   ///获取常见问题列表
-  static VMApiStream<List<CommonFaqModel>> commonFaq() {
+  static VMApiStream<List<KCommonFaqsModel>> commonFaq() {
     return _api
         .request(
             re: VMRequest()
@@ -147,13 +147,13 @@ class AppApi {
               ..vmMethod = VMMethod.POST)
         .convert((r) {
       var t = r.listResult ?? [];
-      return t.myMap((element) => CommonFaqModel.fromJson(element)).toList();
+      return t.myMap((element) => KCommonFaqsModel.fromJson(element)).toList();
     });
   }
 
   ///获取常见问题详情
   static VMApiStream<VMResult> commonFaqDetail(
-      {required CommonFaqModel model}) {
+      {required KCommonFaqsModel model}) {
     return _api.request(
       re: VMRequest()
         ..path = "/app/common/faqDetail"
@@ -199,20 +199,20 @@ class AppApi {
   }
 
   ///获取用户信息
-  static VMApiStream<UserInfo> getUserInfo() {
+  static VMApiStream<UserInfoModel> getUserInfo() {
     return _api
         .request(
             re: VMRequest()
               ..path = "/app/user/getUserInfo"
               ..needAccessToken = true
               ..vmMethod = VMMethod.POST)
-        .convert((r) => UserInfo.fromJson(r.mapResult ?? {}));
+        .convert((r) => UserInfoModel.fromJson(r.mapResult ?? {}));
   }
 
   ///App游客登录
   /////手机唯一标识
   ///系统类型，android：安卓，ios：苹果
-  static VMApiStream<UserInfo> visitorLogin(
+  static VMApiStream<UserInfoModel> visitorLogin(
       {required String phoneId, required int systemType}) {
     return _api
         .request(
@@ -223,7 +223,7 @@ class AppApi {
         .convert((r) {
       var accessToken = r.mapResult?.stringFor("accessToken");
       var appUserInfo = r.mapResult?.mapFor("appUserInfo");
-      var user = UserInfo.fromJson(appUserInfo ?? {});
+      var user = UserInfoModel.fromJson(appUserInfo ?? {});
       user.accessToken = accessToken;
       SPManager.setGlobalUser(user);
       return user;

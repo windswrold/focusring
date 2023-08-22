@@ -1,6 +1,6 @@
 import 'package:beering/public.dart';
 
-class UserInfo {
+class UserInfoModel {
   String? accessToken;
   int? id; //用户id
   String? username; //用户名
@@ -29,7 +29,7 @@ class UserInfo {
   bool? bloodOxygenAutoTestSwitch; //血氧自动测试开关
   int? bloodOxygenAutoTestInterval; //血氧自动测试间隔时间
 
-  UserInfo({
+  UserInfoModel({
     this.accessToken,
     this.id,
     this.username,
@@ -59,7 +59,7 @@ class UserInfo {
     this.minHeartRate,
   });
 
-  UserInfo.fromJson(Map json) {
+  UserInfoModel.fromJson(Map json) {
     accessToken = json.stringFor("accessToken");
     id = json.intFor("id");
     username = json['username'];

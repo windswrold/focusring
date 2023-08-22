@@ -12,7 +12,7 @@ import '../controllers/find_devices_controller.dart';
 class FindDevicesView extends GetView<FindDevicesController> {
   const FindDevicesView({Key? key}) : super(key: key);
 
-  Widget _buildListItem(RingDevice item) {
+  Widget _buildListItem(RingDeviceModel item) {
     return Container(
       margin: EdgeInsets.only(left: 12.w, right: 12.w, bottom: 12.w),
       padding: EdgeInsets.all(16.w),

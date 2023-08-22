@@ -19,7 +19,7 @@ class AppViewController extends GetxController {
 
   static String userinfoID = "appviewinfoid";
 
-  Rx<UserInfo?> user = null.obs;
+  Rx<UserInfoModel?> user = null.obs;
 
   @override
   void onInit() {
@@ -36,9 +36,9 @@ class AppViewController extends GetxController {
   void login() async {
     final id = await SPManager.getPhoneID();
 
-    final datas = await KHealthIndexModel.queryAll(id);
+    final datas = await KBaseHealthType.queryAll(id);
     if (datas.isEmpty) {
-      KHealthIndexModel.insertTokens(KHealthIndexModel.defaultList(id));
+      KBaseHealthType.insertTokens(KBaseHealthType.defaultList(id));
     }
 
     AppApi.visitorLogin(

@@ -7,7 +7,6 @@ import 'dart:ui';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:beering/app/data/device_info.dart';
 import 'package:beering/app/data/user_info.dart';
 import 'package:beering/utils/console_logger.dart';
 import 'package:beering/utils/sp_manager.dart';
@@ -209,8 +208,7 @@ bool compareUUID(String a, String b) {
 }
 
 class GlobalValues {
-  static MSDeviceInfo deviceInfo = MSDeviceInfo();
-
+  static PackageInfo? appInfo;
   static Future<void> init() async {
     if (Platform.isAndroid) {
       final AndroidDeviceInfo and = await DeviceInfoPlugin().androidInfo;
@@ -222,14 +220,14 @@ class GlobalValues {
       vmPrint("and " + and.data.toString());
     } else if (Platform.isIOS) {
       final IosDeviceInfo iOS = await DeviceInfoPlugin().iosInfo;
-      deviceInfo.imei = iOS.identifierForVendor;
-      deviceInfo.machine = iOS.utsname.machine;
-      deviceInfo.system = (iOS.systemName ?? '') + (iOS.systemVersion ?? '');
-      deviceInfo.appType = 'iOS';
+      // deviceInfo.imei = iOS.identifierForVendor;
+      // deviceInfo.machine = iOS.utsname.machine;
+      // deviceInfo.system = (iOS.systemName ?? '') + (iOS.systemVersion ?? '');
+      // deviceInfo.appType = 'iOS';
       vmPrint("ios " + iOS.toString());
     }
     final info = await PackageInfo.fromPlatform();
-    deviceInfo.appInfo = info;
+    appInfo = info;
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     SPManager.spInit(prefs);
     vmPrint("pack " + info.toString());

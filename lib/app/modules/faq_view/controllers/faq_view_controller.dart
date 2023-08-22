@@ -8,7 +8,7 @@ import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 class FaqViewController extends GetxController {
   //TODO: Implement FaqViewController
 
-  RxList<CommonFaqModel> datas = <CommonFaqModel>[].obs;
+  RxList<KCommonFaqsModel> datas = <KCommonFaqsModel>[].obs;
 
   RefreshController refreshController = RefreshController();
 

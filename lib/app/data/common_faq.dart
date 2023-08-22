@@ -1,6 +1,6 @@
 import 'package:beering/public.dart';
 
-class CommonFaqModel {
+class KCommonFaqsModel {
   int? id;
   String? language;
   String? type;
@@ -8,7 +8,7 @@ class CommonFaqModel {
   String? createTime;
   String? content;
 
-  CommonFaqModel(
+  KCommonFaqsModel(
       {this.id,
       this.language,
       this.type,
@@ -16,7 +16,7 @@ class CommonFaqModel {
       this.createTime,
       this.content});
 
-  CommonFaqModel.fromJson(Map json) {
+  KCommonFaqsModel.fromJson(Map json) {
     id = json.intFor("id");
     language = json.stringFor("language");
     type = json.stringFor("type");

@@ -240,7 +240,7 @@ class HomeDevicesView extends GetView<HomeDevicesController> {
                           Row(
                             children: [
                               LoadAssetsImage(
-                                RingDevice.getBatIcon(
+                                RingDeviceModel.getBatIcon(
                                     bat: controller.bat.value),
                                 width: 23,
                                 height: 12,

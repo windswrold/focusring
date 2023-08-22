@@ -14,7 +14,7 @@ class FindDevicesController extends GetxController {
 
   late AnimationController controller;
 
-  late RxList<RingDevice> scanResults = <RingDevice>[].obs;
+  late RxList<RingDeviceModel> scanResults = <RingDeviceModel>[].obs;
 
   StreamSubscription? scanStream, isScan;
 
@@ -40,7 +40,7 @@ class FindDevicesController extends GetxController {
 
     scanStream = KBLEManager.scanResults.listen((event) {
       vmPrint("scanResults ${event.length}");
-      scanResults.value = event.map((e) => RingDevice.fromResult(e)).toList();
+      scanResults.value = event.map((e) => RingDeviceModel.fromResult(e)).toList();
     });
 
     isScan = KBLEManager.isScanning.listen((event) {
@@ -64,7 +64,7 @@ class FindDevicesController extends GetxController {
     controller.repeat();
   }
 
-  void onTapItem(RingDevice item) async {
+  void onTapItem(RingDeviceModel item) async {
     vmPrint(item.localName);
     try {
       Stream<BluetoothConnectionState>? a =
@@ -80,7 +80,7 @@ class FindDevicesController extends GetxController {
           KBLEManager.stopScan();
           // KBLEManager.findCharacteristics(KBLEManager.getDevice(device: item));
           // Get.toNamed(Routes.TESTDFU);
-          Get.back<RingDevice>(result: item);
+          Get.back<RingDeviceModel>(result: item);
         }
       });
     } catch (e) {

@@ -70,8 +70,8 @@ class HomeStateController extends GetxController {
     List<KHomeCardModel> dataArr = [];
 
     final appUserId = await SPManager.getPhoneID();
-    List<KHealthIndexModel> datas =
-        await KHealthIndexModel.queryAllWithState(appUserId, true);
+    List<KBaseHealthType> datas =
+        await KBaseHealthType.queryAllWithState(appUserId, true);
     for (var element in datas) {
       var data = List.generate(
         30,

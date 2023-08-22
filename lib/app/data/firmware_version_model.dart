@@ -1,20 +1,20 @@
 import 'package:beering/public.dart';
 
-class FirmwareVersion {
+class FirmwareVersionModel {
   String? downloadUrl;
   String? version;
   int? fileSize;
   String? createTime;
   String? remark;
 
-  FirmwareVersion(
+  FirmwareVersionModel(
       {this.downloadUrl,
       this.version,
       this.fileSize,
       this.createTime,
       this.remark});
 
-  FirmwareVersion.fromJson(Map json) {
+  FirmwareVersionModel.fromJson(Map json) {
     downloadUrl = json.stringFor("downloadUrl");
     version = json.stringFor("version");
     fileSize = json.intFor("fileSize");

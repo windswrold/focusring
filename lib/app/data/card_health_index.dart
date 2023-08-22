@@ -6,7 +6,7 @@ import 'package:beering/public.dart';
 const String tableName = 'health_index_table';
 
 @Entity(tableName: tableName, primaryKeys: ["appUserId", "type"])
-class KHealthIndexModel {
+class KBaseHealthType {
   final String appUserId;
 
   int index;
@@ -15,36 +15,36 @@ class KHealthIndexModel {
 
   bool state;
 
-  KHealthIndexModel(this.appUserId, this.index, this.type, this.state);
+  KBaseHealthType(this.appUserId, this.index, this.type, this.state);
 
-  static List<KHealthIndexModel> defaultList(String appUserId) {
+  static List<KBaseHealthType> defaultList(String appUserId) {
     int index = 0;
     return KHealthDataType.values
-        .map((e) => KHealthIndexModel(appUserId, index++, e, true))
+        .map((e) => KBaseHealthType(appUserId, index++, e, true))
         .toList();
   }
 
-  static Future<List<KHealthIndexModel>> queryAllWithState(
+  static Future<List<KBaseHealthType>> queryAllWithState(
       String appUserId, bool state) async {
     final db = await DataBaseConfig.openDataBase();
     final datas = await db?.indexDap.queryAllWithState(appUserId, state);
     return datas ?? [];
   }
 
-  static Future<List<KHealthIndexModel>> queryAll(String appUserId) async {
+  static Future<List<KBaseHealthType>> queryAll(String appUserId) async {
     final db = await DataBaseConfig.openDataBase();
     final datas = await db?.indexDap.queryAll(appUserId);
     return datas ?? [];
   }
 
-  static Future<void> insertTokens(List<KHealthIndexModel> models) async {
+  static Future<void> insertTokens(List<KBaseHealthType> models) async {
     final db = await DataBaseConfig.openDataBase();
     return db?.indexDap.insertTokens(models);
   }
 
   // static Future<void> deleteTokens(KHealthIndexModel model) {}
 
-  static Future<void> updateTokens(List<KHealthIndexModel> model) async {
+  static Future<void> updateTokens(List<KBaseHealthType> model) async {
     final db = await DataBaseConfig.openDataBase();
     return db?.indexDap.updateTokens(model);
   }
@@ -54,19 +54,19 @@ class KHealthIndexModel {
 abstract class KHealthIndexModelDao {
   @Query(
       'SELECT * FROM $tableName WHERE appUserId = :appUserId ORDER BY "index" asc')
-  Future<List<KHealthIndexModel>> queryAll(String appUserId);
+  Future<List<KBaseHealthType>> queryAll(String appUserId);
 
   @Query(
       'SELECT * FROM $tableName WHERE appUserId = :appUserId and state = :state  ORDER BY "index" asc')
-  Future<List<KHealthIndexModel>> queryAllWithState(
+  Future<List<KBaseHealthType>> queryAllWithState(
       String appUserId, bool state);
 
   @Insert(onConflict: OnConflictStrategy.replace)
-  Future<void> insertTokens(List<KHealthIndexModel> models);
+  Future<void> insertTokens(List<KBaseHealthType> models);
 
   @delete
-  Future<void> deleteTokens(KHealthIndexModel model);
+  Future<void> deleteTokens(KBaseHealthType model);
 
   @update
-  Future<void> updateTokens(List<KHealthIndexModel> model);
+  Future<void> updateTokens(List<KBaseHealthType> model);
 }
