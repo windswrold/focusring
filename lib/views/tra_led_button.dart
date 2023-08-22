@@ -43,8 +43,8 @@ class TraLedButtonController extends GetxController {
   }
 }
 
-class TraLedButton extends StatelessWidget {
-  const TraLedButton({Key? key}) : super(key: key);
+class TraLedButtonView extends StatelessWidget {
+  const TraLedButtonView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

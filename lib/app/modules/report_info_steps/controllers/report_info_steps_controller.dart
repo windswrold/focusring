@@ -167,7 +167,7 @@ class ReportInfoStepsController extends GetxController
           (index) => KChartCellData(
             x: index.toString(),
             y: 0,
-            color: KSleepStatus.deepSleep.getStatusColor(),
+            color: KSleepStatusType.deepSleep.getStatusColor(),
           ),
         ),
         List.generate(
@@ -175,7 +175,7 @@ class ReportInfoStepsController extends GetxController
           (index) => KChartCellData(
             x: index.toString(),
             y: 0,
-            color: KSleepStatus.lightSleep.getStatusColor(),
+            color: KSleepStatusType.lightSleep.getStatusColor(),
           ),
         ),
         List.generate(
@@ -183,7 +183,7 @@ class ReportInfoStepsController extends GetxController
           (index) => KChartCellData(
             x: index.toString(),
             y: 0,
-            color: KSleepStatus.awake.getStatusColor(),
+            color: KSleepStatusType.awake.getStatusColor(),
           ),
         )
       ];

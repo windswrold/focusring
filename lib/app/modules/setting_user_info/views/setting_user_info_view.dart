@@ -65,7 +65,7 @@ class SettingUserInfoView extends GetView<SettingUserInfoController> {
               builder: (a) {
                 final user = a.user.value;
                 final nickname = user?.username ?? "";
-                final sex = (user?.sex ?? KSex.man).title();
+                final sex = (user?.sex ?? KSexType.man).title();
                 final height = user?.displayHeight();
                 final weight = user?.displayWeight();
 

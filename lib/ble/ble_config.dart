@@ -23,7 +23,7 @@ class BLEConfig {
 class BLESendData {
   final String head;
 
-  final KBLECommand? cmd;
+  final KBLECommandType? cmd;
 
   final String? cmdStr;
 

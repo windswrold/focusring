@@ -258,14 +258,14 @@ class SleepTimeReportChart extends StatelessWidget {
 
   Widget _getDay() {
     Widget _buildSleepItem(
-        {required double width, required KSleepStatus status}) {
+        {required double width, required KSleepStatusType status}) {
       return Container(
         width: width,
         child: Column(
           children: [
             Expanded(
               child: Container(
-                color: status == KSleepStatus.awake
+                color: status == KSleepStatusType.awake
                     ? status.getStatusColor()
                     : Colors.transparent,
               ),
@@ -275,12 +275,12 @@ class SleepTimeReportChart extends StatelessWidget {
                 decoration: BoxDecoration(
                   border: Border(
                     right: BorderSide(
-                      color: status == KSleepStatus.awake
+                      color: status == KSleepStatusType.awake
                           ? Colors.red
                           : Colors.transparent,
                     ),
                     left: BorderSide(
-                      color: status == KSleepStatus.lightSleep
+                      color: status == KSleepStatusType.lightSleep
                           ? Colors.red
                           : Colors.transparent,
                     ),
@@ -307,7 +307,7 @@ class SleepTimeReportChart extends StatelessWidget {
             // ),
             Expanded(
               child: Container(
-                color: status == KSleepStatus.lightSleep
+                color: status == KSleepStatusType.lightSleep
                     ? status.getStatusColor()
                     : Colors.transparent,
               ),
@@ -317,7 +317,7 @@ class SleepTimeReportChart extends StatelessWidget {
                 decoration: BoxDecoration(
                   border: Border(
                     left: BorderSide(
-                      color: status == KSleepStatus.lightSleep
+                      color: status == KSleepStatusType.lightSleep
                           ? Colors.red
                           : Colors.transparent,
                     ),
@@ -327,7 +327,7 @@ class SleepTimeReportChart extends StatelessWidget {
             ),
             Expanded(
               child: Container(
-                color: status == KSleepStatus.deepSleep
+                color: status == KSleepStatusType.deepSleep
                     ? status.getStatusColor()
                     : Colors.transparent,
               ),
@@ -338,7 +338,7 @@ class SleepTimeReportChart extends StatelessWidget {
     }
 
     Widget _buildSleepTime(
-        {required KSleepStatus status, required String result}) {
+        {required KSleepStatusType status, required String result}) {
       return Container(
         margin: EdgeInsets.only(top: 12.w),
         child: Row(
@@ -382,7 +382,7 @@ class SleepTimeReportChart extends StatelessWidget {
               itemBuilder: (BuildContext context, int index) {
                 return _buildSleepItem(
                   width: 0,
-                  status: KSleepStatus.values[Random.secure().nextInt(3)],
+                  status: KSleepStatusType.values[Random.secure().nextInt(3)],
                 );
               },
             ),
@@ -409,9 +409,9 @@ class SleepTimeReportChart extends StatelessWidget {
               ],
             ),
           ),
-          _buildSleepTime(status: KSleepStatus.deepSleep, result: "-"),
-          _buildSleepTime(status: KSleepStatus.lightSleep, result: "-"),
-          _buildSleepTime(status: KSleepStatus.awake, result: "-"),
+          _buildSleepTime(status: KSleepStatusType.deepSleep, result: "-"),
+          _buildSleepTime(status: KSleepStatusType.lightSleep, result: "-"),
+          _buildSleepTime(status: KSleepStatusType.awake, result: "-"),
         ],
       ),
     );
@@ -460,7 +460,7 @@ class SleepTimeReportChart extends StatelessWidget {
             id: AppViewController.userinfoID,
             tag: AppViewController.tag,
             builder: (a) {
-              return TargetCompletionRate(
+              return TargetCompletionRateView(
                 pageType: pageType,
                 type: KHealthDataType.SLEEP,
                 targetNum: (a.user.value?.sleepPlan ?? 0).toString(),
@@ -488,7 +488,7 @@ class SleepTimeReportChart extends StatelessWidget {
             ],
           ),
         ),
-        const ReportFooter(
+        const ReportFooterView(
           type: KHealthDataType.SLEEP,
         ),
       ],

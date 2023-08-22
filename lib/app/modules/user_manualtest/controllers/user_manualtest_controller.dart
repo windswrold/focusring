@@ -10,7 +10,7 @@ class UserManualtestController extends GetxController
     with GetTickerProviderStateMixin {
   late GifController gifController;
 
-  late Rx<KState> kState = KState.idle.obs;
+  late Rx<KStateType> kState = KStateType.idle.obs;
   late RxInt countDownNum = countDownTime.inSeconds.obs;
 
   late final TimerUtil _timerUtil =
@@ -28,7 +28,7 @@ class UserManualtestController extends GetxController
 
   @override
   void onReady() {
-    kState.value = KState.loading;
+    kState.value = KStateType.loading;
     _timerUtil.startCountDown();
     _timerUtil.setOnTimerTickCallback((millisUntilFinished) {
       vmPrint(millisUntilFinished);
@@ -50,7 +50,7 @@ class UserManualtestController extends GetxController
   void pauseAnimation() {
     if (gifController.isAnimating) {
       gifController.stop();
-      kState.value = KState.success;
+      kState.value = KStateType.success;
       _timerUtil.cancel();
     }
   }
@@ -58,7 +58,7 @@ class UserManualtestController extends GetxController
   void resumeAnimation() {
     if (!gifController.isAnimating) {
       gifController.repeat();
-      kState.value = KState.loading;
+      kState.value = KStateType.loading;
       _timerUtil.updateTotalTime(countDownTime.inMilliseconds);
     }
   }

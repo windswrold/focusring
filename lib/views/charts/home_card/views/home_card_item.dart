@@ -159,7 +159,7 @@ class HomeCardView extends StatelessWidget {
         ),
         cellBuilder: (context, cellDetails) {
           var textString = cellDetails.date.day.toString();
-          var anquanqi = KFemmaleStatus.normal.image();
+          var anquanqi = KFemmaleStatusType.normal.image();
           return ChartUtils.getDateCellItem(
             text: textString,
             icon: anquanqi,
@@ -208,22 +208,22 @@ class HomeCardView extends StatelessWidget {
         children: [
           Expanded(
             child: Container(
-              color: item.state == KSleepStatus.awake
-                  ? KSleepStatus.awake.getStatusColor()
+              color: item.state == KSleepStatusType.awake
+                  ? KSleepStatusType.awake.getStatusColor()
                   : Colors.transparent,
             ),
           ),
           Expanded(
             child: Container(
-              color: item.state == KSleepStatus.lightSleep
-                  ? KSleepStatus.lightSleep.getStatusColor()
+              color: item.state == KSleepStatusType.lightSleep
+                  ? KSleepStatusType.lightSleep.getStatusColor()
                   : Colors.transparent,
             ),
           ),
           Expanded(
             child: Container(
-              color: item.state == KSleepStatus.deepSleep
-                  ? KSleepStatus.deepSleep.getStatusColor()
+              color: item.state == KSleepStatusType.deepSleep
+                  ? KSleepStatusType.deepSleep.getStatusColor()
                   : Colors.transparent,
             ),
           ),

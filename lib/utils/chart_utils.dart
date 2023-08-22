@@ -152,7 +152,7 @@ class ChartUtils {
           xValueMapper: (KChartCellData sales, _) => sales.x,
           yValueMapper: (KChartCellData sales, _) => sales.y,
           pointColorMapper: (datum, index) =>
-              KEMOTIONStatus.positive.getStatusColor(),
+              KEMOTIONStatusType.positive.getStatusColor(),
           dataLabelSettings: const DataLabelSettings(
             isVisible: false,
           ),
@@ -168,7 +168,7 @@ class ChartUtils {
           xValueMapper: (KChartCellData sales, _) => sales.x,
           yValueMapper: (KChartCellData sales, _) => sales.y,
           pointColorMapper: (datum, index) =>
-              KEMOTIONStatus.neutral.getStatusColor(),
+              KEMOTIONStatusType.neutral.getStatusColor(),
           dataLabelSettings: const DataLabelSettings(
             isVisible: false,
           ),
@@ -187,7 +187,7 @@ class ChartUtils {
           xValueMapper: (KChartCellData sales, _) => sales.x,
           yValueMapper: (KChartCellData sales, _) => sales.y,
           pointColorMapper: (datum, index) =>
-              KEMOTIONStatus.negative.getStatusColor(),
+              KEMOTIONStatusType.negative.getStatusColor(),
           dataLabelSettings: const DataLabelSettings(
             isVisible: false,
           ),

@@ -12,8 +12,8 @@ class TargetWeekCompletionRateModel {
       {required this.color, required this.dayNum, required this.complationNum});
 }
 
-class TargetCompletionRate extends StatelessWidget {
-  const TargetCompletionRate(
+class TargetCompletionRateView extends StatelessWidget {
+  const TargetCompletionRateView(
       {Key? key,
       required this.pageType,
       required this.type,

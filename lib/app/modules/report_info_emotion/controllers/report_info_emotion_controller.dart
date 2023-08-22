@@ -48,7 +48,7 @@ class ReportInfoEmotionController extends GetxController {
         (index) => KChartCellData(
           x: index.toString(),
           y: 0,
-          color: KEMOTIONStatus.positive.getStatusColor(),
+          color: KEMOTIONStatusType.positive.getStatusColor(),
         ),
       ),
       List.generate(
@@ -56,7 +56,7 @@ class ReportInfoEmotionController extends GetxController {
         (index) => KChartCellData(
           x: index.toString(),
           y: 0,
-          color: KEMOTIONStatus.neutral.getStatusColor(),
+          color: KEMOTIONStatusType.neutral.getStatusColor(),
         ),
       ),
       List.generate(
@@ -64,7 +64,7 @@ class ReportInfoEmotionController extends GetxController {
         (index) => KChartCellData(
           x: index.toString(),
           y: 0,
-          color: KEMOTIONStatus.negative.getStatusColor(),
+          color: KEMOTIONStatusType.negative.getStatusColor(),
         ),
       )
     ];

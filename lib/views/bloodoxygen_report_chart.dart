@@ -84,7 +84,7 @@ class BloodOxygenReportChart extends StatelessWidget {
             type: pageType,
           ),
         ),
-        const ReportFooter(
+        const ReportFooterView(
           type: KHealthDataType.BLOOD_OXYGEN,
         ),
       ],

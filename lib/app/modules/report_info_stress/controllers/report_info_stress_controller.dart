@@ -45,7 +45,7 @@ class ReportInfoStressController extends GetxController {
           x: index.toString(),
           y: 0,
           color:
-              KStressStatus.values[Random.secure().nextInt(4)].getStatusColor(),
+              KStressStatusType.values[Random.secure().nextInt(4)].getStatusColor(),
         ),
       )
     ];

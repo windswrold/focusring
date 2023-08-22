@@ -16,7 +16,7 @@ class KChartCellData {
   num a;
 
   Color? color;
-  KSleepStatus? state;
+  KSleepStatusType? state;
 
   KChartCellData({
     this.x,

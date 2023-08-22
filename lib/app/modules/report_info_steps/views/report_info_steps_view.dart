@@ -133,7 +133,7 @@ class ReportInfoStepsView extends GetView<ReportInfoStepsController> {
             children: [
               _getAppBar(),
               _getTabbarTitle(),
-              TraLedButton(),
+              TraLedButtonView(),
               _getBigTitle(),
               Expanded(
                 child: TabBarView(

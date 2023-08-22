@@ -5,15 +5,15 @@ class UserInfoModel {
   int? id; //用户id
   String? username; //用户名
   String? avatar; //头像地址
-  KSex? sex; //性别，1男，2女
+  KSexType? sex; //性别，1男，2女
   String? birthday; //生日
   String? country; //国家
   int? stepsPlan; //记步目标
   int? caloriePlan; //消耗卡路里目标，单位kcal
   int? distancePlan; //运动距离目标
   int? sleepPlan; //睡眠目标
-  KUnits? units; //单位，1公制，2英制
-  KTempUnits? tempUnit; //温度单位，1 摄氏温度，2 华式温度，默认1
+  KUnitsType? units; //单位，1公制，2英制
+  KTempUnitsType? tempUnit; //温度单位，1 摄氏温度，2 华式温度，默认1
   int? heightMetric; //身高，公制，单位厘米
   int? heightBritish; //身高，英制，单位in
   int? weightMetric; //体重，公制，单位kg
@@ -126,15 +126,15 @@ class UserInfoModel {
 
   String displayHeight({bool displaySymbol = true}) {
     if (displaySymbol) {
-      return units == KUnits.metric ? "$heightMetric cm" : "$heightBritish in";
+      return units == KUnitsType.metric ? "$heightMetric cm" : "$heightBritish in";
     }
-    return units == KUnits.metric ? "$heightMetric" : "$heightBritish";
+    return units == KUnitsType.metric ? "$heightMetric" : "$heightBritish";
   }
 
   String displayWeight({bool displaySymbol = true}) {
     if (displaySymbol) {
-      return units == KUnits.metric ? "$weightMetric kg" : "$weightBritish lb";
+      return units == KUnitsType.metric ? "$weightMetric kg" : "$weightBritish lb";
     }
-    return units == KUnits.metric ? "$weightMetric" : "$weightBritish";
+    return units == KUnitsType.metric ? "$weightMetric" : "$weightBritish";
   }
 }

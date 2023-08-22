@@ -54,7 +54,7 @@ class UnitSystemView extends GetView<UnitSystemController> {
             ),
             child: Obx(
               () => Column(
-                children: KUnits.values
+                children: KUnitsType.values
                     .map((e) => _getListItem(
                         title: e.title(),
                         isSelect: controller.units.value == e ? true : false,
@@ -74,7 +74,7 @@ class UnitSystemView extends GetView<UnitSystemController> {
             ),
             child: Obx(
               () => Column(
-                children: KTempUnits.values
+                children: KTempUnitsType.values
                     .map((e) => _getListItem(
                         title: e.title(),
                         isSelect:

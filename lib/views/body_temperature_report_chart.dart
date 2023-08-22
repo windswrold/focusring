@@ -84,7 +84,7 @@ class BodyTemperatureReportChart extends StatelessWidget {
             type: pageType,
           ),
         ),
-        const ReportFooter(
+        const ReportFooterView(
           type: KHealthDataType.BODY_TEMPERATURE,
         ),
       ],

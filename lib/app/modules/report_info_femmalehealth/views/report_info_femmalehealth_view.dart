@@ -85,7 +85,7 @@ class ReportInfoFemmalehealthView
                           }
 
                           var state =
-                              KFemmaleStatus.values[Random.secure().nextInt(3)];
+                              KFemmaleStatusType.values[Random.secure().nextInt(3)];
 
                           return ChartUtils.getDateCellItem(
                             text: textString,

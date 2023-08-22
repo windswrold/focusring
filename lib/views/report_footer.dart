@@ -1,7 +1,7 @@
 import '../public.dart';
 
-class ReportFooter extends StatelessWidget {
-  const ReportFooter({Key? key, required this.type}) : super(key: key);
+class ReportFooterView extends StatelessWidget {
+  const ReportFooterView({Key? key, required this.type}) : super(key: key);
 
   final KHealthDataType type;
 

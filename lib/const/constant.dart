@@ -39,18 +39,18 @@ enum KHealthDataType {
   FEMALE_HEALTH, //女性健康
 }
 
-enum KState { idle, loading, success, fail }
+enum KStateType { idle, loading, success, fail }
 
 enum KReportType { day, week, moneth }
 
-enum KSleepStatus {
+enum KSleepStatusType {
   // interval,
   awake,
   lightSleep,
   deepSleep,
 }
 
-enum KHeartRateStatus {
+enum KHeartRateStatusType {
   /// 极限状态
   extreme,
 
@@ -70,7 +70,7 @@ enum KHeartRateStatus {
   resting,
 }
 
-enum KEMOTIONStatus {
+enum KEMOTIONStatusType {
   /// 积极的情绪
   positive,
 
@@ -81,7 +81,7 @@ enum KEMOTIONStatus {
   negative,
 }
 
-enum KStressStatus {
+enum KStressStatusType {
   /// 正常范围 (0~29)
   normal,
 
@@ -95,7 +95,7 @@ enum KStressStatus {
   severe,
 }
 
-enum KFemmaleStatus {
+enum KFemmaleStatusType {
   ///正常
   normal,
   //经期预测
@@ -106,13 +106,13 @@ enum KFemmaleStatus {
   yujinqi,
 }
 
-enum KUnits { metric, imperial }
+enum KUnitsType { metric, imperial }
 
-enum KTempUnits { celsius, fahrenheit }
+enum KTempUnitsType { celsius, fahrenheit }
 
-enum KSex { man, woman }
+enum KSexType { man, woman }
 
-enum KBLECommand {
+enum KBLECommandType {
   bindingsverify, //绑定认证
   system, //系统
   ppg,
@@ -124,7 +124,7 @@ enum KBLECommand {
   debug
 }
 
-Size calculateTextSize(
+Size getCalculateTextSize(
   String value,
   double fontSize,
   FontWeight fontWeight,

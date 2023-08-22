@@ -92,7 +92,7 @@ class DeviceInfoView extends GetView<DeviceInfoController> {
                 // alignment: Alignment.centerLeft,
                 children: [
                   Visibility(
-                    visible: controller.buttonState.value == KState.loading,
+                    visible: controller.buttonState.value == KStateType.loading,
                     child: Container(
                       height: 44.w,
                       width: controller.progress * 350.w,
@@ -116,11 +116,11 @@ class DeviceInfoView extends GetView<DeviceInfoController> {
                     width: 350.w,
                     borderRadius: 22,
                     margin: EdgeInsets.only(bottom: 20.w),
-                    border: controller.buttonState.value == KState.loading
+                    border: controller.buttonState.value == KStateType.loading
                         ? Border.all(color: ColorUtils.fromHex("#FF05E6E7"))
                         : null,
-                    gradient: (controller.buttonState.value == KState.idle ||
-                            controller.buttonState.value == KState.success)
+                    gradient: (controller.buttonState.value == KStateType.idle ||
+                            controller.buttonState.value == KStateType.success)
                         ? LinearGradient(
                             colors: [
                               ColorUtils.fromHex("#FF0E9FF5"),
@@ -128,12 +128,12 @@ class DeviceInfoView extends GetView<DeviceInfoController> {
                             ],
                           )
                         : null,
-                    activeColor: controller.buttonState.value == KState.fail
+                    activeColor: controller.buttonState.value == KStateType.fail
                         ? ColorUtils.fromHex("#FF4D5461")
                         : null,
-                    title: controller.buttonState.value == KState.success
+                    title: controller.buttonState.value == KStateType.success
                         ? "upgrade_v".tr
-                        : controller.buttonState.value == KState.loading
+                        : controller.buttonState.value == KStateType.loading
                             ? "upgradeing_v".tr
                             : "check_v".tr,
                     textStyle: Get.textTheme.displayLarge,

@@ -349,15 +349,15 @@ extension KReportTypeEX on KReportType {
   }
 }
 
-extension KSleepStatusEX on KSleepStatus {
+extension KSleepStatusEX on KSleepStatusType {
   Color getStatusColor() {
-    if (this == KSleepStatus.awake) {
+    if (this == KSleepStatusType.awake) {
       return const Color(0xFFFFD802);
     }
-    if (this == KSleepStatus.lightSleep) {
+    if (this == KSleepStatusType.lightSleep) {
       return const Color(0xFF02FFE2);
     }
-    if (this == KSleepStatus.deepSleep) {
+    if (this == KSleepStatusType.deepSleep) {
       return const Color(0xFF766AFF);
     }
 
@@ -365,14 +365,14 @@ extension KSleepStatusEX on KSleepStatus {
   }
 
   String getStatusDesc() {
-    if (this == KSleepStatus.awake) {
+    if (this == KSleepStatusType.awake) {
       return "wakeup_sleep".tr;
     }
 
-    if (this == KSleepStatus.deepSleep) {
+    if (this == KSleepStatusType.deepSleep) {
       return "deepsleep_time".tr;
     }
-    if (this == KSleepStatus.lightSleep) {
+    if (this == KSleepStatusType.lightSleep) {
       return "lightsleep_time".tr;
     }
 
@@ -380,7 +380,7 @@ extension KSleepStatusEX on KSleepStatus {
   }
 }
 
-extension KHeartRateStatusEX on KHeartRateStatus {
+extension KHeartRateStatusEX on KHeartRateStatusType {
   Color getStatusColor() {
     return [
       const Color(0xFFFF0000),
@@ -393,57 +393,57 @@ extension KHeartRateStatusEX on KHeartRateStatus {
   }
 
   String getStatusDesc() {
-    if (this == KHeartRateStatus.extreme) {
+    if (this == KHeartRateStatusType.extreme) {
       return "extreme_status".tr;
     }
-    if (this == KHeartRateStatus.anaerobic) {
+    if (this == KHeartRateStatusType.anaerobic) {
       return "anaerobic_status".tr;
     }
-    if (this == KHeartRateStatus.cardiovascular) {
+    if (this == KHeartRateStatusType.cardiovascular) {
       return "cardiovascular_status".tr;
     }
-    if (this == KHeartRateStatus.fatBurning) {
+    if (this == KHeartRateStatusType.fatBurning) {
       return "fatBurning_status".tr;
     }
-    if (this == KHeartRateStatus.relaxation) {
+    if (this == KHeartRateStatusType.relaxation) {
       return "relaxation_status".tr;
     }
-    if (this == KHeartRateStatus.resting) {
+    if (this == KHeartRateStatusType.resting) {
       return "resting_status".tr;
     }
 
     return "";
   }
 
-  static KHeartRateStatus getExerciseState(int value) {
+  static KHeartRateStatusType getExerciseState(int value) {
     if (value >= 181) {
-      return KHeartRateStatus.extreme;
+      return KHeartRateStatusType.extreme;
     } else if (value >= 161 && value <= 180) {
-      return KHeartRateStatus.anaerobic;
+      return KHeartRateStatusType.anaerobic;
     } else if (value >= 141 && value <= 160) {
-      return KHeartRateStatus.cardiovascular;
+      return KHeartRateStatusType.cardiovascular;
     } else if (value >= 121 && value <= 140) {
-      return KHeartRateStatus.fatBurning;
+      return KHeartRateStatusType.fatBurning;
     } else if (value >= 100 && value <= 120) {
-      return KHeartRateStatus.relaxation;
+      return KHeartRateStatusType.relaxation;
     } else {
-      return KHeartRateStatus.resting;
+      return KHeartRateStatusType.resting;
     }
   }
 
-  String getStateCondition(KHeartRateStatus status) {
+  String getStateCondition(KHeartRateStatusType status) {
     switch (status) {
-      case KHeartRateStatus.extreme:
+      case KHeartRateStatusType.extreme:
         return '(>=181)';
-      case KHeartRateStatus.anaerobic:
+      case KHeartRateStatusType.anaerobic:
         return '(161~180)';
-      case KHeartRateStatus.cardiovascular:
+      case KHeartRateStatusType.cardiovascular:
         return '(141~160)';
-      case KHeartRateStatus.fatBurning:
+      case KHeartRateStatusType.fatBurning:
         return '(121~140)';
-      case KHeartRateStatus.relaxation:
+      case KHeartRateStatusType.relaxation:
         return '(100~120)';
-      case KHeartRateStatus.resting:
+      case KHeartRateStatusType.resting:
         return '(<100)';
       default:
         return '';
@@ -451,7 +451,7 @@ extension KHeartRateStatusEX on KHeartRateStatus {
   }
 }
 
-extension KEMOTIONStatusEX on KEMOTIONStatus {
+extension KEMOTIONStatusEX on KEMOTIONStatusType {
   Color getStatusColor() {
     return [
       const Color(0xFF00E77C),
@@ -461,13 +461,13 @@ extension KEMOTIONStatusEX on KEMOTIONStatus {
   }
 
   String getStatusDesc() {
-    if (this == KEMOTIONStatus.neutral) {
+    if (this == KEMOTIONStatusType.neutral) {
       return "neutral".tr;
     }
-    if (this == KEMOTIONStatus.negative) {
+    if (this == KEMOTIONStatusType.negative) {
       return "negative".tr;
     }
-    if (this == KEMOTIONStatus.positive) {
+    if (this == KEMOTIONStatusType.positive) {
       return "positive".tr;
     }
 
@@ -475,7 +475,7 @@ extension KEMOTIONStatusEX on KEMOTIONStatus {
   }
 }
 
-extension KStressStatusEX on KStressStatus {
+extension KStressStatusEX on KStressStatusType {
   Color getStatusColor() {
     return [
       const Color(0xFF00DCE7),
@@ -486,45 +486,45 @@ extension KStressStatusEX on KStressStatus {
   }
 
   String getStatusDesc() {
-    if (this == KStressStatus.normal) {
+    if (this == KStressStatusType.normal) {
       return "normal".tr;
     }
-    if (this == KStressStatus.mild) {
+    if (this == KStressStatusType.mild) {
       return "mild".tr;
     }
-    if (this == KStressStatus.moderate) {
+    if (this == KStressStatusType.moderate) {
       return "moderate".tr;
     }
-    if (this == KStressStatus.severe) {
+    if (this == KStressStatusType.severe) {
       return "severe".tr;
     }
 
     return "";
   }
 
-  static KStressStatus getExerciseState(int value) {
+  static KStressStatusType getExerciseState(int value) {
     if (value >= 80) {
-      return KStressStatus.severe;
+      return KStressStatusType.severe;
     } else if (value >= 60 && value <= 79) {
-      return KStressStatus.moderate;
+      return KStressStatusType.moderate;
     } else if (value >= 30 && value <= 59) {
-      return KStressStatus.mild;
+      return KStressStatusType.mild;
     } else if (value >= 0 && value <= 29) {
-      return KStressStatus.normal;
+      return KStressStatusType.normal;
     }
 
-    return KStressStatus.normal;
+    return KStressStatusType.normal;
   }
 
-  String getStateCondition(KStressStatus status) {
+  String getStateCondition(KStressStatusType status) {
     switch (status) {
-      case KStressStatus.normal:
+      case KStressStatusType.normal:
         return '(0~29)';
-      case KStressStatus.mild:
+      case KStressStatusType.mild:
         return '(30~59)';
-      case KStressStatus.moderate:
+      case KStressStatusType.moderate:
         return '(60~79)';
-      case KStressStatus.severe:
+      case KStressStatusType.severe:
         return '(80~100)';
 
       default:
@@ -533,27 +533,27 @@ extension KStressStatusEX on KStressStatus {
   }
 }
 
-extension KFemmaleStatusEX on KFemmaleStatus {
+extension KFemmaleStatusEX on KFemmaleStatusType {
   String image() {
-    if (this == KFemmaleStatus.normal) {
+    if (this == KFemmaleStatusType.normal) {
       return "${assetsImages}icons/female_bg_safe@3x.png";
     }
 
-    if (this == KFemmaleStatus.yuce) {
+    if (this == KFemmaleStatusType.yuce) {
       return "${assetsImages}icons/female_todaybg_forecast@3x.png";
     }
 
-    if (this == KFemmaleStatus.anquanqi) {
+    if (this == KFemmaleStatusType.anquanqi) {
       return "${assetsImages}icons/female_todaybg_easy@3x.png";
     }
-    if (this == KFemmaleStatus.yujinqi) {
+    if (this == KFemmaleStatusType.yujinqi) {
       return "${assetsImages}icons/female_todaybg_menstrual@3x.png";
     }
     return "";
   }
 }
 
-extension KUnitsEX on KUnits {
+extension KUnitsEX on KUnitsType {
   int getRaw() {
     return [1, 2][index];
   }
@@ -562,16 +562,16 @@ extension KUnitsEX on KUnits {
     return ["unit_gong".tr, "unit_inch".tr][index];
   }
 
-  static KUnits getValue(int? value) {
+  static KUnitsType getValue(int? value) {
     try {
       value ??= 1;
-      return value == 1 ? KUnits.metric : KUnits.imperial;
+      return value == 1 ? KUnitsType.metric : KUnitsType.imperial;
     } catch (e) {}
-    return KUnits.metric;
+    return KUnitsType.metric;
   }
 }
 
-extension KTempUnitsEX on KTempUnits {
+extension KTempUnitsEX on KTempUnitsType {
   int getRaw() {
     return [1, 2][index];
   }
@@ -580,12 +580,12 @@ extension KTempUnitsEX on KTempUnits {
     return ["unit_degreescelsius".tr, "unit_fahrenheit".tr][index];
   }
 
-  static KTempUnits getValue(int? value) {
+  static KTempUnitsType getValue(int? value) {
     try {
       value ??= 1;
-      return value == 1 ? KTempUnits.celsius : KTempUnits.fahrenheit;
+      return value == 1 ? KTempUnitsType.celsius : KTempUnitsType.fahrenheit;
     } catch (e) {}
-    return KTempUnits.celsius;
+    return KTempUnitsType.celsius;
   }
 }
 
@@ -607,7 +607,7 @@ extension GetBack on GetInterface {
   }
 }
 
-extension KSexEX on KSex {
+extension KSexEX on KSexType {
   int getRaw() {
     return [1, 2][index];
   }
@@ -616,43 +616,43 @@ extension KSexEX on KSex {
     return ["man".tr, "woman".tr][index];
   }
 
-  static KSex getValue(int? value) {
+  static KSexType getValue(int? value) {
     try {
       value ??= 1;
-      return value == 1 ? KSex.man : KSex.woman;
+      return value == 1 ? KSexType.man : KSexType.woman;
     } catch (e) {}
-    return KSex.man;
+    return KSexType.man;
   }
 }
 
-extension KBLECommandEX on KBLECommand {
+extension KBLECommandEX on KBLECommandType {
   String getBLECommand() {
     String values = "";
-    if (this == KBLECommand.bindingsverify) {
+    if (this == KBLECommandType.bindingsverify) {
       values = "01";
     }
-    if (this == KBLECommand.system) {
+    if (this == KBLECommandType.system) {
       values = "02";
     }
-    if (this == KBLECommand.ppg) {
+    if (this == KBLECommandType.ppg) {
       values = "03";
     }
-    if (this == KBLECommand.gsensor) {
+    if (this == KBLECommandType.gsensor) {
       values = "04";
     }
-    if (this == KBLECommand.sleep) {
+    if (this == KBLECommandType.sleep) {
       values = "05";
     }
-    if (this == KBLECommand.battery) {
+    if (this == KBLECommandType.battery) {
       values = "06";
     }
-    if (this == KBLECommand.charger) {
+    if (this == KBLECommandType.charger) {
       values = "07";
     }
-    if (this == KBLECommand.factory) {
+    if (this == KBLECommandType.factory) {
       values = "08";
     }
-    if (this == KBLECommand.debug) {
+    if (this == KBLECommandType.debug) {
       values = "09";
     }
 

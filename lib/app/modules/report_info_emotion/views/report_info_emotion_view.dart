@@ -26,7 +26,7 @@ class ReportInfoEmotionView extends GetView<ReportInfoEmotionController> {
             getAppBar(
               KHealthDataType.EMOTION.getDisplayName(isReport: true),
             ),
-            TraLedButton(),
+            TraLedButtonView(),
             _getBigTitle(),
             _buildChart(),
             _getOtherView(),
@@ -150,14 +150,14 @@ class ReportInfoEmotionView extends GetView<ReportInfoEmotionController> {
                 ),
               ],
             ),
-            _buildItem(type: KEMOTIONStatus.positive, value: "-"),
-            _buildItem(type: KEMOTIONStatus.neutral, value: "-"),
-            _buildItem(type: KEMOTIONStatus.negative, value: "-"),
+            _buildItem(type: KEMOTIONStatusType.positive, value: "-"),
+            _buildItem(type: KEMOTIONStatusType.neutral, value: "-"),
+            _buildItem(type: KEMOTIONStatusType.negative, value: "-"),
           ],
         ));
   }
 
-  Widget _buildItem({required KEMOTIONStatus type, required String value}) {
+  Widget _buildItem({required KEMOTIONStatusType type, required String value}) {
     return Container(
       margin: EdgeInsets.only(top: 12.w),
       child: Row(

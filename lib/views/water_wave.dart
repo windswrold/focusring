@@ -3,8 +3,8 @@ import 'dart:math' as math show sin, pi, sqrt;
 
 import 'package:beering/public.dart';
 
-class KRippleWave extends StatefulWidget {
-  const KRippleWave({
+class KRippleWaveView extends StatefulWidget {
+  const KRippleWaveView({
     Key? key,
     this.color = Colors.teal,
     this.duration = const Duration(milliseconds: 1500),
@@ -31,10 +31,10 @@ class KRippleWave extends StatefulWidget {
 
   final Function(AnimationController controller) onCreate;
   @override
-  KRippleWaveState createState() => KRippleWaveState();
+  KRippleWaveViewState createState() => KRippleWaveViewState();
 }
 
-class KRippleWaveState extends State<KRippleWave>
+class KRippleWaveViewState extends State<KRippleWaveView>
     with TickerProviderStateMixin {
   late AnimationController _controller;
   @override

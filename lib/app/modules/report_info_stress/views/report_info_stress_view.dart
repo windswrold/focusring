@@ -28,7 +28,7 @@ class ReportInfoStressView extends GetView<ReportInfoStressController> {
             getAppBar(
               KHealthDataType.STRESS.getDisplayName(isReport: true),
             ),
-            TraLedButton(),
+            TraLedButtonView(),
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
@@ -147,7 +147,7 @@ class ReportInfoStressView extends GetView<ReportInfoStressController> {
 
   Widget _getFooter() {
     Widget _buildItem({
-      required KStressStatus status,
+      required KStressStatusType status,
       required double value,
     }) {
       return Container(
@@ -206,10 +206,10 @@ class ReportInfoStressView extends GetView<ReportInfoStressController> {
               ),
             ],
           ),
-          _buildItem(status: KStressStatus.normal, value: 0),
-          _buildItem(status: KStressStatus.mild, value: 0),
-          _buildItem(status: KStressStatus.moderate, value: 0),
-          _buildItem(status: KStressStatus.severe, value: 0),
+          _buildItem(status: KStressStatusType.normal, value: 0),
+          _buildItem(status: KStressStatusType.mild, value: 0),
+          _buildItem(status: KStressStatusType.moderate, value: 0),
+          _buildItem(status: KStressStatusType.severe, value: 0),
         ],
       ),
     );

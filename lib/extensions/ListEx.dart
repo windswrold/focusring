@@ -140,16 +140,16 @@ extension ListEx<E> on List<E> {
     }
   }
 
-  static List<String> generateHeightArr(KUnits unit) {
-    if (unit == KUnits.metric) {
+  static List<String> generateHeightArr(KUnitsType unit) {
+    if (unit == KUnitsType.metric) {
       return generateArray<String>(50, 228, 1);
     }
 
     return generateArray<String>(20, 90, 1);
   }
 
-  static List<String> generateWeightArr(KUnits unit) {
-    if (unit == KUnits.metric) {
+  static List<String> generateWeightArr(KUnitsType unit) {
+    if (unit == KUnitsType.metric) {
       return generateArray<String>(30, 228, 1);
     }
     return generateArray<String>(66, 503, 1);

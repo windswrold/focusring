@@ -9,7 +9,7 @@ import '../../../../public.dart';
 class DeviceInfoController extends GetxController {
   //TODO: Implement DeviceInfoController
 
-  Rx<KState> buttonState = KState.idle.obs;
+  Rx<KStateType> buttonState = KStateType.idle.obs;
   RxDouble progress = 0.0.obs;
 
   late RingDeviceModel ringDevice;
@@ -29,23 +29,23 @@ class DeviceInfoController extends GetxController {
     super.onClose();
   }
 
-  void changeButtonState(KState state) async {
+  void changeButtonState(KStateType state) async {
     buttonState.value = state;
 
     await Future.delayed(Duration(seconds: 3));
 
-    buttonState.value = KState.idle;
+    buttonState.value = KStateType.idle;
 
     await Future.delayed(Duration(seconds: 3));
 
-    buttonState.value = KState.fail;
+    buttonState.value = KStateType.fail;
 
     await Future.delayed(Duration(seconds: 3));
 
-    buttonState.value = KState.success;
+    buttonState.value = KStateType.success;
     await Future.delayed(Duration(seconds: 3));
 
-    buttonState.value = KState.loading;
+    buttonState.value = KStateType.loading;
 
     var a = TimerUtil(mTotalTime: Duration(seconds: 5).inMilliseconds);
     a.startCountDown();

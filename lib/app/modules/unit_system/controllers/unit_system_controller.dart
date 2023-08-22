@@ -6,8 +6,8 @@ import 'package:get/get.dart';
 class UnitSystemController extends GetxController {
   //TODO: Implement UnitSystemController
 
-  Rx<KUnits> units = KUnits.metric.obs;
-  Rx<KTempUnits> tempUnits = KTempUnits.celsius.obs;
+  Rx<KUnitsType> units = KUnitsType.metric.obs;
+  Rx<KTempUnitsType> tempUnits = KTempUnitsType.celsius.obs;
 
   @override
   void onInit() {
@@ -15,8 +15,8 @@ class UnitSystemController extends GetxController {
 
     AppViewController app = Get.find(tag: AppViewController.tag);
 
-    units.value = app.user.value?.units ?? KUnits.metric;
-    tempUnits.value = app.user.value?.tempUnit ?? KTempUnits.celsius;
+    units.value = app.user.value?.units ?? KUnitsType.metric;
+    tempUnits.value = app.user.value?.tempUnit ?? KTempUnitsType.celsius;
   }
 
   @override
@@ -29,12 +29,12 @@ class UnitSystemController extends GetxController {
     super.onClose();
   }
 
-  void onTapUnit(KUnits index) {
+  void onTapUnit(KUnitsType index) {
     units.value = index;
     requestData();
   }
 
-  void onTapTempUnit(KTempUnits index) {
+  void onTapTempUnit(KTempUnitsType index) {
     tempUnits.value = index;
     requestData();
   }

@@ -78,7 +78,7 @@ class HomeStateController extends GetxController {
         (index) => KChartCellData(
           x: index.toString(),
           y: Random.secure().nextDouble() * 500,
-          state: KSleepStatus.values[Random.secure().nextInt(3)],
+          state: KSleepStatusType.values[Random.secure().nextInt(3)],
           color: element.type.getTypeMainColor(),
         ),
       );

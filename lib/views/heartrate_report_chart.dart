@@ -85,7 +85,7 @@ class HeartChartReportChart extends StatelessWidget {
           ),
         ),
         pageType == KReportType.day ? _getDay() : Container(),
-        const ReportFooter(
+        const ReportFooterView(
           type: KHealthDataType.HEART_RATE,
         ),
       ],
@@ -110,7 +110,7 @@ class HeartChartReportChart extends StatelessWidget {
   }
 
   Widget _getDay() {
-    Widget _builditem(KHeartRateStatus status, String value) {
+    Widget _builditem(KHeartRateStatusType status, String value) {
       return Container(
         margin: EdgeInsets.only(bottom: 11.w),
         child: Row(
@@ -193,7 +193,7 @@ class HeartChartReportChart extends StatelessWidget {
           Container(
             margin: EdgeInsets.only(top: 25.w, left: 12.w, right: 12.w),
             child: Column(
-              children: KHeartRateStatus.values
+              children: KHeartRateStatusType.values
                   .map((e) => _builditem(e, "-"))
                   .toList(),
             ),

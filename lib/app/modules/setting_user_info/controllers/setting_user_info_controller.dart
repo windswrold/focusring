@@ -48,12 +48,12 @@ class SettingUserInfoController extends GetxController {
       final selectIndex = await DialogUtils.dialogDataPicker(
         title: "yours_height".tr,
         datas: arrs,
-        symbolText: units == KUnits.metric ? "cm" : "in",
+        symbolText: units == KUnitsType.metric ? "cm" : "in",
         initialItem: arrs.indexOf(height),
         symbolRight: 124.w,
       );
 
-      params[units == KUnits.metric ? "heightMetric" : "heightBritish"] =
+      params[units == KUnitsType.metric ? "heightMetric" : "heightBritish"] =
           arrs[selectIndex];
     }
     if (index == 3) {
@@ -61,11 +61,11 @@ class SettingUserInfoController extends GetxController {
       final selectIndex = await DialogUtils.dialogDataPicker(
         title: "youres_weight".tr,
         datas: arrs,
-        symbolText: units == KUnits.metric ? "kg" : "lb",
+        symbolText: units == KUnitsType.metric ? "kg" : "lb",
         initialItem: arrs.indexOf(weigtht),
         symbolRight: 124.w,
       );
-      params[units == KUnits.metric ? "weightMetric" : "weightBritish"] =
+      params[units == KUnitsType.metric ? "weightMetric" : "weightBritish"] =
           arrs[selectIndex];
     }
 

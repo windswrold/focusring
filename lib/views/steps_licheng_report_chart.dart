@@ -88,7 +88,7 @@ class StepsLiChengReportChart extends StatelessWidget {
                       ? a.user.value?.distancePlan
                       : a.user.value?.caloriePlan;
 
-              return TargetCompletionRate(
+              return TargetCompletionRateView(
                 pageType: pageType,
                 type: type,
                 targetNum: (value ?? 0).toString(),
@@ -112,7 +112,7 @@ class StepsLiChengReportChart extends StatelessWidget {
             );
           }),
         ),
-        ReportFooter(
+        ReportFooterView(
           type: type,
         ),
       ],

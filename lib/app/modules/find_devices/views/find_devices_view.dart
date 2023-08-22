@@ -71,7 +71,7 @@ class FindDevicesView extends GetView<FindDevicesController> {
         margin: EdgeInsets.only(top: 25.w),
         width: 229.w,
         height: 229.w,
-        child: KRippleWave(
+        child: KRippleWaveView(
           color: ColorUtils.fromHex("#FF05E6E7"),
           onCreate: (AnimationController c) {
             controller.onCreate(c);
