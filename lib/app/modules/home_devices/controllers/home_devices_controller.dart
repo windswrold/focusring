@@ -1,5 +1,9 @@
+import 'dart:async';
+
 import 'package:beering/app/data/ring_device.dart';
+import 'package:beering/ble/ble_manager.dart';
 import 'package:beering/public.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:get/get.dart';
 
 class HomeDevicesController extends GetxController {
@@ -7,8 +11,10 @@ class HomeDevicesController extends GetxController {
 
   Rx<RingDeviceModel?> connectDevice = Rx<RingDeviceModel?>(null);
 
-  RxBool isConnect = true.obs;
+  RxBool isConnect = false.obs;
   RxInt bat = 10.obs;
+
+  StreamSubscription? deviceStateStream, receiveDataStream;
 
   @override
   void onInit() {
@@ -18,10 +24,27 @@ class HomeDevicesController extends GetxController {
   @override
   void onReady() {
     super.onReady();
+
+    deviceStateStream = KBLEManager.deviceStateStream.listen((event) {
+      if (event == BluetoothConnectionState.connected) {
+        isConnect.value = true;
+      } else {
+        isConnect.value = false;
+      }
+    });
+
+    receiveDataStream = KBLEManager.receiveDataStream.listen((event) {
+      if (event.command == KBLECommandType.battery) {
+        final a = event.value;
+        bat.value = a as int;
+      }
+    });
   }
 
   @override
   void onClose() {
+    receiveDataStream?.cancel();
+    deviceStateStream?.cancel();
     super.onClose();
   }
 

@@ -126,6 +126,9 @@ class ReceiveDataHandler {
           value = valueData.sublist(3);
         }
       }
+    } else if (cmd == 0x06) {
+      status = true;
+      value = valueData[0];
     }
 
     return ReceiveDataModel(

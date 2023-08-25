@@ -83,6 +83,7 @@ class FindDevicesController extends GetxController {
       } else if (event.command == KBLECommandType.system) {
         if (event.status == true) {
           HWToast.showSucText(text: event.tip);
+          Get.backDelay(result: item);
         }
       }
     });

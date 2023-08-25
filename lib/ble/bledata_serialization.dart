@@ -128,6 +128,12 @@ class KBLESerialization {
         typeStr: isHeart == KHealthDataType.HEART_RATE ? "04" : "09",
         valueStr: "bb01");
   }
+
+  ///电量在发送变化的时候设备回主动上报
+  static BLESendData getBattery() {
+    return BLESendData(
+        cmd: KBLECommandType.battery, typeStr: "00", valueStr: "00");
+  }
 }
 
 extension DateTimeEX on DateTime {
