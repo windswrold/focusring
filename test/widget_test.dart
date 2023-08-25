@@ -7,6 +7,10 @@
 
 import 'dart:typed_data';
 
+import 'package:beering/ble/bledata_serialization.dart';
+import 'package:beering/ble/receivedata_handler.dart';
+import 'package:beering/utils/console_logger.dart';
+import 'package:beering/utils/hex_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:beering/app/modules/home_tabbar/views/home_tabbar_view.dart';
@@ -30,8 +34,22 @@ void main() {
   });
 
   test("byte data", () {
-    ByteData byteData = ByteData(32);
+    // String a = "0xEEEE0003010001";
+    // final b = HEXUtil.decode(a);
 
-    byteData.setUint8(4, 0xffffffff);
+    // final c = ReceiveDataHandler.parseDataHandler(b);
+
+    // vmPrint(c);
+
+    final a = DateTime.now();
+    final c = a.toCustomFormat();
+    vmPrint(c);
+
+    final d =
+        BLESerialization.getHeartHistoryDataByCurrentByIndex(15).getData();
+    vmPrint(d);
+
+    // List<int> e = [0xbb,15];
+    // vmPrint(e.toString());
   });
 }

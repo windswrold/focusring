@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:beering/ble/receivedata_handler.dart';
+import 'package:beering/extensions/StringEx.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:beering/app/data/ring_device.dart';
 import 'package:beering/ble/ble_config.dart';
@@ -110,7 +112,7 @@ class KBLEManager {
             await characteristic.setNotifyValue(true);
             _notifySubscription =
                 characteristic.onValueReceived.listen((event) {
-              onValueReceived(event);
+              _onValueReceived(event);
             });
           } else if (compareUUID(
                   characteristic.uuid.toString(), BLEConfig.WRITEUUID) ==
@@ -144,10 +146,31 @@ class KBLEManager {
     await _writeCharacteristic?.write(datas, withoutResponse: true);
   }
 
-  static void onValueReceived(List<int> values) {
+  static void _onValueReceived(List<int> values) {
     final a = HEXUtil.encode(values);
     _receiveController.add("接收的数据: $a");
-    // HWToast.showSucText(text: "收到的数据 $a");
+    _allValues.addAll(values);
+
+    vmPrint("接收到结果 是${HEXUtil.encode(values)}");
+    vmPrint("接收到结果 长度是${values.length}");
+    final first = HEXUtil.encode(_allValues);
+    if (first.startsWith(BLEConfig.ringSlave)) {
+      bool isLoop = true;
+      while (isLoop && _allValues.length > 4) {
+        int len = (_allValues[2] << 8) | _allValues[3];
+        int currentLen = len + 2;
+        vmPrint("数据域长度 len $currentLen");
+        vmPrint("当前总长度_allValues ${_allValues.length}");
+        if (_allValues.length >= currentLen) {
+          //取出后移除
+          List<int> _allDatas = _allValues.sublist(0, currentLen);
+          _allValues.removeRange(0, currentLen);
+          ReceiveDataHandler.parseDataHandler(_allDatas);
+        } else {
+          isLoop = false;
+        }
+      }
+    } else {}
   }
 
   static BluetoothDevice getDevice({

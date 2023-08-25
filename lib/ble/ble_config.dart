@@ -18,6 +18,8 @@ class BLEConfig {
 
   static const String appMaster = "dddd";
   static const String ringSlave = "eeee";
+
+  static const int headLen = 2;
 }
 
 class BLESendData {
@@ -34,7 +36,7 @@ class BLESendData {
   BLESendData(
       {this.head = BLEConfig.appMaster,
       required this.cmd,
-      required this.cmdStr,
+      this.cmdStr,
       required this.typeStr,
       required this.valueStr});
 
