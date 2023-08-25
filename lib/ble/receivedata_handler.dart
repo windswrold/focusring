@@ -1,4 +1,7 @@
+import 'package:beering/app/data/health_data.dart';
 import 'package:beering/ble/ble_config.dart';
+import 'package:beering/ble/ble_manager.dart';
+import 'package:beering/ble/bledata_serialization.dart';
 import 'package:beering/utils/hex_util.dart';
 
 import '../public.dart';
@@ -111,19 +114,42 @@ class ReceiveDataHandler {
           if (all == current) {
             vmPrint("接收完毕");
             status = true;
+          } else {
+            KBLEManager.sendData(
+                sendData: KBLESerialization.getHeartHistoryDataByCurrentByIndex(
+              current,
+              isHeart: type == 0x03
+                  ? KHealthDataType.HEART_RATE
+                  : KHealthDataType.BLOOD_OXYGEN,
+            ));
           }
-          value = valueData.sublist(3);
+
+          HealthData.insertHeartBloodBleData(
+              datas: valueData.sublist(3),
+              isHaveTime: true,
+              isHeart: type == 0x03 ? true : false);
         }
       } else if (type == 0x04 && type == 0x09) {
+        //当天数据
         if (valueData[0] == 0xbb) {
-          vmPrint("回答数据");
           int all = valueData[1];
           int current = valueData[2];
           if (all == current) {
             vmPrint("接收完毕");
             status = true;
+          } else {
+            KBLEManager.sendData(
+                sendData: KBLESerialization.getHeartHistoryDataByCurrentByIndex(
+              current,
+              isHeart: type == 0x04
+                  ? KHealthDataType.HEART_RATE
+                  : KHealthDataType.BLOOD_OXYGEN,
+            ));
           }
-          value = valueData.sublist(3);
+          HealthData.insertHeartBloodBleData(
+              datas: valueData.sublist(3),
+              isHaveTime: false,
+              isHeart: type == 0x04 ? true : false);
         }
       }
     } else if (cmd == 0x06) {

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:beering/app/data/ring_device.dart';
 import 'package:beering/ble/ble_manager.dart';
+import 'package:beering/ble/bledata_serialization.dart';
 import 'package:beering/public.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:get/get.dart';
@@ -83,6 +84,7 @@ class HomeDevicesController extends GetxController {
     }
     // await RingDeviceModel.insertTokens(d);
     connectDevice.value = d;
+    KBLEManager.sendData(sendData: KBLESerialization.getBattery());
   }
 
   void onTapManualHeartrate() {

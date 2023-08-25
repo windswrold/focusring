@@ -65,6 +65,10 @@ class _$FlutterDatabase extends FlutterDatabase {
 
   RingDeviceDao? _ringDaoInstance;
 
+  BloodOxygenDataDao? _bloodDaoInstance;
+
+  HeartRateDataDao? _heartDaoInstance;
+
   Future<sqflite.Database> open(
     String path,
     List<Migration> migrations, [
@@ -90,6 +94,10 @@ class _$FlutterDatabase extends FlutterDatabase {
             'CREATE TABLE IF NOT EXISTS `health_index_table` (`appUserId` TEXT NOT NULL, `index` INTEGER NOT NULL, `type` INTEGER NOT NULL, `state` INTEGER NOT NULL, PRIMARY KEY (`appUserId`, `type`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `ring_device_table` (`appUserId` TEXT, `remoteId` TEXT, `localName` TEXT, `macAddress` TEXT, `select` INTEGER, PRIMARY KEY (`appUserId`, `remoteId`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `bloodOxygenData` (`appUserId` INTEGER, `mac` TEXT, `createTime` TEXT, `bloodArray` TEXT, PRIMARY KEY (`appUserId`, `createTime`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `heartRateData` (`appUserId` INTEGER, `mac` TEXT, `createTime` TEXT, `averageHeartRate` INTEGER, `heartArray` TEXT, PRIMARY KEY (`appUserId`, `createTime`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -107,6 +115,16 @@ class _$FlutterDatabase extends FlutterDatabase {
   RingDeviceDao get ringDao {
     return _ringDaoInstance ??= _$RingDeviceDao(database, changeListener);
   }
+
+  @override
+  BloodOxygenDataDao get bloodDao {
+    return _bloodDaoInstance ??= _$BloodOxygenDataDao(database, changeListener);
+  }
+
+  @override
+  HeartRateDataDao get heartDao {
+    return _heartDaoInstance ??= _$HeartRateDataDao(database, changeListener);
+  }
 }
 
 class _$KHealthIndexModelDao extends KHealthIndexModelDao {
@@ -114,7 +132,7 @@ class _$KHealthIndexModelDao extends KHealthIndexModelDao {
     this.database,
     this.changeListener,
   )   : _queryAdapter = QueryAdapter(database),
-        _kHealthIndexModelInsertionAdapter = InsertionAdapter(
+        _kBaseHealthTypeInsertionAdapter = InsertionAdapter(
             database,
             'health_index_table',
             (KBaseHealthType item) => <String, Object?>{
@@ -123,7 +141,7 @@ class _$KHealthIndexModelDao extends KHealthIndexModelDao {
                   'type': item.type.index,
                   'state': item.state ? 1 : 0
                 }),
-        _kHealthIndexModelUpdateAdapter = UpdateAdapter(
+        _kBaseHealthTypeUpdateAdapter = UpdateAdapter(
             database,
             'health_index_table',
             ['appUserId', 'type'],
@@ -133,7 +151,7 @@ class _$KHealthIndexModelDao extends KHealthIndexModelDao {
                   'type': item.type.index,
                   'state': item.state ? 1 : 0
                 }),
-        _kHealthIndexModelDeletionAdapter = DeletionAdapter(
+        _kBaseHealthTypeDeletionAdapter = DeletionAdapter(
             database,
             'health_index_table',
             ['appUserId', 'type'],
@@ -150,11 +168,11 @@ class _$KHealthIndexModelDao extends KHealthIndexModelDao {
 
   final QueryAdapter _queryAdapter;
 
-  final InsertionAdapter<KBaseHealthType> _kHealthIndexModelInsertionAdapter;
+  final InsertionAdapter<KBaseHealthType> _kBaseHealthTypeInsertionAdapter;
 
-  final UpdateAdapter<KBaseHealthType> _kHealthIndexModelUpdateAdapter;
+  final UpdateAdapter<KBaseHealthType> _kBaseHealthTypeUpdateAdapter;
 
-  final DeletionAdapter<KBaseHealthType> _kHealthIndexModelDeletionAdapter;
+  final DeletionAdapter<KBaseHealthType> _kBaseHealthTypeDeletionAdapter;
 
   @override
   Future<List<KBaseHealthType>> queryAll(String appUserId) async {
@@ -177,19 +195,19 @@ class _$KHealthIndexModelDao extends KHealthIndexModelDao {
 
   @override
   Future<void> insertTokens(List<KBaseHealthType> models) async {
-    await _kHealthIndexModelInsertionAdapter.insertList(
+    await _kBaseHealthTypeInsertionAdapter.insertList(
         models, OnConflictStrategy.replace);
   }
 
   @override
   Future<void> updateTokens(List<KBaseHealthType> model) async {
-    await _kHealthIndexModelUpdateAdapter.updateList(
+    await _kBaseHealthTypeUpdateAdapter.updateList(
         model, OnConflictStrategy.abort);
   }
 
   @override
   Future<void> deleteTokens(KBaseHealthType model) async {
-    await _kHealthIndexModelDeletionAdapter.delete(model);
+    await _kBaseHealthTypeDeletionAdapter.delete(model);
   }
 }
 
@@ -198,7 +216,7 @@ class _$RingDeviceDao extends RingDeviceDao {
     this.database,
     this.changeListener,
   )   : _queryAdapter = QueryAdapter(database),
-        _ringDeviceInsertionAdapter = InsertionAdapter(
+        _ringDeviceModelInsertionAdapter = InsertionAdapter(
             database,
             'ring_device_table',
             (RingDeviceModel item) => <String, Object?>{
@@ -208,7 +226,7 @@ class _$RingDeviceDao extends RingDeviceDao {
                   'macAddress': item.macAddress,
                   'select': item.select == null ? null : (item.select! ? 1 : 0)
                 }),
-        _ringDeviceUpdateAdapter = UpdateAdapter(
+        _ringDeviceModelUpdateAdapter = UpdateAdapter(
             database,
             'ring_device_table',
             ['appUserId', 'remoteId'],
@@ -219,7 +237,7 @@ class _$RingDeviceDao extends RingDeviceDao {
                   'macAddress': item.macAddress,
                   'select': item.select == null ? null : (item.select! ? 1 : 0)
                 }),
-        _ringDeviceDeletionAdapter = DeletionAdapter(
+        _ringDeviceModelDeletionAdapter = DeletionAdapter(
             database,
             'ring_device_table',
             ['appUserId', 'remoteId'],
@@ -237,11 +255,11 @@ class _$RingDeviceDao extends RingDeviceDao {
 
   final QueryAdapter _queryAdapter;
 
-  final InsertionAdapter<RingDeviceModel> _ringDeviceInsertionAdapter;
+  final InsertionAdapter<RingDeviceModel> _ringDeviceModelInsertionAdapter;
 
-  final UpdateAdapter<RingDeviceModel> _ringDeviceUpdateAdapter;
+  final UpdateAdapter<RingDeviceModel> _ringDeviceModelUpdateAdapter;
 
-  final DeletionAdapter<RingDeviceModel> _ringDeviceDeletionAdapter;
+  final DeletionAdapter<RingDeviceModel> _ringDeviceModelDeletionAdapter;
 
   @override
   Future<List<RingDeviceModel>> queryUserAll(String appUserId) async {
@@ -274,17 +292,101 @@ class _$RingDeviceDao extends RingDeviceDao {
 
   @override
   Future<void> insertTokens(List<RingDeviceModel> models) async {
-    await _ringDeviceInsertionAdapter.insertList(
+    await _ringDeviceModelInsertionAdapter.insertList(
         models, OnConflictStrategy.replace);
   }
 
   @override
   Future<void> updateTokens(List<RingDeviceModel> model) async {
-    await _ringDeviceUpdateAdapter.updateList(model, OnConflictStrategy.abort);
+    await _ringDeviceModelUpdateAdapter.updateList(
+        model, OnConflictStrategy.abort);
   }
 
   @override
   Future<void> deleteTokens(RingDeviceModel model) async {
-    await _ringDeviceDeletionAdapter.delete(model);
+    await _ringDeviceModelDeletionAdapter.delete(model);
+  }
+}
+
+class _$BloodOxygenDataDao extends BloodOxygenDataDao {
+  _$BloodOxygenDataDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database),
+        _bloodOxygenDataInsertionAdapter = InsertionAdapter(
+            database,
+            'bloodOxygenData',
+            (BloodOxygenData item) => <String, Object?>{
+                  'appUserId': item.appUserId,
+                  'mac': item.mac,
+                  'createTime': item.createTime,
+                  'bloodArray': item.bloodArray
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<BloodOxygenData> _bloodOxygenDataInsertionAdapter;
+
+  @override
+  Future<List<BloodOxygenData>> queryUserAll(
+    String appUserId,
+    String createTime,
+  ) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM bloodOxygenData WHERE appUserId = ?1 and createTime = ?2',
+        mapper: (Map<String, Object?> row) => BloodOxygenData(appUserId: row['appUserId'] as int?, mac: row['mac'] as String?, createTime: row['createTime'] as String?, bloodArray: row['bloodArray'] as String?),
+        arguments: [appUserId, createTime]);
+  }
+
+  @override
+  Future<void> insertTokens(List<BloodOxygenData> models) async {
+    await _bloodOxygenDataInsertionAdapter.insertList(
+        models, OnConflictStrategy.replace);
+  }
+}
+
+class _$HeartRateDataDao extends HeartRateDataDao {
+  _$HeartRateDataDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database),
+        _heartRateDataInsertionAdapter = InsertionAdapter(
+            database,
+            'heartRateData',
+            (HeartRateData item) => <String, Object?>{
+                  'appUserId': item.appUserId,
+                  'mac': item.mac,
+                  'createTime': item.createTime,
+                  'averageHeartRate': item.averageHeartRate,
+                  'heartArray': item.heartArray
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<HeartRateData> _heartRateDataInsertionAdapter;
+
+  @override
+  Future<List<HeartRateData>> queryUserAll(
+    String appUserId,
+    String createTime,
+  ) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM bloodOxygenData WHERE appUserId = ?1 and createTime = ?2',
+        mapper: (Map<String, Object?> row) => HeartRateData(appUserId: row['appUserId'] as int?, mac: row['mac'] as String?, createTime: row['createTime'] as String?, averageHeartRate: row['averageHeartRate'] as int?, heartArray: row['heartArray'] as String?),
+        arguments: [appUserId, createTime]);
+  }
+
+  @override
+  Future<void> insertTokens(List<HeartRateData> models) async {
+    await _heartRateDataInsertionAdapter.insertList(
+        models, OnConflictStrategy.replace);
   }
 }

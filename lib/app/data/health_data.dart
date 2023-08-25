@@ -1,16 +1,23 @@
+import 'package:beering/db/database_config.dart';
 import 'package:beering/public.dart';
+import 'package:beering/utils/date_util.dart';
+import 'package:beering/utils/json_util.dart';
+import 'package:floor/floor.dart';
 
+const String tableName = 'bloodOxygenData';
+
+@Entity(tableName: tableName, primaryKeys: ["appUserId", "createTime"])
 class BloodOxygenData {
   int? appUserId;
   String? mac;
   String? createTime;
-  int? bloodOxygen;
+  String? bloodArray;
 
   BloodOxygenData({
     this.appUserId,
     this.mac,
     this.createTime,
-    this.bloodOxygen,
+    this.bloodArray,
   });
 
   factory BloodOxygenData.fromJson(Map<String, dynamic> json) =>
@@ -18,15 +25,39 @@ class BloodOxygenData {
         appUserId: json["appUserId"],
         mac: json["mac"],
         createTime: json["createTime"],
-        bloodOxygen: json["bloodOxygen"],
+        bloodArray: json["bloodOxygen"],
       );
 
   Map<String, dynamic> toJson() => {
         "appUserId": appUserId,
         "mac": mac,
         "createTime": createTime,
-        "bloodOxygen": bloodOxygen,
+        "bloodOxygen": bloodArray,
       };
+
+  static Future<List<BloodOxygenData>> queryUserAll(
+      String appUserId, String createTime) async {
+    final db = await DataBaseConfig.openDataBase();
+    final datas = await db?.bloodDao.queryUserAll(appUserId, createTime);
+    return datas ?? [];
+  }
+
+  static void insertTokens(List<BloodOxygenData> models) async {
+    final db = await DataBaseConfig.openDataBase();
+    final datas = await db?.bloodDao.insertTokens(models);
+    return;
+  }
+}
+
+@dao
+abstract class BloodOxygenDataDao {
+  @Query(
+      'SELECT * FROM $tableName WHERE appUserId = :appUserId and createTime = :createTime')
+  Future<List<BloodOxygenData>> queryUserAll(
+      String appUserId, String createTime);
+
+  @Insert(onConflict: OnConflictStrategy.replace)
+  Future<void> insertTokens(List<BloodOxygenData> models);
 }
 
 class FemalePeriodData {
@@ -58,6 +89,9 @@ class FemalePeriodData {
       };
 }
 
+const String tableName2 = 'heartRateData';
+
+@Entity(tableName: tableName2, primaryKeys: ["appUserId", "createTime"])
 class HeartRateData {
   int? appUserId;
   String? mac;
@@ -88,6 +122,29 @@ class HeartRateData {
         "averageHeartRate": averageHeartRate,
         "heartArray": heartArray,
       };
+
+  static Future<List<HeartRateData>> queryUserAll(
+      String appUserId, String createTime) async {
+    final db = await DataBaseConfig.openDataBase();
+    final datas = await db?.heartDao.queryUserAll(appUserId, createTime);
+    return datas ?? [];
+  }
+
+  static void insertTokens(List<HeartRateData> models) async {
+    final db = await DataBaseConfig.openDataBase();
+    final datas = await db?.heartDao.insertTokens(models);
+    return;
+  }
+}
+
+@dao
+abstract class HeartRateDataDao {
+  @Query(
+      'SELECT * FROM $tableName WHERE appUserId = :appUserId and createTime = :createTime')
+  Future<List<HeartRateData>> queryUserAll(String appUserId, String createTime);
+
+  @Insert(onConflict: OnConflictStrategy.replace)
+  Future<void> insertTokens(List<HeartRateData> models);
 }
 
 class SleepData {
@@ -317,6 +374,59 @@ class HealthData {
         "pressureData": pressureData?.map((x) => x.toJson()).toList(),
       };
 
- static queryHealthData(
+  static queryHealthData(
       {required Duration queryTime, required List<KHealthDataType> types}) {}
+
+  static insertHeartBloodBleData(
+      {required List<int> datas,
+      required bool isHaveTime,
+      required bool isHeart}) {
+    try {
+      int userid = SPManager.getGlobalUser()!.id!;
+      final mac = "";
+      if (isHeart == true) {
+        final model = BloodOxygenData(
+          appUserId: userid,
+          mac: mac,
+        );
+        if (isHaveTime == true) {
+          int year = (datas[1] << 8) + datas[0];
+          int month = datas[2];
+          int day = datas[3];
+          model.createTime = DateUtil.formatDate(
+              DateTime(year, month, day, 0, 0),
+              format: DateFormats.full);
+          model.bloodArray = JsonUtil.encodeObj(datas.sublist(4));
+        } else {
+          final now = DateTime.now();
+          model.createTime = DateUtil.formatDate(now, format: DateFormats.full);
+          model.bloodArray = JsonUtil.encodeObj(datas.sublist(4));
+        }
+        BloodOxygenData.insertTokens([model]);
+      } else {
+        final model = HeartRateData(
+          appUserId: userid,
+          mac: mac,
+        );
+        if (isHaveTime == true) {
+          int year = (datas[1] << 8) + datas[0];
+          int month = datas[2];
+          int day = datas[3];
+          model.createTime = DateUtil.formatDate(
+              DateTime(year, month, day, 0, 0),
+              format: DateFormats.full);
+          model.heartArray = JsonUtil.encodeObj(datas.sublist(4));
+        } else {
+          final now = DateTime.now();
+          model.createTime = DateUtil.formatDate(now, format: DateFormats.full);
+          model.heartArray = JsonUtil.encodeObj(datas.sublist(4));
+        }
+        HeartRateData.insertTokens([model]);
+      }
+
+      HWToast.showSucText(text: "构造成功，准备存数据库");
+    } catch (e) {
+      HWToast.showSucText(text: "构造失败，${e.toString()}");
+    }
+  }
 }
