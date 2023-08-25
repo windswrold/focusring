@@ -50,7 +50,7 @@ class TestdfuController extends GetxController {
 
     receiveDataStream = KBLEManager.receiveDataStream.listen((event) {
       // HWToast.showSucText(text: "收到的数据 $event");
-      receDatas.add(event);
+      // receDatas.add(event);
     });
   }
 

@@ -70,22 +70,22 @@ class HomeDevicesView extends GetView<HomeDevicesController> {
       ),
       child: Column(
         children: [
-          // GetBuilder<AppViewController>(
-          //     tag: AppViewController.tag,
-          //     id: AppViewController.userinfoID,
-          //     builder: (a) {
-          //       return _getListItem(
-          //         index: 0,
-          //         icon: "icons/device_icon_hrwarning",
-          //         title: "heartrate_alert",
-          //         desc:
-          //             a.user.value?.heartRateWarnSwitch == true ? "On" : "Off",
-          //       );
-          //     }),
-          // _getListItem(
-          //     index: 1,
-          //     icon: "icons/device_icon_auto",
-          //     title: "automatic_settings"),
+          GetBuilder<AppViewController>(
+              tag: AppViewController.tag,
+              id: AppViewController.userinfoID,
+              builder: (a) {
+                return _getListItem(
+                  index: 0,
+                  icon: "icons/device_icon_hrwarning",
+                  title: "heartrate_alert",
+                  desc:
+                      a.user.value?.heartRateWarnSwitch == true ? "On" : "Off",
+                );
+              }),
+          _getListItem(
+              index: 1,
+              icon: "icons/device_icon_auto",
+              title: "automatic_settings"),
           _getListItem(
               index: 2,
               icon: "icons/device_icon_upgrade",
@@ -309,7 +309,7 @@ class HomeDevicesView extends GetView<HomeDevicesController> {
         child: Column(
           children: [
             _getDevicesCard(),
-            // _getManual_test(),
+            _getManual_test(),
             _getList(),
           ],
         ),

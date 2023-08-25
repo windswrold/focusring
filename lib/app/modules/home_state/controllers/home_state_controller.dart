@@ -82,13 +82,13 @@ class HomeStateController extends GetxController {
           color: element.type.getTypeMainColor(),
         ),
       );
-      if (element.type == KHealthDataType.BLOOD_OXYGEN ||
-          element.type == KHealthDataType.HEART_RATE ||
-          element.type == KHealthDataType.EMOTION ||
-          element.type == KHealthDataType.STRESS ||
-          element.type == KHealthDataType.BODY_TEMPERATURE) {
-        continue;
-      }
+      // if (element.type == KHealthDataType.BLOOD_OXYGEN ||
+      //     element.type == KHealthDataType.HEART_RATE ||
+      //     element.type == KHealthDataType.EMOTION ||
+      //     element.type == KHealthDataType.STRESS ||
+      //     element.type == KHealthDataType.BODY_TEMPERATURE) {
+      //   continue;
+      // }
       KHomeCardModel card = KHomeCardModel(
         type: element.type,
         // datas: element.type == KHealthDataType.EMOTION

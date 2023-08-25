@@ -42,11 +42,32 @@ void main() {
     // vmPrint(c);
 
     final a = DateTime.now();
-    final c = a.toCustomFormat();
+    // final c = a.toCustomFormat();
+    int year = a.year; // 2023
+    int month = a.month; // 6
+    int day = a.day; // 18
+    int hour = a.hour; // 11
+    int minute = a.minute; // 34
+    int second = a.second; // 30
+
+    // Convert to custom format
+    ByteData byteData = ByteData(8); // 7 bytes in total
+    byteData.setUint16(0, year, Endian.little);
+    byteData.setUint8(2, month);
+    byteData.setUint8(3, 0);
+    byteData.setUint8(4, 0);
+    byteData.setUint8(5, 0);
+    byteData.setUint8(6, 1);
+
+    const offset = 8;
+    byteData.setUint8(7, offset);
+
+    final c = HEXUtil.encode(byteData.buffer.asUint8List().toList());
     vmPrint(c);
+    vmPrint(a.toCustomFormat());
 
     final d =
-        BLESerialization.getHeartHistoryDataByCurrentByIndex(15).getData();
+        KBLESerialization.getHeartHistoryDataByCurrentByIndex(15).getData();
     vmPrint(d);
 
     // List<int> e = [0xbb,15];

@@ -10,7 +10,7 @@ import 'package:beering/utils/json_util.dart';
 import 'package:flutter/services.dart';
 import 'package:hex/hex.dart';
 
-class BLESerialization {
+class KBLESerialization {
   ///更新
   // static Future<List<List<int>>> update() async {
   //   File file = await Constant.getBinFile();
@@ -118,13 +118,17 @@ extension DateTimeEX on DateTime {
     int second = this.second; // 30
 
     // Convert to custom format
-    ByteData byteData = ByteData(7); // 7 bytes in total
+    ByteData byteData = ByteData(8); // 7 bytes in total
     byteData.setUint16(0, year, Endian.little);
     byteData.setUint8(2, month);
     byteData.setUint8(3, day);
     byteData.setUint8(4, hour);
     byteData.setUint8(5, minute);
     byteData.setUint8(6, second);
+
+    final offset = timeZoneOffset.inHours;
+    byteData.setUint8(7, offset);
+
     return HEXUtil.encode(byteData.buffer.asUint8List().toList());
   }
 }
