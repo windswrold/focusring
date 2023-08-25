@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:beering/app/data/health_data.dart';
 import 'package:beering/app/data/steps_card_model.dart';
 import 'package:beering/public.dart';
 import 'package:beering/views/charts/home_card/model/home_card_x.dart';
@@ -159,7 +160,7 @@ class ReportInfoStepsController extends GetxController
     stepsCards.value = datas;
   }
 
-  void _queryDataSource() {
+  void _queryDataSource() async {
     if (currentType == KHealthDataType.SLEEP) {
       dataSource.value = [
         List.generate(
@@ -188,15 +189,24 @@ class ReportInfoStepsController extends GetxController
         )
       ];
     } else {
-      var data = List.generate(
-        30,
-        (index) => KChartCellData(
-          x: index.toString(),
-          y: 0,
-          color: currentType.getTypeMainColor(),
-        ),
-      );
-      dataSource.value = [data];
+      List<KChartCellData> datas = [];
+
+      if (currentType == KHealthDataType.HEART_RATE ||
+          currentType == KHealthDataType.BLOOD_OXYGEN) {
+        datas = await HealthData.queryHealthData(
+            reportType: reportType.value, types: currentType);
+      } else {
+        datas = List.generate(
+          30,
+          (index) => KChartCellData(
+            x: index.toString(),
+            y: 0,
+            color: currentType.getTypeMainColor(),
+          ),
+        );
+      }
+
+      dataSource.value = [datas];
     }
 
     update([id_data_souce_update]);

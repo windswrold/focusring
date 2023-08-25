@@ -95,9 +95,9 @@ class _$FlutterDatabase extends FlutterDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `ring_device_table` (`appUserId` TEXT, `remoteId` TEXT, `localName` TEXT, `macAddress` TEXT, `select` INTEGER, PRIMARY KEY (`appUserId`, `remoteId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `bloodOxygenData` (`appUserId` INTEGER, `mac` TEXT, `createTime` TEXT, `bloodArray` TEXT, PRIMARY KEY (`appUserId`, `createTime`))');
+            'CREATE TABLE IF NOT EXISTS `bloodOxygenData` (`appUserId` INTEGER, `mac` TEXT, `createTime` TEXT, `averageHeartRate` INTEGER, `max` INTEGER, `min` INTEGER, `bloodArray` TEXT, PRIMARY KEY (`appUserId`, `createTime`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `heartRateData` (`appUserId` INTEGER, `mac` TEXT, `createTime` TEXT, `averageHeartRate` INTEGER, `heartArray` TEXT, PRIMARY KEY (`appUserId`, `createTime`))');
+            'CREATE TABLE IF NOT EXISTS `heartRateData` (`appUserId` INTEGER, `mac` TEXT, `createTime` TEXT, `averageHeartRate` INTEGER, `max` INTEGER, `min` INTEGER, `heartArray` TEXT, PRIMARY KEY (`appUserId`, `createTime`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -320,6 +320,9 @@ class _$BloodOxygenDataDao extends BloodOxygenDataDao {
                   'appUserId': item.appUserId,
                   'mac': item.mac,
                   'createTime': item.createTime,
+                  'averageHeartRate': item.averageHeartRate,
+                  'max': item.max,
+                  'min': item.min,
                   'bloodArray': item.bloodArray
                 });
 
@@ -333,13 +336,14 @@ class _$BloodOxygenDataDao extends BloodOxygenDataDao {
 
   @override
   Future<List<BloodOxygenData>> queryUserAll(
-    String appUserId,
+    int appUserId,
     String createTime,
+    String nextTime,
   ) async {
     return _queryAdapter.queryList(
-        'SELECT * FROM bloodOxygenData WHERE appUserId = ?1 and createTime = ?2',
-        mapper: (Map<String, Object?> row) => BloodOxygenData(appUserId: row['appUserId'] as int?, mac: row['mac'] as String?, createTime: row['createTime'] as String?, bloodArray: row['bloodArray'] as String?),
-        arguments: [appUserId, createTime]);
+        'SELECT * FROM bloodOxygenData WHERE appUserId = ?1 and createTime >= ?2 AND createTime < ?3',
+        mapper: (Map<String, Object?> row) => BloodOxygenData(appUserId: row['appUserId'] as int?, mac: row['mac'] as String?, createTime: row['createTime'] as String?, bloodArray: row['bloodArray'] as String?, averageHeartRate: row['averageHeartRate'] as int?, max: row['max'] as int?, min: row['min'] as int?),
+        arguments: [appUserId, createTime, nextTime]);
   }
 
   @override
@@ -362,6 +366,8 @@ class _$HeartRateDataDao extends HeartRateDataDao {
                   'mac': item.mac,
                   'createTime': item.createTime,
                   'averageHeartRate': item.averageHeartRate,
+                  'max': item.max,
+                  'min': item.min,
                   'heartArray': item.heartArray
                 });
 
@@ -375,13 +381,14 @@ class _$HeartRateDataDao extends HeartRateDataDao {
 
   @override
   Future<List<HeartRateData>> queryUserAll(
-    String appUserId,
+    int appUserId,
     String createTime,
+    String nextTime,
   ) async {
     return _queryAdapter.queryList(
-        'SELECT * FROM bloodOxygenData WHERE appUserId = ?1 and createTime = ?2',
-        mapper: (Map<String, Object?> row) => HeartRateData(appUserId: row['appUserId'] as int?, mac: row['mac'] as String?, createTime: row['createTime'] as String?, averageHeartRate: row['averageHeartRate'] as int?, heartArray: row['heartArray'] as String?),
-        arguments: [appUserId, createTime]);
+        'SELECT * FROM bloodOxygenData WHERE appUserId = ?1 and createTime >= ?2 AND createTime < ?3',
+        mapper: (Map<String, Object?> row) => HeartRateData(appUserId: row['appUserId'] as int?, mac: row['mac'] as String?, createTime: row['createTime'] as String?, averageHeartRate: row['averageHeartRate'] as int?, heartArray: row['heartArray'] as String?, max: row['max'] as int?, min: row['min'] as int?),
+        arguments: [appUserId, createTime, nextTime]);
   }
 
   @override

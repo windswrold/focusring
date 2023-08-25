@@ -2,6 +2,7 @@ import 'package:beering/db/database_config.dart';
 import 'package:beering/public.dart';
 import 'package:beering/utils/date_util.dart';
 import 'package:beering/utils/json_util.dart';
+import 'package:beering/views/charts/home_card/model/home_card_x.dart';
 import 'package:floor/floor.dart';
 
 const String tableName = 'bloodOxygenData';
@@ -11,6 +12,9 @@ class BloodOxygenData {
   int? appUserId;
   String? mac;
   String? createTime;
+  int? averageHeartRate; //这一天的平均值
+  int? max;
+  int? min;
   String? bloodArray;
 
   BloodOxygenData({
@@ -18,6 +22,9 @@ class BloodOxygenData {
     this.mac,
     this.createTime,
     this.bloodArray,
+    this.averageHeartRate,
+    this.max,
+    this.min,
   });
 
   factory BloodOxygenData.fromJson(Map<String, dynamic> json) =>
@@ -26,6 +33,9 @@ class BloodOxygenData {
         mac: json["mac"],
         createTime: json["createTime"],
         bloodArray: json["bloodOxygen"],
+        averageHeartRate: json["averageHeartRate"],
+        max: json["max"],
+        min: json["min"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -36,9 +46,13 @@ class BloodOxygenData {
       };
 
   static Future<List<BloodOxygenData>> queryUserAll(
-      String appUserId, String createTime) async {
+    int appUserId,
+    String createTime,
+    String nextTime,
+  ) async {
     final db = await DataBaseConfig.openDataBase();
-    final datas = await db?.bloodDao.queryUserAll(appUserId, createTime);
+    final datas =
+        await db?.bloodDao.queryUserAll(appUserId, createTime, nextTime);
     return datas ?? [];
   }
 
@@ -52,9 +66,9 @@ class BloodOxygenData {
 @dao
 abstract class BloodOxygenDataDao {
   @Query(
-      'SELECT * FROM $tableName WHERE appUserId = :appUserId and createTime = :createTime')
+      'SELECT * FROM $tableName WHERE appUserId = :appUserId and createTime >= :createTime AND createTime < :nextTime')
   Future<List<BloodOxygenData>> queryUserAll(
-      String appUserId, String createTime);
+      int appUserId, String createTime, String nextTime);
 
   @Insert(onConflict: OnConflictStrategy.replace)
   Future<void> insertTokens(List<BloodOxygenData> models);
@@ -96,7 +110,9 @@ class HeartRateData {
   int? appUserId;
   String? mac;
   String? createTime;
-  int? averageHeartRate;
+  int? averageHeartRate; //这一天的平均值
+  int? max;
+  int? min;
   String? heartArray;
 
   HeartRateData({
@@ -105,6 +121,8 @@ class HeartRateData {
     this.createTime,
     this.averageHeartRate,
     this.heartArray,
+    this.max,
+    this.min,
   });
 
   factory HeartRateData.fromJson(Map<String, dynamic> json) => HeartRateData(
@@ -113,6 +131,8 @@ class HeartRateData {
         createTime: json["createTime"],
         averageHeartRate: json["averageHeartRate"],
         heartArray: json["heartArray"],
+        max: json["max"],
+        min: json["min"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -124,9 +144,13 @@ class HeartRateData {
       };
 
   static Future<List<HeartRateData>> queryUserAll(
-      String appUserId, String createTime) async {
+    int appUserId,
+    String createTime,
+    String nextTime,
+  ) async {
     final db = await DataBaseConfig.openDataBase();
-    final datas = await db?.heartDao.queryUserAll(appUserId, createTime);
+    final datas =
+        await db?.heartDao.queryUserAll(appUserId, createTime, nextTime);
     return datas ?? [];
   }
 
@@ -140,8 +164,9 @@ class HeartRateData {
 @dao
 abstract class HeartRateDataDao {
   @Query(
-      'SELECT * FROM $tableName WHERE appUserId = :appUserId and createTime = :createTime')
-  Future<List<HeartRateData>> queryUserAll(String appUserId, String createTime);
+      'SELECT * FROM $tableName WHERE appUserId = :appUserId and createTime >= :createTime AND createTime < :nextTime')
+  Future<List<HeartRateData>> queryUserAll(
+      int appUserId, String createTime, String nextTime);
 
   @Insert(onConflict: OnConflictStrategy.replace)
   Future<void> insertTokens(List<HeartRateData> models);
@@ -374,8 +399,64 @@ class HealthData {
         "pressureData": pressureData?.map((x) => x.toJson()).toList(),
       };
 
-  static queryHealthData(
-      {required Duration queryTime, required List<KHealthDataType> types}) {}
+  static Future<List<KChartCellData>> queryHealthData(
+      {required KReportType reportType, required KHealthDataType types}) async {
+    int userid = SPManager.getGlobalUser()!.id!;
+    List<KChartCellData> cellDatas = [];
+
+    final currentTime = DateTime.now();
+    String create = getZeroDateTime(now: currentTime);
+    String nextTime = "";
+    if (reportType == KReportType.day) {
+      nextTime =
+          getZeroDateTime(now: currentTime..add(const Duration(days: 1)));
+    } else if (reportType == KReportType.week) {
+      create =
+          getZeroDateTime(now: currentTime..subtract(const Duration(days: 7)));
+
+      nextTime = getZeroDateTime(now: currentTime);
+    } else if (reportType == KReportType.moneth) {
+      create =
+          getZeroDateTime(now: currentTime..subtract(const Duration(days: 30)));
+      nextTime = getZeroDateTime(now: currentTime);
+    }
+
+    if (types == KHealthDataType.HEART_RATE) {
+      List<HeartRateData> datas =
+          await HeartRateData.queryUserAll(userid, create, nextTime);
+      if (reportType == KReportType.day) {
+        List heartArray = JsonUtil.getObj(datas.first.heartArray);
+        for (var i = 0; i < heartArray.length; i++) {
+          final dur = Duration(minutes: 5 * i);
+          final e = heartArray[i];
+          cellDatas.add(
+            KChartCellData(
+              x: "${dur.inHours}:${dur.inMinutes}",
+              y: e,
+            ),
+          );
+        }
+      } else {
+        for (var i = 0; i < datas.length; i++) {
+          final e = datas[i];
+          cellDatas.add(
+            KChartCellData(
+              x: e.createTime,
+              y: (e.min ?? 0),
+              z: e.max ?? 0,
+              a: e.averageHeartRate ?? 0,
+              color: types.getTypeMainColor(),
+            ),
+          );
+        }
+      }
+    } else if (types == KHealthDataType.BLOOD_OXYGEN) {
+      List<BloodOxygenData> datas =
+          await BloodOxygenData.queryUserAll(userid, create, nextTime);
+    }
+
+    return cellDatas;
+  }
 
   static insertHeartBloodBleData(
       {required List<int> datas,
@@ -389,6 +470,8 @@ class HealthData {
           appUserId: userid,
           mac: mac,
         );
+
+        List<int> results = [];
         if (isHaveTime == true) {
           int year = (datas[1] << 8) + datas[0];
           int month = datas[2];
@@ -396,14 +479,18 @@ class HealthData {
           model.createTime = DateUtil.formatDate(
               DateTime(year, month, day, 0, 0),
               format: DateFormats.full);
-          model.bloodArray = JsonUtil.encodeObj(datas.sublist(4));
+          results = datas.sublist(4);
         } else {
-          final now = DateTime.now();
-          model.createTime = DateUtil.formatDate(now, format: DateFormats.full);
-          model.bloodArray = JsonUtil.encodeObj(datas.sublist(4));
+          model.createTime = getZeroDateTime();
+          results = datas;
         }
+        model.bloodArray = JsonUtil.encodeObj(results);
+        model.averageHeartRate = ListEx.averageNum(results).toInt();
+        model.max = ListEx.maxVal(results).toInt();
+        model.min = ListEx.minVal(results).toInt();
         BloodOxygenData.insertTokens([model]);
       } else {
+        List<int> results = [];
         final model = HeartRateData(
           appUserId: userid,
           mac: mac,
@@ -415,16 +502,18 @@ class HealthData {
           model.createTime = DateUtil.formatDate(
               DateTime(year, month, day, 0, 0),
               format: DateFormats.full);
-          model.heartArray = JsonUtil.encodeObj(datas.sublist(4));
+          results = datas.sublist(4);
         } else {
-          final now = DateTime.now();
-          model.createTime = DateUtil.formatDate(now, format: DateFormats.full);
-          model.heartArray = JsonUtil.encodeObj(datas.sublist(4));
+          model.createTime = getZeroDateTime();
+          results = datas;
         }
+        model.heartArray = JsonUtil.encodeObj(results);
+        model.averageHeartRate = ListEx.averageNum(results).toInt();
+        model.max = ListEx.maxVal(results).toInt();
+        model.min = ListEx.minVal(results).toInt();
         HeartRateData.insertTokens([model]);
       }
-
-      HWToast.showSucText(text: "构造成功，准备存数据库");
+      HWToast.showSucText(text: "构造成功，已存数据库");
     } catch (e) {
       HWToast.showSucText(text: "构造失败，${e.toString()}");
     }

@@ -9,6 +9,7 @@ import 'package:beering/views/charts/home_card/model/home_card_type.dart';
 import 'package:beering/views/charts/home_card/model/home_card_x.dart';
 import 'package:beering/views/charts/radio_gauge_chart/model/radio_gauge_chart_model.dart';
 import 'package:get/get.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 class HomeStateController extends GetxController {
   //TODO: Implement HomeStateController
@@ -21,11 +22,18 @@ class HomeStateController extends GetxController {
 
   RxList<KHomeCardModel> dataTypes = <KHomeCardModel>[].obs;
 
+  late RefreshController refreshController = RefreshController();
+
   @override
   void onInit() {
     super.onInit();
 
     initData();
+  }
+
+  void onRefresh() {
+
+    
   }
 
   void initData() async {
@@ -82,25 +90,9 @@ class HomeStateController extends GetxController {
           color: element.type.getTypeMainColor(),
         ),
       );
-      // if (element.type == KHealthDataType.BLOOD_OXYGEN ||
-      //     element.type == KHealthDataType.HEART_RATE ||
-      //     element.type == KHealthDataType.EMOTION ||
-      //     element.type == KHealthDataType.STRESS ||
-      //     element.type == KHealthDataType.BODY_TEMPERATURE) {
-      //   continue;
-      // }
+
       KHomeCardModel card = KHomeCardModel(
         type: element.type,
-        // datas: element.type == KHealthDataType.EMOTION
-        //     ? [
-        //         List.generate(
-        //             30, (index) => KChartCellData(x: index.toString(), y: 300)),
-        //         List.generate(
-        //             30, (index) => KChartCellData(x: index.toString(), y: 100)),
-        //         List.generate(
-        //             30, (index) => KChartCellData(x: index.toString(), y: 1000))
-        //       ]
-        //     : [data],
         date: "empty_data".tr,
         result: "",
         resultDesc: "",

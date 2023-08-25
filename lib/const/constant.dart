@@ -4,6 +4,7 @@ import 'dart:math';
 import 'dart:ui' as ui;
 import 'dart:ui';
 
+import 'package:beering/utils/date_util.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -205,6 +206,12 @@ bool compareUUID(String a, String b) {
 
   HWToast.showSucText(text: "比对 id\n$a\napp: $b\n结果 ${a == b}");
   return a == b;
+}
+
+String getZeroDateTime({DateTime? now}) {
+  now ??= DateTime.now();
+  return DateUtil.formatDate(DateTime(now.year, now.month, now.day, 0, 0),
+      format: DateFormats.full);
 }
 
 class GlobalValues {
