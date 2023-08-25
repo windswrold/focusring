@@ -78,7 +78,7 @@ class AutomaticSettingsController extends GetxController {
       startTime: sameTime,
       endTime: sameTime,
       offset: int.tryParse(bloodOxygenAutoTestInterval.value),
-      isHeart: KHealthDataType.BODY_TEMPERATURE,
+      isHeart: KHealthDataType.BLOOD_OXYGEN,
     ));
   }
 
