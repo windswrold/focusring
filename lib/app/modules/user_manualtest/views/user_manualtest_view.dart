@@ -131,11 +131,15 @@ class UserManualtestView extends GetView<UserManualtestController> {
                               color: ColorUtils.fromHex("#FF00CE3A"),
                               height: 32.w,
                               alignment: Alignment.center,
-                              child: Text(
-                                "-",
-                                style: Get.textTheme.displayLarge,
-                                softWrap: true,
-                                textAlign: TextAlign.center,
+                              child: Obx(
+                                () => Text(
+                                  controller.testResult.value.isEmpty
+                                      ? "-"
+                                      : controller.testResult.value,
+                                  style: Get.textTheme.displayLarge,
+                                  softWrap: true,
+                                  textAlign: TextAlign.center,
+                                ),
                               ),
                             ),
                           ),

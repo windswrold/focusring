@@ -51,8 +51,7 @@ class ReceiveDataHandler {
       vmPrint("ppg");
       com = KBLECommandType.ppg;
       status = false;
-      if (type == 0x00) {
-        vmPrint("心率实时单次测量设置");
+      if (type == 0x00 && type == 0x05) {
         if (valueData[0] == 0x01) {
           tip = "设备接受单次测量，正在测量中";
         } else if (valueData[0] == 0x02) {
@@ -62,25 +61,37 @@ class ReceiveDataHandler {
         } else if (valueData[0] == 0x04) {
           tip = "设备在定时测量中已经出值测量还未结束";
         } else if (valueData[0] == 0x05) {
-          if (valueData[1] == 0x01) {
-            tip = "其它错误";
-          } else if (valueData[1] == 0x02) {
-            tip = "心率通信失败";
-          } else if (valueData[1] == 0x03) {
-            tip = "心率中断不来";
-          } else if (valueData[1] == 0x04) {
-            tip = "设备没有佩戴";
+          if (type == 0x00) {
+            if (valueData[1] == 0x01) {
+              tip = "其它错误";
+            } else if (valueData[1] == 0x02) {
+              tip = "心率通信失败";
+            } else if (valueData[1] == 0x03) {
+              tip = "心率中断不来";
+            } else if (valueData[1] == 0x04) {
+              tip = "设备没有佩戴";
+            }
+          } else {
+            if (valueData[1] == 0x01) {
+              tip = "其它错误";
+            } else if (valueData[1] == 0x02) {
+              tip = "血氧通信失败";
+            } else if (valueData[1] == 0x03) {
+              tip = "血氧中断不来";
+            } else if (valueData[1] == 0x04) {
+              tip = "设备没有佩戴";
+            }
           }
         } else if (valueData[0] == 0x06) {
           status = true;
           tip = "获取成功";
           value = valueData[1];
         }
-      } else if (type == 0x01) {
+      } else if (type == 0x01 && type == 0x06) {
         vmPrint("心率定时测量设置");
         status = true;
         tip = "设备回复设置成功";
-      } else if (type == 0x02) {
+      } else if (type == 0x02 && type == 0x07) {
         if (valueData[0] == 0x00) {
           vmPrint("不打开");
           status = false;
@@ -88,7 +99,7 @@ class ReceiveDataHandler {
           status = true;
         }
         tip = "心率定时测量设置成功";
-      } else if (type == 0x03) {
+      } else if (type == 0x03 && type == 0x08) {
         if (valueData[0] == 0xaa) {
           value = valueData[1];
           vmPrint("回答天数");
@@ -103,7 +114,7 @@ class ReceiveDataHandler {
           }
           value = valueData.sublist(3);
         }
-      } else if (type == 0x04) {
+      } else if (type == 0x04 && type == 0x09) {
         if (valueData[0] == 0xbb) {
           vmPrint("回答数据");
           int all = valueData[1];

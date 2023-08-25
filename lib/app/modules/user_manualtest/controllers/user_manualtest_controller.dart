@@ -1,3 +1,7 @@
+import 'dart:async';
+
+import 'package:beering/ble/ble_manager.dart';
+import 'package:beering/ble/bledata_serialization.dart';
 import 'package:beering/utils/timer_util.dart';
 import 'package:get/get.dart';
 import 'package:gif/gif.dart';
@@ -17,6 +21,10 @@ class UserManualtestController extends GetxController
       TimerUtil(mTotalTime: countDownTime.inMilliseconds);
 
   late Rx<KHealthDataType> type = KHealthDataType.HEART_RATE.obs;
+
+  late RxString testResult = RxString("");
+
+  StreamSubscription? receive;
 
   @override
   void onInit() {
@@ -38,6 +46,23 @@ class UserManualtestController extends GetxController
       }
     });
 
+    receive = KBLEManager.receiveDataStream.listen((event) {
+      if (event.command == KBLECommandType.ppg) {
+        if (event.status == false) {
+          HWToast.showErrText(text: event.tip);
+        } else {
+          pauseAnimation();
+          HWToast.showSucText(text: event.tip);
+          dynamic result = event.value;
+          testResult.value = result.toString();
+        }
+      }
+    });
+
+    KBLEManager.sendData(
+        sendData: KBLESerialization.ppg_heartOnceTest(
+      isHeart: type.value,
+    ));
     super.onReady();
   }
 
@@ -45,6 +70,7 @@ class UserManualtestController extends GetxController
   void onClose() {
     _timerUtil.cancel();
     gifController.dispose();
+    receive?.cancel();
     super.onClose();
   }
 
@@ -61,6 +87,10 @@ class UserManualtestController extends GetxController
       gifController.repeat();
       kState.value = KStateType.loading;
       _timerUtil.updateTotalTime(countDownTime.inMilliseconds);
+      KBLEManager.sendData(
+          sendData: KBLESerialization.ppg_heartOnceTest(
+        isHeart: type.value,
+      ));
     }
   }
 }

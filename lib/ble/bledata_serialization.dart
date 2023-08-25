@@ -45,17 +45,21 @@ class KBLESerialization {
         valueStr: a.toCustomFormat());
   }
 
-  ///心率实时单次测量设置
-  static BLESendData ppg_heartOnceTest() {
-    return BLESendData(cmd: KBLECommandType.ppg, typeStr: "00", valueStr: "00");
+  ///心率实时单次测量设置 血氧
+  static BLESendData ppg_heartOnceTest({required KHealthDataType isHeart}) {
+    return BLESendData(
+        cmd: KBLECommandType.ppg,
+        typeStr: isHeart == KHealthDataType.HEART_RATE ? "00" : "05",
+        valueStr: "00");
   }
 
-  ///心率定时测量设置
+  ///心率定时测量设置 血氧
   static BLESendData ppg_heartTimingTest({
     required bool isOn,
     required DateTime? startTime,
     required DateTime? endTime,
     required int? offset,
+    required KHealthDataType isHeart,
   }) {
     List<int> data = [];
     data.add(isOn ? 0x01 : 0x00);
@@ -74,39 +78,55 @@ class KBLESerialization {
     }
     return BLESendData(
         cmd: KBLECommandType.ppg,
-        typeStr: "01",
+        typeStr: isHeart == KHealthDataType.HEART_RATE ? "01" : "06",
         valueStr: HEXUtil.encode(data));
   }
 
-  ///心率定时测量设置获取
-  static BLESendData ppg_getHeartTimingSetting() {
-    return BLESendData(cmd: KBLECommandType.ppg, typeStr: "02", valueStr: "00");
-  }
-
-  ///发送获取历史心率数据天数获取
-  static BLESendData getHeartHistoryDataDayNum() {
+  ///心率定时测量设置获取 血氧
+  static BLESendData ppg_getHeartTimingSetting(
+      {required KHealthDataType isHeart}) {
     return BLESendData(
-        cmd: KBLECommandType.ppg, typeStr: "03", valueStr: "aa00");
+        cmd: KBLECommandType.ppg,
+        typeStr: isHeart == KHealthDataType.HEART_RATE ? "02" : "07",
+        valueStr: "00");
   }
 
-  ///获取历史心率数据请求当天数据
-  static BLESendData getHeartHistoryDataByCurrent() {
+  ///发送获取历史心率数据天数获取 血氧
+  static BLESendData getHeartHistoryDataDayNum(
+      {required KHealthDataType isHeart}) {
     return BLESendData(
-        cmd: KBLECommandType.ppg, typeStr: "03", valueStr: "bb00");
+        cmd: KBLECommandType.ppg,
+        typeStr: isHeart == KHealthDataType.HEART_RATE ? "03" : "08",
+        valueStr: "aa00");
   }
 
-  ///回复收到相应包，并带上包序号
-  static BLESendData getHeartHistoryDataByCurrentByIndex(int index) {
+  ///获取历史心率数据请求当天数据 血氧
+  static BLESendData getHeartHistoryDataByCurrent(
+      {required KHealthDataType isHeart}) {
+    return BLESendData(
+        cmd: KBLECommandType.ppg,
+        typeStr: isHeart == KHealthDataType.HEART_RATE ? "03" : "08",
+        valueStr: "bb00");
+  }
+
+  ///回复收到相应包，并带上包序号 血氧
+  static BLESendData getHeartHistoryDataByCurrentByIndex(int index,
+      {required KHealthDataType isHeart}) {
     List<int> e = [0xbb, index];
     return BLESendData(
-        cmd: KBLECommandType.ppg, typeStr: "03", valueStr: HEXUtil.encode(e));
+        cmd: KBLECommandType.ppg,
+        typeStr: isHeart == KHealthDataType.HEART_RATE ? "03" : "08",
+        valueStr: HEXUtil.encode(e));
   }
 
-  ///心率当天数据获取心率按照5min一个值：
+  ///心率当天数据获取心率按照5min一个值： 血氧
   ///1天：12X24=288个字节；固定大小；
-  static BLESendData getHeartHistoryDataByCurrentLong() {
+  static BLESendData getHeartHistoryDataByCurrentLong(
+      {required KHealthDataType isHeart}) {
     return BLESendData(
-        cmd: KBLECommandType.ppg, typeStr: "04", valueStr: "bb01");
+        cmd: KBLECommandType.ppg,
+        typeStr: isHeart == KHealthDataType.HEART_RATE ? "04" : "09",
+        valueStr: "bb01");
   }
 }
 

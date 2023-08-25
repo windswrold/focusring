@@ -58,6 +58,7 @@ class HomeDevicesController extends GetxController {
     if (d == null || d is Map) {
       return;
     }
+    // await RingDeviceModel.insertTokens(d);
     connectDevice.value = d;
   }
 
