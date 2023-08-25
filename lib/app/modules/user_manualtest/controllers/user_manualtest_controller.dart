@@ -37,6 +37,7 @@ class UserManualtestController extends GetxController
         pauseAnimation();
       }
     });
+
     super.onReady();
   }
 

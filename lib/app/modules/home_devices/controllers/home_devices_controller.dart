@@ -54,8 +54,8 @@ class HomeDevicesController extends GetxController {
   }
 
   void onTapAddDevices() async {
-    RingDeviceModel? d = (await Get.toNamed(Routes.FIND_DEVICES)) as RingDeviceModel?;
-    if (d == null) {
+    dynamic d = (await Get.toNamed(Routes.FIND_DEVICES));
+    if (d == null || d is Map) {
       return;
     }
     connectDevice.value = d;

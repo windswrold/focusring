@@ -40,6 +40,13 @@ class ReceiveDataHandler {
         status = true;
         tip = "成功绑定";
       }
+    } else if (cmd == 0x02) {
+      if (type == 0x00) {
+        status = true;
+        tip = "时间设置成功";
+      } else if (type == 0x02) {
+        //解除绑定
+      }
     } else if (cmd == 0x03) {
       vmPrint("ppg");
       com = KBLECommandType.ppg;

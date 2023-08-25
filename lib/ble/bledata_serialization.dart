@@ -45,10 +45,12 @@ class KBLESerialization {
         valueStr: a.toCustomFormat());
   }
 
+  ///心率实时单次测量设置
   static BLESendData ppg_heartOnceTest() {
     return BLESendData(cmd: KBLECommandType.ppg, typeStr: "00", valueStr: "00");
   }
 
+  ///心率定时测量设置
   static BLESendData ppg_heartTimingTest({
     required bool isOn,
     required DateTime? startTime,
@@ -76,6 +78,7 @@ class KBLESerialization {
         valueStr: HEXUtil.encode(data));
   }
 
+  ///心率定时测量设置获取
   static BLESendData ppg_getHeartTimingSetting() {
     return BLESendData(cmd: KBLECommandType.ppg, typeStr: "02", valueStr: "00");
   }
