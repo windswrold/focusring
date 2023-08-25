@@ -411,15 +411,15 @@ class HealthData {
       String nextTime = "";
       if (reportType == KReportType.day) {
         nextTime =
-            getZeroDateTime(now: currentTime..add(const Duration(days: 1)));
+            getZeroDateTime(now: currentTime.add(const Duration(days: 1)));
       } else if (reportType == KReportType.week) {
-        create = getZeroDateTime(
-            now: currentTime..subtract(const Duration(days: 7)));
+        create =
+            getZeroDateTime(now: currentTime.subtract(const Duration(days: 7)));
 
         nextTime = getZeroDateTime(now: currentTime);
       } else if (reportType == KReportType.moneth) {
         create = getZeroDateTime(
-            now: currentTime..subtract(const Duration(days: 30)));
+            now: currentTime.subtract(const Duration(days: 30)));
         nextTime = getZeroDateTime(now: currentTime);
       }
 
@@ -546,7 +546,7 @@ class HealthData {
       }
       HWToast.showSucText(text: "构造成功，已存数据库");
     } catch (e) {
-      HWToast.showSucText(text: "构造失败，${e.toString()}");
+      HWToast.showErrText(text: "构造失败，${e.toString()}");
     }
   }
 }
