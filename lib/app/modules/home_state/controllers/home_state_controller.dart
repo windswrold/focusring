@@ -84,6 +84,8 @@ class HomeStateController extends GetxController {
       );
       if (element.type == KHealthDataType.BLOOD_OXYGEN ||
           element.type == KHealthDataType.HEART_RATE ||
+          element.type == KHealthDataType.EMOTION ||
+          element.type == KHealthDataType.STRESS ||
           element.type == KHealthDataType.BODY_TEMPERATURE) {
         continue;
       }
