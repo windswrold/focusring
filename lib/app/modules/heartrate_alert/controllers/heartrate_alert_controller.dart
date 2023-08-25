@@ -42,6 +42,9 @@ class HeartrateAlertController extends GetxController {
       symbolText: KHealthDataType.HEART_RATE.getSymbol(),
       initialItem: arrs.indexOf(maxHeartAlert.value.toString()),
     );
+    if (index == null) {
+      return;
+    }
     maxHeartAlert.value = arrs[index];
     _requestData({"maxHeartRate": arrs[index]});
   }
@@ -54,6 +57,9 @@ class HeartrateAlertController extends GetxController {
       symbolText: KHealthDataType.HEART_RATE.getSymbol(),
       initialItem: arrs.indexOf(minHeartAlert.value.toString()),
     );
+    if (index == null) {
+      return;
+    }
     minHeartAlert.value = arrs[index];
     _requestData({"minHeartRate": arrs[index]});
   }
