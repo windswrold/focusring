@@ -401,58 +401,89 @@ class HealthData {
 
   static Future<List<KChartCellData>> queryHealthData(
       {required KReportType reportType, required KHealthDataType types}) async {
-    int userid = SPManager.getGlobalUser()!.id!;
     List<KChartCellData> cellDatas = [];
 
-    final currentTime = DateTime.now();
-    String create = getZeroDateTime(now: currentTime);
-    String nextTime = "";
-    if (reportType == KReportType.day) {
-      nextTime =
-          getZeroDateTime(now: currentTime..add(const Duration(days: 1)));
-    } else if (reportType == KReportType.week) {
-      create =
-          getZeroDateTime(now: currentTime..subtract(const Duration(days: 7)));
+    try {
+      int userid = SPManager.getGlobalUser()!.id!;
 
-      nextTime = getZeroDateTime(now: currentTime);
-    } else if (reportType == KReportType.moneth) {
-      create =
-          getZeroDateTime(now: currentTime..subtract(const Duration(days: 30)));
-      nextTime = getZeroDateTime(now: currentTime);
-    }
-
-    if (types == KHealthDataType.HEART_RATE) {
-      List<HeartRateData> datas =
-          await HeartRateData.queryUserAll(userid, create, nextTime);
+      final currentTime = DateTime.now();
+      String create = getZeroDateTime(now: currentTime);
+      String nextTime = "";
       if (reportType == KReportType.day) {
-        List heartArray = JsonUtil.getObj(datas.first.heartArray);
-        for (var i = 0; i < heartArray.length; i++) {
-          final dur = Duration(minutes: 5 * i);
-          final e = heartArray[i];
-          cellDatas.add(
-            KChartCellData(
-              x: "${dur.inHours}:${dur.inMinutes}",
-              y: e,
-            ),
-          );
+        nextTime =
+            getZeroDateTime(now: currentTime..add(const Duration(days: 1)));
+      } else if (reportType == KReportType.week) {
+        create = getZeroDateTime(
+            now: currentTime..subtract(const Duration(days: 7)));
+
+        nextTime = getZeroDateTime(now: currentTime);
+      } else if (reportType == KReportType.moneth) {
+        create = getZeroDateTime(
+            now: currentTime..subtract(const Duration(days: 30)));
+        nextTime = getZeroDateTime(now: currentTime);
+      }
+
+      if (types == KHealthDataType.HEART_RATE) {
+        List<HeartRateData> datas =
+            await HeartRateData.queryUserAll(userid, create, nextTime);
+        if (reportType == KReportType.day) {
+          List heartArray = JsonUtil.getObj(datas.first.heartArray);
+          for (var i = 0; i < heartArray.length; i++) {
+            final dur = Duration(minutes: 5 * i);
+            final e = heartArray[i];
+            cellDatas.add(
+              KChartCellData(
+                x: "${dur.inHours}:${dur.inMinutes}",
+                y: e,
+              ),
+            );
+          }
+        } else {
+          for (var i = 0; i < datas.length; i++) {
+            final e = datas[i];
+            cellDatas.add(
+              KChartCellData(
+                x: e.createTime,
+                y: (e.min ?? 0),
+                z: e.max ?? 0,
+                a: e.averageHeartRate ?? 0,
+                color: types.getTypeMainColor(),
+              ),
+            );
+          }
         }
-      } else {
-        for (var i = 0; i < datas.length; i++) {
-          final e = datas[i];
-          cellDatas.add(
-            KChartCellData(
-              x: e.createTime,
-              y: (e.min ?? 0),
-              z: e.max ?? 0,
-              a: e.averageHeartRate ?? 0,
-              color: types.getTypeMainColor(),
-            ),
-          );
+      } else if (types == KHealthDataType.BLOOD_OXYGEN) {
+        List<BloodOxygenData> datas =
+            await BloodOxygenData.queryUserAll(userid, create, nextTime);
+        if (reportType == KReportType.day) {
+          List heartArray = JsonUtil.getObj(datas.first.bloodArray);
+          for (var i = 0; i < heartArray.length; i++) {
+            final dur = Duration(minutes: 5 * i);
+            final e = heartArray[i];
+            cellDatas.add(
+              KChartCellData(
+                x: "${dur.inHours}:${dur.inMinutes}",
+                y: e,
+              ),
+            );
+          }
+        } else {
+          for (var i = 0; i < datas.length; i++) {
+            final e = datas[i];
+            cellDatas.add(
+              KChartCellData(
+                x: e.createTime,
+                y: (e.min ?? 0),
+                z: e.max ?? 0,
+                a: e.averageHeartRate ?? 0,
+                color: types.getTypeMainColor(),
+              ),
+            );
+          }
         }
       }
-    } else if (types == KHealthDataType.BLOOD_OXYGEN) {
-      List<BloodOxygenData> datas =
-          await BloodOxygenData.queryUserAll(userid, create, nextTime);
+    } catch (e) {
+      HWToast.showErrText(text: "读取失败 ${e}");
     }
 
     return cellDatas;
