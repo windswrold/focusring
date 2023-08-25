@@ -19,7 +19,7 @@ class KBLEManager {
       _mtuSubscripation,
       _connectSubscription;
   static List<int> _allValues = []; //接收缓存数据
-
+  static List<List<int>> _cacheSendData = []; //缓存发送的数据集合
   static BluetoothDevice? _currentDevice;
 
   static final _receiveController =
@@ -35,6 +35,7 @@ class KBLEManager {
     _writeCharacteristic = null;
     _mBluetoothDevice = null;
     _connectSubscription?.cancel();
+    _cacheSendData.clear();
   }
 
   static Stream<List<ScanResult>> get scanResults {
@@ -165,6 +166,8 @@ class KBLEManager {
     if (_writeCharacteristic == null) {
       return;
     }
+    _cacheSendData.add(datas);
+
 
     // _receiveController.add("准备发送数据 ${HEX.encode(datas)}");
     await _writeCharacteristic?.write(datas, withoutResponse: true);

@@ -41,7 +41,7 @@ class HomeDevicesController extends GetxController {
         KBLEManager.sendData(
             sendData: KBLESerialization.getHeartHistoryDataByCurrent(
                 isHeart: KHealthDataType.HEART_RATE));
-      }
+      } else {}
     });
   }
 
