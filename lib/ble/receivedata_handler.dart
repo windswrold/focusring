@@ -26,7 +26,7 @@ class ReceiveDataHandler {
     bool status = false;
     dynamic value;
 
-    KBLECommandType com = KBLECommandType.debug;
+    KBLECommandType? com;
     vmPrint("一个完整的数据 ${HEXUtil.encode(_allDatas)}");
     //取出头
     int cmd = _allDatas[4];
@@ -156,6 +156,10 @@ class ReceiveDataHandler {
     } else if (cmd == 0x06) {
       status = true;
       value = valueData[0];
+    }
+
+    if (com == null) {
+      throw "command not null";
     }
 
     return ReceiveDataModel(
