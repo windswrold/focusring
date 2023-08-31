@@ -13,6 +13,7 @@ import 'console_logger.dart';
 
 class SPManager {
   static SharedPreferences? _sp;
+
   static SharedPreferences get sp {
     return _sp!;
   }
@@ -66,5 +67,16 @@ class SPManager {
     var json = JsonUtil.encodeObj(user.toJson());
 
     await sp.setString(_globalUser, json!);
+  }
+
+  static const String _firstInstall = '_firstInstall';
+
+  static bool getInstallStatus() {
+    var a = sp.getBool(_firstInstall);
+    return a ?? false;
+  }
+
+  static void setInstallStatus() async {
+    await sp.setBool(_firstInstall, true);
   }
 }

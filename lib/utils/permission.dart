@@ -1,4 +1,6 @@
+import 'package:beering/ble/ble_manager.dart';
 import 'package:beering/utils/console_logger.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../public.dart';
 
@@ -12,6 +14,25 @@ class PermissionUtils {
     vmPrint("Permission  $status");
     if (status != PermissionStatus.granted) {}
     return status == PermissionStatus.granted;
+  }
+
+  /// Permission prompt dialog
+  static showBleDialog() async {
+    if (isIOS == true) {
+      return;
+    }
+    final a = SPManager.getInstallStatus();
+    if (a == false) {
+      SPManager.setInstallStatus();
+      DialogUtils.defaultDialog(
+        title: "Request Permission",
+        content:
+            "Bee Ring needs Bluetooth permissions are required to scan devices",
+        onConfirm: () async {
+          await KBLEManager.checkBle();
+        },
+      );
+    }
   }
 
   static Future<bool> checkBle() async {
@@ -46,48 +67,6 @@ class PermissionUtils {
       PermissionStatus status = await Permission.storage.request();
       vmPrint("Permission  $status");
       return status == PermissionStatus.granted;
-    }
-  }
-
-  static checkPermission(
-      {required List<Permission> permissionList,
-      VoidCallback? onSuccess,
-      VoidCallback? onFailed,
-      VoidCallback? goSetting}) async {
-    ///
-    List<Permission> newPermissionList = [];
-
-    ///
-    for (Permission permission in permissionList) {
-      PermissionStatus status = await permission.status;
-
-      ///
-      if (!status.isGranted) {
-        newPermissionList.add(permission);
-      }
-    }
-
-    if (newPermissionList.isNotEmpty) {
-      PermissionStatus permissionStatus =
-          await requestPermission(newPermissionList);
-
-      switch (permissionStatus) {
-        case PermissionStatus.denied:
-          onFailed != null ? onFailed() : defaultCall("权限申请失败");
-          break;
-
-        case PermissionStatus.granted:
-          onSuccess != null ? onSuccess() : defaultCall("权限申请成功");
-          break;
-
-        case PermissionStatus.restricted:
-        case PermissionStatus.limited:
-        case PermissionStatus.permanentlyDenied:
-          goSetting != null ? goSetting() : openAppSettings();
-          break;
-      }
-    } else {
-      onSuccess != null ? onSuccess() : defaultCall("权限申请成功");
     }
   }
 
