@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:beering/utils/permission.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:beering/app/data/ring_device.dart';
 import 'package:beering/app/modules/app_view/controllers/app_view_controller.dart';
@@ -40,7 +41,8 @@ class FindDevicesController extends GetxController {
 
     scanStream = KBLEManager.scanResults.listen((event) {
       vmPrint("scanResults ${event.length}");
-      scanResults.value = event.map((e) => RingDeviceModel.fromResult(e)).toList();
+      scanResults.value =
+          event.map((e) => RingDeviceModel.fromResult(e)).toList();
     });
 
     isScan = KBLEManager.isScanning.listen((event) {
@@ -60,8 +62,11 @@ class FindDevicesController extends GetxController {
     if (state == false) {
       return;
     }
-    KBLEManager.startScan();
-    controller.repeat();
+    final a = await PermissionUtils.showBleDialog();
+    if (a == true) {
+      KBLEManager.startScan();
+      controller.repeat();
+    }
   }
 
   void onTapItem(RingDeviceModel item) async {

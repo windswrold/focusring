@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:beering/ble/ble_manager.dart';
 import 'package:beering/utils/console_logger.dart';
 import 'package:flutter/cupertino.dart';
@@ -17,10 +19,11 @@ class PermissionUtils {
   }
 
   /// Permission prompt dialog
-  static showBleDialog() async {
+  static Future<bool> showBleDialog() async {
     if (isIOS == true) {
-      return;
+      return Future.value(false);
     }
+    Completer<bool> c = Completer();
     final a = SPManager.getInstallStatus();
     if (a == false) {
       SPManager.setInstallStatus();
@@ -29,10 +32,14 @@ class PermissionUtils {
         content:
             "Bee Ring needs Bluetooth permissions are required to scan devices",
         onConfirm: () async {
-          await KBLEManager.checkBle();
+          c.complete(KBLEManager.checkBle());
+        },
+        onCancel: () {
+          c.complete(false);
         },
       );
     }
+    return c.future;
   }
 
   static Future<bool> checkBle() async {
