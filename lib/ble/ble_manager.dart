@@ -94,22 +94,39 @@ class KBLEManager {
       return null;
     }
 
-    if ((await deviceStateStream.first) ==
-        BluetoothConnectionState.connecting) {
-      HWToast.showErrText(text: "connecting");
-      return;
-    }
+    // _onValueReceived(HEXUtil.decode("eeee0003010000"));
+
+    // if ((await deviceStateStream.first) ==
+    //     BluetoothConnectionState.connecting) {
+    //   HWToast.showErrText(text: "connecting");
+    //   return;
+    // }
+
+    // final dats = await FlutterBluePlus.connectedSystemDevices;
+    // dats.forEach((element) {
+    //   element.disconnect();
+    // });
 
     var bleDevice = getDevice(device: device);
     bleDevice.connect(timeout: timeout);
+    await Future.delayed(Duration(seconds: 1));
     _connectSubscription = bleDevice.connectionState.listen((event) {
+      vmPrint("connectionState $event");
       _deviceStateSC.sink.add(event);
       if (event == BluetoothConnectionState.connected) {
         findCharacteristics(bleDevice);
       } else if (event == BluetoothConnectionState.disconnected) {
         clean();
       }
-      KBLEManager.stopScan();
+      // KBLEManager.stopScan();
+    });
+  }
+
+  Future disconnectedAllBle() async {
+    List<BluetoothDevice> devices =
+        await FlutterBluePlus.connectedSystemDevices;
+    devices.forEach((element) {
+      element.disconnect();
     });
   }
 
@@ -168,7 +185,6 @@ class KBLEManager {
     }
     _cacheSendData.add(datas);
 
-
     // _receiveController.add("准备发送数据 ${HEX.encode(datas)}");
     await _writeCharacteristic?.write(datas, withoutResponse: true);
   }
@@ -185,7 +201,7 @@ class KBLEManager {
       bool isLoop = true;
       while (isLoop && _allValues.length > 4) {
         int len = (_allValues[2] << 8) | _allValues[3];
-        int currentLen = len + 2;
+        int currentLen = len + 4;
         vmPrint("数据域长度 len $currentLen");
         vmPrint("当前总长度_allValues ${_allValues.length}");
         if (_allValues.length >= currentLen) {

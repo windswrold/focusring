@@ -32,7 +32,6 @@ class ReceiveDataHandler {
     int cmd = _allDatas[4];
     int type = _allDatas[5];
     List<int> valueData = _allDatas.sublist(6);
-
     if (cmd == 0x01) {
       vmPrint("绑定认证");
       com = KBLECommandType.bindingsverify;
