@@ -81,13 +81,15 @@ class HomeDevicesController extends GetxController {
   }
 
   void onTapAddDevices() async {
-    dynamic d = (await Get.toNamed(Routes.FIND_DEVICES));
-    if (d == null || d is Map) {
-      return;
-    }
-    // await RingDeviceModel.insertTokens(d);
-    connectDevice.value = d;
-    KBLEManager.sendData(sendData: KBLESerialization.getBattery());
+    try {
+      dynamic d = (await Get.toNamed(Routes.FIND_DEVICES));
+      if (d == null || d is Map) {
+        return;
+      }
+      // await RingDeviceModel.insertTokens(d);
+      connectDevice.value = d;
+    } catch (a) {}
+
   }
 
   void onTapManualHeartrate() {

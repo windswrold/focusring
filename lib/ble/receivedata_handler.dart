@@ -17,6 +17,12 @@ class ReceiveDataModel {
       required this.command,
       required this.tip,
       this.value});
+
+  @override
+  String toString() {
+    // TODO: implement toString
+    return "收到的数据 status $status command $command tip $tip value $value";
+  }
 }
 
 class ReceiveDataHandler {
@@ -154,6 +160,7 @@ class ReceiveDataHandler {
         }
       }
     } else if (cmd == 0x06) {
+      com = KBLECommandType.battery;
       status = true;
       value = valueData[0];
     }

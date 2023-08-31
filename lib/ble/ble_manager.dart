@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 
 import 'package:beering/ble/bledata_serialization.dart';
 import 'package:beering/ble/receivedata_handler.dart';
@@ -26,6 +27,8 @@ class KBLEManager {
       StreamController<ReceiveDataModel>.broadcast();
   static final _deviceStateSC =
       StreamController<BluetoothConnectionState>.broadcast();
+
+  static final sendDataControll = StreamController<List<int>>.broadcast();
 
   static clean() {
     _allValues.clear();
@@ -175,6 +178,7 @@ class KBLEManager {
     required BLESendData sendData,
   }) async {
     final datas = sendData.getData();
+    sendDataControll.add(datas);
     zhiie(datas: datas);
   }
 
@@ -184,7 +188,8 @@ class KBLEManager {
     if (_writeCharacteristic == null) {
       return;
     }
-    _cacheSendData.add(datas);
+
+    // _cacheSendData.add(datas);
 
     // _receiveController.add("准备发送数据 ${HEX.encode(datas)}");
     await _writeCharacteristic?.write(datas, withoutResponse: true);
