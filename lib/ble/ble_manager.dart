@@ -95,6 +95,7 @@ class KBLEManager {
     }
 
     // _onValueReceived(HEXUtil.decode("eeee0003010000"));
+    // _onValueReceived(HEXUtil.decode("eeee0003020000"));
 
     // if ((await deviceStateStream.first) ==
     //     BluetoothConnectionState.connecting) {

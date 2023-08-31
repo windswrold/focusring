@@ -70,6 +70,8 @@ class FindDevicesController extends GetxController {
       vmPrint("BluetoothConnectionState ${event.toString()}");
       if (event == BluetoothConnectionState.connected) {
         HWToast.showSucText(text: "已连接");
+      } else if (event == BluetoothConnectionState.disconnected) {
+        HWToast.showSucText(text: "断开连接");
       }
     });
     receive = KBLEManager.receiveDataStream.listen((event) {
