@@ -122,14 +122,15 @@ class ReceiveDataHandler {
             vmPrint("接收完毕");
             status = true;
           } else {
-            KBLEManager.sendData(
-                sendData: KBLESerialization.getHeartHistoryDataByCurrentByIndex(
-              current,
-              isHeart: type == 0x03
-                  ? KHealthDataType.HEART_RATE
-                  : KHealthDataType.BLOOD_OXYGEN,
-            ));
+            status = true;
           }
+          KBLEManager.sendData(
+              sendData: KBLESerialization.getHeartHistoryDataByCurrentByIndex(
+            current,
+            isHeart: type == 0x03
+                ? KHealthDataType.HEART_RATE
+                : KHealthDataType.BLOOD_OXYGEN,
+          ));
 
           HealthData.insertHeartBloodBleData(
               datas: valueData.sublist(3),
@@ -145,14 +146,15 @@ class ReceiveDataHandler {
             vmPrint("接收完毕");
             status = true;
           } else {
-            KBLEManager.sendData(
-                sendData: KBLESerialization.getHeartHistoryDataByCurrentByIndex(
-              current,
-              isHeart: type == 0x04
-                  ? KHealthDataType.HEART_RATE
-                  : KHealthDataType.BLOOD_OXYGEN,
-            ));
+            status = true;
           }
+          KBLEManager.sendData(
+              sendData: KBLESerialization.getHeartHistoryDataByCurrentByIndex(
+            current,
+            isHeart: type == 0x04
+                ? KHealthDataType.HEART_RATE
+                : KHealthDataType.BLOOD_OXYGEN,
+          ));
           HealthData.insertHeartBloodBleData(
               datas: valueData.sublist(3),
               isHaveTime: false,
