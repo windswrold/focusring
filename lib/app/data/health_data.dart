@@ -66,7 +66,7 @@ class BloodOxygenData {
 @dao
 abstract class BloodOxygenDataDao {
   @Query(
-      'SELECT * FROM $tableName WHERE appUserId = :appUserId and createTime >= :createTime AND createTime < :nextTime')
+      'SELECT * FROM $tableName WHERE appUserId = :appUserId and createTime >= ":createTime" AND createTime < ":nextTime"')
   Future<List<BloodOxygenData>> queryUserAll(
       int appUserId, String createTime, String nextTime);
 
@@ -164,7 +164,7 @@ class HeartRateData {
 @dao
 abstract class HeartRateDataDao {
   @Query(
-      'SELECT * FROM $tableName WHERE appUserId = :appUserId and createTime >= :createTime AND createTime < :nextTime')
+      'SELECT * FROM $tableName WHERE appUserId = :appUserId and createTime >= ":createTime" AND createTime < ":nextTime"')
   Future<List<HeartRateData>> queryUserAll(
       int appUserId, String createTime, String nextTime);
 
