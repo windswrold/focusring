@@ -496,7 +496,7 @@ class HealthData {
     try {
       int userid = SPManager.getGlobalUser()!.id!;
       final mac = "";
-      if (isHeart == true) {
+      if (isHeart == false) {
         final model = BloodOxygenData(
           appUserId: userid,
           mac: mac,
