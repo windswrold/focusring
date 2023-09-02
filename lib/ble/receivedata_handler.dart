@@ -61,7 +61,7 @@ class ReceiveDataHandler {
       vmPrint("ppg");
       com = KBLECommandType.ppg;
       status = false;
-      if (type == 0x00 && type == 0x05) {
+      if (type == 0x00 || type == 0x05) {
         if (valueData[0] == 0x01) {
           tip = "设备接受单次测量，正在测量中";
         } else if (valueData[0] == 0x02) {
@@ -97,11 +97,11 @@ class ReceiveDataHandler {
           tip = "获取成功";
           value = valueData[1];
         }
-      } else if (type == 0x01 && type == 0x06) {
+      } else if (type == 0x01 || type == 0x06) {
         vmPrint("心率定时测量设置");
         status = true;
         tip = "设备回复设置成功";
-      } else if (type == 0x02 && type == 0x07) {
+      } else if (type == 0x02 || type == 0x07) {
         if (valueData[0] == 0x00) {
           vmPrint("不打开");
           status = false;
@@ -109,7 +109,7 @@ class ReceiveDataHandler {
           status = true;
         }
         tip = "心率定时测量设置成功";
-      } else if (type == 0x03 && type == 0x08) {
+      } else if (type == 0x03 || type == 0x08) {
         if (valueData[0] == 0xaa) {
           value = valueData[1];
           vmPrint("回答天数");
@@ -137,7 +137,7 @@ class ReceiveDataHandler {
               isHaveTime: true,
               isHeart: type == 0x03 ? true : false);
         }
-      } else if (type == 0x04 && type == 0x09) {
+      } else if (type == 0x04 || type == 0x09) {
         //当天数据
         if (valueData[0] == 0xbb) {
           int all = valueData[1];
