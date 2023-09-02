@@ -112,7 +112,7 @@ class KBLESerialization {
   ///回复收到相应包，并带上包序号 血氧
   static BLESendData getHeartHistoryDataByCurrentByIndex(int index,
       {required KHealthDataType isHeart}) {
-    List<int> e = [0xbb, index];
+    List<int> e = [0xcc, index];
     return BLESendData(
         cmd: KBLECommandType.ppg,
         typeStr: isHeart == KHealthDataType.HEART_RATE ? "03" : "08",
