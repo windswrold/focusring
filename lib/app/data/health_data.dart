@@ -456,7 +456,7 @@ class HealthData {
         List<BloodOxygenData> datas =
             await BloodOxygenData.queryUserAll(userid, create, nextTime);
         if (reportType == KReportType.day) {
-          List heartArray = JsonUtil.getObj(datas.first.bloodArray);
+          List heartArray = JsonUtil.getObj(datas.first.bloodArray ?? "") ?? [];
           for (var i = 0; i < heartArray.length; i++) {
             final dur = Duration(minutes: 5 * i);
             final e = heartArray[i];
