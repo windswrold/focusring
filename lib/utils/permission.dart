@@ -30,7 +30,7 @@ class PermissionUtils {
       DialogUtils.defaultDialog(
         title: "Request Permission",
         content:
-            "Bee Ring needs Bluetooth permissions are required to scan devices",
+            "Bee Ring requires Bluetooth permission to scan the ring device, establish a connection, and experience more rich functions",
         onConfirm: () async {
           c.complete(KBLEManager.checkBle());
         },
