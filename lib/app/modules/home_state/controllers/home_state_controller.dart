@@ -128,7 +128,7 @@ class HomeStateController extends GetxController {
     );
     HeartRateData.insertTokens([item]);
 
-    await Future.delayed(Duration(seconds: 4));
+    // await Future.delayed(Duration(seconds: 4));
 
     try {
       final a = await HeartRateData.queryUserAll(userid, time, nextTime);
@@ -140,6 +140,7 @@ class HomeStateController extends GetxController {
 
       vmPrint("bbbb " +b.jsonString);
     } catch (e) {
+      vmPrint("eeee " +e.toString());
       HWToast.showErrText(text: "e $e");
     }
 
