@@ -66,7 +66,7 @@ class BloodOxygenData {
 @dao
 abstract class BloodOxygenDataDao {
   @Query(
-      'SELECT * FROM $tableName WHERE appUserId = :appUserId and createTime >= ":createTime" AND createTime < ":nextTime"')
+      "SELECT * FROM $tableName WHERE appUserId = :appUserId and createTime >= ':createTime' AND createTime < ':nextTime'")
   Future<List<BloodOxygenData>> queryUserAll(
       int appUserId, String createTime, String nextTime);
 
@@ -150,8 +150,12 @@ class HeartRateData {
   ) async {
     final db = await DataBaseConfig.openDataBase();
     final datas =
-        await db?.heartDao.queryUserAll(appUserId, createTime, nextTime);
-    return datas ?? [];
+        (await db?.heartDao.queryUserAll(appUserId, createTime, nextTime)) ??
+            [];
+
+    HWToast.showSucText(
+        text: "queryUserAll ${datas.length} datas ${datas.first.heartArray}");
+    return datas;
   }
 
   static void insertTokens(List<HeartRateData> models) async {
@@ -164,7 +168,7 @@ class HeartRateData {
 @dao
 abstract class HeartRateDataDao {
   @Query(
-      'SELECT * FROM $tableName WHERE appUserId = :appUserId and createTime >= ":createTime" AND createTime < ":nextTime"')
+      "SELECT * FROM $tableName2 WHERE appUserId = :appUserId and createTime >= ':createTime' AND createTime < ':nextTime'")
   Future<List<HeartRateData>> queryUserAll(
       int appUserId, String createTime, String nextTime);
 

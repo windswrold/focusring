@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:beering/app/data/card_health_index.dart';
+import 'package:beering/app/data/health_data.dart';
 import 'package:beering/app/modules/app_view/controllers/app_view_controller.dart';
 import 'package:beering/net/app_api.dart';
 import 'package:beering/public.dart';
@@ -31,10 +32,7 @@ class HomeStateController extends GetxController {
     initData();
   }
 
-  void onRefresh() {
-
-    
-  }
+  void onRefresh() {}
 
   void initData() async {
     final us =
@@ -117,8 +115,35 @@ class HomeStateController extends GetxController {
         });
   }
 
-  void onTapEditCard() {
-    Get.toNamed(Routes.HOME_EDIT_CARD);
+  void onTapEditCard() async {
+    final now = DateTime.now();
+    final time = getZeroDateTime(now: now);
+
+    final nextTime = getZeroDateTime(now: now.add(Duration(days: 1)));
+    int userid = SPManager.getGlobalUser()!.id!;
+
+    final item = HeartRateData(
+      appUserId: userid,
+      createTime: time,
+    );
+    HeartRateData.insertTokens([item]);
+
+    await Future.delayed(Duration(seconds: 4));
+
+    try {
+      final a = await HeartRateData.queryUserAll(userid, time, nextTime);
+
+      vmPrint("aaaaa " + a.jsonString);
+
+      final b = await HealthData.queryHealthData(
+          reportType: KReportType.day, types: KHealthDataType.HEART_RATE);
+
+      vmPrint("bbbb " +b.jsonString);
+    } catch (e) {
+      HWToast.showErrText(text: "e $e");
+    }
+
+    // Get.toNamed(Routes.HOME_EDIT_CARD);
   }
 
   @override

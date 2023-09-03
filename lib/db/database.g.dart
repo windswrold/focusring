@@ -341,9 +341,9 @@ class _$BloodOxygenDataDao extends BloodOxygenDataDao {
     String nextTime,
   ) async {
     return _queryAdapter.queryList(
-        'SELECT * FROM bloodOxygenData WHERE appUserId = ?1 and createTime >= \"?2\" AND createTime < \"?3\"',
+        'SELECT * FROM bloodOxygenData WHERE appUserId = $appUserId and createTime >= $createTime AND createTime < $nextTime ',
         mapper: (Map<String, Object?> row) => BloodOxygenData(appUserId: row['appUserId'] as int?, mac: row['mac'] as String?, createTime: row['createTime'] as String?, bloodArray: row['bloodArray'] as String?, averageHeartRate: row['averageHeartRate'] as int?, max: row['max'] as int?, min: row['min'] as int?),
-        arguments: [appUserId, createTime, nextTime]);
+        );
   }
 
   @override
@@ -386,9 +386,16 @@ class _$HeartRateDataDao extends HeartRateDataDao {
     String nextTime,
   ) async {
     return _queryAdapter.queryList(
-        'SELECT * FROM bloodOxygenData WHERE appUserId = ?1 and createTime >= \"?2\" AND createTime < \"?3\"',
-        mapper: (Map<String, Object?> row) => HeartRateData(appUserId: row['appUserId'] as int?, mac: row['mac'] as String?, createTime: row['createTime'] as String?, averageHeartRate: row['averageHeartRate'] as int?, heartArray: row['heartArray'] as String?, max: row['max'] as int?, min: row['min'] as int?),
-        arguments: [appUserId, createTime, nextTime]);
+      'SELECT * FROM heartRateData WHERE appUserId = $appUserId and createTime >= $createTime AND createTime < $nextTime',
+      mapper: (Map<String, Object?> row) => HeartRateData(
+          appUserId: row['appUserId'] as int?,
+          mac: row['mac'] as String?,
+          createTime: row['createTime'] as String?,
+          averageHeartRate: row['averageHeartRate'] as int?,
+          heartArray: row['heartArray'] as String?,
+          max: row['max'] as int?,
+          min: row['min'] as int?),
+    );
   }
 
   @override
