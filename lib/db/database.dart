@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:beering/app/data/health_data.dart';
+import 'package:beering/app/data/health_data_dao.dart';
 import 'package:floor/floor.dart';
 import 'package:beering/app/data/card_health_index.dart';
 import 'package:beering/app/data/ring_device.dart';
@@ -15,10 +16,12 @@ const int dbCurrentVersion = 1;
   RingDeviceModel,
   BloodOxygenData,
   HeartRateData,
+  StepData,
 ])
 abstract class FlutterDatabase extends FloorDatabase {
   KHealthIndexModelDao get indexDap;
   RingDeviceDao get ringDao;
   BloodOxygenDataDao get bloodDao;
   HeartRateDataDao get heartDao;
+  StepDataDao get stepDao;
 }

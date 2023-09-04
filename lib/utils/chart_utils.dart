@@ -3,11 +3,13 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../public.dart';
 import '../views/charts/home_card/model/home_card_x.dart';
+import 'package:intl/intl.dart';
 
 class ChartUtils {
   static CategoryAxis getCategoryAxis() {
     return CategoryAxis(
-      majorGridLines: const MajorGridLines(width: 0), // 设置主要网格线样式
+      majorGridLines: const MajorGridLines(width: 0),
+      // 设置主要网格线样式
       minorGridLines: const MinorGridLines(width: 0),
       majorTickLines: const MajorTickLines(width: 0),
       minorTickLines: const MinorTickLines(width: 0),
@@ -26,6 +28,7 @@ class ChartUtils {
       minorGridLines: MinorGridLines(width: 0),
       majorTickLines: MajorTickLines(width: 0),
       minorTickLines: MinorTickLines(width: 0),
+      numberFormat: NumberFormat.compact(),
       axisLine: AxisLine(
         width: 0,
       ),
@@ -207,9 +210,8 @@ class ChartUtils {
       KReportType? reportType}) {
     if (type == KHealthDataType.STEPS ||
         type == KHealthDataType.LiCheng ||
-        type == KHealthDataType.CALORIES_BURNED||
-        type == KHealthDataType.STRESS
-        ) {
+        type == KHealthDataType.CALORIES_BURNED ||
+        type == KHealthDataType.STRESS) {
       return [
         ColumnSeries<KChartCellData, String>(
           dataSource: datas.first,

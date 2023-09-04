@@ -41,7 +41,12 @@ class HomeDevicesController extends GetxController {
         KBLEManager.sendData(
             sendData: KBLESerialization.getHeartHistoryDataByCurrent(
                 isHeart: KHealthDataType.HEART_RATE));
-      } else {}
+      } else if (event.command == KBLECommandType.ppg) {
+        if (event.status == true) {
+          KBLEManager.sendData(
+              sendData: KBLESerialization.getStepsHistoryDataByCurrent());
+        }
+      }
     });
   }
 
@@ -89,7 +94,6 @@ class HomeDevicesController extends GetxController {
       // await RingDeviceModel.insertTokens(d);
       connectDevice.value = d;
     } catch (a) {}
-
   }
 
   void onTapManualHeartrate() {

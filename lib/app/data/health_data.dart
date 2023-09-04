@@ -61,17 +61,12 @@ class BloodOxygenData {
     final datas = await db?.bloodDao.insertTokens(models);
     return;
   }
-}
 
-@dao
-abstract class BloodOxygenDataDao {
-  @Query(
-      "SELECT * FROM $tableName WHERE appUserId = :appUserId and createTime >= ':createTime' AND createTime < ':nextTime'")
-  Future<List<BloodOxygenData>> queryUserAll(
-      int appUserId, String createTime, String nextTime);
-
-  @Insert(onConflict: OnConflictStrategy.replace)
-  Future<void> insertTokens(List<BloodOxygenData> models);
+  @override
+  String getTabName() {
+    // TODO: implement getTabName
+    return "BloodOxygenData";
+  }
 }
 
 class FemalePeriodData {
@@ -165,17 +160,6 @@ class HeartRateData {
   }
 }
 
-@dao
-abstract class HeartRateDataDao {
-  @Query(
-      "SELECT * FROM $tableName2 WHERE appUserId = :appUserId and createTime >= ':createTime' AND createTime < ':nextTime'")
-  Future<List<HeartRateData>> queryUserAll(
-      int appUserId, String createTime, String nextTime);
-
-  @Insert(onConflict: OnConflictStrategy.replace)
-  Future<void> insertTokens(List<HeartRateData> models);
-}
-
 class SleepData {
   int? appUserId;
   String? mac;
@@ -240,6 +224,9 @@ class TempData {
       };
 }
 
+const String tableName3 = 'stepData';
+
+@Entity(tableName: tableName3, primaryKeys: ["appUserId", "createTime"])
 class StepData {
   int? appUserId;
   String? mac;
@@ -249,25 +236,27 @@ class StepData {
   int? calorie;
   String? dataForHour;
 
-  StepData({
-    this.appUserId,
-    this.mac,
-    this.createTime,
-    this.steps,
-    this.distance,
-    this.calorie,
-    this.dataForHour,
-  });
+  String? dataArrs;
+
+  StepData(
+      {this.appUserId,
+      this.mac,
+      this.createTime,
+      this.steps,
+      this.distance,
+      this.calorie,
+      this.dataForHour,
+      this.dataArrs});
 
   factory StepData.fromJson(Map<String, dynamic> json) => StepData(
-        appUserId: json["appUserId"],
-        mac: json["mac"],
-        createTime: json["createTime"],
-        steps: json["steps"],
-        distance: json["distance"],
-        calorie: json["calorie"],
-        dataForHour: json["dataForHour"],
-      );
+      appUserId: json["appUserId"],
+      mac: json["mac"],
+      createTime: json["createTime"],
+      steps: json["steps"],
+      distance: json["distance"],
+      calorie: json["calorie"],
+      dataForHour: json["dataForHour"],
+      dataArrs: json["dataArrs"]);
 
   Map<String, dynamic> toJson() => {
         "appUserId": appUserId,
@@ -277,7 +266,25 @@ class StepData {
         "distance": distance,
         "calorie": calorie,
         "dataForHour": dataForHour,
+        "dataArrs": dataArrs,
       };
+
+  static Future<List<StepData>> queryUserAll(
+    int appUserId,
+    String createTime,
+    String nextTime,
+  ) async {
+    final db = await DataBaseConfig.openDataBase();
+    final datas =
+        await db?.stepDao.queryUserAll(appUserId, createTime, nextTime);
+    return datas ?? [];
+  }
+
+  static void insertTokens(List<StepData> models) async {
+    final db = await DataBaseConfig.openDataBase();
+    final datas = await db?.stepDao.insertTokens(models);
+    return;
+  }
 }
 
 class EmotionData {
@@ -431,17 +438,12 @@ class HealthData {
         List<HeartRateData> datas =
             await HeartRateData.queryUserAll(userid, create, nextTime);
         if (reportType == KReportType.day) {
-          List heartArray = JsonUtil.getObj(datas.first.heartArray ?? "") ?? [];
-          for (var i = 0; i < heartArray.length; i++) {
-            final dur = Duration(minutes: 5 * i);
-            final e = heartArray[i];
-            cellDatas.add(
-              KChartCellData(
-                x: "${dur.inHours}:${dur.inMinutes}",
-                y: e,
-              ),
-            );
-          }
+          final results = generateCellData(
+            createTime: datas.first.createTime ?? "",
+            data: datas.first.heartArray ?? "",
+            type: types,
+          );
+          cellDatas.addAll(results);
         } else {
           for (var i = 0; i < datas.length; i++) {
             final e = datas[i];
@@ -460,17 +462,11 @@ class HealthData {
         List<BloodOxygenData> datas =
             await BloodOxygenData.queryUserAll(userid, create, nextTime);
         if (reportType == KReportType.day) {
-          List heartArray = JsonUtil.getObj(datas.first.bloodArray ?? "") ?? [];
-          for (var i = 0; i < heartArray.length; i++) {
-            final dur = Duration(minutes: 5 * i);
-            final e = heartArray[i];
-            cellDatas.add(
-              KChartCellData(
-                x: "${dur.inHours}:${dur.inMinutes}",
-                y: e,
-              ),
-            );
-          }
+          final results = generateCellData(
+              createTime: datas.first.createTime ?? "",
+              type: types,
+              data: datas.first.bloodArray ?? "");
+          cellDatas.addAll(results);
         } else {
           for (var i = 0; i < datas.length; i++) {
             final e = datas[i];
@@ -485,6 +481,29 @@ class HealthData {
             );
           }
         }
+      } else if (types == KHealthDataType.STEPS) {
+        List<StepData> datas =
+            await StepData.queryUserAll(userid, create, nextTime);
+        if (reportType == KReportType.day) {
+          final results = generateCellData(
+              createTime: datas.first.createTime ?? "",
+              type: types,
+              data: datas.first.dataArrs ?? "");
+          cellDatas.addAll(results);
+        } else {
+          for (var i = 0; i < datas.length; i++) {
+            final e = datas[i];
+            // cellDatas.add(
+            //   KChartCellData(
+            //     x: e.createTime,
+            //     y: (e.min ?? 0),
+            //     z: e.max ?? 0,
+            //     a: e.averageHeartRate ?? 0,
+            //     color: types.getTypeMainColor(),
+            //   ),
+            // );
+          }
+        }
       }
     } catch (e) {
       HWToast.showErrText(text: "读取失败 ${e}");
@@ -493,14 +512,14 @@ class HealthData {
     return cellDatas;
   }
 
-  static insertHeartBloodBleData(
+  static void insertHealthBleData(
       {required List<int> datas,
       required bool isHaveTime,
-      required bool isHeart}) {
+      required KHealthDataType type}) {
     try {
       int userid = SPManager.getGlobalUser()!.id!;
       final mac = "";
-      if (isHeart == false) {
+      if (type == KHealthDataType.BLOOD_OXYGEN) {
         final model = BloodOxygenData(
           appUserId: userid,
           mac: mac,
@@ -524,7 +543,7 @@ class HealthData {
         model.max = ListEx.maxVal(results).toInt();
         model.min = ListEx.minVal(results).toInt();
         BloodOxygenData.insertTokens([model]);
-      } else {
+      } else if (type == KHealthDataType.HEART_RATE) {
         List<int> results = [];
         final model = HeartRateData(
           appUserId: userid,
@@ -547,10 +566,93 @@ class HealthData {
         model.max = ListEx.maxVal(results).toInt();
         model.min = ListEx.minVal(results).toInt();
         HeartRateData.insertTokens([model]);
+      } else if (type == KHealthDataType.STEPS) {
+        List<int> results = [];
+        final model = StepData(
+          appUserId: userid,
+          mac: mac,
+        );
+        if (isHaveTime == true) {
+          int year = (datas[1] << 8) + datas[0];
+          int month = datas[2];
+          int day = datas[3];
+          model.createTime = DateUtil.formatDate(
+              DateTime(year, month, day, 0, 0),
+              format: DateFormats.full);
+          results = datas.sublist(4);
+        } else {
+          model.createTime = getZeroDateTime();
+          results = datas;
+        }
+        model.dataArrs = JsonUtil.encodeObj(results);
+
+        StepData.insertTokens([model]);
       }
+
       HWToast.showSucText(text: "构造成功，已存数据库");
     } catch (e) {
       HWToast.showErrText(text: "构造失败，${e.toString()}");
     }
+  }
+
+  static List<KChartCellData> generateCellData(
+      {required String createTime,
+      required String data,
+      required KHealthDataType type}) {
+    List<KChartCellData> cellDatas = [];
+    DateTime? time = DateUtil.getDateTime(createTime);
+    List dataArr = JsonUtil.getObj(data) ?? [];
+
+    if (type == KHealthDataType.BLOOD_OXYGEN ||
+        type == KHealthDataType.HEART_RATE) {
+      for (var i = 0; i < dataArr.length; i++) {
+        DateTime? dur;
+        if (type == KHealthDataType.BLOOD_OXYGEN ||
+            type == KHealthDataType.HEART_RATE) {
+          dur = time?.add(Duration(minutes: i * 5));
+        }
+        final e = dataArr[i];
+        cellDatas.add(
+          KChartCellData(
+            x: DateUtil.formatDate(dur, format: DateFormats.h_m),
+            y: e,
+          ),
+        );
+      }
+    } else {
+      for (int i = 0; i < dataArr.length; i += 4) {
+        DateTime? dur;
+        dur = time?.add(Duration(hours: i ~/ 4));
+        int end = (i + 4 > dataArr.length) ? dataArr.length : i + 4;
+        final e = dataArr.sublist(i, end);
+        int num = (e[3] << 24) | (e[2] << 16) | (e[1] << 8) | e[0];
+        cellDatas.add(
+          KChartCellData(
+            x: DateUtil.formatDate(dur, format: DateFormats.h_m),
+            y: num,
+          ),
+        );
+      }
+    }
+
+    return cellDatas;
+  }
+
+  static String getOnTrackballTitle(
+      {required KReportType type,
+      required KHealthDataType currentType,
+      required List<List<KChartCellData>> dataSource,
+      required int index}) {
+    String text = "-";
+
+    if (currentType == KHealthDataType.SLEEP) {
+      // chartTipValue.value = "${item.x}:${item.y} steps";
+      text = "-";
+    } else {
+      final item = dataSource.first[index];
+      text = "${item.x} ${item.y}${currentType.getSymbol()}";
+    }
+
+    return text;
   }
 }

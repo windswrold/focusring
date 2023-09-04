@@ -192,7 +192,8 @@ class ReportInfoStepsController extends GetxController
       List<KChartCellData> datas = [];
 
       if (currentType == KHealthDataType.HEART_RATE ||
-          currentType == KHealthDataType.BLOOD_OXYGEN) {
+          currentType == KHealthDataType.BLOOD_OXYGEN ||
+          currentType == KHealthDataType.STEPS) {
         datas = await HealthData.queryHealthData(
             reportType: reportType.value, types: currentType);
       } else {
@@ -216,19 +217,14 @@ class ReportInfoStepsController extends GetxController
     if (index == null) {
       return;
     }
-    //11:30-11:59:765 steps
 
-    String text = "";
-    if (currentType == KHealthDataType.SLEEP) {
-      // chartTipValue.value = "${item.x}:${item.y} steps";
-      text = "-";
-    } else {
-      final item = dataSource.first[index];
-      text = "- ${currentType.getSymbol()}";
-    }
+    String text = HealthData.getOnTrackballTitle(
+      type: reportType.value,
+      currentType: currentType,
+      dataSource: dataSource,
+      index: index,
+    );
     chartTipValue.value = text;
-    Future.delayed(const Duration(seconds: 3)).then((value) => {
-          chartTipValue.value = "",
-        });
+
   }
 }

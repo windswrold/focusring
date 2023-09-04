@@ -129,6 +129,23 @@ class KBLESerialization {
         valueStr: "bb01");
   }
 
+  ///获取当天历史步数
+  static BLESendData getStepsHistoryDataByCurrent() {
+    return BLESendData(
+        cmd: KBLECommandType.gsensor, typeStr: "03", valueStr: "bb00");
+  }
+
+  ///回复收到相应包，并带上包序号
+  static BLESendData getStepsHistoryDataByCurrentByIndex(
+    int index,
+  ) {
+    List<int> e = [0xcc, index];
+    return BLESendData(
+        cmd: KBLECommandType.gsensor,
+        typeStr: "08",
+        valueStr: HEXUtil.encode(e));
+  }
+
   ///电量在发送变化的时候设备回主动上报
   static BLESendData getBattery() {
     return BLESendData(

@@ -69,6 +69,8 @@ class _$FlutterDatabase extends FlutterDatabase {
 
   HeartRateDataDao? _heartDaoInstance;
 
+  StepDataDao? _stepDaoInstance;
+
   Future<sqflite.Database> open(
     String path,
     List<Migration> migrations, [
@@ -98,6 +100,8 @@ class _$FlutterDatabase extends FlutterDatabase {
             'CREATE TABLE IF NOT EXISTS `bloodOxygenData` (`appUserId` INTEGER, `mac` TEXT, `createTime` TEXT, `averageHeartRate` INTEGER, `max` INTEGER, `min` INTEGER, `bloodArray` TEXT, PRIMARY KEY (`appUserId`, `createTime`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `heartRateData` (`appUserId` INTEGER, `mac` TEXT, `createTime` TEXT, `averageHeartRate` INTEGER, `max` INTEGER, `min` INTEGER, `heartArray` TEXT, PRIMARY KEY (`appUserId`, `createTime`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `stepData` (`appUserId` INTEGER, `mac` TEXT, `createTime` TEXT, `steps` INTEGER, `distance` INTEGER, `calorie` INTEGER, `dataForHour` TEXT, `dataArrs` TEXT, PRIMARY KEY (`appUserId`, `createTime`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -124,6 +128,11 @@ class _$FlutterDatabase extends FlutterDatabase {
   @override
   HeartRateDataDao get heartDao {
     return _heartDaoInstance ??= _$HeartRateDataDao(database, changeListener);
+  }
+
+  @override
+  StepDataDao get stepDao {
+    return _stepDaoInstance ??= _$StepDataDao(database, changeListener);
   }
 }
 
@@ -341,16 +350,9 @@ class _$BloodOxygenDataDao extends BloodOxygenDataDao {
     String nextTime,
   ) async {
     return _queryAdapter.queryList(
-      'SELECT * FROM bloodOxygenData WHERE appUserId = $appUserId and createTime >= "$createTime" AND createTime < "$nextTime" ',
-      mapper: (Map<String, Object?> row) => BloodOxygenData(
-          appUserId: row['appUserId'] as int?,
-          mac: row['mac'] as String?,
-          createTime: row['createTime'] as String?,
-          bloodArray: row['bloodArray'] as String?,
-          averageHeartRate: row['averageHeartRate'] as int?,
-          max: row['max'] as int?,
-          min: row['min'] as int?),
-    );
+        'SELECT * FROM bloodOxygenData WHERE appUserId = ?1 and createTime >= \'?2\' AND createTime < \'?3\'',
+        mapper: (Map<String, Object?> row) => BloodOxygenData(appUserId: row['appUserId'] as int?, mac: row['mac'] as String?, createTime: row['createTime'] as String?, bloodArray: row['bloodArray'] as String?, averageHeartRate: row['averageHeartRate'] as int?, max: row['max'] as int?, min: row['min'] as int?),
+        arguments: [appUserId, createTime, nextTime]);
   }
 
   @override
@@ -393,21 +395,60 @@ class _$HeartRateDataDao extends HeartRateDataDao {
     String nextTime,
   ) async {
     return _queryAdapter.queryList(
-      'SELECT * FROM heartRateData WHERE appUserId = $appUserId and createTime >= "$createTime" AND createTime < "$nextTime"',
-      mapper: (Map<String, Object?> row) => HeartRateData(
-          appUserId: row['appUserId'] as int?,
-          mac: row['mac'] as String?,
-          createTime: row['createTime'] as String?,
-          averageHeartRate: row['averageHeartRate'] as int?,
-          heartArray: row['heartArray'] as String?,
-          max: row['max'] as int?,
-          min: row['min'] as int?),
-    );
+        'SELECT * FROM heartRateData WHERE appUserId = ?1 and createTime >= ?2 AND createTime < ?3',
+        mapper: (Map<String, Object?> row) => HeartRateData(appUserId: row['appUserId'] as int?, mac: row['mac'] as String?, createTime: row['createTime'] as String?, averageHeartRate: row['averageHeartRate'] as int?, heartArray: row['heartArray'] as String?, max: row['max'] as int?, min: row['min'] as int?),
+        arguments: [appUserId, createTime, nextTime]);
   }
 
   @override
   Future<void> insertTokens(List<HeartRateData> models) async {
     await _heartRateDataInsertionAdapter.insertList(
+        models, OnConflictStrategy.replace);
+  }
+}
+
+class _$StepDataDao extends StepDataDao {
+  _$StepDataDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database),
+        _stepDataInsertionAdapter = InsertionAdapter(
+            database,
+            'stepData',
+            (StepData item) => <String, Object?>{
+                  'appUserId': item.appUserId,
+                  'mac': item.mac,
+                  'createTime': item.createTime,
+                  'steps': item.steps,
+                  'distance': item.distance,
+                  'calorie': item.calorie,
+                  'dataForHour': item.dataForHour,
+                  'dataArrs': item.dataArrs
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<StepData> _stepDataInsertionAdapter;
+
+  @override
+  Future<List<StepData>> queryUserAll(
+    int appUserId,
+    String createTime,
+    String nextTime,
+  ) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM stepData WHERE appUserId = ?1 and createTime >= ?2 AND createTime < ?3',
+        mapper: (Map<String, Object?> row) => StepData(appUserId: row['appUserId'] as int?, mac: row['mac'] as String?, createTime: row['createTime'] as String?, steps: row['steps'] as int?, distance: row['distance'] as int?, calorie: row['calorie'] as int?, dataForHour: row['dataForHour'] as String?, dataArrs: row['dataArrs'] as String?),
+        arguments: [appUserId, createTime, nextTime]);
+  }
+
+  @override
+  Future<void> insertTokens(List<StepData> models) async {
+    await _stepDataInsertionAdapter.insertList(
         models, OnConflictStrategy.replace);
   }
 }

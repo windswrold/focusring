@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:beering/app/data/card_health_index.dart';
@@ -6,6 +7,7 @@ import 'package:beering/app/modules/app_view/controllers/app_view_controller.dar
 import 'package:beering/net/app_api.dart';
 import 'package:beering/public.dart';
 import 'package:beering/utils/console_logger.dart';
+import 'package:beering/utils/json_util.dart';
 import 'package:beering/views/charts/home_card/model/home_card_type.dart';
 import 'package:beering/views/charts/home_card/model/home_card_x.dart';
 import 'package:beering/views/charts/radio_gauge_chart/model/radio_gauge_chart_model.dart';
@@ -116,35 +118,45 @@ class HomeStateController extends GetxController {
   }
 
   void onTapEditCard() async {
-    final now = DateTime.now();
-    final time = getZeroDateTime(now: now);
-
-    final nextTime = getZeroDateTime(now: now.add(Duration(days: 1)));
-    int userid = SPManager.getGlobalUser()!.id!;
-
-    final item = HeartRateData(
-      appUserId: userid,
-      createTime: time,
-    );
-    HeartRateData.insertTokens([item]);
+    // final now = DateTime.now();
+    // final time = getZeroDateTime(now: now);
+    //
+    // final nextTime = getZeroDateTime(now: now.add(Duration(days: 1)));
+    // int userid = SPManager.getGlobalUser()!.id!;
+    //
+    // final a = ListEx.generateArray<int>(0, 95, 1);
+    //
+    // final item = HeartRateData(
+    //   appUserId: userid,
+    //   createTime: time,
+    //   heartArray: JsonUtil.encodeObj(a),
+    // );
+    // HeartRateData.insertTokens([item]);
+    //
+    // final ccc = StepData(
+    //   appUserId: userid,
+    //   createTime: time,
+    //   dataArrs: JsonUtil.encodeObj(a),
+    // );
+    // StepData.insertTokens([ccc]);
 
     // await Future.delayed(Duration(seconds: 4));
 
-    try {
-      final a = await HeartRateData.queryUserAll(userid, time, nextTime);
+    // try {
+    //   final a = await StepData.queryUserAll(userid, time, nextTime);
+    //
+    //   vmPrint("aaaaa " + a.jsonString);
+    //
+    //   final b = await HealthData.queryHealthData(
+    //       reportType: KReportType.day, types: KHealthDataType.STEPS);
+    //
+    //   vmPrint("bbbb " + b.jsonString);
+    // } catch (e) {
+    //   vmPrint("eeee " + e.toString());
+    //   HWToast.showErrText(text: "e $e");
+    // }
 
-      vmPrint("aaaaa " + a.jsonString);
-
-      final b = await HealthData.queryHealthData(
-          reportType: KReportType.day, types: KHealthDataType.HEART_RATE);
-
-      vmPrint("bbbb " +b.jsonString);
-    } catch (e) {
-      vmPrint("eeee " +e.toString());
-      HWToast.showErrText(text: "e $e");
-    }
-
-    // Get.toNamed(Routes.HOME_EDIT_CARD);
+    Get.toNamed(Routes.HOME_EDIT_CARD);
   }
 
   @override
