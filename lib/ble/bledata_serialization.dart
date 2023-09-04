@@ -142,7 +142,7 @@ class KBLESerialization {
     List<int> e = [0xcc, index];
     return BLESendData(
         cmd: KBLECommandType.gsensor,
-        typeStr: "08",
+        typeStr: "03",
         valueStr: HEXUtil.encode(e));
   }
 
