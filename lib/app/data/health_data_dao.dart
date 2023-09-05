@@ -4,7 +4,7 @@ import 'package:floor/floor.dart';
 @dao
 abstract class BloodOxygenDataDao {
   @Query(
-      "SELECT * FROM $tableName WHERE appUserId = :appUserId and createTime >= ':createTime' AND createTime < ':nextTime'")
+      'SELECT * FROM $tableName WHERE appUserId = :appUserId and createTime >= :createTime AND createTime < :nextTime')
   Future<List<BloodOxygenData>> queryUserAll(
       int appUserId, String createTime, String nextTime);
 
