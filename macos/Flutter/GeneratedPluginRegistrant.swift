@@ -12,7 +12,7 @@ import flutter_secure_storage_macos
 import just_audio
 import package_info_plus
 import path_provider_foundation
-import share_plus
+import share_plus_macos
 import shared_preferences_foundation
 import shared_preferences_macos
 import sqflite

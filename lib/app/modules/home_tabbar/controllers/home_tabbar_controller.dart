@@ -36,10 +36,10 @@ class HomeTabbarController extends GetxController {
   }
 
   void exportLog() async {
-    // final a = await saveFileData(
-    //     content: JsonUtil.encodeObj(receDatas) ?? "", pathType: "");
+    final a = await saveFileData(
+        content: JsonUtil.encodeObj(receDatas) ?? "", pathType: "txt");
 
-    Share.share(JsonUtil.encodeObj(receDatas)??"");
+    Share.shareFiles([a.path]);
   }
 
   void _initData() async {
