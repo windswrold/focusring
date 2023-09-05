@@ -130,6 +130,10 @@ class ReceiveDataHandler {
           if (all == current) {
             vmPrint("心率或者血氧接收完毕", KBLEManager.logevel);
             status = true;
+            if (type == 0x03) {
+              KBLEManager.sendData(
+                  sendData: KBLESerialization.getStepsHistoryDataByCurrent());
+            }
           } else {}
 
           HealthData.insertHealthBleData(
@@ -185,6 +189,10 @@ class ReceiveDataHandler {
           );
           if (all == current) {
             vmPrint("步数接收完毕", KBLEManager.logevel);
+
+            KBLEManager.sendData(
+                sendData: KBLESerialization.getHeartHistoryDataByCurrent(
+                    isHeart: KHealthDataType.BLOOD_OXYGEN));
           } else {}
         }
       }
