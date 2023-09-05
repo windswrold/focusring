@@ -197,9 +197,7 @@ class ReceiveDataHandler {
       throw "command not null";
     }
 
-    vmPrint(
-        "经过解析后的数据 status $status tip $tip com $com ${HEXUtil.encode(value)}",
-        KBLEManager.logevel);
+    vmPrint("经过解析后的数据 status $status tip $tip com $com }", KBLEManager.logevel);
 
     return ReceiveDataModel(
         status: status, tip: tip, command: com, value: value);
