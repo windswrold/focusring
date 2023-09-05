@@ -113,7 +113,6 @@ class ReceiveDataHandler {
         }
         tip = "心率定时测量设置成功";
       } else if (type == 0x03 || type == 0x08) {
-        status = true;
         if (valueData[0] == 0xaa) {
           value = valueData[1];
           vmPrint("回答天数", KBLEManager.logevel);
@@ -121,9 +120,6 @@ class ReceiveDataHandler {
           vmPrint("回答数据", KBLEManager.logevel);
           int all = valueData[1];
           int current = valueData[2];
-          if (all == current) {
-            vmPrint("心率或者血氧接收完毕", KBLEManager.logevel);
-          } else {}
           KBLEManager.sendData(
               sendData: KBLESerialization.getHeartHistoryDataByCurrentByIndex(
             current,
@@ -131,6 +127,10 @@ class ReceiveDataHandler {
                 ? KHealthDataType.HEART_RATE
                 : KHealthDataType.BLOOD_OXYGEN,
           ));
+          if (all == current) {
+            vmPrint("心率或者血氧接收完毕", KBLEManager.logevel);
+            status = true;
+          } else {}
 
           HealthData.insertHealthBleData(
               datas: valueData.sublist(3),
@@ -173,9 +173,7 @@ class ReceiveDataHandler {
           vmPrint("回答数据");
           int all = valueData[1];
           int current = valueData[2];
-          if (all == current) {
-            vmPrint("步数接收完毕", KBLEManager.logevel);
-          } else {}
+
           KBLEManager.sendData(
             sendData:
                 KBLESerialization.getStepsHistoryDataByCurrentByIndex(current),
@@ -185,6 +183,9 @@ class ReceiveDataHandler {
             isHaveTime: true,
             type: KHealthDataType.STEPS,
           );
+          if (all == current) {
+            vmPrint("步数接收完毕", KBLEManager.logevel);
+          } else {}
         }
       }
     } else if (cmd == 0x06) {
