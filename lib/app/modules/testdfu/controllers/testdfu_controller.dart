@@ -55,8 +55,8 @@ class TestdfuController extends GetxController {
       receDatas.add(event.toString());
     });
 
-    sen = KBLEManager.sendDataControll.stream.listen((event) {
-      receDatas.add(HEXUtil.encode(event));
+    sen = KBLEManager.logController.stream.listen((event) {
+      receDatas.add(event);
     });
   }
 

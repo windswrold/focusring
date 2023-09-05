@@ -1,18 +1,31 @@
+import 'dart:async';
 import 'package:beering/app/data/app_update_model.dart';
 import 'package:beering/const/constant.dart';
 import 'package:beering/net/app_api.dart';
 import 'package:beering/public.dart';
+import 'package:beering/utils/date_util.dart';
+import 'package:beering/utils/json_util.dart';
 import 'package:get/get.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+
+import '../../../../ble/ble_manager.dart';
 
 class HomeTabbarController extends GetxController {
   //TODO: Implement HomeTabbarController
 
   final currentIndex = 0.obs;
+  StreamSubscription? sen;
+
+  RxList<String> receDatas = RxList();
 
   @override
   void onInit() {
     super.onInit();
+
+    sen = KBLEManager.logController.stream.listen((event) {
+      receDatas.add("${DateUtil.getNowDateStr()} :  $event");
+    });
   }
 
   @override
@@ -20,6 +33,13 @@ class HomeTabbarController extends GetxController {
     super.onReady();
 
     _initData();
+  }
+
+  void exportLog() async {
+    // final a = await saveFileData(
+    //     content: JsonUtil.encodeObj(receDatas) ?? "", pathType: "");
+
+    Share.share(JsonUtil.encodeObj(receDatas)??"");
   }
 
   void _initData() async {
@@ -47,6 +67,7 @@ class HomeTabbarController extends GetxController {
 
   @override
   void onClose() {
+    sen?.cancel();
     super.onClose();
   }
 

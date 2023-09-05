@@ -33,13 +33,15 @@ class ReceiveDataHandler {
     dynamic value;
 
     KBLECommandType? com;
-    vmPrint("一个完整的数据 ${HEXUtil.encode(_allDatas)}");
+    vmPrint("一个完整的数据 ${HEXUtil.encode(_allDatas)}", KBLEManager.logevel);
     //取出头
     int cmd = _allDatas[4];
     int type = _allDatas[5];
+    vmPrint("cmd $cmd type $type", KBLEManager.logevel);
     List<int> valueData = _allDatas.sublist(6);
+    vmPrint("valueData ${HEXUtil.encode(valueData)}", KBLEManager.logevel);
     if (cmd == 0x01) {
-      vmPrint("绑定认证");
+      vmPrint("绑定认证", KBLEManager.logevel);
       com = KBLECommandType.bindingsverify;
       if (valueData[0] == 0x01) {
         status = false;
@@ -48,6 +50,7 @@ class ReceiveDataHandler {
         status = true;
         tip = "成功绑定";
       }
+      vmPrint(tip, KBLEManager.logevel);
     } else if (cmd == 0x02) {
       com = KBLECommandType.system;
       if (type == 0x00) {
@@ -56,9 +59,9 @@ class ReceiveDataHandler {
       } else if (type == 0x02) {
         //解除绑定
       }
-      vmPrint("时间设置成功");
+      vmPrint("时间设置成功", KBLEManager.logevel);
     } else if (cmd == 0x03) {
-      vmPrint("ppg");
+      vmPrint("ppg", KBLEManager.logevel);
       com = KBLECommandType.ppg;
       status = false;
       if (type == 0x00 || type == 0x05) {
@@ -113,13 +116,13 @@ class ReceiveDataHandler {
         status = true;
         if (valueData[0] == 0xaa) {
           value = valueData[1];
-          vmPrint("回答天数");
+          vmPrint("回答天数", KBLEManager.logevel);
         } else if (valueData[0] == 0xbb) {
-          vmPrint("回答数据");
+          vmPrint("回答数据", KBLEManager.logevel);
           int all = valueData[1];
           int current = valueData[2];
           if (all == current) {
-            vmPrint("接收完毕");
+            vmPrint("心率或者血氧接收完毕", KBLEManager.logevel);
           } else {}
           KBLEManager.sendData(
               sendData: KBLESerialization.getHeartHistoryDataByCurrentByIndex(
@@ -143,7 +146,6 @@ class ReceiveDataHandler {
           int current = valueData[2];
           status = true;
           if (all == current) {
-            vmPrint("接收完毕");
           } else {}
           KBLEManager.sendData(
               sendData: KBLESerialization.getHeartHistoryDataByCurrentByIndex(
@@ -172,7 +174,7 @@ class ReceiveDataHandler {
           int all = valueData[1];
           int current = valueData[2];
           if (all == current) {
-            vmPrint("接收完毕");
+            vmPrint("步数接收完毕", KBLEManager.logevel);
           } else {}
           KBLEManager.sendData(
             sendData:
@@ -194,6 +196,10 @@ class ReceiveDataHandler {
     if (com == null) {
       throw "command not null";
     }
+
+    vmPrint(
+        "经过解析后的数据 status $status tip $tip com $com ${HEXUtil.encode(value)}",
+        KBLEManager.logevel);
 
     return ReceiveDataModel(
         status: status, tip: tip, command: com, value: value);

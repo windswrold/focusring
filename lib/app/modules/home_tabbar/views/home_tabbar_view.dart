@@ -1,3 +1,4 @@
+import 'package:beering/ble/ble_manager.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:beering/app/modules/home_devices/views/home_devices_view.dart';
@@ -66,13 +67,41 @@ class HomeTabbarView extends GetView<HomeTabbarController> {
                 selectedFontSize: 12,
                 unselectedFontSize: 12,
               )),
-          body: Stack(
-            alignment: Alignment.bottomCenter,
+          body: Column(
+            // alignment: AlignmentDirectional.bottomCenter,
             children: <Widget>[
-              IndexedStack(
-                index: controller.currentIndex.value,
-                children: bodyList,
+              SizedBox(
+                height: 500,
+                child: IndexedStack(
+                  index: controller.currentIndex.value,
+                  children: bodyList,
+                ),
               ),
+              Expanded(
+                  child: Container(
+                      // alignment: Alignment.bottomCenter,
+                      color: Colors.white,
+                      child: Column(
+                        children: [
+                          NextButton(
+                              activeColor: Colors.red,
+                              onPressed: () {
+                                controller.exportLog();
+                              },
+                              title: "导出log"),
+                          Obx(
+                            () => Expanded(
+                              child: ListView.builder(
+                                itemCount: controller.receDatas.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  final value = controller.receDatas[index];
+                                  return Text(value);
+                                },
+                              ),
+                            ),
+                          ),
+                        ],
+                      )))
             ],
           ));
     });

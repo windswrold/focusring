@@ -13,6 +13,7 @@ import 'package:beering/utils/permission.dart';
 import 'package:hex/hex.dart';
 
 class KBLEManager {
+  static int logevel = 999;
   static BluetoothCharacteristic? _writeCharacteristic; //写入特征
   static BluetoothCharacteristic? _notifyCharacteristic; //通知特征
   static BluetoothDevice? _mBluetoothDevice; //记录当前链接的蓝牙
@@ -28,7 +29,7 @@ class KBLEManager {
   static final _deviceStateSC =
       StreamController<BluetoothConnectionState>.broadcast();
 
-  static final sendDataControll = StreamController<List<int>>.broadcast();
+  static final logController = StreamController<String>.broadcast();
 
   static clean() {
     _allValues.clear();
@@ -99,7 +100,10 @@ class KBLEManager {
 
     // _onValueReceived(HEXUtil.decode("eeee0003010000"));
     // _onValueReceived(HEXUtil.decode("eeee0003020000"));
+    // _onValueReceived(HEXUtil.decode(
+    //     "eeee00690403bb0101e707090500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"));
 
+    // return;
     // if ((await deviceStateStream.first) ==
     //     BluetoothConnectionState.connecting) {
     //   HWToast.showErrText(text: "connecting");
@@ -136,25 +140,19 @@ class KBLEManager {
 
   ///发现外设
   static void findCharacteristics(BluetoothDevice bluetoothDevice) async {
-    vmPrint("开始找特征 _findCharacteristics");
+    vmPrint("开始找特征", logevel);
     List<BluetoothService> services = await bluetoothDevice.discoverServices();
     for (var service in services) {
       //读取服务ID
-      vmPrint("服务ID ${service.uuid}");
-      HWToast.showSucText(text: "服务ID ${service.uuid}");
-
+      vmPrint("服务ID ${service.uuid}", logevel);
       if (compareUUID(service.uuid.toString(), BLEConfig.SERVICEUUID) == true) {
         List<BluetoothCharacteristic> characteristics = service.characteristics;
         for (BluetoothCharacteristic characteristic in characteristics) {
-          vmPrint("当前id ${characteristic.uuid}");
-          HWToast.showSucText(text: "特征id ${characteristic.uuid}");
+          vmPrint("当前id ${characteristic.uuid}", logevel);
           //读取外设ID
           if (compareUUID(
                   characteristic.uuid.toString(), BLEConfig.NOTIFYUUID) ==
               true) {
-            vmPrint("记录通知");
-            vmPrint("找到NOTIFYUUID");
-            HWToast.showSucText(text: "找到NOTIFYUUID");
             _notifyCharacteristic = characteristic;
             await characteristic.setNotifyValue(true);
             _notifySubscription =
@@ -164,8 +162,6 @@ class KBLEManager {
           } else if (compareUUID(
                   characteristic.uuid.toString(), BLEConfig.WRITEUUID) ==
               true) {
-            vmPrint("记录写");
-            HWToast.showSucText(text: "找到WRITEUUID");
             _writeCharacteristic = characteristic;
             KBLEManager.sendData(sendData: KBLESerialization.bindingsverify());
           }
@@ -178,7 +174,6 @@ class KBLEManager {
     required BLESendData sendData,
   }) async {
     final datas = sendData.getData();
-    sendDataControll.add(datas);
     zhiie(datas: datas);
   }
 
@@ -188,28 +183,23 @@ class KBLEManager {
     if (_writeCharacteristic == null) {
       return;
     }
-
-    // _cacheSendData.add(datas);
-
-    // _receiveController.add("准备发送数据 ${HEX.encode(datas)}");
+    vmPrint("发送数据 ${HEX.encode(datas)}", logevel);
     await _writeCharacteristic?.write(datas, withoutResponse: true);
   }
 
   static void _onValueReceived(List<int> values) {
     final a = HEXUtil.encode(values);
-    // _receiveController.add("接收的数据: $a");
     _allValues.addAll(values);
-
-    vmPrint("接收到结果 是${HEXUtil.encode(values)}");
-    vmPrint("接收到结果 长度是${values.length}");
+    vmPrint("接收到结果是 ${HEXUtil.encode(values)} len ${values.length} ", logevel);
+    vmPrint("合并的总数据 ${HEXUtil.encode(_allValues)} len ${_allValues.length}",
+        logevel);
     final first = HEXUtil.encode(_allValues);
     if (first.startsWith(BLEConfig.ringSlave)) {
       bool isLoop = true;
       while (isLoop && _allValues.length > 4) {
         int len = (_allValues[2] << 8) | _allValues[3];
         int currentLen = len + 4;
-        vmPrint("数据域长度 len $currentLen");
-        vmPrint("当前总长度_allValues ${_allValues.length}");
+        vmPrint("数据域长度 len $currentLen", logevel);
         if (_allValues.length >= currentLen) {
           //取出后移除
           List<int> _allDatas = _allValues.sublist(0, currentLen);
