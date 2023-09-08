@@ -225,6 +225,5 @@ class ReportInfoStepsController extends GetxController
       index: index,
     );
     chartTipValue.value = text;
-
   }
 }

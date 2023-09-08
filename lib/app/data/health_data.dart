@@ -609,13 +609,15 @@ class HealthData {
         DateTime? dur;
         if (type == KHealthDataType.BLOOD_OXYGEN ||
             type == KHealthDataType.HEART_RATE) {
-          dur = time?.add(Duration(minutes: i * 5));
+          dur = time?.add(Duration(
+              minutes: i * (type == KHealthDataType.HEART_RATE ? 5 : 30)));
         }
         final e = dataArr[i];
         cellDatas.add(
           KChartCellData(
             x: DateUtil.formatDate(dur, format: DateFormats.h_m),
             y: e,
+            color: type.getTypeMainColor(),
           ),
         );
       }
@@ -630,6 +632,7 @@ class HealthData {
           KChartCellData(
             x: DateUtil.formatDate(dur, format: DateFormats.h_m),
             y: num,
+            color: type.getTypeMainColor(),
           ),
         );
       }
