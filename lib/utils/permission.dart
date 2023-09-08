@@ -30,7 +30,7 @@ class PermissionUtils {
       DialogUtils.defaultDialog(
         title: "Request Permission",
         content:
-            "Bee Ring requires Bluetooth permission to scan the ring device, establish a connection, and experience more rich functions",
+            "Bee Ring collects location data to support fitness tracking features even when the app is closed or not in use.",
         onConfirm: () async {
           c.complete(KBLEManager.checkBle());
         },
