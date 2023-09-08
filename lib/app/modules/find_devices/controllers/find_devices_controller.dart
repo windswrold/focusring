@@ -62,11 +62,9 @@ class FindDevicesController extends GetxController {
     if (state == false) {
       return;
     }
-    final a = await PermissionUtils.showBleDialog();
-    if (a == true) {
-      KBLEManager.startScan();
-      controller.repeat();
-    }
+
+    KBLEManager.startScan();
+    controller.repeat();
   }
 
   void onTapItem(RingDeviceModel item) async {

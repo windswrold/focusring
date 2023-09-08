@@ -181,12 +181,6 @@ class KBLEManager {
   }
 
   static Future<bool> checkBle() async {
-    bool a = await PermissionUtils.checkBle();
-    if (a == false) {
-      HWToast.showErrText(text: "permission_err".tr);
-      return false;
-    }
-
     while ((await FlutterBluePlus.isAvailable) == false) {
       vmPrint("a");
       await Future.delayed(const Duration(seconds: 2));
@@ -198,6 +192,15 @@ class KBLEManager {
       return false;
     }
 
-    return true;
+    bool a = await PermissionUtils.checkBle();
+    if (a == true) {
+      return true;
+    }
+    final b = await PermissionUtils.showBleDialog();
+    if (b == false) {
+      HWToast.showErrText(text: "permission_err".tr);
+      return false;
+    }
+    return PermissionUtils.requestBle();
   }
 }

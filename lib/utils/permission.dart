@@ -21,28 +21,54 @@ class PermissionUtils {
   /// Permission prompt dialog
   static Future<bool> showBleDialog() async {
     if (isIOS == true) {
-      return Future.value(false);
+      return Future.value(true);
     }
     Completer<bool> c = Completer();
-    final a = SPManager.getInstallStatus();
-    if (a == false) {
-      SPManager.setInstallStatus();
-      DialogUtils.defaultDialog(
-        title: "Request Permission",
-        content:
-            "Bee Ring collects location data to support fitness tracking features even when the app is closed or not in use.",
-        onConfirm: () async {
-          c.complete(KBLEManager.checkBle());
-        },
-        onCancel: () {
-          c.complete(false);
-        },
-      );
-    }
+    // final a = SPManager.getInstallStatus();
+    // if (a == false) {
+    // SPManager.setInstallStatus();
+    DialogUtils.defaultDialog(
+      title: "Request Permission",
+      content:
+          "Bee Ring collects location data to support fitness tracking features even when the app is closed or not in use.",
+      onConfirm: () async {
+        c.complete(true);
+      },
+      onCancel: () {
+        c.complete(false);
+      },
+    );
+    // }
     return c.future;
   }
 
   static Future<bool> checkBle() async {
+    List<Permission> a = [];
+    if (isAndroid == true) {
+      a = [
+        Permission.bluetoothConnect,
+        Permission.bluetoothScan,
+        Permission.bluetooth
+      ];
+    } else {
+      a = [
+        Permission.bluetooth,
+      ];
+    }
+    bool isok = true;
+    for (var i = 0; i < a.length; i++) {
+      Permission perItem = a[i];
+      PermissionStatus status = await perItem.status;
+      if (status != PermissionStatus.granted) {
+        isok = false;
+        break;
+      }
+    }
+
+    return isok;
+  }
+
+  static Future<bool> requestBle() async {
     List<Permission> a = [];
     if (isAndroid == true) {
       a = [
