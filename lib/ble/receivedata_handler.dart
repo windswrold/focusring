@@ -41,165 +41,17 @@ class ReceiveDataHandler {
     List<int> valueData = _allDatas.sublist(6);
     vmPrint("valueData ${HEXUtil.encode(valueData)}", KBLEManager.logevel);
     if (cmd == 0x01) {
-      vmPrint("绑定认证", KBLEManager.logevel);
-      com = KBLECommandType.bindingsverify;
-      if (valueData[0] == 0x01) {
-        status = false;
-        tip = "拒绝绑定";
-      } else {
-        status = true;
-        tip = "成功绑定";
-      }
-      vmPrint(tip, KBLEManager.logevel);
+      return _parseCMD_01(valueData, type: type);
     } else if (cmd == 0x02) {
-      com = KBLECommandType.system;
-      if (type == 0x00) {
-        status = true;
-        tip = "时间设置成功";
-      } else if (type == 0x02) {
-        //解除绑定
-      }
-      vmPrint("时间设置成功", KBLEManager.logevel);
+      return _parseCMD_02(valueData, type: type);
     } else if (cmd == 0x03) {
-      vmPrint("ppg", KBLEManager.logevel);
-      com = KBLECommandType.ppg;
-      status = false;
-      if (type == 0x00 || type == 0x05) {
-        if (valueData[0] == 0x01) {
-          tip = "设备接受单次测量，正在测量中";
-        } else if (valueData[0] == 0x02) {
-          tip = "设备已经在单次测量中";
-        } else if (valueData[0] == 0x03) {
-          tip = "设备在定时测量中，还没有出值";
-        } else if (valueData[0] == 0x04) {
-          tip = "设备在定时测量中已经出值测量还未结束";
-        } else if (valueData[0] == 0x05) {
-          if (type == 0x00) {
-            if (valueData[1] == 0x01) {
-              tip = "其它错误";
-            } else if (valueData[1] == 0x02) {
-              tip = "心率通信失败";
-            } else if (valueData[1] == 0x03) {
-              tip = "心率中断不来";
-            } else if (valueData[1] == 0x04) {
-              tip = "设备没有佩戴";
-            }
-          } else {
-            if (valueData[1] == 0x01) {
-              tip = "其它错误";
-            } else if (valueData[1] == 0x02) {
-              tip = "血氧通信失败";
-            } else if (valueData[1] == 0x03) {
-              tip = "血氧中断不来";
-            } else if (valueData[1] == 0x04) {
-              tip = "设备没有佩戴";
-            }
-          }
-        } else if (valueData[0] == 0x06) {
-          status = true;
-          tip = "获取成功";
-          value = valueData[1];
-        }
-      } else if (type == 0x01 || type == 0x06) {
-        vmPrint("心率定时测量设置");
-        status = true;
-        tip = "设备回复设置成功";
-      } else if (type == 0x02 || type == 0x07) {
-        if (valueData[0] == 0x00) {
-          vmPrint("不打开");
-          status = false;
-        } else {
-          status = true;
-        }
-        tip = "心率定时测量设置成功";
-      } else if (type == 0x03 || type == 0x08) {
-        if (valueData[0] == 0xaa) {
-          value = valueData[1];
-          vmPrint("回答天数", KBLEManager.logevel);
-        } else if (valueData[0] == 0xbb) {
-          vmPrint("回答数据", KBLEManager.logevel);
-          int all = valueData[1];
-          int current = valueData[2];
-          KBLEManager.sendData(
-              sendData: KBLESerialization.getHeartHistoryDataByCurrentByIndex(
-            current,
-            isHeart: type == 0x03
-                ? KHealthDataType.HEART_RATE
-                : KHealthDataType.BLOOD_OXYGEN,
-          ));
-          if (all == current) {
-            vmPrint("心率或者血氧接收完毕", KBLEManager.logevel);
-            status = true;
-            if (type == 0x03) {
-              KBLEManager.sendData(
-                  sendData: KBLESerialization.getStepsHistoryDataByCurrent());
-            }
-          } else {}
-
-          HealthData.insertHealthBleData(
-              datas: valueData.sublist(3),
-              isHaveTime: true,
-              type: type == 0x03
-                  ? KHealthDataType.HEART_RATE
-                  : KHealthDataType.BLOOD_OXYGEN);
-        }
-      } else if (type == 0x04 || type == 0x09) {
-        //当天数据
-        if (valueData[0] == 0xbb) {
-          int all = valueData[1];
-          int current = valueData[2];
-          status = true;
-          if (all == current) {
-          } else {}
-          KBLEManager.sendData(
-              sendData: KBLESerialization.getHeartHistoryDataByCurrentByIndex(
-            current,
-            isHeart: type == 0x04
-                ? KHealthDataType.HEART_RATE
-                : KHealthDataType.BLOOD_OXYGEN,
-          ));
-          HealthData.insertHealthBleData(
-              datas: valueData.sublist(3),
-              isHaveTime: false,
-              type: type == 0x04
-                  ? KHealthDataType.HEART_RATE
-                  : KHealthDataType.BLOOD_OXYGEN);
-        }
-      }
+      return _parseCMD_03(valueData, type: type);
     } else if (cmd == 0x04) {
-      com = KBLECommandType.gsensor;
-      status = true;
-      if (type == 0x03) {
-        if (valueData[0] == 0xaa) {
-          value = valueData[1];
-          vmPrint("回答天数");
-        } else if (valueData[0] == 0xbb) {
-          vmPrint("回答数据");
-          int all = valueData[1];
-          int current = valueData[2];
-
-          KBLEManager.sendData(
-            sendData:
-                KBLESerialization.getStepsHistoryDataByCurrentByIndex(current),
-          );
-          HealthData.insertHealthBleData(
-            datas: valueData.sublist(3),
-            isHaveTime: true,
-            type: KHealthDataType.STEPS,
-          );
-          if (all == current) {
-            vmPrint("步数接收完毕", KBLEManager.logevel);
-
-            KBLEManager.sendData(
-                sendData: KBLESerialization.getHeartHistoryDataByCurrent(
-                    isHeart: KHealthDataType.BLOOD_OXYGEN));
-          } else {}
-        }
-      }
+      return _parseCMD_04(valueData, type: type);
+    } else if (cmd == 0x05) {
+      return _parseCMD_05(valueData, type: type);
     } else if (cmd == 0x06) {
-      com = KBLECommandType.battery;
-      status = true;
-      value = valueData[0];
+      return _parseCMD_06(valueData, type: type);
     }
 
     if (com == null) {
@@ -212,5 +64,224 @@ class ReceiveDataHandler {
         status: status, tip: tip, command: com, value: value);
   }
 
-  static void receiveDataHandler(Map event) async {}
+  static ReceiveDataModel _parseCMD_01(List<int> valueData,
+      {required int? type}) {
+    vmPrint("绑定认证", KBLEManager.logevel);
+    String tip = "";
+    bool status = false;
+    KBLECommandType com = KBLECommandType.bindingsverify;
+    if (valueData[0] == 0x01) {
+      status = false;
+      tip = "拒绝绑定";
+    } else {
+      status = true;
+      tip = "成功绑定";
+    }
+    vmPrint(tip, KBLEManager.logevel);
+    return ReceiveDataModel(status: status, tip: tip, command: com);
+  }
+
+  static ReceiveDataModel _parseCMD_02(List<int> valueData,
+      {required int? type}) {
+    KBLECommandType com = KBLECommandType.system;
+    bool status = false;
+    String tip = "";
+    if (type == 0x00) {
+      status = true;
+      tip = "时间设置成功";
+    } else if (type == 0x02) {
+      //解除绑定
+    }
+    vmPrint("时间设置成功", KBLEManager.logevel);
+    return ReceiveDataModel(status: status, tip: tip, command: com);
+  }
+
+  static ReceiveDataModel _parseCMD_03(List<int> valueData,
+      {required int? type}) {
+    KBLECommandType com = KBLECommandType.ppg;
+    bool status = false;
+    String tip = "";
+    dynamic value;
+    vmPrint("ppg", KBLEManager.logevel);
+    if (type == 0x00 || type == 0x05) {
+      if (valueData[0] == 0x01) {
+        tip = "设备接受单次测量，正在测量中";
+      } else if (valueData[0] == 0x02) {
+        tip = "设备已经在单次测量中";
+      } else if (valueData[0] == 0x03) {
+        tip = "设备在定时测量中，还没有出值";
+      } else if (valueData[0] == 0x04) {
+        tip = "设备在定时测量中已经出值测量还未结束";
+      } else if (valueData[0] == 0x05) {
+        if (type == 0x00) {
+          if (valueData[1] == 0x01) {
+            tip = "其它错误";
+          } else if (valueData[1] == 0x02) {
+            tip = "心率通信失败";
+          } else if (valueData[1] == 0x03) {
+            tip = "心率中断不来";
+          } else if (valueData[1] == 0x04) {
+            tip = "设备没有佩戴";
+          }
+        } else {
+          if (valueData[1] == 0x01) {
+            tip = "其它错误";
+          } else if (valueData[1] == 0x02) {
+            tip = "血氧通信失败";
+          } else if (valueData[1] == 0x03) {
+            tip = "血氧中断不来";
+          } else if (valueData[1] == 0x04) {
+            tip = "设备没有佩戴";
+          }
+        }
+      } else if (valueData[0] == 0x06) {
+        status = true;
+        tip = "获取成功";
+        value = valueData[1];
+      }
+    } else if (type == 0x01 || type == 0x06) {
+      vmPrint("心率定时测量设置");
+      status = true;
+      tip = "设备回复设置成功";
+    } else if (type == 0x02 || type == 0x07) {
+      if (valueData[0] == 0x00) {
+        vmPrint("不打开");
+        status = false;
+      } else {
+        status = true;
+      }
+      tip = "心率定时测量设置成功";
+    } else if (type == 0x03 || type == 0x08) {
+      if (valueData[0] == 0xaa) {
+        value = valueData[1];
+        vmPrint("回答天数", KBLEManager.logevel);
+      } else if (valueData[0] == 0xbb) {
+        vmPrint("回答数据", KBLEManager.logevel);
+        int all = valueData[1];
+        int current = valueData[2];
+        KBLEManager.sendData(
+            sendData: KBLESerialization.getHeartHistoryDataByCurrentByIndex(
+          current,
+          isHeart: type == 0x03
+              ? KHealthDataType.HEART_RATE
+              : KHealthDataType.BLOOD_OXYGEN,
+        ));
+        if (all == current) {
+          vmPrint("心率或者血氧接收完毕", KBLEManager.logevel);
+          status = true;
+          if (type == 0x03) {
+            KBLEManager.sendData(
+                sendData: KBLESerialization.getStepsHistoryDataByCurrent());
+          } else if (type == 0x08) {
+            vmPrint("发送睡眠", KBLEManager.logevel);
+            KBLEManager.sendData(
+                sendData: KBLESerialization.getSleepHistoryDataByCurrent());
+          }
+        } else {}
+
+        HealthData.insertHealthBleData(
+            datas: valueData.sublist(3),
+            isHaveTime: true,
+            type: type == 0x03
+                ? KHealthDataType.HEART_RATE
+                : KHealthDataType.BLOOD_OXYGEN);
+      }
+    } else if (type == 0x04 || type == 0x09) {
+      //当天数据
+      if (valueData[0] == 0xbb) {
+        int all = valueData[1];
+        int current = valueData[2];
+        status = true;
+        if (all == current) {
+        } else {}
+        KBLEManager.sendData(
+            sendData: KBLESerialization.getHeartHistoryDataByCurrentByIndex(
+          current,
+          isHeart: type == 0x04
+              ? KHealthDataType.HEART_RATE
+              : KHealthDataType.BLOOD_OXYGEN,
+        ));
+        HealthData.insertHealthBleData(
+            datas: valueData.sublist(3),
+            isHaveTime: false,
+            type: type == 0x04
+                ? KHealthDataType.HEART_RATE
+                : KHealthDataType.BLOOD_OXYGEN);
+      }
+    }
+    return ReceiveDataModel(status: status, tip: tip, command: com);
+  }
+
+  static ReceiveDataModel _parseCMD_04(List<int> valueData,
+      {required int? type}) {
+    KBLECommandType com = KBLECommandType.system;
+    bool status = false;
+    String tip = "";
+    com = KBLECommandType.gsensor;
+    status = true;
+    dynamic value;
+    if (type == 0x03) {
+      if (valueData[0] == 0xaa) {
+        value = valueData[1];
+        vmPrint("回答天数");
+      } else if (valueData[0] == 0xbb) {
+        vmPrint("回答数据");
+        int all = valueData[1];
+        int current = valueData[2];
+
+        KBLEManager.sendData(
+          sendData:
+              KBLESerialization.getStepsHistoryDataByCurrentByIndex(current),
+        );
+        HealthData.insertHealthBleData(
+          datas: valueData.sublist(3),
+          isHaveTime: true,
+          type: KHealthDataType.STEPS,
+        );
+        if (all == current) {
+          vmPrint("步数接收完毕", KBLEManager.logevel);
+
+          KBLEManager.sendData(
+              sendData: KBLESerialization.getHeartHistoryDataByCurrent(
+                  isHeart: KHealthDataType.BLOOD_OXYGEN));
+        } else {}
+      }
+    }
+    return ReceiveDataModel(status: status, tip: tip, command: com);
+  }
+
+  static ReceiveDataModel _parseCMD_05(List<int> valueData,
+      {required int? type}) {
+    KBLECommandType com = KBLECommandType.system;
+    bool status = false;
+    String tip = "";
+    if (type == 0x01) {
+      if (valueData[0] == 0xbb) {
+        vmPrint("睡眠数据", KBLEManager.logevel);
+        int all = valueData[1];
+        int current = valueData[2];
+        KBLEManager.sendData(
+            sendData:
+                KBLESerialization.getSleepHistoryDataByCurrentByIndex(current));
+        if (all == current) {
+          vmPrint("睡眠接收完毕", KBLEManager.logevel);
+        }
+        HealthData.insertHealthBleData(
+            datas: valueData.sublist(3),
+            isHaveTime: true,
+            type: KHealthDataType.SLEEP);
+      }
+    }
+    return ReceiveDataModel(status: status, tip: tip, command: com);
+  }
+
+  static ReceiveDataModel _parseCMD_06(List<int> valueData,
+      {required int? type}) {
+    KBLECommandType com = KBLECommandType.battery;
+    bool status = true;
+    dynamic value = valueData[0];
+    String tip = "";
+    return ReceiveDataModel(
+        status: status, tip: tip, command: com, value: value);
+  }
 }

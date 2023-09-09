@@ -146,6 +146,21 @@ class KBLESerialization {
         valueStr: HEXUtil.encode(e));
   }
 
+  ///获取当天历史步数
+  static BLESendData getSleepHistoryDataByCurrent() {
+    return BLESendData(
+        cmd: KBLECommandType.sleep, typeStr: "01", valueStr: "bb00");
+  }
+
+  ///回复收到相应包，并带上包序号
+  static BLESendData getSleepHistoryDataByCurrentByIndex(
+    int index,
+  ) {
+    List<int> e = [0xcc, index];
+    return BLESendData(
+        cmd: KBLECommandType.sleep, typeStr: "01", valueStr: HEXUtil.encode(e));
+  }
+
   ///电量在发送变化的时候设备回主动上报
   static BLESendData getBattery() {
     return BLESendData(

@@ -1,8 +1,11 @@
+import 'dart:math';
+
 import 'package:beering/db/database_config.dart';
 import 'package:beering/public.dart';
 import 'package:beering/utils/date_util.dart';
 import 'package:beering/utils/json_util.dart';
 import 'package:beering/views/charts/home_card/model/home_card_x.dart';
+import 'package:decimal/decimal.dart';
 import 'package:floor/floor.dart';
 
 const String tableName = 'bloodOxygenData';
@@ -168,6 +171,21 @@ class SleepData {
   int? lightTime;
   String? dataForHour;
 
+  String? start_Sleep; //开始
+  String? end_Sleep; //结束
+  int? sleepDuration; //睡眠时长
+  int? sleep_score; //睡眠评分
+  int? awake_time; //清醒时间
+  int? awake_time_percentage; //清醒时间百分比
+  int? light_sleep_time; //浅睡时间
+  int? light_sleep_time_percentage; //浅睡时间百分比
+  int? deep_sleep_time; //深睡时间
+  int? deep_sleep_time_percentage; //深睡时间百分比
+  int? rapid_eye_movement_time; //快速眼动时间
+  int? rapid_eye_movement_time_percentage; //快速眼动时间百分比
+  int? sleep_distribution_data_list_count; //睡眠段数
+  String? sleep_distribution_data_list; //睡眠分布
+
   SleepData({
     this.appUserId,
     this.mac,
@@ -175,6 +193,20 @@ class SleepData {
     this.deepTime,
     this.lightTime,
     this.dataForHour,
+    this.start_Sleep,
+    this.end_Sleep,
+    this.sleepDuration,
+    this.sleep_score,
+    this.awake_time,
+    this.awake_time_percentage,
+    this.light_sleep_time,
+    this.light_sleep_time_percentage,
+    this.deep_sleep_time,
+    this.deep_sleep_time_percentage,
+    this.rapid_eye_movement_time,
+    this.rapid_eye_movement_time_percentage,
+    this.sleep_distribution_data_list_count,
+    this.sleep_distribution_data_list,
   });
 
   factory SleepData.fromJson(Map<String, dynamic> json) => SleepData(
@@ -587,7 +619,7 @@ class HealthData {
         model.dataArrs = JsonUtil.encodeObj(results);
 
         StepData.insertTokens([model]);
-      }
+      } else if (type == KHealthDataType.SLEEP) {}
 
       HWToast.showSucText(text: "构造成功，已存数据库");
     } catch (e) {
@@ -657,5 +689,31 @@ class HealthData {
     }
 
     return text;
+  }
+
+  static double calculate_kcal_steps(int steps, int weight, int hight) {
+    return (Decimal.fromInt(weight) *
+            Decimal.parse("1.036") *
+            (Decimal.fromInt(hight) *
+                Decimal.parse("0.41") *
+                Decimal.fromInt(steps) *
+                Decimal.parse("0.00001")))
+        .toDouble();
+    // return (uint32_t)(weight * 1.036f * (hight * 0.41f * steps * 0.00001f));
+  }
+
+  static double calculate_distance_steps(int steps, int hight) {
+    return (Decimal.fromInt(hight) *
+            Decimal.fromInt(41) *
+            Decimal.fromInt(steps) *
+            Decimal.parse("0.0001"))
+        .toDouble();
+    // return (hight * 41.0f * steps * 0.0001f);
+  }
+
+  static double calculate_Temp() {
+    Random random = Random();
+    double fraction = random.nextDouble() * 0.9;
+    return 36.1 + fraction;
   }
 }
