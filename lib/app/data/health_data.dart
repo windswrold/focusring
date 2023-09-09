@@ -546,85 +546,119 @@ class HealthData {
 
   static void insertHealthBleData(
       {required List<int> datas,
-      required bool isHaveTime,
+      required bool isContainTime,
       required KHealthDataType type}) {
     try {
       int userid = SPManager.getGlobalUser()!.id!;
-      final mac = "";
+      String mac = "";
       if (type == KHealthDataType.BLOOD_OXYGEN) {
-        final model = BloodOxygenData(
-          appUserId: userid,
-          mac: mac,
-        );
-
-        List<int> results = [];
-        if (isHaveTime == true) {
-          int year = (datas[1] << 8) + datas[0];
-          int month = datas[2];
-          int day = datas[3];
-          model.createTime = DateUtil.formatDate(
-              DateTime(year, month, day, 0, 0),
-              format: DateFormats.full);
-          results = datas.sublist(4);
-        } else {
-          model.createTime = getZeroDateTime();
-          results = datas;
-        }
-        model.bloodArray = JsonUtil.encodeObj(results);
-        model.averageHeartRate = ListEx.averageNum(results).toInt();
-        model.max = ListEx.maxVal(results).toInt();
-        model.min = ListEx.minVal(results).toInt();
-        BloodOxygenData.insertTokens([model]);
+        _insertBloodOxygen(userid,
+            mac: mac, isContainTime: isContainTime, datas: datas);
       } else if (type == KHealthDataType.HEART_RATE) {
-        List<int> results = [];
-        final model = HeartRateData(
-          appUserId: userid,
-          mac: mac,
-        );
-        if (isHaveTime == true) {
-          int year = (datas[1] << 8) + datas[0];
-          int month = datas[2];
-          int day = datas[3];
-          model.createTime = DateUtil.formatDate(
-              DateTime(year, month, day, 0, 0),
-              format: DateFormats.full);
-          results = datas.sublist(4);
-        } else {
-          model.createTime = getZeroDateTime();
-          results = datas;
-        }
-        model.heartArray = JsonUtil.encodeObj(results);
-        model.averageHeartRate = ListEx.averageNum(results).toInt();
-        model.max = ListEx.maxVal(results).toInt();
-        model.min = ListEx.minVal(results).toInt();
-        HeartRateData.insertTokens([model]);
+        _insertHEARTRATE(userid,
+            mac: mac, isContainTime: isContainTime, datas: datas);
       } else if (type == KHealthDataType.STEPS) {
-        List<int> results = [];
-        final model = StepData(
-          appUserId: userid,
-          mac: mac,
-        );
-        if (isHaveTime == true) {
-          int year = (datas[1] << 8) + datas[0];
-          int month = datas[2];
-          int day = datas[3];
-          model.createTime = DateUtil.formatDate(
-              DateTime(year, month, day, 0, 0),
-              format: DateFormats.full);
-          results = datas.sublist(4);
-        } else {
-          model.createTime = getZeroDateTime();
-          results = datas;
-        }
-        model.dataArrs = JsonUtil.encodeObj(results);
-
-        StepData.insertTokens([model]);
-      } else if (type == KHealthDataType.SLEEP) {}
+        _insertSteps(userid,
+            mac: mac, isContainTime: isContainTime, datas: datas);
+      } else if (type == KHealthDataType.SLEEP) {
+        _insertSleep(userid,
+            mac: mac, isContainTime: isContainTime, datas: datas);
+      }
 
       HWToast.showSucText(text: "构造成功，已存数据库");
     } catch (e) {
       HWToast.showErrText(text: "构造失败，${e.toString()}");
     }
+  }
+
+  static void _insertBloodOxygen(
+    int userid, {
+    required String mac,
+    required bool isContainTime,
+    required List<int> datas,
+  }) {
+    final model = BloodOxygenData(appUserId: userid, mac: mac);
+
+    List<int> results = [];
+    if (isContainTime == true) {
+      int year = (datas[1] << 8) + datas[0];
+      int month = datas[2];
+      int day = datas[3];
+      model.createTime = DateUtil.formatDate(DateTime(year, month, day, 0, 0),
+          format: DateFormats.full);
+      results = datas.sublist(4);
+    } else {
+      model.createTime = getZeroDateTime();
+      results = datas;
+    }
+    model.bloodArray = JsonUtil.encodeObj(results);
+    model.averageHeartRate = ListEx.averageNum(results).toInt();
+    model.max = ListEx.maxVal(results).toInt();
+    model.min = ListEx.minVal(results).toInt();
+    BloodOxygenData.insertTokens([model]);
+  }
+
+  static void _insertHEARTRATE(
+    int userid, {
+    required String mac,
+    required bool isContainTime,
+    required List<int> datas,
+  }) {
+    List<int> results = [];
+    final model = HeartRateData(
+      appUserId: userid,
+      mac: mac,
+    );
+    if (isContainTime == true) {
+      int year = (datas[1] << 8) + datas[0];
+      int month = datas[2];
+      int day = datas[3];
+      model.createTime = DateUtil.formatDate(DateTime(year, month, day, 0, 0),
+          format: DateFormats.full);
+      results = datas.sublist(4);
+    } else {
+      model.createTime = getZeroDateTime();
+      results = datas;
+    }
+    model.heartArray = JsonUtil.encodeObj(results);
+    model.averageHeartRate = ListEx.averageNum(results).toInt();
+    model.max = ListEx.maxVal(results).toInt();
+    model.min = ListEx.minVal(results).toInt();
+    HeartRateData.insertTokens([model]);
+  }
+
+  static void _insertSleep(
+    int userid, {
+    required String mac,
+    required bool isContainTime,
+    required List<int> datas,
+  }) {}
+
+  static void _insertSteps(
+    int userid, {
+    required String mac,
+    required bool isContainTime,
+    required List<int> datas,
+  }) {
+    List<int> results = [];
+    final model = StepData(
+      appUserId: userid,
+      mac: mac,
+    );
+    if (isContainTime == true) {
+      int year = (datas[1] << 8) + datas[0];
+      int month = datas[2];
+      int day = datas[3];
+      model.createTime = DateUtil.formatDate(DateTime(year, month, day, 0, 0),
+          format: DateFormats.full);
+      results = datas.sublist(4);
+    } else {
+      model.createTime = getZeroDateTime();
+      results = datas;
+    }
+    model.dataArrs = JsonUtil.encodeObj(results);
+
+    StepData.insertTokens([model]);
   }
 
   static List<KChartCellData> generateCellData(

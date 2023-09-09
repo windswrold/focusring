@@ -26,6 +26,8 @@ class ReceiveDataModel {
 }
 
 class ReceiveDataHandler {
+  static List<int> _cacheData = [];
+
   static ReceiveDataModel parseDataHandler(List<int> _allDatas) {
     //解析收到的数据
     String tip = "";
@@ -64,6 +66,7 @@ class ReceiveDataHandler {
         status: status, tip: tip, command: com, value: value);
   }
 
+  //绑定认证
   static ReceiveDataModel _parseCMD_01(List<int> valueData,
       {required int? type}) {
     vmPrint("绑定认证", KBLEManager.logevel);
@@ -81,6 +84,7 @@ class ReceiveDataHandler {
     return ReceiveDataModel(status: status, tip: tip, command: com);
   }
 
+  ///系统
   static ReceiveDataModel _parseCMD_02(List<int> valueData,
       {required int? type}) {
     KBLECommandType com = KBLECommandType.system;
@@ -96,6 +100,7 @@ class ReceiveDataHandler {
     return ReceiveDataModel(status: status, tip: tip, command: com);
   }
 
+  ///ppg 心率 血氧
   static ReceiveDataModel _parseCMD_03(List<int> valueData,
       {required int? type}) {
     KBLECommandType com = KBLECommandType.ppg;
@@ -181,7 +186,7 @@ class ReceiveDataHandler {
 
         HealthData.insertHealthBleData(
             datas: valueData.sublist(3),
-            isHaveTime: true,
+            isContainTime: true,
             type: type == 0x03
                 ? KHealthDataType.HEART_RATE
                 : KHealthDataType.BLOOD_OXYGEN);
@@ -203,7 +208,7 @@ class ReceiveDataHandler {
         ));
         HealthData.insertHealthBleData(
             datas: valueData.sublist(3),
-            isHaveTime: false,
+            isContainTime: false,
             type: type == 0x04
                 ? KHealthDataType.HEART_RATE
                 : KHealthDataType.BLOOD_OXYGEN);
@@ -212,6 +217,7 @@ class ReceiveDataHandler {
     return ReceiveDataModel(status: status, tip: tip, command: com);
   }
 
+  ///步数
   static ReceiveDataModel _parseCMD_04(List<int> valueData,
       {required int? type}) {
     KBLECommandType com = KBLECommandType.system;
@@ -235,7 +241,7 @@ class ReceiveDataHandler {
         );
         HealthData.insertHealthBleData(
           datas: valueData.sublist(3),
-          isHaveTime: true,
+          isContainTime: true,
           type: KHealthDataType.STEPS,
         );
         if (all == current) {
@@ -250,6 +256,7 @@ class ReceiveDataHandler {
     return ReceiveDataModel(status: status, tip: tip, command: com);
   }
 
+  ///睡眠
   static ReceiveDataModel _parseCMD_05(List<int> valueData,
       {required int? type}) {
     KBLECommandType com = KBLECommandType.system;
@@ -268,13 +275,14 @@ class ReceiveDataHandler {
         }
         HealthData.insertHealthBleData(
             datas: valueData.sublist(3),
-            isHaveTime: true,
+            isContainTime: true,
             type: KHealthDataType.SLEEP);
       }
     }
     return ReceiveDataModel(status: status, tip: tip, command: com);
   }
 
+  ///电量
   static ReceiveDataModel _parseCMD_06(List<int> valueData,
       {required int? type}) {
     KBLECommandType com = KBLECommandType.battery;
