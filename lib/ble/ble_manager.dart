@@ -76,6 +76,13 @@ class KBLEManager {
 
   static void startScan(
       {Duration timeout = const Duration(seconds: 10)}) async {
+    if (inProduction) {
+      _onValueReceived(HEXUtil.decode(
+          "eeee00690403bb0101e70709060000000064000000c80000002c01000090010000f401000058020000bc0200002003000084030000e80300004c040000b00400001405000078050000dc05000040060000a4060000080700006c070000d00700003408000098080000fc080000"));
+
+      return;
+    }
+
     if ((await checkBle()) == false) {
       return;
     }
