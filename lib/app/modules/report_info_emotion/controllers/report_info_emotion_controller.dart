@@ -11,7 +11,6 @@ class ReportInfoEmotionController extends GetxController {
 
   static const String id_data_souce_update = "id_data_souce_update_emotion";
 
-  late StreamSubscription dateSc;
   late RxString allResult = "-".obs;
 
   late RxString chartTipValue = "".obs;
@@ -27,17 +26,10 @@ class ReportInfoEmotionController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-
-    final a = Get.find<TraLedButtonController>();
-    dateSc = a.displayTimeStream.listen((event) {
-      vmPrint("displayTimeStream $event");
-      // allResult.value = Random.secure().nextInt(1000).toString();
-    });
   }
 
   @override
   void onClose() {
-    dateSc.cancel();
     super.onClose();
   }
 

@@ -1,5 +1,9 @@
 import 'dart:math';
+import 'dart:typed_data';
 
+import 'package:beering/app/data/user_info.dart';
+import 'package:beering/app/modules/app_view/controllers/app_view_controller.dart';
+import 'package:beering/ble/ble_manager.dart';
 import 'package:beering/db/database_config.dart';
 import 'package:beering/public.dart';
 import 'package:beering/utils/date_util.dart';
@@ -15,9 +19,9 @@ class BloodOxygenData {
   int? appUserId;
   String? mac;
   String? createTime;
-  int? averageHeartRate; //这一天的平均值
-  int? max;
-  int? min;
+  int? averageHeartRate; //自己计算这一天的平均值
+  int? max; //自己计算当天最高
+  int? min; //自己计算当天最低
   String? bloodArray;
 
   BloodOxygenData({
@@ -64,41 +68,6 @@ class BloodOxygenData {
     final datas = await db?.bloodDao.insertTokens(models);
     return;
   }
-
-  @override
-  String getTabName() {
-    // TODO: implement getTabName
-    return "BloodOxygenData";
-  }
-}
-
-class FemalePeriodData {
-  int? appUserId;
-  String? mac;
-  String? createTime;
-  int? periodState;
-
-  FemalePeriodData({
-    this.appUserId,
-    this.mac,
-    this.createTime,
-    this.periodState,
-  });
-
-  factory FemalePeriodData.fromJson(Map<String, dynamic> json) =>
-      FemalePeriodData(
-        appUserId: json["appUserId"],
-        mac: json["mac"],
-        createTime: json["createTime"],
-        periodState: json["periodState"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "appUserId": appUserId,
-        "mac": mac,
-        "createTime": createTime,
-        "periodState": periodState,
-      };
 }
 
 const String tableName2 = 'heartRateData';
@@ -109,9 +78,11 @@ class HeartRateData {
   String? mac;
   String? createTime;
   int? averageHeartRate; //这一天的平均值
-  int? max;
-  int? min;
+  int? max; //自己计算当天最高
+  int? min; //自己计算当天最低
   String? heartArray;
+
+  ///心率的原始数据
 
   HeartRateData({
     this.appUserId,
@@ -127,8 +98,8 @@ class HeartRateData {
         appUserId: json["appUserId"],
         mac: json["mac"],
         createTime: json["createTime"],
-        averageHeartRate: json["averageHeartRate"],
         heartArray: json["heartArray"],
+        averageHeartRate: json["averageHeartRate"],
         max: json["max"],
         min: json["min"],
       );
@@ -159,6 +130,129 @@ class HeartRateData {
   static void insertTokens(List<HeartRateData> models) async {
     final db = await DataBaseConfig.openDataBase();
     final datas = await db?.heartDao.insertTokens(models);
+    return;
+  }
+}
+
+const String tableName3 = 'stepData';
+
+@Entity(tableName: tableName3, primaryKeys: ["appUserId", "createTime"])
+class StepData {
+  int? appUserId;
+  String? mac;
+  String? createTime;
+  int? steps;
+
+  ///总步数
+  int? distance;
+
+  ///总里程
+  int? calorie;
+
+  ///总消耗
+  // String? dataForHour;
+  String? dataArrs; //步数的数据源
+
+  StepData(
+      {this.appUserId,
+      this.mac,
+      this.createTime,
+      this.steps,
+      this.distance,
+      this.calorie,
+      // this.dataForHour,
+      this.dataArrs});
+
+  factory StepData.fromJson(Map<String, dynamic> json) => StepData(
+      appUserId: json["appUserId"],
+      mac: json["mac"],
+      createTime: json["createTime"],
+      steps: json["steps"],
+      distance: json["distance"],
+      calorie: json["calorie"],
+      // dataForHour: json["dataForHour"],
+      dataArrs: json["dataForHour"]);
+
+  Map<String, dynamic> toJson() => {
+        "appUserId": appUserId,
+        "mac": mac,
+        "createTime": createTime,
+        "steps": steps,
+        "distance": distance,
+        "calorie": calorie,
+        "dataForHour": dataArrs,
+      };
+
+  static Future<List<StepData>> queryUserAll(
+    int appUserId,
+    String createTime,
+    String nextTime,
+  ) async {
+    final db = await DataBaseConfig.openDataBase();
+    final datas =
+        await db?.stepDao.queryUserAll(appUserId, createTime, nextTime);
+    return datas ?? [];
+  }
+
+  static void insertTokens(List<StepData> models) async {
+    final db = await DataBaseConfig.openDataBase();
+    final datas = await db?.stepDao.insertTokens(models);
+    return;
+  }
+}
+
+const String tableName4 = 'TempData';
+
+@Entity(tableName: tableName4, primaryKeys: ["appUserId", "createTime"])
+class TempData {
+  int? appUserId;
+  String? mac;
+  String? createTime;
+  int? temperature;
+  double? average; //自己计算这一天的平均值
+  double? max; //自己计算当天最高
+  double? min; //自己计算当天最低
+  String? dataArray;
+
+  TempData({
+    this.appUserId,
+    this.mac,
+    this.createTime,
+    this.temperature,
+    this.average,
+    this.dataArray,
+    this.max,
+    this.min,
+  });
+
+  factory TempData.fromJson(Map<String, dynamic> json) => TempData(
+        appUserId: json["appUserId"],
+        mac: json["mac"],
+        createTime: json["createTime"],
+        temperature: json["temperature"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "appUserId": appUserId,
+        "mac": mac,
+        "createTime": createTime,
+        "temperature": temperature,
+      };
+
+  static Future<List<TempData>> queryUserAll(
+    int appUserId,
+    String createTime,
+    String nextTime,
+  ) async {
+    final db = await DataBaseConfig.openDataBase();
+    final datas =
+        await db?.tempDap.queryUserAll(appUserId, createTime, nextTime);
+    return datas ?? [];
+  }
+
+  static void insertTokens(List<TempData> models) async {
+    final db = await DataBaseConfig.openDataBase();
+    final datas = await db?.tempDap.insertTokens(models);
     return;
   }
 }
@@ -228,95 +322,33 @@ class SleepData {
       };
 }
 
-class TempData {
+class FemalePeriodData {
   int? appUserId;
   String? mac;
   String? createTime;
-  int? temperature;
+  int? periodState;
 
-  TempData({
+  FemalePeriodData({
     this.appUserId,
     this.mac,
     this.createTime,
-    this.temperature,
+    this.periodState,
   });
 
-  factory TempData.fromJson(Map<String, dynamic> json) => TempData(
+  factory FemalePeriodData.fromJson(Map<String, dynamic> json) =>
+      FemalePeriodData(
         appUserId: json["appUserId"],
         mac: json["mac"],
         createTime: json["createTime"],
-        temperature: json["temperature"],
+        periodState: json["periodState"],
       );
 
   Map<String, dynamic> toJson() => {
         "appUserId": appUserId,
         "mac": mac,
         "createTime": createTime,
-        "temperature": temperature,
+        "periodState": periodState,
       };
-}
-
-const String tableName3 = 'stepData';
-
-@Entity(tableName: tableName3, primaryKeys: ["appUserId", "createTime"])
-class StepData {
-  int? appUserId;
-  String? mac;
-  String? createTime;
-  int? steps;
-  int? distance;
-  int? calorie;
-  String? dataForHour;
-
-  String? dataArrs;
-
-  StepData(
-      {this.appUserId,
-      this.mac,
-      this.createTime,
-      this.steps,
-      this.distance,
-      this.calorie,
-      this.dataForHour,
-      this.dataArrs});
-
-  factory StepData.fromJson(Map<String, dynamic> json) => StepData(
-      appUserId: json["appUserId"],
-      mac: json["mac"],
-      createTime: json["createTime"],
-      steps: json["steps"],
-      distance: json["distance"],
-      calorie: json["calorie"],
-      dataForHour: json["dataForHour"],
-      dataArrs: json["dataArrs"]);
-
-  Map<String, dynamic> toJson() => {
-        "appUserId": appUserId,
-        "mac": mac,
-        "createTime": createTime,
-        "steps": steps,
-        "distance": distance,
-        "calorie": calorie,
-        "dataForHour": dataForHour,
-        "dataArrs": dataArrs,
-      };
-
-  static Future<List<StepData>> queryUserAll(
-    int appUserId,
-    String createTime,
-    String nextTime,
-  ) async {
-    final db = await DataBaseConfig.openDataBase();
-    final datas =
-        await db?.stepDao.queryUserAll(appUserId, createTime, nextTime);
-    return datas ?? [];
-  }
-
-  static void insertTokens(List<StepData> models) async {
-    final db = await DataBaseConfig.openDataBase();
-    final datas = await db?.stepDao.insertTokens(models);
-    return;
-  }
 }
 
 class EmotionData {
@@ -442,29 +474,35 @@ class HealthData {
         "pressureData": pressureData?.map((x) => x.toJson()).toList(),
       };
 
-  static Future<List<KChartCellData>> queryHealthData(
-      {required KReportType reportType, required KHealthDataType types}) async {
+  static Future<List<KChartCellData>> queryHealthData({
+    required KHealthDataType types,
+    required KReportType reportType,
+    required DateTime? currentTime,
+  }) async {
     List<KChartCellData> cellDatas = [];
-
+    currentTime ??= DateTime.now();
     try {
       int userid = SPManager.getGlobalUser()!.id!;
-
-      final currentTime = DateTime.now();
-      String create = getZeroDateTime(now: currentTime);
-      String nextTime = "";
+      String create = "";
+      String nextTime = create;
       if (reportType == KReportType.day) {
+        create = getZeroDateTime(now: currentTime);
         nextTime =
             getZeroDateTime(now: currentTime.add(const Duration(days: 1)));
       } else if (reportType == KReportType.week) {
         create =
-            getZeroDateTime(now: currentTime.subtract(const Duration(days: 7)));
-
-        nextTime = getZeroDateTime(now: currentTime);
+            getZeroDateTime(now: currentTime.subtract(const Duration(days: 6)));
+        nextTime =
+            getZeroDateTime(now: currentTime.add(const Duration(days: 1)));
       } else if (reportType == KReportType.moneth) {
         create = getZeroDateTime(
-            now: currentTime.subtract(const Duration(days: 30)));
-        nextTime = getZeroDateTime(now: currentTime);
+            now: DateTime(currentTime.year, currentTime.month, 1));
+        nextTime = getZeroDateTime(
+            now: DateTime(currentTime.year, currentTime.month + 1, 1)
+                .subtract(const Duration(days: 1)));
       }
+
+      vmPrint("create $create  nextTime $nextTime reportType $reportType");
 
       if (types == KHealthDataType.HEART_RATE) {
         List<HeartRateData> datas =
@@ -513,7 +551,9 @@ class HealthData {
             );
           }
         }
-      } else if (types == KHealthDataType.STEPS) {
+      } else if (types == KHealthDataType.STEPS ||
+          types == KHealthDataType.LiCheng ||
+          types == KHealthDataType.CALORIES_BURNED) {
         List<StepData> datas =
             await StepData.queryUserAll(userid, create, nextTime);
         if (reportType == KReportType.day) {
@@ -521,6 +561,29 @@ class HealthData {
               createTime: datas.first.createTime ?? "",
               type: types,
               data: datas.first.dataArrs ?? "");
+          cellDatas.addAll(results);
+        } else {
+          for (var i = 0; i < datas.length; i++) {
+            final e = datas[i];
+            // cellDatas.add(
+            //   KChartCellData(
+            //     x: e.createTime,
+            //     y: (e.min ?? 0),
+            //     z: e.max ?? 0,
+            //     a: e.averageHeartRate ?? 0,
+            //     color: types.getTypeMainColor(),
+            //   ),
+            // );
+          }
+        }
+      } else if (types == KHealthDataType.BODY_TEMPERATURE) {
+        List<TempData> datas =
+            await TempData.queryUserAll(userid, create, nextTime);
+        if (reportType == KReportType.day) {
+          final results = generateCellData(
+              createTime: datas.first.createTime ?? "",
+              type: types,
+              data: datas.first.dataArray ?? "");
           cellDatas.addAll(results);
         } else {
           for (var i = 0; i < datas.length; i++) {
@@ -632,14 +695,97 @@ class HealthData {
     required String mac,
     required bool isContainTime,
     required List<int> datas,
-  }) {}
+  }) {
+    var buffer = Uint8List.fromList(datas).buffer;
+    var byteData = ByteData.sublistView(buffer.asByteData());
+    int offset = 0;
+    int year = byteData.getUint16(offset, Endian.little);
+    offset += 2;
+    int month = byteData.getUint8(offset++);
+    int day = byteData.getUint8(offset++);
+    int hour = byteData.getUint8(offset++);
+    int minute = byteData.getUint8(offset++);
+    int second = byteData.getUint8(offset++);
 
+    final time = DateTime(year, month, day, hour, minute, second);
+
+    vmPrint("时间 $time", KBLEManager.logevel);
+
+    int startSleepTimestamp = byteData.getUint32(offset, Endian.little);
+    offset += 4;
+
+    int endSleepTimestamp = byteData.getUint32(offset, Endian.little);
+    offset += 4;
+
+    int sleepDuration = byteData.getUint16(offset, Endian.little);
+    offset += 2;
+
+    vmPrint(
+        "startSleepTimestamp $startSleepTimestamp endSleepTimestamp $endSleepTimestamp sleepDuration $sleepDuration",
+        KBLEManager.logevel);
+
+    int sleepScore = byteData.getUint8(offset++);
+    int awakeTime = byteData.getUint16(offset, Endian.little);
+    offset += 2;
+
+    int awakeTimePercentage = byteData.getUint8(offset++);
+    int lightSleepTime = byteData.getUint16(offset, Endian.little);
+    offset += 2;
+
+    int lightSleepTimePercentage = byteData.getUint16(offset, Endian.little);
+    offset += 2;
+
+    int deepSleepTime = byteData.getUint16(offset, Endian.little);
+    offset += 2;
+
+    int deepSleepTimePercentage = byteData.getUint16(offset, Endian.little);
+    offset += 2;
+
+    int rapidEyeMovementTime = byteData.getUint16(offset, Endian.little);
+    offset += 2;
+
+    int rapidEyeMovementTimePercentage =
+        byteData.getUint16(offset, Endian.little);
+    offset += 2;
+
+    vmPrint(
+        "sleepScore $sleepScore , awakeTime $awakeTime awakeTimePercentage awakeTimePercentage $awakeTimePercentage lightSleepTime $lightSleepTime",
+        KBLEManager.logevel);
+
+    vmPrint(
+        "lightSleepTimePercentage $lightSleepTimePercentage  deepSleepTime $deepSleepTime");
+
+    vmPrint(
+        "deepSleepTimePercentage $deepSleepTimePercentage  rapidEyeMovementTime $rapidEyeMovementTime rapidEyeMovementTimePercentage $rapidEyeMovementTimePercentage");
+
+    int sleepDistributionDataListCount = byteData.getUint8(offset++);
+
+    for (int i = 0; i < sleepDistributionDataListCount; i++) {
+      int startTimestamp = byteData.getUint32(offset, Endian.little);
+      offset += 4;
+
+      int sleepDuration = byteData.getUint16(offset, Endian.little);
+      offset += 2;
+
+      int type = byteData.getUint8(offset++);
+
+      vmPrint(
+          "startTimestamp $startTimestamp sleepDuration $sleepDuration type $type",
+          KBLEManager.logevel);
+    }
+
+    int sleepType = byteData.getUint8(offset++);
+
+    vmPrint("sleepType $sleepType", KBLEManager.logevel);
+  }
+
+  ///顺便计算里程跟能量消耗
   static void _insertSteps(
     int userid, {
     required String mac,
     required bool isContainTime,
     required List<int> datas,
-  }) {
+  }) async {
     List<int> results = [];
     final model = StepData(
       appUserId: userid,
@@ -649,16 +795,41 @@ class HealthData {
       int year = (datas[1] << 8) + datas[0];
       int month = datas[2];
       int day = datas[3];
-      model.createTime = DateUtil.formatDate(DateTime(year, month, day, 0, 0),
-          format: DateFormats.full);
+      model.createTime =
+          DateUtil.formatDate(DateTime.now(), format: DateFormats.full);
       results = datas.sublist(4);
     } else {
       model.createTime = getZeroDateTime();
       results = datas;
     }
-    model.dataArrs = JsonUtil.encodeObj(results);
 
+    UserInfoModel? user = SPManager.getGlobalUser();
+    if (user == null) {
+      return;
+    }
+    final hight = user.calMetricHeight();
+    final weight = user.calMetricWeight();
+    model.steps = ListEx.sumVal(results).toInt();
+    model.distance = calculate_distance_steps(model.steps!, hight).toInt();
+    model.calorie = calculate_kcal_steps(model.steps!, weight, hight).toInt();
+    model.dataArrs = JsonUtil.encodeObj(results);
     StepData.insertTokens([model]);
+
+    TempData temp = TempData(
+      appUserId: userid,
+      mac: mac,
+    );
+    temp.createTime = temp.createTime;
+
+    //24个点
+    List<double> tempsVal =
+        List.generate(24, (index) => calculate_Temp()).toList();
+    temp.dataArray = JsonUtil.encodeObj(tempsVal);
+    temp.average = ListEx.averageNum(tempsVal);
+    temp.max = ListEx.maxVal(tempsVal).toDouble();
+    temp.min = ListEx.minVal(tempsVal).toDouble();
+
+    TempData.insertTokens([temp]);
   }
 
   static List<KChartCellData> generateCellData(
@@ -687,7 +858,7 @@ class HealthData {
           ),
         );
       }
-    } else {
+    } else if (type == KHealthDataType.STEPS) {
       for (int i = 0; i < dataArr.length; i += 4) {
         DateTime? dur;
         dur = time?.add(Duration(hours: i ~/ 4));
@@ -698,6 +869,19 @@ class HealthData {
           KChartCellData(
             x: DateUtil.formatDate(dur, format: DateFormats.h_m),
             y: num,
+            color: type.getTypeMainColor(),
+          ),
+        );
+      }
+    } else if (type == KHealthDataType.BODY_TEMPERATURE) {
+      for (var i = 0; i < dataArr.length; i++) {
+        DateTime? dur;
+        dur = time?.add(Duration(hours: i));
+        final e = dataArr[i];
+        cellDatas.add(
+          KChartCellData(
+            x: DateUtil.formatDate(dur, format: DateFormats.h_m),
+            y: e,
             color: type.getTypeMainColor(),
           ),
         );
@@ -736,6 +920,7 @@ class HealthData {
     // return (uint32_t)(weight * 1.036f * (hight * 0.41f * steps * 0.00001f));
   }
 
+  // kcal和m
   static double calculate_distance_steps(int steps, int hight) {
     return (Decimal.fromInt(hight) *
             Decimal.fromInt(41) *

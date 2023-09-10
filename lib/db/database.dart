@@ -17,6 +17,7 @@ const int dbCurrentVersion = 1;
   BloodOxygenData,
   HeartRateData,
   StepData,
+  TempData,
 ])
 abstract class FlutterDatabase extends FloorDatabase {
   KHealthIndexModelDao get indexDap;
@@ -24,4 +25,5 @@ abstract class FlutterDatabase extends FloorDatabase {
   BloodOxygenDataDao get bloodDao;
   HeartRateDataDao get heartDao;
   StepDataDao get stepDao;
+  TempDataDao get tempDap;
 }

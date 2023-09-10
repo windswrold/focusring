@@ -11,6 +11,7 @@ import 'package:beering/utils/json_util.dart';
 import 'package:beering/views/charts/home_card/model/home_card_type.dart';
 import 'package:beering/views/charts/home_card/model/home_card_x.dart';
 import 'package:beering/views/charts/radio_gauge_chart/model/radio_gauge_chart_model.dart';
+import 'package:beering/views/tra_led_button.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
@@ -120,19 +121,19 @@ class HomeStateController extends GetxController {
   void onTapEditCard() async {
     // final now = DateTime.now();
     // final time = getZeroDateTime(now: now);
-    //
-    // final nextTime = getZeroDateTime(now: now.add(Duration(days: 1)));
+    // //
+    // // final nextTime = getZeroDateTime(now: now.add(Duration(days: 1)));
     // int userid = SPManager.getGlobalUser()!.id!;
-    //
+    // //
     // final a = ListEx.generateArray<int>(0, 95, 1);
-    //
-    // final item = HeartRateData(
-    //   appUserId: userid,
-    //   createTime: time,
-    //   heartArray: JsonUtil.encodeObj(a),
-    // );
-    // HeartRateData.insertTokens([item]);
-    //
+    // //
+    // // final item = HeartRateData(
+    // //   appUserId: userid,
+    // //   createTime: time,
+    // //   heartArray: JsonUtil.encodeObj(a),
+    // // );
+    // // HeartRateData.insertTokens([item]);
+    // //
     // final ccc = StepData(
     //   appUserId: userid,
     //   createTime: time,

@@ -21,8 +21,6 @@ class ReportInfoStepsController extends GetxController
 
   late RxString allResult = "-".obs;
 
-  late StreamSubscription dateSc;
-
   late RxList<StepsCardAssetsModel> stepsCards = <StepsCardAssetsModel>[].obs;
 
   late RxString chartTipValue = "".obs;
@@ -47,26 +45,23 @@ class ReportInfoStepsController extends GetxController
     ];
     tabController = TabController(vsync: this, length: myTabbas.length);
     configCardData();
-    _queryDataSource();
   }
 
   @override
   void onReady() {
     super.onReady();
-    final a = Get.find<TraLedButtonController>();
-    dateSc = a.displayTimeStream.listen((event) {
-      vmPrint("displayTimeStream $event");
-    });
+    _queryDataSource();
   }
 
   @override
   void onClose() {
-    dateSc.cancel();
     super.onClose();
   }
 
   void onTapType(int type) {
     reportType.value = KReportType.values[type];
+
+    Get.find<TraLedButtonController>().changeReportType(reportType.value);
 
     // allResult.value = Random.secure().nextInt(10000).toString();
 
@@ -193,9 +188,15 @@ class ReportInfoStepsController extends GetxController
 
       if (currentType == KHealthDataType.HEART_RATE ||
           currentType == KHealthDataType.BLOOD_OXYGEN ||
-          currentType == KHealthDataType.STEPS) {
+          currentType == KHealthDataType.STEPS ||
+          currentType == KHealthDataType.LiCheng ||
+          currentType == KHealthDataType.CALORIES_BURNED ||
+          currentType == KHealthDataType.BODY_TEMPERATURE) {
+        final currentTime = Get.find<TraLedButtonController>().currentTime;
         datas = await HealthData.queryHealthData(
-            reportType: reportType.value, types: currentType);
+            reportType: reportType.value,
+            types: currentType,
+            currentTime: currentTime);
       } else {
         datas = List.generate(
           30,

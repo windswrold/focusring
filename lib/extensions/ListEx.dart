@@ -171,15 +171,19 @@ extension ListEx<E> on List<E> {
     return ["4", "6", "8", "12"];
   }
 
-  static double averageNum(List<int> data) {
-    return data.reduce((a, b) => a + b) / data.length;
+  static T averageNum<T extends num>(List<T> data) {
+    return sumVal(data) / data.length as T;
   }
 
-  static int maxVal(List<int> data) {
+  static T maxVal<T extends num>(List<T> data) {
     return data.reduce((a, b) => a > b ? a : b);
   }
 
-  static int minVal(List<int> data) {
+  static T minVal<T extends num>(List<T> data) {
     return data.reduce((a, b) => a < b ? a : b);
+  }
+
+  static T sumVal<T extends num>(List<T> data) {
+    return data.reduce((value, element) => (value + element) as T);
   }
 }

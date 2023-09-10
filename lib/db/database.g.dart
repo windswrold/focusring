@@ -71,6 +71,8 @@ class _$FlutterDatabase extends FlutterDatabase {
 
   StepDataDao? _stepDaoInstance;
 
+  TempDataDao? _tempDapInstance;
+
   Future<sqflite.Database> open(
     String path,
     List<Migration> migrations, [
@@ -101,7 +103,9 @@ class _$FlutterDatabase extends FlutterDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `heartRateData` (`appUserId` INTEGER, `mac` TEXT, `createTime` TEXT, `averageHeartRate` INTEGER, `max` INTEGER, `min` INTEGER, `heartArray` TEXT, PRIMARY KEY (`appUserId`, `createTime`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `stepData` (`appUserId` INTEGER, `mac` TEXT, `createTime` TEXT, `steps` INTEGER, `distance` INTEGER, `calorie` INTEGER, `dataForHour` TEXT, `dataArrs` TEXT, PRIMARY KEY (`appUserId`, `createTime`))');
+            'CREATE TABLE IF NOT EXISTS `stepData` (`appUserId` INTEGER, `mac` TEXT, `createTime` TEXT, `steps` INTEGER, `distance` INTEGER, `calorie` INTEGER, `dataArrs` TEXT, PRIMARY KEY (`appUserId`, `createTime`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `TempData` (`appUserId` INTEGER, `mac` TEXT, `createTime` TEXT, `temperature` INTEGER, `average` REAL, `max` REAL, `min` REAL, `dataArray` TEXT, PRIMARY KEY (`appUserId`, `createTime`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -133,6 +137,11 @@ class _$FlutterDatabase extends FlutterDatabase {
   @override
   StepDataDao get stepDao {
     return _stepDaoInstance ??= _$StepDataDao(database, changeListener);
+  }
+
+  @override
+  TempDataDao get tempDap {
+    return _tempDapInstance ??= _$TempDataDao(database, changeListener);
   }
 }
 
@@ -422,7 +431,6 @@ class _$StepDataDao extends StepDataDao {
                   'steps': item.steps,
                   'distance': item.distance,
                   'calorie': item.calorie,
-                  'dataForHour': item.dataForHour,
                   'dataArrs': item.dataArrs
                 });
 
@@ -442,13 +450,59 @@ class _$StepDataDao extends StepDataDao {
   ) async {
     return _queryAdapter.queryList(
         'SELECT * FROM stepData WHERE appUserId = ?1 and createTime >= ?2 AND createTime < ?3',
-        mapper: (Map<String, Object?> row) => StepData(appUserId: row['appUserId'] as int?, mac: row['mac'] as String?, createTime: row['createTime'] as String?, steps: row['steps'] as int?, distance: row['distance'] as int?, calorie: row['calorie'] as int?, dataForHour: row['dataForHour'] as String?, dataArrs: row['dataArrs'] as String?),
+        mapper: (Map<String, Object?> row) => StepData(appUserId: row['appUserId'] as int?, mac: row['mac'] as String?, createTime: row['createTime'] as String?, steps: row['steps'] as int?, distance: row['distance'] as int?, calorie: row['calorie'] as int?, dataArrs: row['dataArrs'] as String?),
         arguments: [appUserId, createTime, nextTime]);
   }
 
   @override
   Future<void> insertTokens(List<StepData> models) async {
     await _stepDataInsertionAdapter.insertList(
+        models, OnConflictStrategy.replace);
+  }
+}
+
+class _$TempDataDao extends TempDataDao {
+  _$TempDataDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database),
+        _tempDataInsertionAdapter = InsertionAdapter(
+            database,
+            'TempData',
+            (TempData item) => <String, Object?>{
+                  'appUserId': item.appUserId,
+                  'mac': item.mac,
+                  'createTime': item.createTime,
+                  'temperature': item.temperature,
+                  'average': item.average,
+                  'max': item.max,
+                  'min': item.min,
+                  'dataArray': item.dataArray
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<TempData> _tempDataInsertionAdapter;
+
+  @override
+  Future<List<TempData>> queryUserAll(
+    int appUserId,
+    String createTime,
+    String nextTime,
+  ) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM TempData WHERE appUserId = ?1 and createTime >= ?2 AND createTime < ?3',
+        mapper: (Map<String, Object?> row) => TempData(appUserId: row['appUserId'] as int?, mac: row['mac'] as String?, createTime: row['createTime'] as String?, temperature: row['temperature'] as int?, average: row['average'] as double?, dataArray: row['dataArray'] as String?, max: row['max'] as double?, min: row['min'] as double?),
+        arguments: [appUserId, createTime, nextTime]);
+  }
+
+  @override
+  Future<void> insertTokens(List<TempData> models) async {
+    await _tempDataInsertionAdapter.insertList(
         models, OnConflictStrategy.replace);
   }
 }

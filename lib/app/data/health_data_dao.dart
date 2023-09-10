@@ -33,3 +33,14 @@ abstract class StepDataDao {
   @Insert(onConflict: OnConflictStrategy.replace)
   Future<void> insertTokens(List<StepData> models);
 }
+
+@dao
+abstract class TempDataDao {
+  @Query(
+      'SELECT * FROM $tableName4 WHERE appUserId = :appUserId and createTime >= :createTime AND createTime < :nextTime')
+  Future<List<TempData>> queryUserAll(
+      int appUserId, String createTime, String nextTime);
+
+  @Insert(onConflict: OnConflictStrategy.replace)
+  Future<void> insertTokens(List<TempData> models);
+}
