@@ -161,9 +161,18 @@ class ReceiveDataHandler {
         value = valueData[1];
         vmPrint("回答天数", KBLEManager.logevel);
       } else if (valueData[0] == 0xbb) {
-        vmPrint("回答数据", KBLEManager.logevel);
         int all = valueData[1];
         int current = valueData[2];
+        if (current == 1) {
+          _cacheData.addAll(valueData.sublist(3));
+          vmPrint("第$current组数据包含时间 ${HEXUtil.encode(_cacheData)}",
+              KBLEManager.logevel);
+        } else {
+          _cacheData.addAll(valueData.sublist(7));
+          vmPrint("第$current组数据去除时间 合并后的数据 ${HEXUtil.encode(_cacheData)}",
+              KBLEManager.logevel);
+        }
+
         KBLEManager.sendData(
             sendData: KBLESerialization.getHeartHistoryDataByCurrentByIndex(
           current,
@@ -174,6 +183,13 @@ class ReceiveDataHandler {
         if (all == current) {
           vmPrint("心率或者血氧接收完毕", KBLEManager.logevel);
           status = true;
+          HealthData.insertHealthBleData(
+              datas: List.from(_cacheData),
+              isContainTime: true,
+              type: type == 0x03
+                  ? KHealthDataType.HEART_RATE
+                  : KHealthDataType.BLOOD_OXYGEN);
+          _cacheData.clear();
           if (type == 0x03) {
             KBLEManager.sendData(
                 sendData: KBLESerialization.getStepsHistoryDataByCurrent());
@@ -182,14 +198,7 @@ class ReceiveDataHandler {
             KBLEManager.sendData(
                 sendData: KBLESerialization.getSleepHistoryDataByCurrent());
           }
-        } else {}
-
-        HealthData.insertHealthBleData(
-            datas: valueData.sublist(3),
-            isContainTime: true,
-            type: type == 0x03
-                ? KHealthDataType.HEART_RATE
-                : KHealthDataType.BLOOD_OXYGEN);
+        }
       }
     } else if (type == 0x04 || type == 0x09) {
       //当天数据
@@ -234,19 +243,27 @@ class ReceiveDataHandler {
         vmPrint("回答数据");
         int all = valueData[1];
         int current = valueData[2];
-
+        if (current == 1) {
+          _cacheData.addAll(valueData.sublist(3));
+          vmPrint("第$current组数据包含时间 ${HEXUtil.encode(_cacheData)}",
+              KBLEManager.logevel);
+        } else {
+          _cacheData.addAll(valueData.sublist(7));
+          vmPrint("第$current组数据也包含时间，去除时间 合并后的数据 ${HEXUtil.encode(_cacheData)}",
+              KBLEManager.logevel);
+        }
         KBLEManager.sendData(
           sendData:
               KBLESerialization.getStepsHistoryDataByCurrentByIndex(current),
         );
-        HealthData.insertHealthBleData(
-          datas: valueData.sublist(3),
-          isContainTime: true,
-          type: KHealthDataType.STEPS,
-        );
         if (all == current) {
           vmPrint("步数接收完毕", KBLEManager.logevel);
-
+          HealthData.insertHealthBleData(
+            datas: List.from(_cacheData),
+            isContainTime: true,
+            type: KHealthDataType.STEPS,
+          );
+          _cacheData.clear();
           KBLEManager.sendData(
               sendData: KBLESerialization.getHeartHistoryDataByCurrent(
                   isHeart: KHealthDataType.BLOOD_OXYGEN));
@@ -267,16 +284,28 @@ class ReceiveDataHandler {
         vmPrint("睡眠数据", KBLEManager.logevel);
         int all = valueData[1];
         int current = valueData[2];
+
+        if (current == 1) {
+          _cacheData.addAll(valueData.sublist(3));
+          vmPrint("第$current组数据包含时间 ${HEXUtil.encode(_cacheData)}",
+              KBLEManager.logevel);
+        } else {
+          _cacheData.addAll(valueData.sublist(7));
+          vmPrint("第$current组数据也包含时间，去除时间 合并后的数据 ${HEXUtil.encode(_cacheData)}",
+              KBLEManager.logevel);
+        }
+
         KBLEManager.sendData(
             sendData:
                 KBLESerialization.getSleepHistoryDataByCurrentByIndex(current));
         if (all == current) {
           vmPrint("睡眠接收完毕", KBLEManager.logevel);
+          HealthData.insertHealthBleData(
+              datas: List.from(_cacheData),
+              isContainTime: true,
+              type: KHealthDataType.SLEEP);
+          _cacheData.clear();
         }
-        HealthData.insertHealthBleData(
-            datas: valueData.sublist(3),
-            isContainTime: true,
-            type: KHealthDataType.SLEEP);
       }
     }
     return ReceiveDataModel(status: status, tip: tip, command: com);
