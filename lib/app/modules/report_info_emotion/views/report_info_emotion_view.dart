@@ -32,7 +32,7 @@ class ReportInfoEmotionView extends GetView<ReportInfoEmotionController> {
             _getOtherView(),
             NextButton(
               onPressed: () {
-              controller.stratTest();
+                controller.stratTest();
               },
               title: "strat_test".tr,
               margin: EdgeInsets.only(left: 12.w, right: 12.w, top: 20.w),
@@ -105,7 +105,7 @@ class ReportInfoEmotionView extends GetView<ReportInfoEmotionController> {
                   plotAreaBorderWidth: controller.allResult.isEmpty ? 0 : 0,
                   margin: const EdgeInsets.only(left: 5, right: 10),
                   primaryXAxis: ChartUtils.getCategoryAxis(),
-                  primaryYAxis: ChartUtils.getNumericAxis(),
+                  primaryYAxis: CategoryAxis(isVisible: false),
                   onTrackballPositionChanging: (trackballArgs) {
                     vmPrint("onTrackballPositionChanging" +
                         trackballArgs.chartPointInfo.dataPointIndex.toString());

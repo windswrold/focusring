@@ -34,12 +34,14 @@ class ReportInfoEmotionController extends GetxController {
   }
 
   void _queryDataSource() {
+    int sumVal = 250;
+
     dataSource.value = [
       List.generate(
         30,
         (index) => KChartCellData(
           x: index.toString(),
-          y: 0,
+          y: Random.secure().nextInt(50),
           color: KEMOTIONStatusType.positive.getStatusColor(),
         ),
       ),
@@ -47,7 +49,7 @@ class ReportInfoEmotionController extends GetxController {
         30,
         (index) => KChartCellData(
           x: index.toString(),
-          y: 0,
+          y: Random.secure().nextInt(50),
           color: KEMOTIONStatusType.neutral.getStatusColor(),
         ),
       ),
@@ -55,7 +57,7 @@ class ReportInfoEmotionController extends GetxController {
         30,
         (index) => KChartCellData(
           x: index.toString(),
-          y: 0,
+          y: Random.secure().nextInt(50),
           color: KEMOTIONStatusType.negative.getStatusColor(),
         ),
       )
