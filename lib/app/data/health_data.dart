@@ -795,8 +795,8 @@ class HealthData {
       int year = (datas[1] << 8) + datas[0];
       int month = datas[2];
       int day = datas[3];
-      model.createTime =
-          DateUtil.formatDate(DateTime.now(), format: DateFormats.full);
+      model.createTime = DateUtil.formatDate(DateTime(year, month, day),
+          format: DateFormats.full);
       results = datas.sublist(4);
     } else {
       model.createTime = getZeroDateTime();
@@ -819,7 +819,7 @@ class HealthData {
       appUserId: userid,
       mac: mac,
     );
-    temp.createTime = temp.createTime;
+    temp.createTime = model.createTime;
 
     //24个点
     List<double> tempsVal =
@@ -932,7 +932,7 @@ class HealthData {
 
   static double calculate_Temp() {
     Random random = Random();
-    double fraction = random.nextDouble() * 0.9;
-    return 36.1 + fraction;
+    double fraction = random.nextDouble() * 0.9 + 36.1;
+    return Decimal.parse(fraction.toStringAsFixed(1)).toDouble();
   }
 }
