@@ -30,7 +30,9 @@ class PermissionUtils {
     DialogUtils.defaultDialog(
       title: "Request Permission",
       content:
-          "Bee Ring collects location data to support fitness tracking features even when the app is closed or not in use.",
+          "Allows Bee Ring to find, connect and determine the relative location of nearby devices, even if the app is closed or not in use.",
+      confirmT: "Allow",
+      cancelT: "Not allow",
       onConfirm: () async {
         c.complete(true);
       },

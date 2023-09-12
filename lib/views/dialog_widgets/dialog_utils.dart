@@ -62,6 +62,8 @@ class DialogUtils {
     VoidCallback? onConfirm,
     bool hiddenCancel = false,
     AlignmentGeometry? alignment,
+    String? confirmT,
+    String? cancelT,
   }) {
     return Get.dialog(
       AlertDialog(
@@ -114,7 +116,7 @@ class DialogUtils {
                                     onCancel();
                                   }
                                 },
-                                title: "cancel".tr,
+                                title: cancelT ?? "cancel".tr,
                                 activeColor: Colors.transparent,
                                 textStyle: Get.textTheme.titleMedium,
                               ),
@@ -136,7 +138,7 @@ class DialogUtils {
                             onConfirm();
                           }
                         },
-                        title: "confirm".tr,
+                        title: confirmT ?? "confirm".tr,
                         activeColor: Colors.transparent,
                         textStyle: Get.textTheme.displayLarge,
                       ),

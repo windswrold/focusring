@@ -218,5 +218,7 @@
   "negative": "Negative",
   "max_temp": "Maximum body temperature",
   "low_temp": "Lowest body temperature",
-  "err_temp": "number of exceptions"
+  "err_temp": "number of exceptions",
+  "request": "Request Permission",
+  "request_tip": "Bee Ring collects location data to support fitness tracking features even when the app is closed or not in use."
 }
