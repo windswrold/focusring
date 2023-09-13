@@ -218,5 +218,7 @@
   "negative": "Negatief",
   "max_temp": "Maximale lichaamstemperatuur",
   "low_temp": "Laagste lichaamstemperatuur",
-  "err_temp": "aantal uitzonderingen"
+  "err_temp": "aantal uitzonderingen",
+  "request": "Ongeautoriseerde locatie toestemming",
+  "request_tip": "Tijdens het gebruik heeft deze app toegang tot uw locatie nodig om apparaten te vinden, toe te voegen en te beheren."
 }

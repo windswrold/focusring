@@ -28,9 +28,8 @@ class PermissionUtils {
     // if (a == false) {
     // SPManager.setInstallStatus();
     DialogUtils.defaultDialog(
-      title: "Request Permission",
-      content:
-          "Allows Bee Ring to find, connect and determine the relative location of nearby devices, even if the app is closed or not in use.",
+      title: "request".tr,
+      content: "request_tip".tr,
       confirmT: "Allow",
       cancelT: "Not allow",
       onConfirm: () async {

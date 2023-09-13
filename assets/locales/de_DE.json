@@ -218,5 +218,7 @@
   "negative": "Negativ",
   "max_temp": "Maximale Körpertemperatur",
   "low_temp": "Niedrigste Körpertemperatur",
-  "err_temp": "Anzahl der Ausnahmen"
+  "err_temp": "Anzahl der Ausnahmen",
+  "request": "Unautorisierte Standortberechtigung",
+  "request_tip": "Während der Nutzung benötigt diese App Zugriff auf Ihren Standort, um Geräte zu finden, hinzuzufügen und zu verwalten."
 }

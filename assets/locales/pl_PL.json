@@ -218,5 +218,7 @@
   "negative": "Negatywny",
   "max_temp": "Maksymalna temperatura ciała",
   "low_temp": "Najniższa temperatura ciała",
-  "err_temp": "liczba wyjątków"
+  "err_temp": "liczba wyjątków",
+  "request": "Nieautoryzowane uprawnienia do lokalizacji",
+  "request_tip": "Podczas korzystania z tej aplikacji wymagany jest dostęp do Twojej lokalizacji w celu odkrywania, dodawania i zarządzania urządzeniami."
 }

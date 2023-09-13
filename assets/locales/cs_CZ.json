@@ -218,5 +218,7 @@
   "negative": "Negativní",
   "max_temp": "Maximální tělesná teplota",
   "low_temp": "Minimální tělesná teplota",
-  "err_temp": "Počet výjimek"
+  "err_temp": "Počet výjimek",
+  "request": "Nepovolený přístup kpoloze",
+  "request_tip": "Během používání této aplikace je potřeba přístup k vaší poloze pro objevení, přidání a správu zařízení."
 }

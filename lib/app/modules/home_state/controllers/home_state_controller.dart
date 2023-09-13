@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:beering/app/data/card_health_index.dart';
 import 'package:beering/app/modules/app_view/controllers/app_view_controller.dart';
+import 'package:beering/ble/ble_manager.dart';
 import 'package:beering/net/app_api.dart';
 import 'package:beering/public.dart';
 import 'package:beering/utils/console_logger.dart';
@@ -123,6 +124,8 @@ class HomeStateController extends GetxController {
           vmPrint("delayeddelayeddelayed"),
           initData(),
         });
+
+    KBLEManager.checkBle();
   }
 
   void onTapEditCard() {

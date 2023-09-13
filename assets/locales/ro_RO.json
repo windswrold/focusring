@@ -218,5 +218,7 @@
   "negative": "Negativ",
   "max_temp": "Temperatura maximă a corpului",
   "low_temp": "Cea mai scăzută temperatură a corpului",
-  "err_temp": "numărul de excepții"
+  "err_temp": "numărul de excepții",
+  "request": "Permisiune de localizare neautorizată",
+  "request_tip": "În timpul utilizării, această aplicație necesită acces la locația dvs. pentru a descoperi, adăuga și gestiona dispozitive."
 }

@@ -243,6 +243,8 @@ class LocaleKeys {
   static const max_temp = 'max_temp';
   static const low_temp = 'low_temp';
   static const err_temp = 'err_temp';
+  static const request = 'request';
+  static const request_tip = 'request_tip';
   static const emotion_report = 'emotion_report';
   static const about_activitytip = 'about_activitytip';
   static const about_activitytip01 = 'about_activitytip01';
@@ -487,6 +489,9 @@ class Locales {
     'max_temp': 'Temperatura corporal máxima',
     'low_temp': 'Temperatura corporal mais baixa',
     'err_temp': 'número de excepções',
+    'request': 'Permissão de localização não autorizada',
+    'request_tip':
+        'Durante a utilização, esta aplicação necessita de acesso à sua localização para descobrir, adicionar e gerir dispositivos.',
   };
   static const es_ES = {
     'tabbar_status': 'Estado',
@@ -722,6 +727,9 @@ class Locales {
     'max_temp': 'Temperatura corporal máxima',
     'low_temp': 'Temperatura corporal más baja',
     'err_temp': 'Número de excepciones',
+    'request': 'Permiso de ubicación no autorizado',
+    'request_tip':
+        'Durante el uso, esta aplicación requiere acceso a tu ubicación para descubrir, agregar y gestionar dispositivos.',
   };
   static const ja_JP = {
     'tabbar_status': 'ステータス',
@@ -951,6 +959,8 @@ class Locales {
     'max_temp': '最高体温',
     'low_temp': '最低体温',
     'err_temp': '例外の数',
+    'request': '位置情報の権限が許可されていません',
+    'request_tip': '使用中、このアプリはデバイスの検出、追加、および管理のためにあなたの位置情報へのアクセスが必要です。',
   };
   static const zh_CN = {
     'tabbar_status': '状态',
@@ -1179,6 +1189,8 @@ class Locales {
     'max_temp': '最高体温',
     'low_temp': '最低体温',
     'err_temp': '异常次数',
+    'request': '未授权位置权限',
+    'request_tip': '在使用过程中，本应用需要访问定位权限，用于发现，添加和管理设备。',
   };
   static const it_IT = {
     'tabbar_status': 'Stato',
@@ -1415,6 +1427,9 @@ class Locales {
     'max_temp': 'Temperatura corporea massima',
     'low_temp': 'Temperatura corporea più bassa',
     'err_temp': 'numero di eccezioni',
+    'request': 'Permesso di localizzazione non autorizzato',
+    'request_tip':
+        'Durante l\'uso, questa app richiede l\'accesso alla tua posizione per scoprire, aggiungere e gestire dispositivi.',
   };
   static const en_US = {
     'tabbar_status': 'Status',
@@ -1647,6 +1662,9 @@ class Locales {
     'max_temp': 'Maximum body temperature',
     'low_temp': 'Lowest body temperature',
     'err_temp': 'number of exceptions',
+    'request': 'Unauthorized location permission',
+    'request_tip':
+        'While in use, this app requires access to your location to discover, add, and manage devices.',
   };
   static const nl_NL = {
     'tabbar_status': 'status',
@@ -1881,6 +1899,9 @@ class Locales {
     'max_temp': 'Maximale lichaamstemperatuur',
     'low_temp': 'Laagste lichaamstemperatuur',
     'err_temp': 'aantal uitzonderingen',
+    'request': 'Ongeautoriseerde locatie toestemming',
+    'request_tip':
+        'Tijdens het gebruik heeft deze app toegang tot uw locatie nodig om apparaten te vinden, toe te voegen en te beheren.',
   };
   static const da_DK = {
     'tabbar_status': 'status',
@@ -2112,6 +2133,9 @@ class Locales {
     'max_temp': 'Maksimal kropstemperatur',
     'low_temp': 'Minimum kropstemperatur',
     'err_temp': 'Antal undtagelser',
+    'request': 'Uautoriseret placeringstilladelse',
+    'request_tip':
+        'Under brug skal denne app have adgang til din placering for at finde, tilføje og administrere enheder.',
   };
   static const de_DE = {
     'tabbar_status': 'Status',
@@ -2349,6 +2373,9 @@ class Locales {
     'max_temp': 'Maximale Körpertemperatur',
     'low_temp': 'Niedrigste Körpertemperatur',
     'err_temp': 'Anzahl der Ausnahmen',
+    'request': 'Unautorisierte Standortberechtigung',
+    'request_tip':
+        'Während der Nutzung benötigt diese App Zugriff auf Ihren Standort, um Geräte zu finden, hinzuzufügen und zu verwalten.',
   };
   static const pt_BR = {
     'tabbar_status': 'Status',
@@ -2585,6 +2612,9 @@ class Locales {
     'max_temp': 'Temperatura máxima do corpo',
     'low_temp': 'Temperatura corporal mais baixa',
     'err_temp': 'número de exceções',
+    'request': 'Permissão de localização não autorizada',
+    'request_tip':
+        'Ao usar, este aplicativo requer acesso à sua localização para descobrir, adicionar e gerenciar dispositivos.',
   };
   static const fr_FR = {
     'tabbar_status': 'Statut',
@@ -2822,6 +2852,9 @@ class Locales {
     'max_temp': 'Température corporelle maximale',
     'low_temp': 'Température corporelle la plus basse',
     'err_temp': 'nombre d\'exceptions',
+    'request': 'Autorisation de localisation non autorisée',
+    'request_tip':
+        'Lors de son utilisation, cette application nécessite un accès à votre localisation pour découvrir, ajouter et gérer des appareils.',
   };
   static const cs_CZ = {
     'tabbar_status': 'Stav',
@@ -3054,6 +3087,9 @@ class Locales {
     'max_temp': 'Maximální tělesná teplota',
     'low_temp': 'Minimální tělesná teplota',
     'err_temp': 'Počet výjimek',
+    'request': 'Nepovolený přístup kpoloze',
+    'request_tip':
+        'Během používání této aplikace je potřeba přístup k vaší poloze pro objevení, přidání a správu zařízení.',
   };
   static const ro_RO = {
     'tabbar_status': 'Statut',
@@ -3291,6 +3327,9 @@ class Locales {
     'max_temp': 'Temperatura maximă a corpului',
     'low_temp': 'Cea mai scăzută temperatură a corpului',
     'err_temp': 'numărul de excepții',
+    'request': 'Permisiune de localizare neautorizată',
+    'request_tip':
+        'În timpul utilizării, această aplicație necesită acces la locația dvs. pentru a descoperi, adăuga și gestiona dispozitive.',
   };
   static const pl_PL = {
     'tabbar_status': 'Status',
@@ -3524,5 +3563,8 @@ class Locales {
     'max_temp': 'Maksymalna temperatura ciała',
     'low_temp': 'Najniższa temperatura ciała',
     'err_temp': 'liczba wyjątków',
+    'request': 'Nieautoryzowane uprawnienia do lokalizacji',
+    'request_tip':
+        'Podczas korzystania z tej aplikacji wymagany jest dostęp do Twojej lokalizacji w celu odkrywania, dodawania i zarządzania urządzeniami.',
   };
 }

@@ -218,5 +218,7 @@
   "negative": "Negativ",
   "max_temp": "Maksimal kropstemperatur",
   "low_temp": "Minimum kropstemperatur",
-  "err_temp": "Antal undtagelser"
+  "err_temp": "Antal undtagelser",
+  "request": "Uautoriseret placeringstilladelse",
+  "request_tip": "Under brug skal denne app have adgang til din placering for at finde, tilføje og administrere enheder."
 }
