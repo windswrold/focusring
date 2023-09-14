@@ -30,11 +30,7 @@ class ReceiveDataHandler {
 
   static ReceiveDataModel parseDataHandler(List<int> _allDatas) {
     //解析收到的数据
-    String tip = "";
-    bool status = false;
-    dynamic value;
 
-    KBLECommandType? com;
     vmPrint("一个完整的数据 ${HEXUtil.encode(_allDatas)}", KBLEManager.logevel);
     //取出头
     int cmd = _allDatas[4];
@@ -42,28 +38,27 @@ class ReceiveDataHandler {
     vmPrint("cmd $cmd type $type", KBLEManager.logevel);
     List<int> valueData = _allDatas.sublist(6);
     vmPrint("valueData ${HEXUtil.encode(valueData)}", KBLEManager.logevel);
+    ReceiveDataModel? model;
     if (cmd == 0x01) {
-      return _parseCMD_01(valueData, type: type);
+      model = _parseCMD_01(valueData, type: type);
     } else if (cmd == 0x02) {
-      return _parseCMD_02(valueData, type: type);
+      model = _parseCMD_02(valueData, type: type);
     } else if (cmd == 0x03) {
-      return _parseCMD_03(valueData, type: type);
+      model = _parseCMD_03(valueData, type: type);
     } else if (cmd == 0x04) {
-      return _parseCMD_04(valueData, type: type);
+      model = _parseCMD_04(valueData, type: type);
     } else if (cmd == 0x05) {
-      return _parseCMD_05(valueData, type: type);
+      model = _parseCMD_05(valueData, type: type);
     } else if (cmd == 0x06) {
-      return _parseCMD_06(valueData, type: type);
+      model = _parseCMD_06(valueData, type: type);
+    } else if (cmd == 0x07) {
+      model = _parseCMD_07(valueData, type: type);
     }
-
-    if (com == null) {
+    vmPrint("经过解析后的数据 ${model.toString()}}", KBLEManager.logevel);
+    if (model == null) {
       throw "command not null";
     }
-
-    vmPrint("经过解析后的数据 status $status tip $tip com $com }", KBLEManager.logevel);
-
-    return ReceiveDataModel(
-        status: status, tip: tip, command: com, value: value);
+    return model;
   }
 
   //绑定认证
@@ -318,6 +313,26 @@ class ReceiveDataHandler {
     bool status = true;
     dynamic value = valueData[0];
     String tip = "";
+    return ReceiveDataModel(
+        status: status, tip: tip, command: com, value: value);
+  }
+
+  ///充电
+  static ReceiveDataModel _parseCMD_07(List<int> valueData,
+      {required int? type}) {
+    KBLECommandType com = KBLECommandType.charger;
+    bool status = true;
+    dynamic value = valueData[1];
+    String tip = "";
+    if (value == 0x01) {
+      status = true;
+      tip = "充电中";
+    } else {
+      status = false;
+      tip = "未充电";
+    }
+
+    vmPrint("充电状态 ${value == 0x01 ? "充电中" : "未充电"}");
     return ReceiveDataModel(
         status: status, tip: tip, command: com, value: value);
   }

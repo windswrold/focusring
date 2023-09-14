@@ -171,6 +171,10 @@ class KBLEManager {
                   characteristic.uuid.toString(), BLEConfig.WRITEUUID) ==
               true) {
             _writeCharacteristic = characteristic;
+
+            SPManager.getAppLanguage()
+
+
             KBLEManager.sendData(sendData: KBLESerialization.bindingsverify());
           }
         }

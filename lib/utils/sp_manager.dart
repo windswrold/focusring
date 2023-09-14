@@ -67,4 +67,16 @@ class SPManager {
 
     await sp.setString(_globalUser, json!);
   }
+
+  static const String _binddevices = '_binddevices';
+
+  static bool isBindDevice() {
+    final key = _binddevices + (getGlobalUser()?.id ?? 0).toString();
+    return sp.getBool(key) ?? false;
+  }
+
+  static void setBindDevice() async {
+    final key = _binddevices + (getGlobalUser()?.id ?? 0).toString();
+    await sp.setBool(key, true);
+  }
 }
