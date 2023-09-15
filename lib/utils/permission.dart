@@ -28,10 +28,11 @@ class PermissionUtils {
     // if (a == false) {
     // SPManager.setInstallStatus();
     DialogUtils.defaultDialog(
-      title: "request".tr,
-      content: "request_tip".tr,
-      confirmT: "Allow",
-      cancelT: "Not allow",
+      title: "提示",
+      content: "在使用过程中，本应用需要收集位置数据以支持BLE用于发现，添加和管理设备。",
+      // confirmT: "Allow",
+      // cancelT: "Not allow",
+      conttentColor: Colors.red,
       onConfirm: () async {
         c.complete(true);
       },

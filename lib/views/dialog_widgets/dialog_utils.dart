@@ -64,6 +64,7 @@ class DialogUtils {
     AlignmentGeometry? alignment,
     String? confirmT,
     String? cancelT,
+    Color? conttentColor,
   }) {
     return Get.dialog(
       AlertDialog(
@@ -95,7 +96,8 @@ class DialogUtils {
                     alignment: alignment ?? Alignment.centerLeft,
                     child: Text(
                       content ?? "",
-                      style: Get.textTheme.displayLarge,
+                      style: Get.textTheme.displayLarge
+                          ?.copyWith(color: conttentColor),
                       textAlign: TextAlign.center,
                     ),
                   ),
