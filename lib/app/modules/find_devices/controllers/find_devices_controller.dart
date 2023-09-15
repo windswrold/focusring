@@ -78,14 +78,12 @@ class FindDevicesController extends GetxController {
       if (event.command == KBLECommandType.bindingsverify) {
         if (event.status == true) {
           HWToast.showSucText(text: event.tip);
-          KBLEManager.sendData(sendData: KBLESerialization.timeSetting());
         } else {
           HWToast.showErrText(text: event.tip);
         }
       } else if (event.command == KBLECommandType.system) {
         if (event.status == true) {
           HWToast.showSucText(text: event.tip);
-          KBLEManager.sendData(sendData: KBLESerialization.getBattery());
           Get.backDelay(result: item);
         }
       }

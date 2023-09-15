@@ -16,13 +16,12 @@ class KBLEManager {
   static int logevel = 999;
   static BluetoothCharacteristic? _writeCharacteristic; //写入特征
   static BluetoothCharacteristic? _notifyCharacteristic; //通知特征
-  static BluetoothDevice? _mBluetoothDevice; //记录当前链接的蓝牙
   static StreamSubscription? _notifySubscription,
       _mtuSubscripation,
       _connectSubscription;
   static List<int> _allValues = []; //接收缓存数据
   static List<List<int>> _cacheSendData = []; //缓存发送的数据集合
-  static BluetoothDevice? _currentDevice;
+  static RingDeviceModel? currentDevices;
 
   static final _receiveController =
       StreamController<ReceiveDataModel>.broadcast();
@@ -37,7 +36,7 @@ class KBLEManager {
     _mtuSubscripation?.cancel();
     _notifyCharacteristic = null;
     _writeCharacteristic = null;
-    _mBluetoothDevice = null;
+    currentDevices = null;
     _connectSubscription?.cancel();
     _cacheSendData.clear();
   }
@@ -130,6 +129,7 @@ class KBLEManager {
       vmPrint("connectionState $event");
       _deviceStateSC.sink.add(event);
       if (event == BluetoothConnectionState.connected) {
+        currentDevices = device;
         findCharacteristics(bleDevice);
       } else if (event == BluetoothConnectionState.disconnected) {
         clean();
@@ -171,11 +171,13 @@ class KBLEManager {
                   characteristic.uuid.toString(), BLEConfig.WRITEUUID) ==
               true) {
             _writeCharacteristic = characteristic;
-
-            SPManager.getAppLanguage()
-
-
-            KBLEManager.sendData(sendData: KBLESerialization.bindingsverify());
+            final isBind = SPManager.isBindDevice();
+            if (isBind == true) {
+              KBLEManager.sendData(sendData: KBLESerialization.timeSetting());
+            } else {
+              KBLEManager.sendData(
+                  sendData: KBLESerialization.bindingsverify());
+            }
           }
         }
       }

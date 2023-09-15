@@ -2,6 +2,7 @@ import 'package:beering/app/data/health_data.dart';
 import 'package:beering/ble/ble_config.dart';
 import 'package:beering/ble/ble_manager.dart';
 import 'package:beering/ble/bledata_serialization.dart';
+import 'package:beering/net/app_api.dart';
 import 'package:beering/utils/hex_util.dart';
 
 import '../public.dart';
@@ -74,6 +75,7 @@ class ReceiveDataHandler {
     } else {
       status = true;
       tip = "成功绑定";
+      bindDeviceStream();
     }
     vmPrint(tip, KBLEManager.logevel);
     return ReceiveDataModel(status: status, tip: tip, command: com);
@@ -335,5 +337,12 @@ class ReceiveDataHandler {
     vmPrint("充电状态 ${value == 0x01 ? "充电中" : "未充电"}");
     return ReceiveDataModel(
         status: status, tip: tip, command: com, value: value);
+  }
+
+  static void bindDeviceStream() {
+    final a = KBLEManager.currentDevices?.macAddress ?? "";
+    AppApi.bindDeviceStream(mac: a).onSuccess((value) {
+      SPManager.setBindDevice();
+    });
   }
 }

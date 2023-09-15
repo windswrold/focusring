@@ -38,10 +38,7 @@ class HomeDevicesController extends GetxController {
       if (event.command == KBLECommandType.battery) {
         final a = event.value;
         bat.value = a as int;
-        KBLEManager.sendData(
-            sendData: KBLESerialization.getHeartHistoryDataByCurrent(
-                isHeart: KHealthDataType.HEART_RATE));
-      } else if (event.command == KBLECommandType.ppg) {}
+      }
     });
   }
 
