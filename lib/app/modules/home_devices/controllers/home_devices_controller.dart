@@ -83,7 +83,16 @@ class HomeDevicesController extends GetxController {
         );
         return;
       }
-      DialogUtils.dialogResetDevices();
+      DialogUtils.dialogResetDevices(
+        onConfirm: () async {
+          vmPrint("确定恢复", KBLEManager.logevel);
+          KBLEManager.sendData(sendData: KBLESerialization.unBindDevice());
+          await Future.delayed(Duration(milliseconds: 500));
+          vmPrint("断开连接", KBLEManager.logevel);
+          KBLEManager.disAllConnect();
+          connectDevice.value = null;
+        },
+      );
     }
   }
 
@@ -97,7 +106,11 @@ class HomeDevicesController extends GetxController {
         //心率有3天暑假
         // KBLEManager.onValueReceived(HEXUtil.decode("EEEE00040303AA03"));
         //回复心率数据
-        KBLEManager.onValueReceived(HEXUtil.decode("EEEE00050303bb0101"));
+        // KBLEManager.onValueReceived(HEXUtil.decode("EEEE00050303bb0101"));
+
+        //设备接受测量
+        // KBLEManager.onValueReceived(HEXUtil.decode("EEEE000403000100"));
+
         return;
       }
     }

@@ -55,7 +55,7 @@ class AutomaticSettingsController extends GetxController {
   void onChangeHeart(bool state) async {
     heartRateAutoTestSwitch.value = state;
     final a = await _requestData({"heartRateAutoTestSwitch": state});
-    HWToast.showLoading(clickClose: false);
+    HWToast.showLoading();
     var sameTime = DateTime.now();
     KBLEManager.sendData(
         sendData: KBLESerialization.ppg_heartTimingTest(
@@ -70,7 +70,7 @@ class AutomaticSettingsController extends GetxController {
   void onChangeBloodoxy(bool state) async {
     bloodOxygenAutoTestSwitch.value = state;
     final a = await _requestData({"bloodOxygenAutoTestSwitch": state});
-    HWToast.showLoading(clickClose: false);
+    HWToast.showLoading();
     var sameTime = DateTime.now();
     KBLEManager.sendData(
         sendData: KBLESerialization.ppg_heartTimingTest(
@@ -98,7 +98,7 @@ class AutomaticSettingsController extends GetxController {
     final a =
         await _requestData({"heartRateAutoTestInterval": arrs[selectIndex]});
 
-    HWToast.showLoading(clickClose: false);
+    HWToast.showLoading();
     var sameTime = DateTime.now();
     KBLEManager.sendData(
         sendData: KBLESerialization.ppg_heartTimingTest(
@@ -126,7 +126,7 @@ class AutomaticSettingsController extends GetxController {
     final a =
         await _requestData({"bloodOxygenAutoTestInterval": arrs[selectIndex]});
 
-    HWToast.showLoading(clickClose: false);
+    HWToast.showLoading();
     var sameTime = DateTime.now();
     KBLEManager.sendData(
         sendData: KBLESerialization.ppg_heartTimingTest(

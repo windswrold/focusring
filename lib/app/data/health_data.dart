@@ -583,6 +583,10 @@ class HealthData {
     model.averageHeartRate = ListEx.averageNum(results).toInt();
     model.max = ListEx.maxVal(results).toInt();
     model.min = ListEx.minVal(results).toInt();
+
+    vmPrint(
+        "插入的血氧数据${JsonUtil.encodeObj(model.toJson())}", KBLEManager.logevel);
+
     BloodOxygenData.insertTokens([model]);
   }
 
@@ -612,6 +616,9 @@ class HealthData {
     model.averageHeartRate = ListEx.averageNum(results).toInt();
     model.max = ListEx.maxVal(results).toInt();
     model.min = ListEx.minVal(results).toInt();
+    vmPrint(
+        "插入的心率数据${JsonUtil.encodeObj(model.toJson())}", KBLEManager.logevel);
+
     HeartRateData.insertTokens([model]);
   }
 
@@ -739,7 +746,8 @@ class HealthData {
     model.calorie = calculate_kcal_steps(model.steps!, weight, hight).toInt();
     model.dataArrs = JsonUtil.encodeObj(results);
     StepData.insertTokens([model]);
-
+    vmPrint(
+        "插入的步数数据${JsonUtil.encodeObj(model.toJson())}", KBLEManager.logevel);
     TempData temp = TempData(
       appUserId: userid,
       mac: mac,
@@ -753,7 +761,8 @@ class HealthData {
     temp.average = ListEx.averageNum(tempsVal);
     temp.max = ListEx.maxVal(tempsVal).toDouble();
     temp.min = ListEx.minVal(tempsVal).toDouble();
-
+    vmPrint(
+        "插入的温度数据${JsonUtil.encodeObj(model.toJson())}", KBLEManager.logevel);
     TempData.insertTokens([temp]);
   }
 

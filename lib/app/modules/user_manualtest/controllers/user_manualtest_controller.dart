@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:beering/ble/ble_manager.dart';
 import 'package:beering/ble/bledata_serialization.dart';
+import 'package:beering/utils/hex_util.dart';
 import 'package:beering/utils/timer_util.dart';
 import 'package:get/get.dart';
 import 'package:gif/gif.dart';
@@ -91,6 +92,32 @@ class UserManualtestController extends GetxController
           sendData: KBLESerialization.ppg_heartOnceTest(
         isHeart: type.value,
       ));
+    }
+
+    if (!inProduction) {
+      //电量获取
+      // KBLEManager.onValueReceived(HEXUtil.decode("EEEE0003060012"));
+      //充电状态
+      // KBLEManager.onValueReceived(HEXUtil.decode("EEEE0003070002"));
+      //心率有3天暑假
+      // KBLEManager.onValueReceived(HEXUtil.decode("EEEE00040303AA03"));
+      //回复心率数据
+      // KBLEManager.onValueReceived(HEXUtil.decode("EEEE00050303bb0101"));
+
+      //设备接受测量
+      // KBLEManager.onValueReceived(HEXUtil.decode("EEEE000403000100"));
+      //设备已经在测量中
+      // KBLEManager.onValueReceived(HEXUtil.decode("EEEE000403000200"));
+      //设备在定时测量中，还没有出值
+      // KBLEManager.onValueReceived(HEXUtil.decode("EEEE000403000300"));
+      //设备在定时测量中已经出值测量还未结束
+      // KBLEManager.onValueReceived(HEXUtil.decode("EEEE000403000400"));
+      // KBLEManager.onValueReceived(HEXUtil.decode("EEEE0004030006aa"));
+
+      KBLEManager.onValueReceived(
+          HEXUtil.decode("EEEE0004030506aa"));
+
+      return;
     }
   }
 }

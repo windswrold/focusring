@@ -45,6 +45,11 @@ class KBLESerialization {
         valueStr: a.toCustomFormat());
   }
 
+  static BLESendData unBindDevice() {
+    return BLESendData(
+        cmd: KBLECommandType.system, typeStr: "02", valueStr: "00");
+  }
+
   ///心率实时单次测量设置 血氧
   static BLESendData ppg_heartOnceTest({required KHealthDataType isHeart}) {
     return BLESendData(

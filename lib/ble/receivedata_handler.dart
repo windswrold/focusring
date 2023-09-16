@@ -181,7 +181,8 @@ class ReceiveDataHandler {
         _parseDataCurrentDayData(datatype, valueData);
       }
     }
-    return ReceiveDataModel(status: status, tip: tip, command: com);
+    return ReceiveDataModel(
+        status: status, tip: tip, command: com, value: value);
   }
 
   ///步数

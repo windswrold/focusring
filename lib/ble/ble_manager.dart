@@ -211,6 +211,14 @@ class KBLEManager {
     } else {}
   }
 
+  static void disAllConnect() async {
+    List<BluetoothDevice> datas = await FlutterBluePlus.connectedSystemDevices;
+
+    for (var element in datas) {
+      element.disconnect();
+    }
+  }
+
   static BluetoothDevice getDevice({
     required RingDeviceModel device,
   }) {
