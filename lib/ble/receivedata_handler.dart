@@ -29,6 +29,7 @@ class ReceiveDataModel {
 class ReceiveDataHandler {
   static List<int> _cachePPGData = [];
   static int _maxDay = 0;
+  static int _currentDay = 0;
 
   static ReceiveDataModel parseDataHandler(List<int> _allDatas) {
     //解析收到的数据
@@ -164,8 +165,10 @@ class ReceiveDataHandler {
         value = valueData[1];
         vmPrint("回答天数 $value", KBLEManager.logevel);
         _maxDay = value;
+        _currentDay = 0;
         KBLEManager.sendData(
-            sendData: KBLESerialization.getCurrentDataWithType(type: datatype));
+            sendData: KBLESerialization.getHistoryDataWithType(
+                type: datatype, index: _currentDay));
       } else if (valueData[0] == 0xbb) {
         _parseDataHistoryData(datatype, valueData);
       }
@@ -193,9 +196,10 @@ class ReceiveDataHandler {
         value = valueData[1];
         vmPrint("回答天数 $value", KBLEManager.logevel);
         _maxDay = value;
+        _currentDay = 0;
         KBLEManager.sendData(
-            sendData: KBLESerialization.getCurrentDataWithType(
-                type: KHealthDataType.STEPS));
+            sendData: KBLESerialization.getHistoryDataWithType(
+                type: KHealthDataType.STEPS, index: _currentDay));
       } else if (valueData[0] == 0xbb) {
         _parseDataHistoryData(KHealthDataType.STEPS, valueData);
       }
@@ -215,9 +219,10 @@ class ReceiveDataHandler {
         value = valueData[1];
         vmPrint("回答天数 $value", KBLEManager.logevel);
         _maxDay = value;
+        _currentDay = 0;
         KBLEManager.sendData(
-            sendData: KBLESerialization.getCurrentDataWithType(
-                type: KHealthDataType.SLEEP));
+            sendData: KBLESerialization.getHistoryDataWithType(
+                type: KHealthDataType.SLEEP, index: _currentDay));
       } else if (valueData[0] == 0xbb) {
         _parseDataHistoryData(KHealthDataType.SLEEP, valueData);
       }
@@ -307,6 +312,7 @@ class ReceiveDataHandler {
           datas: List.from(_cachePPGData), isContainTime: true, type: datatype);
       _cachePPGData.clear();
       _maxDay = _maxDay - 1;
+      _currentDay = _currentDay + 1;
 
       if (_maxDay <= 0) {
         //发下一个
@@ -326,19 +332,12 @@ class ReceiveDataHandler {
               sendData: KBLESerialization.getDayNumWithType(
                   type: KHealthDataType.SLEEP));
         }
-      } else if (_maxDay == 1) {
+      } else if (_maxDay >= 1) {
         //请求昨天的数据
-        if (datatype == KHealthDataType.STEPS) {
-          KBLEManager.sendData(
-              sendData: KBLESerialization.getStepsHistoryDataByLastDay());
-        } else if (datatype == KHealthDataType.BLOOD_OXYGEN ||
-            datatype == KHealthDataType.HEART_RATE) {
-          KBLEManager.sendData(
-              sendData: KBLESerialization.getHeartHistoryDataByLastDay(
-                  isHeart: datatype));
-        } else if (datatype == KHealthDataType.SLEEP) {
-          //睡眠的睡觉
-        }
+
+        KBLEManager.sendData(
+            sendData: KBLESerialization.getHistoryDataWithType(
+                type: datatype, index: _currentDay));
       }
     }
   }

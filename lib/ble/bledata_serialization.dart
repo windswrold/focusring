@@ -114,35 +114,29 @@ class KBLESerialization {
     throw "add type";
   }
 
-  ///获取当天历史数据 心率血氧 步数 睡眠
-  static BLESendData getCurrentDataWithType({required KHealthDataType type}) {
+  ///根据天数获取历史数据 心率血氧 步数 睡眠
+  static BLESendData getHistoryDataWithType(
+      {required KHealthDataType type, required int index}) {
+    String dayIndex = HEXUtil.encode([index]);
+
     if (type == KHealthDataType.HEART_RATE ||
         type == KHealthDataType.BLOOD_OXYGEN) {
       return BLESendData(
           cmd: KBLECommandType.ppg,
           typeStr: type == KHealthDataType.HEART_RATE ? "03" : "08",
-          valueStr: "bb00");
+          valueStr: "bb$dayIndex");
     }
 
     if (type == KHealthDataType.STEPS) {
       return BLESendData(
-          cmd: KBLECommandType.gsensor, typeStr: "03", valueStr: "bb00");
+          cmd: KBLECommandType.gsensor, typeStr: "03", valueStr: "bb$dayIndex");
     }
 
     if (type == KHealthDataType.SLEEP) {
       return BLESendData(
-          cmd: KBLECommandType.sleep, typeStr: "01", valueStr: "bb00");
+          cmd: KBLECommandType.sleep, typeStr: "01", valueStr: "bb$dayIndex");
     }
     throw "add type";
-  }
-
-  ///获取历史心率数据请求昨天数据 血氧
-  static BLESendData getHeartHistoryDataByLastDay(
-      {required KHealthDataType isHeart}) {
-    return BLESendData(
-        cmd: KBLECommandType.ppg,
-        typeStr: isHeart == KHealthDataType.HEART_RATE ? "03" : "08",
-        valueStr: "bb01");
   }
 
   ///回复收到相应包，并带上包序号 血氧
@@ -163,12 +157,6 @@ class KBLESerialization {
         cmd: KBLECommandType.ppg,
         typeStr: isHeart == KHealthDataType.HEART_RATE ? "04" : "09",
         valueStr: "bb01");
-  }
-
-  ///获取历史步数数据请求昨天数据
-  static BLESendData getStepsHistoryDataByLastDay() {
-    return BLESendData(
-        cmd: KBLECommandType.gsensor, typeStr: "03", valueStr: "bb01");
   }
 
   ///回复收到相应包，并带上包序号

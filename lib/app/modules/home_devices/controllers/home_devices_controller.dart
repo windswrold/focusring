@@ -93,7 +93,11 @@ class HomeDevicesController extends GetxController {
         //电量获取
         // KBLEManager.onValueReceived(HEXUtil.decode("EEEE0003060012"));
         //充电状态
-        KBLEManager.onValueReceived(HEXUtil.decode("EEEE0003070002"));
+        // KBLEManager.onValueReceived(HEXUtil.decode("EEEE0003070002"));
+        //心率有3天暑假
+        // KBLEManager.onValueReceived(HEXUtil.decode("EEEE00040303AA03"));
+        //回复心率数据
+        KBLEManager.onValueReceived(HEXUtil.decode("EEEE00050303bb0101"));
         return;
       }
     }
