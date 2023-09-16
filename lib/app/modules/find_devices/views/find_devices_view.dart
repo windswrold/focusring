@@ -152,7 +152,7 @@ class FindDevicesView extends GetView<FindDevicesController> {
             SliverPadding(
               padding: EdgeInsets.only(top: 25.w),
               sliver: SliverToBoxAdapter(
-                child:_buildHeader(),
+                child: _buildHeader(),
                 // elevation: 0,
                 // leading: Container(),
                 // forceElevated: true,
