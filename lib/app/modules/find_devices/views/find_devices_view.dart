@@ -151,19 +151,20 @@ class FindDevicesView extends GetView<FindDevicesController> {
           slivers: <Widget>[
             SliverPadding(
               padding: EdgeInsets.only(top: 25.w),
-              sliver: SliverAppBar(
-                elevation: 0,
-                leading: Container(),
-                forceElevated: true,
-                expandedHeight: 360.w,
-                backgroundColor: Colors.transparent,
-                floating: true,
-                snap: true,
-                pinned: true,
-                flexibleSpace: FlexibleSpaceBar(
-                  background: _buildHeader(),
-                  collapseMode: CollapseMode.none,
-                ),
+              sliver: SliverToBoxAdapter(
+                child:_buildHeader(),
+                // elevation: 0,
+                // leading: Container(),
+                // forceElevated: true,
+                // expandedHeight: 360.w,
+                // backgroundColor: Colors.transparent,
+                // floating: true,
+                // snap: true,
+                // pinned: true,
+                // flexibleSpace: FlexibleSpaceBar(
+                //   background: _buildHeader(),
+                //   collapseMode: CollapseMode.none,
+                // ),
               ),
             ),
             Obx(
