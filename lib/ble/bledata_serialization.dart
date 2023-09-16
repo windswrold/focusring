@@ -91,22 +91,58 @@ class KBLESerialization {
         valueStr: "00");
   }
 
-  ///发送获取历史心率数据天数获取 血氧
-  static BLESendData getHeartHistoryDataDayNum(
-      {required KHealthDataType isHeart}) {
-    return BLESendData(
-        cmd: KBLECommandType.ppg,
-        typeStr: isHeart == KHealthDataType.HEART_RATE ? "03" : "08",
-        valueStr: "aa00");
+  ///发送获取历史数据的天数 心率血氧 步数 睡眠
+  static BLESendData getDayNumWithType({required KHealthDataType type}) {
+    if (type == KHealthDataType.HEART_RATE ||
+        type == KHealthDataType.BLOOD_OXYGEN) {
+      return BLESendData(
+          cmd: KBLECommandType.ppg,
+          typeStr: type == KHealthDataType.HEART_RATE ? "03" : "08",
+          valueStr: "aa00");
+    }
+
+    if (type == KHealthDataType.STEPS) {
+      return BLESendData(
+          cmd: KBLECommandType.gsensor, typeStr: "03", valueStr: "aa00");
+    }
+
+    if (type == KHealthDataType.SLEEP) {
+      return BLESendData(
+          cmd: KBLECommandType.sleep, typeStr: "01", valueStr: "aa00");
+    }
+
+    throw "add type";
   }
 
-  ///获取历史心率数据请求当天数据 血氧
-  static BLESendData getHeartHistoryDataByCurrent(
+  ///获取当天历史数据 心率血氧 步数 睡眠
+  static BLESendData getCurrentDataWithType({required KHealthDataType type}) {
+    if (type == KHealthDataType.HEART_RATE ||
+        type == KHealthDataType.BLOOD_OXYGEN) {
+      return BLESendData(
+          cmd: KBLECommandType.ppg,
+          typeStr: type == KHealthDataType.HEART_RATE ? "03" : "08",
+          valueStr: "bb00");
+    }
+
+    if (type == KHealthDataType.STEPS) {
+      return BLESendData(
+          cmd: KBLECommandType.gsensor, typeStr: "03", valueStr: "bb00");
+    }
+
+    if (type == KHealthDataType.SLEEP) {
+      return BLESendData(
+          cmd: KBLECommandType.sleep, typeStr: "01", valueStr: "bb00");
+    }
+    throw "add type";
+  }
+
+  ///获取历史心率数据请求昨天数据 血氧
+  static BLESendData getHeartHistoryDataByLastDay(
       {required KHealthDataType isHeart}) {
     return BLESendData(
         cmd: KBLECommandType.ppg,
         typeStr: isHeart == KHealthDataType.HEART_RATE ? "03" : "08",
-        valueStr: "bb00");
+        valueStr: "bb01");
   }
 
   ///回复收到相应包，并带上包序号 血氧
@@ -129,10 +165,10 @@ class KBLESerialization {
         valueStr: "bb01");
   }
 
-  ///获取当天历史步数
-  static BLESendData getStepsHistoryDataByCurrent() {
+  ///获取历史步数数据请求昨天数据
+  static BLESendData getStepsHistoryDataByLastDay() {
     return BLESendData(
-        cmd: KBLECommandType.gsensor, typeStr: "03", valueStr: "bb00");
+        cmd: KBLECommandType.gsensor, typeStr: "03", valueStr: "bb01");
   }
 
   ///回复收到相应包，并带上包序号
@@ -144,12 +180,6 @@ class KBLESerialization {
         cmd: KBLECommandType.gsensor,
         typeStr: "03",
         valueStr: HEXUtil.encode(e));
-  }
-
-  ///获取当天历史步数
-  static BLESendData getSleepHistoryDataByCurrent() {
-    return BLESendData(
-        cmd: KBLECommandType.sleep, typeStr: "01", valueStr: "bb00");
   }
 
   ///回复收到相应包，并带上包序号
@@ -165,6 +195,12 @@ class KBLESerialization {
   static BLESendData getBattery() {
     return BLESendData(
         cmd: KBLECommandType.battery, typeStr: "00", valueStr: "00");
+  }
+
+  ///充电状态
+  static BLESendData getCharger() {
+    return BLESendData(
+        cmd: KBLECommandType.charger, typeStr: "00", valueStr: "00");
   }
 }
 

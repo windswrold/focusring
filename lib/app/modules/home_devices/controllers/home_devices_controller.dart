@@ -38,6 +38,9 @@ class HomeDevicesController extends GetxController {
       if (event.command == KBLECommandType.battery) {
         final a = event.value;
         bat.value = a as int;
+        vmPrint("电量是 $a", KBLEManager.logevel);
+      } else if (event.command == KBLECommandType.charger) {
+        vmPrint("充电状态 ${event.tip}", KBLEManager.logevel);
       }
     });
   }

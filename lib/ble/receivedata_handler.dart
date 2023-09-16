@@ -27,7 +27,8 @@ class ReceiveDataModel {
 }
 
 class ReceiveDataHandler {
-  static List<int> _cacheData = [];
+  static List<int> _cachePPGData = [];
+  static int _maxDay = 0;
 
   static ReceiveDataModel parseDataHandler(List<int> _allDatas) {
     //解析收到的数据
@@ -76,6 +77,7 @@ class ReceiveDataHandler {
       status = true;
       tip = "成功绑定";
       bindDeviceStream();
+      KBLEManager.sendData(sendData: KBLESerialization.timeSetting());
     }
     vmPrint(tip, KBLEManager.logevel);
     return ReceiveDataModel(status: status, tip: tip, command: com);
@@ -90,8 +92,7 @@ class ReceiveDataHandler {
     if (type == 0x00) {
       status = true;
       tip = "时间设置成功";
-    } else if (type == 0x02) {
-      //解除绑定
+      KBLEManager.sendData(sendData: KBLESerialization.getBattery());
     }
     vmPrint("时间设置成功", KBLEManager.logevel);
     return ReceiveDataModel(status: status, tip: tip, command: com);
@@ -154,70 +155,27 @@ class ReceiveDataHandler {
       }
       tip = "心率定时测量设置成功";
     } else if (type == 0x03 || type == 0x08) {
+      KHealthDataType datatype = type == 0x03
+          ? KHealthDataType.HEART_RATE
+          : KHealthDataType.BLOOD_OXYGEN;
+
       if (valueData[0] == 0xaa) {
         value = valueData[1];
-        vmPrint("回答天数", KBLEManager.logevel);
-      } else if (valueData[0] == 0xbb) {
-        int all = valueData[1];
-        int current = valueData[2];
-        if (current == 1) {
-          _cacheData.addAll(valueData.sublist(3));
-          vmPrint("第$current组数据包含时间 ${HEXUtil.encode(_cacheData)}",
-              KBLEManager.logevel);
-        } else {
-          _cacheData.addAll(valueData.sublist(7));
-          vmPrint("第$current组数据去除时间 合并后的数据 ${HEXUtil.encode(_cacheData)}",
-              KBLEManager.logevel);
-        }
-
+        vmPrint("回答天数 $value", KBLEManager.logevel);
+        _maxDay = value;
         KBLEManager.sendData(
-            sendData: KBLESerialization.getHeartHistoryDataByCurrentByIndex(
-          current,
-          isHeart: type == 0x03
-              ? KHealthDataType.HEART_RATE
-              : KHealthDataType.BLOOD_OXYGEN,
-        ));
-        if (all == current) {
-          vmPrint("心率或者血氧接收完毕", KBLEManager.logevel);
-          status = true;
-          HealthData.insertHealthBleData(
-              datas: List.from(_cacheData),
-              isContainTime: true,
-              type: type == 0x03
-                  ? KHealthDataType.HEART_RATE
-                  : KHealthDataType.BLOOD_OXYGEN);
-          _cacheData.clear();
-          if (type == 0x03) {
-            KBLEManager.sendData(
-                sendData: KBLESerialization.getStepsHistoryDataByCurrent());
-          } else if (type == 0x08) {
-            vmPrint("发送睡眠", KBLEManager.logevel);
-            KBLEManager.sendData(
-                sendData: KBLESerialization.getSleepHistoryDataByCurrent());
-          }
-        }
+            sendData:
+                KBLESerialization.getCurrentDataWithType(type: datatype));
+      } else if (valueData[0] == 0xbb) {
+        _parseDataHistoryData(datatype, valueData);
       }
     } else if (type == 0x04 || type == 0x09) {
+      KHealthDataType datatype = type == 0x04
+          ? KHealthDataType.HEART_RATE
+          : KHealthDataType.BLOOD_OXYGEN;
       //当天数据
       if (valueData[0] == 0xbb) {
-        int all = valueData[1];
-        int current = valueData[2];
-        status = true;
-        if (all == current) {
-        } else {}
-        KBLEManager.sendData(
-            sendData: KBLESerialization.getHeartHistoryDataByCurrentByIndex(
-          current,
-          isHeart: type == 0x04
-              ? KHealthDataType.HEART_RATE
-              : KHealthDataType.BLOOD_OXYGEN,
-        ));
-        HealthData.insertHealthBleData(
-            datas: valueData.sublist(3),
-            isContainTime: false,
-            type: type == 0x04
-                ? KHealthDataType.HEART_RATE
-                : KHealthDataType.BLOOD_OXYGEN);
+        _parseDataCurrentDayData(datatype, valueData);
       }
     }
     return ReceiveDataModel(status: status, tip: tip, command: com);
@@ -226,45 +184,20 @@ class ReceiveDataHandler {
   ///步数
   static ReceiveDataModel _parseCMD_04(List<int> valueData,
       {required int? type}) {
-    KBLECommandType com = KBLECommandType.system;
-    bool status = false;
+    KBLECommandType com = KBLECommandType.gsensor;
+    bool status = true;
     String tip = "";
-    com = KBLECommandType.gsensor;
-    status = true;
     dynamic value;
     if (type == 0x03) {
       if (valueData[0] == 0xaa) {
         value = valueData[1];
-        vmPrint("回答天数");
-      } else if (valueData[0] == 0xbb) {
-        vmPrint("回答数据");
-        int all = valueData[1];
-        int current = valueData[2];
-        if (current == 1) {
-          _cacheData.addAll(valueData.sublist(3));
-          vmPrint("第$current组数据包含时间 ${HEXUtil.encode(_cacheData)}",
-              KBLEManager.logevel);
-        } else {
-          _cacheData.addAll(valueData.sublist(7));
-          vmPrint("第$current组数据也包含时间，去除时间 合并后的数据 ${HEXUtil.encode(_cacheData)}",
-              KBLEManager.logevel);
-        }
+        vmPrint("回答天数 $value", KBLEManager.logevel);
+        _maxDay = value;
         KBLEManager.sendData(
-          sendData:
-              KBLESerialization.getStepsHistoryDataByCurrentByIndex(current),
-        );
-        if (all == current) {
-          vmPrint("步数接收完毕", KBLEManager.logevel);
-          HealthData.insertHealthBleData(
-            datas: List.from(_cacheData),
-            isContainTime: true,
-            type: KHealthDataType.STEPS,
-          );
-          _cacheData.clear();
-          KBLEManager.sendData(
-              sendData: KBLESerialization.getHeartHistoryDataByCurrent(
-                  isHeart: KHealthDataType.BLOOD_OXYGEN));
-        } else {}
+            sendData: KBLESerialization.getCurrentDataWithType(
+                type: KHealthDataType.STEPS));
+      } else if (valueData[0] == 0xbb) {
+        _parseDataHistoryData(KHealthDataType.STEPS, valueData);
       }
     }
     return ReceiveDataModel(status: status, tip: tip, command: com);
@@ -276,33 +209,17 @@ class ReceiveDataHandler {
     KBLECommandType com = KBLECommandType.system;
     bool status = false;
     String tip = "";
+    dynamic value;
     if (type == 0x01) {
-      if (valueData[0] == 0xbb) {
-        vmPrint("睡眠数据", KBLEManager.logevel);
-        int all = valueData[1];
-        int current = valueData[2];
-
-        if (current == 1) {
-          _cacheData.addAll(valueData.sublist(3));
-          vmPrint("第$current组数据包含时间 ${HEXUtil.encode(_cacheData)}",
-              KBLEManager.logevel);
-        } else {
-          _cacheData.addAll(valueData.sublist(7));
-          vmPrint("第$current组数据也包含时间，去除时间 合并后的数据 ${HEXUtil.encode(_cacheData)}",
-              KBLEManager.logevel);
-        }
-
+      if (valueData[0] == 0xaa) {
+        value = valueData[1];
+        vmPrint("回答天数 $value", KBLEManager.logevel);
+        _maxDay = value;
         KBLEManager.sendData(
-            sendData:
-                KBLESerialization.getSleepHistoryDataByCurrentByIndex(current));
-        if (all == current) {
-          vmPrint("睡眠接收完毕", KBLEManager.logevel);
-          HealthData.insertHealthBleData(
-              datas: List.from(_cacheData),
-              isContainTime: true,
-              type: KHealthDataType.SLEEP);
-          _cacheData.clear();
-        }
+            sendData: KBLESerialization.getCurrentDataWithType(
+                type: KHealthDataType.SLEEP));
+      } else if (valueData[0] == 0xbb) {
+        _parseDataHistoryData(KHealthDataType.SLEEP, valueData);
       }
     }
     return ReceiveDataModel(status: status, tip: tip, command: com);
@@ -315,6 +232,7 @@ class ReceiveDataHandler {
     bool status = true;
     dynamic value = valueData[0];
     String tip = "";
+    KBLEManager.sendData(sendData: KBLESerialization.getCharger());
     return ReceiveDataModel(
         status: status, tip: tip, command: com, value: value);
   }
@@ -324,17 +242,23 @@ class ReceiveDataHandler {
       {required int? type}) {
     KBLECommandType com = KBLECommandType.charger;
     bool status = true;
-    dynamic value = valueData[1];
+    dynamic value = valueData[0];
     String tip = "";
-    if (value == 0x01) {
+    if (value == 0x00) {
+      status = false;
+      tip = "未充电";
+    } else if (value == 0x01) {
       status = true;
       tip = "充电中";
     } else {
-      status = false;
-      tip = "未充电";
+      status = true;
+      tip = "充满";
     }
 
-    vmPrint("充电状态 ${value == 0x01 ? "充电中" : "未充电"}");
+    KBLEManager.sendData(
+        sendData: KBLESerialization.getDayNumWithType(
+            type: KHealthDataType.HEART_RATE));
+
     return ReceiveDataModel(
         status: status, tip: tip, command: com, value: value);
   }
@@ -344,5 +268,99 @@ class ReceiveDataHandler {
     AppApi.bindDeviceStream(mac: a).onSuccess((value) {
       SPManager.setBindDevice();
     });
+  }
+
+  static void _parseDataHistoryData(
+    KHealthDataType datatype,
+    List<int> valueData,
+  ) {
+    int all = valueData[1];
+    int current = valueData[2];
+    _cachePPGData.addAll(valueData.sublist(3)); //包含时间
+
+    if (datatype == KHealthDataType.STEPS) {
+      KBLEManager.sendData(
+        sendData:
+            KBLESerialization.getStepsHistoryDataByCurrentByIndex(current),
+      );
+    } else if (datatype == KHealthDataType.BLOOD_OXYGEN ||
+        datatype == KHealthDataType.HEART_RATE) {
+      //心率或者血氧
+      KBLEManager.sendData(
+          sendData: KBLESerialization.getHeartHistoryDataByCurrentByIndex(
+              current,
+              isHeart: datatype));
+    } else if (datatype == KHealthDataType.SLEEP) {
+      //睡眠
+      KBLEManager.sendData(
+          sendData:
+              KBLESerialization.getSleepHistoryDataByCurrentByIndex(current));
+    }
+
+    if (all == current) {
+      vmPrint("一个包结束了，接收完毕", KBLEManager.logevel);
+      //存
+      HealthData.insertHealthBleData(
+          datas: List.from(_cachePPGData), isContainTime: true, type: datatype);
+      _cachePPGData.clear();
+      _maxDay = _maxDay - 1;
+
+      if (_maxDay <= 0) {
+        //发下一个
+        if (datatype == KHealthDataType.HEART_RATE) {
+          vmPrint("发送血氧", KBLEManager.logevel);
+          KBLEManager.sendData(
+              sendData: KBLESerialization.getDayNumWithType(
+                  type: KHealthDataType.BLOOD_OXYGEN));
+        } else if (datatype == KHealthDataType.BLOOD_OXYGEN) {
+          vmPrint("发送步数", KBLEManager.logevel);
+          KBLEManager.sendData(
+              sendData: KBLESerialization.getDayNumWithType(
+                  type: KHealthDataType.STEPS));
+        } else if (datatype == KHealthDataType.STEPS) {
+          vmPrint("发送睡眠", KBLEManager.logevel);
+          KBLEManager.sendData(
+              sendData: KBLESerialization.getDayNumWithType(
+                  type: KHealthDataType.SLEEP));
+        }
+      } else if (_maxDay == 1) {
+        //请求昨天的数据
+        if (datatype == KHealthDataType.STEPS) {
+          KBLEManager.sendData(
+              sendData: KBLESerialization.getStepsHistoryDataByLastDay());
+        } else if (datatype == KHealthDataType.BLOOD_OXYGEN ||
+            datatype == KHealthDataType.HEART_RATE) {
+          KBLEManager.sendData(
+              sendData: KBLESerialization.getHeartHistoryDataByLastDay(
+                  isHeart: datatype));
+        } else if (datatype == KHealthDataType.SLEEP) {
+          //睡眠的睡觉
+        }
+      }
+    }
+  }
+
+  static void _parseDataCurrentDayData(
+    KHealthDataType datatype,
+    List<int> valueData,
+  ) {
+    //   int all = valueData[1];
+    //   int current = valueData[2];
+    //   status = true;
+    //   if (all == current) {
+    //   } else {}
+    //   KBLEManager.sendData(
+    //       sendData: KBLESerialization.getHeartHistoryDataByCurrentByIndex(
+    //     current,
+    //     isHeart: type == 0x04
+    //         ? KHealthDataType.HEART_RATE
+    //         : KHealthDataType.BLOOD_OXYGEN,
+    //   ));
+    //   HealthData.insertHealthBleData(
+    //       datas: valueData.sublist(3),
+    //       isContainTime: false,
+    //       type: type == 0x04
+    //           ? KHealthDataType.HEART_RATE
+    //           : KHealthDataType.BLOOD_OXYGEN);
   }
 }
