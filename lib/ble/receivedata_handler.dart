@@ -211,7 +211,7 @@ class ReceiveDataHandler {
   ///睡眠
   static ReceiveDataModel _parseCMD_05(List<int> valueData,
       {required int? type}) {
-    KBLECommandType com = KBLECommandType.system;
+    KBLECommandType com = KBLECommandType.sleep;
     bool status = false;
     String tip = "";
     dynamic value;

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:beering/public.dart';
+import 'package:decimal/decimal.dart';
 import 'package:hex/hex.dart';
 
 extension ListEx<E> on List<E> {
@@ -171,8 +172,9 @@ extension ListEx<E> on List<E> {
     return ["4", "6", "8", "12"];
   }
 
-  static T averageNum<T extends num>(List<T> data) {
-    return sumVal(data) / data.length as T;
+  static double averageNum(List data) {
+    Decimal result = sumVal(data);
+    return (result / Decimal.fromInt(data.length)).toDouble();
   }
 
   static T maxVal<T extends num>(List<T> data) {
@@ -183,7 +185,11 @@ extension ListEx<E> on List<E> {
     return data.reduce((a, b) => a < b ? a : b);
   }
 
-  static T sumVal<T extends num>(List<T> data) {
-    return data.reduce((value, element) => (value + element) as T);
+  static Decimal sumVal(List data) {
+    Decimal value = Decimal.zero;
+    for (var element in data) {
+      value = value + Decimal.parse(element.toString());
+    }
+    return value;
   }
 }

@@ -741,7 +741,7 @@ class HealthData {
     }
     final hight = user.calMetricHeight();
     final weight = user.calMetricWeight();
-    model.steps = ListEx.sumVal(results).toInt();
+    model.steps = ListEx.sumVal(results).toBigInt().toInt();
     model.distance = calculate_distance_steps(model.steps!, hight).toInt();
     model.calorie = calculate_kcal_steps(model.steps!, weight, hight).toInt();
     model.dataArrs = JsonUtil.encodeObj(results);
