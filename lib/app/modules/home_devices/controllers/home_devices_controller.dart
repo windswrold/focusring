@@ -4,6 +4,7 @@ import 'package:beering/app/data/ring_device.dart';
 import 'package:beering/ble/ble_manager.dart';
 import 'package:beering/ble/bledata_serialization.dart';
 import 'package:beering/public.dart';
+import 'package:beering/utils/hex_util.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:get/get.dart';
 
@@ -13,7 +14,9 @@ class HomeDevicesController extends GetxController {
   Rx<RingDeviceModel?> connectDevice = Rx<RingDeviceModel?>(null);
 
   RxBool isConnect = false.obs;
-  RxInt bat = 10.obs;
+
+  RxInt batNum = RxInt(0);
+  RxBool isCharging = RxBool(false);
 
   StreamSubscription? deviceStateStream, receiveDataStream;
 
@@ -37,10 +40,14 @@ class HomeDevicesController extends GetxController {
     receiveDataStream = KBLEManager.receiveDataStream.listen((event) {
       if (event.command == KBLECommandType.battery) {
         final a = event.value;
-        bat.value = a as int;
+        batNum.value = a;
         vmPrint("电量是 $a", KBLEManager.logevel);
       } else if (event.command == KBLECommandType.charger) {
         vmPrint("充电状态 ${event.tip}", KBLEManager.logevel);
+        isCharging.value = event.status;
+        if (event.value == 2) {
+          batNum.value = 100;
+        }
       }
     });
   }
@@ -81,8 +88,18 @@ class HomeDevicesController extends GetxController {
   }
 
   void onTapAddDevices() async {
+    if (!inProduction) {
+      if (connectDevice.value != null) {
+        //电量获取
+        // KBLEManager.onValueReceived(HEXUtil.decode("EEEE0003060012"));
+        //充电状态
+        KBLEManager.onValueReceived(HEXUtil.decode("EEEE0003070002"));
+        return;
+      }
+    }
+
     try {
-      dynamic d = (await Get.toNamed(Routes.FIND_DEVICES));
+      dynamic d = await Get.toNamed(Routes.FIND_DEVICES);
       if (d == null || d is Map) {
         return;
       }

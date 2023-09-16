@@ -184,7 +184,7 @@ class ReportInfoStepsController extends GetxController
         )
       ];
     } else {
-      List<KChartCellData> datas = [];
+      List<dynamic> datas = [];
 
       if (currentType == KHealthDataType.HEART_RATE ||
           currentType == KHealthDataType.BLOOD_OXYGEN ||
@@ -208,7 +208,7 @@ class ReportInfoStepsController extends GetxController
         );
       }
 
-      dataSource.value = [datas];
+      // dataSource.value = [datas];
     }
 
     update([id_data_souce_update]);

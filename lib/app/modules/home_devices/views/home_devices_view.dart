@@ -241,13 +241,14 @@ class HomeDevicesView extends GetView<HomeDevicesController> {
                             children: [
                               LoadAssetsImage(
                                 RingDeviceModel.getBatIcon(
-                                    bat: controller.bat.value),
+                                    bat: controller.batNum.value,
+                                    isCharging: controller.isCharging.value),
                                 width: 23,
                                 height: 12,
                               ),
                               5.rowWidget,
                               Text(
-                                "${controller.bat.value}%",
+                                "${controller.batNum.value}%",
                                 style: Get.textTheme.displaySmall,
                               ),
                             ],

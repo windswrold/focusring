@@ -474,12 +474,11 @@ class HealthData {
         "pressureData": pressureData?.map((x) => x.toJson()).toList(),
       };
 
-  static Future<List<KChartCellData>> queryHealthData({
+  static Future<List<dynamic>> queryHealthData({
     required KHealthDataType types,
     required KReportType reportType,
     required DateTime? currentTime,
   }) async {
-    List<KChartCellData> cellDatas = [];
     currentTime ??= DateTime.now();
     try {
       int userid = SPManager.getGlobalUser()!.id!;
@@ -507,104 +506,30 @@ class HealthData {
       if (types == KHealthDataType.HEART_RATE) {
         List<HeartRateData> datas =
             await HeartRateData.queryUserAll(userid, create, nextTime);
-        if (reportType == KReportType.day) {
-          final results = generateCellData(
-            createTime: datas.first.createTime ?? "",
-            data: datas.first.heartArray ?? "",
-            type: types,
-          );
-          cellDatas.addAll(results);
-        } else {
-          for (var i = 0; i < datas.length; i++) {
-            final e = datas[i];
-            cellDatas.add(
-              KChartCellData(
-                x: e.createTime,
-                y: (e.min ?? 0),
-                z: e.max ?? 0,
-                a: e.averageHeartRate ?? 0,
-                color: types.getTypeMainColor(),
-              ),
-            );
-          }
-        }
+        return datas;
       } else if (types == KHealthDataType.BLOOD_OXYGEN) {
         List<BloodOxygenData> datas =
             await BloodOxygenData.queryUserAll(userid, create, nextTime);
-        if (reportType == KReportType.day) {
-          final results = generateCellData(
-              createTime: datas.first.createTime ?? "",
-              type: types,
-              data: datas.first.bloodArray ?? "");
-          cellDatas.addAll(results);
-        } else {
-          for (var i = 0; i < datas.length; i++) {
-            final e = datas[i];
-            cellDatas.add(
-              KChartCellData(
-                x: e.createTime,
-                y: (e.min ?? 0),
-                z: e.max ?? 0,
-                a: e.averageHeartRate ?? 0,
-                color: types.getTypeMainColor(),
-              ),
-            );
-          }
-        }
+        return datas;
       } else if (types == KHealthDataType.STEPS ||
           types == KHealthDataType.LiCheng ||
           types == KHealthDataType.CALORIES_BURNED) {
         List<StepData> datas =
             await StepData.queryUserAll(userid, create, nextTime);
-        if (reportType == KReportType.day) {
-          final results = generateCellData(
-              createTime: datas.first.createTime ?? "",
-              type: types,
-              data: datas.first.dataArrs ?? "");
-          cellDatas.addAll(results);
-        } else {
-          for (var i = 0; i < datas.length; i++) {
-            final e = datas[i];
-            // cellDatas.add(
-            //   KChartCellData(
-            //     x: e.createTime,
-            //     y: (e.min ?? 0),
-            //     z: e.max ?? 0,
-            //     a: e.averageHeartRate ?? 0,
-            //     color: types.getTypeMainColor(),
-            //   ),
-            // );
-          }
-        }
+        return datas;
       } else if (types == KHealthDataType.BODY_TEMPERATURE) {
         List<TempData> datas =
             await TempData.queryUserAll(userid, create, nextTime);
-        if (reportType == KReportType.day) {
-          final results = generateCellData(
-              createTime: datas.first.createTime ?? "",
-              type: types,
-              data: datas.first.dataArray ?? "");
-          cellDatas.addAll(results);
-        } else {
-          for (var i = 0; i < datas.length; i++) {
-            final e = datas[i];
-            // cellDatas.add(
-            //   KChartCellData(
-            //     x: e.createTime,
-            //     y: (e.min ?? 0),
-            //     z: e.max ?? 0,
-            //     a: e.averageHeartRate ?? 0,
-            //     color: types.getTypeMainColor(),
-            //   ),
-            // );
-          }
-        }
+        return datas;
+      } else if (types == KHealthDataType.EMOTION) {
+        return [];
+      } else if (types == KHealthDataType.STRESS) {
+        return [];
       }
     } catch (e) {
       HWToast.showErrText(text: "读取失败 ${e}");
     }
-
-    return cellDatas;
+    return [];
   }
 
   static void insertHealthBleData(

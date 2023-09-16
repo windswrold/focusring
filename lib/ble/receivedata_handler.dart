@@ -76,8 +76,9 @@ class ReceiveDataHandler {
     } else {
       status = true;
       tip = "成功绑定";
-      bindDeviceStream();
+
       KBLEManager.sendData(sendData: KBLESerialization.timeSetting());
+      bindDeviceStream();
     }
     vmPrint(tip, KBLEManager.logevel);
     return ReceiveDataModel(status: status, tip: tip, command: com);
@@ -164,8 +165,7 @@ class ReceiveDataHandler {
         vmPrint("回答天数 $value", KBLEManager.logevel);
         _maxDay = value;
         KBLEManager.sendData(
-            sendData:
-                KBLESerialization.getCurrentDataWithType(type: datatype));
+            sendData: KBLESerialization.getCurrentDataWithType(type: datatype));
       } else if (valueData[0] == 0xbb) {
         _parseDataHistoryData(datatype, valueData);
       }
@@ -264,7 +264,10 @@ class ReceiveDataHandler {
   }
 
   static void bindDeviceStream() {
-    final a = KBLEManager.currentDevices?.macAddress ?? "";
+    String a = KBLEManager.currentDevices?.macAddress ?? "";
+    if (a.isEmpty) {
+      return;
+    }
     AppApi.bindDeviceStream(mac: a).onSuccess((value) {
       SPManager.setBindDevice();
     });

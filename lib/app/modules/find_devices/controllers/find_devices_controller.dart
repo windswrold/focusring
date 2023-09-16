@@ -21,7 +21,7 @@ class FindDevicesController extends GetxController {
 
   late RefreshController refreshController = RefreshController();
 
-  RingDeviceModel? item;
+  RingDeviceModel? _selectaItem;
 
   @override
   void onInit() {
@@ -84,7 +84,7 @@ class FindDevicesController extends GetxController {
       } else if (event.command == KBLECommandType.system) {
         if (event.status == true) {
           HWToast.showSucText(text: event.tip);
-          Get.backDelay(result: item);
+          Get.backDelay(result: _selectaItem);
         }
       }
     });
@@ -104,7 +104,7 @@ class FindDevicesController extends GetxController {
   void onTapItem(RingDeviceModel item) async {
     vmPrint(item.localName);
     try {
-      item = item;
+      _selectaItem = item;
       KBLEManager.connect(device: item);
       HWToast.showLoading();
     } catch (e) {

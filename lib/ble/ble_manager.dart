@@ -75,13 +75,6 @@ class KBLEManager {
 
   static void startScan(
       {Duration timeout = const Duration(seconds: 10)}) async {
-    if (!inProduction) {
-      _onValueReceived(HEXUtil.decode(
-          "eeee00690403bb0101e70709060000000064000000c80000002c01000090010000f401000058020000bc0200002003000084030000e80300004c040000b00400001405000078050000dc05000040060000a4060000080700006c070000d00700003408000098080000fc080000"));
-
-      return;
-    }
-
     if ((await checkBle()) == false) {
       return;
     }
@@ -104,23 +97,13 @@ class KBLEManager {
       return null;
     }
 
-    // _onValueReceived(HEXUtil.decode("eeee00f00308bb0201e7070906000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6eeee003e0308bb0202e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f"));
-    // return;
-    // _onValueReceived(HEXUtil.decode("eeee0003020000"));
-    // _onValueReceived(HEXUtil.decode(
-    //     "eeee00690403bb0101e707090500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"));
-
-    // return;
-    // if ((await deviceStateStream.first) ==
-    //     BluetoothConnectionState.connecting) {
-    //   HWToast.showErrText(text: "connecting");
-    //   return;
-    // }
-
-    // final dats = await FlutterBluePlus.connectedSystemDevices;
-    // dats.forEach((element) {
-    //   element.disconnect();
-    // });
+    if (!inProduction) {
+      //绑定认证
+      // _onValueReceived(HEXUtil.decode("EEEE0003010000"));
+      //时间绑定
+      onValueReceived(HEXUtil.decode("EEEE0003020000"));
+      return;
+    }
 
     var bleDevice = getDevice(device: device);
     bleDevice.connect(timeout: timeout);
@@ -165,7 +148,7 @@ class KBLEManager {
             await characteristic.setNotifyValue(true);
             _notifySubscription =
                 characteristic.onValueReceived.listen((event) {
-              _onValueReceived(event);
+              onValueReceived(event);
             });
           } else if (compareUUID(
                   characteristic.uuid.toString(), BLEConfig.WRITEUUID) ==
@@ -194,14 +177,14 @@ class KBLEManager {
   static void zhiie({
     required List<int> datas,
   }) async {
-    if (_writeCharacteristic == null) {
-      return;
-    }
+    // if (_writeCharacteristic == null) {
+    //   return;
+    // }
     vmPrint("发送数据 ${HEX.encode(datas)}", logevel);
     await _writeCharacteristic?.write(datas, withoutResponse: true);
   }
 
-  static void _onValueReceived(List<int> values) {
+  static void onValueReceived(List<int> values) {
     final a = HEXUtil.encode(values);
     _allValues.addAll(values);
     vmPrint("接收到结果是 ${HEXUtil.encode(values)} len ${values.length} ", logevel);
