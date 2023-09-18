@@ -685,14 +685,18 @@ class HealthData {
         KBLEManager.logevel);
 
     vmPrint(
-        "lightSleepTimePercentage $lightSleepTimePercentage  deepSleepTime $deepSleepTime");
+        "lightSleepTimePercentage $lightSleepTimePercentage  deepSleepTime $deepSleepTime",
+        KBLEManager.logevel);
 
     vmPrint(
-        "deepSleepTimePercentage $deepSleepTimePercentage  rapidEyeMovementTime $rapidEyeMovementTime rapidEyeMovementTimePercentage $rapidEyeMovementTimePercentage");
+        "deepSleepTimePercentage $deepSleepTimePercentage  rapidEyeMovementTime $rapidEyeMovementTime rapidEyeMovementTimePercentage $rapidEyeMovementTimePercentage",
+        KBLEManager.logevel);
 
     int sleepDistributionDataListCount = byteData.getUint8(offset++);
+    vmPrint("sleepDistributionDataListCount $sleepDistributionDataListCount",
+        KBLEManager.logevel);
 
-    for (int i = 0; i < sleepDistributionDataListCount; i++) {
+    for (int i = 0; i < 120; i++) {
       int startTimestamp = byteData.getUint32(offset, Endian.little);
       offset += 4;
 
