@@ -4,6 +4,8 @@ import 'dart:math';
 import 'package:beering/app/data/card_health_index.dart';
 import 'package:beering/app/data/health_data.dart';
 import 'package:beering/app/modules/app_view/controllers/app_view_controller.dart';
+import 'package:beering/ble/ble_manager.dart';
+import 'package:beering/ble/bledata_serialization.dart';
 import 'package:beering/net/app_api.dart';
 import 'package:beering/public.dart';
 import 'package:beering/utils/console_logger.dart';
@@ -166,6 +168,11 @@ class HomeStateController extends GetxController {
   }
 
   void onTapCardType(KHomeCardModel type) {
+  
+    KBLEManager.sendData(
+        sendData: KBLESerialization.getTodayData(
+            type: type.type ?? KHealthDataType.STEPS));
+
     // Get.toNamed(Routes.REPORT_INFO_STEPS, arguments: type.type);
 
     // return;

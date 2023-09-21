@@ -243,6 +243,8 @@ class LocaleKeys {
   static const max_temp = 'max_temp';
   static const low_temp = 'low_temp';
   static const err_temp = 'err_temp';
+  static const starttime = 'starttime';
+  static const endtime = 'endtime';
   static const emotion_report = 'emotion_report';
   static const about_activitytip = 'about_activitytip';
   static const about_activitytip01 = 'about_activitytip01';
@@ -1179,6 +1181,8 @@ class Locales {
     'max_temp': '最高体温',
     'low_temp': '最低体温',
     'err_temp': '异常次数',
+    'starttime': '开始时间',
+    'endtime': '结束时间',
   };
   static const it_IT = {
     'tabbar_status': 'Stato',

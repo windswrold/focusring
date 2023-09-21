@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:beering/public.dart';
+import 'package:beering/utils/date_util.dart';
 import 'package:decimal/decimal.dart';
 import 'package:hex/hex.dart';
 
@@ -191,5 +192,21 @@ extension ListEx<E> on List<E> {
       value = value + Decimal.parse(element.toString());
     }
     return value;
+  }
+
+  static List<String> getFiveMinuteIntervals() {
+    final DateTime startDate = DateTime(2023, 9, 21, 0, 0); // 开始时间00:00
+    final DateTime endDate = DateTime(2023, 9, 22, 0, 0); // 结束时间00:00
+
+    List<String> intervals = [];
+    DateTime currentTime = startDate;
+
+    while (currentTime.isBefore(endDate) ||
+        currentTime.isAtSameMomentAs(endDate)) {
+      intervals.add(DateUtil.formatDate(currentTime, format: "HH:mm"));
+      currentTime = currentTime.add(Duration(minutes: 5));
+    }
+
+    return intervals;
   }
 }

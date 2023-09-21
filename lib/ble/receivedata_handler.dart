@@ -12,11 +12,13 @@ class ReceiveDataModel {
   final KBLECommandType command;
   final String tip;
   final dynamic value;
+  final int? type;
 
   ReceiveDataModel(
       {required this.status,
       required this.command,
       required this.tip,
+      this.type,
       this.value});
 
   @override
@@ -148,14 +150,11 @@ class ReceiveDataHandler {
       vmPrint("心率定时测量设置");
       status = true;
       tip = "设备回复设置成功";
+      value = valueData;
     } else if (type == 0x02 || type == 0x07) {
-      if (valueData[0] == 0x00) {
-        vmPrint("不打开");
-        status = false;
-      } else {
-        status = true;
-      }
-      tip = "心率定时测量设置成功";
+      status = true;
+      value = valueData;
+      tip = "测量设置获取成功";
     } else if (type == 0x03 || type == 0x08) {
       KHealthDataType datatype = type == 0x03
           ? KHealthDataType.HEART_RATE
@@ -182,7 +181,7 @@ class ReceiveDataHandler {
       }
     }
     return ReceiveDataModel(
-        status: status, tip: tip, command: com, value: value);
+        status: status, tip: tip, command: com, value: value, type: type);
   }
 
   ///步数
@@ -204,6 +203,9 @@ class ReceiveDataHandler {
       } else if (valueData[0] == 0xbb) {
         _parseDataHistoryData(KHealthDataType.STEPS, valueData);
       }
+    } else if (type == 0x02) {
+      //当天步数
+      _parseDataHistoryData(KHealthDataType.STEPS, valueData);
     }
     return ReceiveDataModel(status: status, tip: tip, command: com);
   }

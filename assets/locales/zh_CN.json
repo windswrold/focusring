@@ -218,5 +218,7 @@
   "negative": "消极",
   "max_temp": "最高体温",
   "low_temp": "最低体温",
-  "err_temp": "异常次数"
+  "err_temp": "异常次数",
+  "starttime": "开始时间",
+  "endtime": "结束时间"
 }

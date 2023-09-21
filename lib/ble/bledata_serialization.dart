@@ -61,26 +61,25 @@ class KBLESerialization {
   ///心率定时测量设置 血氧
   static BLESendData ppg_heartTimingTest({
     required bool isOn,
-    required DateTime? startTime,
-    required DateTime? endTime,
+    required DateTime startTime,
+    required DateTime endTime,
     required int? offset,
     required KHealthDataType isHeart,
   }) {
     List<int> data = [];
     data.add(isOn ? 0x01 : 0x00);
-    if (isOn == true) {
-      if (startTime == null || endTime == null || offset == null) {
-        throw "无效数据";
-      }
-      if (startTime.compareTo(endTime) > 0) {
-        throw "无效数据";
-      }
-      data.add(startTime.hour);
-      data.add(startTime.minute);
-      data.add(endTime.hour);
-      data.add(endTime.minute);
-      data.add(offset);
+    if (startTime == null || endTime == null || offset == null) {
+      throw "无效数据";
     }
+    if (startTime.compareTo(endTime) > 0) {
+      throw "无效数据";
+    }
+    data.add(startTime.hour);
+    data.add(startTime.minute);
+    data.add(endTime.hour);
+    data.add(endTime.minute);
+    data.add(offset);
+
     return BLESendData(
         cmd: KBLECommandType.ppg,
         typeStr: isHeart == KHealthDataType.HEART_RATE ? "01" : "06",
@@ -144,6 +143,27 @@ class KBLESerialization {
     throw "add type";
   }
 
+  ///获取当天数据
+  static BLESendData getTodayData({
+    required KHealthDataType type,
+  }) {
+    if (type == KHealthDataType.HEART_RATE) {
+      return BLESendData(
+          cmd: KBLECommandType.ppg, typeStr: "04", valueStr: "bb01");
+    } else if (type == KHealthDataType.BLOOD_OXYGEN) {
+      return BLESendData(
+          cmd: KBLECommandType.ppg, typeStr: "09", valueStr: "bb01");
+    } else if (type == KHealthDataType.STEPS) {
+      return BLESendData(
+          cmd: KBLECommandType.gsensor, typeStr: "02", valueStr: "bb01");
+    } else if (type == KHealthDataType.SLEEP) {
+      return BLESendData(
+          cmd: KBLECommandType.sleep, typeStr: "01", valueStr: "bb00");
+    }
+
+    throw "add type";
+  }
+
   ///回复收到相应包，并带上包序号 血氧
   static BLESendData getHeartHistoryDataByCurrentByIndex(int index,
       {required KHealthDataType isHeart}) {
@@ -152,16 +172,6 @@ class KBLESerialization {
         cmd: KBLECommandType.ppg,
         typeStr: isHeart == KHealthDataType.HEART_RATE ? "03" : "08",
         valueStr: HEXUtil.encode(e));
-  }
-
-  ///心率当天数据获取心率按照5min一个值： 血氧
-  ///1天：12X24=288个字节；固定大小；
-  static BLESendData getHeartHistoryDataByCurrentLong(
-      {required KHealthDataType isHeart}) {
-    return BLESendData(
-        cmd: KBLECommandType.ppg,
-        typeStr: isHeart == KHealthDataType.HEART_RATE ? "04" : "09",
-        valueStr: "bb01");
   }
 
   ///回复收到相应包，并带上包序号

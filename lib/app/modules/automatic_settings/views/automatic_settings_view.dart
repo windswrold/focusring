@@ -16,6 +16,12 @@ class AutomaticSettingsView extends GetView<AutomaticSettingsController> {
     required String symbol,
     required Function(bool a) onChanged,
     required VoidCallback onSubChange,
+    required String startTimeTitle,
+    required RxString startTimeValue,
+    required String endTimeTitle,
+    required RxString endTimeValue,
+    required VoidCallback startTimeChange,
+    required VoidCallback endTimeChange,
   }) {
     return Container(
         padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -44,6 +50,68 @@ class AutomaticSettingsView extends GetView<AutomaticSettingsController> {
                     ),
                   ),
                 ],
+              ),
+            ),
+            InkWell(
+              onTap: startTimeChange,
+              child: Container(
+                height: 44.w,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      startTimeTitle,
+                      style: Get.textTheme.displayLarge,
+                    ),
+                    Row(
+                      children: [
+                        Obx(
+                          () => Text(
+                            startTimeValue.value.toString(),
+                            style: Get.textTheme.bodyMedium,
+                          ),
+                        ),
+                        12.rowWidget,
+                        LoadAssetsImage(
+                          "icons/arrow_right_small",
+                          width: 7,
+                          height: 12,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            InkWell(
+              onTap: endTimeChange,
+              child: Container(
+                height: 44.w,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      endTimeTitle,
+                      style: Get.textTheme.displayLarge,
+                    ),
+                    Row(
+                      children: [
+                        Obx(
+                          () => Text(
+                            endTimeValue.value.toString(),
+                            style: Get.textTheme.bodyMedium,
+                          ),
+                        ),
+                        12.rowWidget,
+                        LoadAssetsImage(
+                          "icons/arrow_right_small",
+                          width: 7,
+                          height: 12,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
             InkWell(
@@ -85,6 +153,17 @@ class AutomaticSettingsView extends GetView<AutomaticSettingsController> {
   Widget build(BuildContext context) {
     return KBasePageView(
       titleStr: "automatic_settings".tr,
+      actions: [
+        TextButton(
+          onPressed: () {
+            controller.save();
+          },
+          child: Text(
+            "save".tr,
+            style: Get.textTheme.labelMedium,
+          ),
+        ),
+      ],
       body: Column(
         children: [
           Container(
@@ -108,6 +187,16 @@ class AutomaticSettingsView extends GetView<AutomaticSettingsController> {
               },
               subTitle: 'heartrate_interval'.tr,
               subValue: controller.heartRateAutoTestInterval,
+              startTimeTitle: "starttime".tr,
+              endTimeTitle: "endtime".tr,
+              startTimeValue: controller.startTimeHeart,
+              endTimeValue: controller.endTimeHeart,
+              startTimeChange: () {
+                controller.onChangeTime(0);
+              },
+              endTimeChange: () {
+                controller.onChangeTime(1);
+              },
               symbol: "  min"),
           Container(
             height: 39.w,
@@ -131,6 +220,16 @@ class AutomaticSettingsView extends GetView<AutomaticSettingsController> {
             subTitle: 'bloodoxygen_interval'.tr,
             subValue: controller.bloodOxygenAutoTestInterval,
             symbol: " min",
+            startTimeTitle: "starttime".tr,
+            endTimeTitle: "endtime".tr,
+            startTimeValue: controller.startTimeOxygen,
+            endTimeValue: controller.endTimeOxygen,
+            startTimeChange: () {
+              controller.onChangeTime(2);
+            },
+            endTimeChange: () {
+              controller.onChangeTime(3);
+            },
           ),
         ],
       ),
