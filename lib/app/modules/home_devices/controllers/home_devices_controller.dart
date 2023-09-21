@@ -77,8 +77,8 @@ class HomeDevicesController extends GetxController {
       return;
     }
     vmPrint("准备回连。。。", KBLEManager.logevel);
-    Future.delayed(Duration(seconds: 30)).then((value) {
-      vmPrint("延迟30s回连。。。", KBLEManager.logevel);
+    Future.delayed(Duration(seconds: 5)).then((value) {
+      vmPrint("延迟5s回连。。。", KBLEManager.logevel);
       if (connectDevice.value == null) {
         vmPrint("当前设备已删除回连失败", KBLEManager.logevel);
         return;
