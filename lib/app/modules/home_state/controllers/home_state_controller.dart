@@ -125,7 +125,7 @@ class HomeStateController extends GetxController {
           initData(),
         });
 
-    KBLEManager.checkBle();
+    // KBLEManager.checkBle();
   }
 
   void onTapEditCard() {

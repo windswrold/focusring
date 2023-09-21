@@ -12,14 +12,5 @@ class HomeTabbarBinding extends Bindings {
     Get.lazyPut<HomeTabbarController>(
       () => HomeTabbarController(),
     );
-    Get.lazyPut<HomeDevicesController>(
-      () => HomeDevicesController(),
-    );
-    Get.lazyPut<HomeStateController>(
-      () => HomeStateController(),
-    );
-    Get.lazyPut<HomeMineController>(
-      () => HomeMineController(),
-    );
   }
 }

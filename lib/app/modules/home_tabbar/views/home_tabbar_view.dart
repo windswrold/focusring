@@ -66,15 +66,17 @@ class HomeTabbarView extends GetView<HomeTabbarController> {
                 selectedFontSize: 12,
                 unselectedFontSize: 12,
               )),
-          body: Stack(
-            alignment: Alignment.bottomCenter,
-            children: <Widget>[
-              IndexedStack(
-                index: controller.currentIndex.value,
-                children: bodyList,
-              ),
-            ],
-          ));
+          body: controller.bleIsok.value == true
+              ? Stack(
+                  alignment: Alignment.bottomCenter,
+                  children: <Widget>[
+                    IndexedStack(
+                      index: controller.currentIndex.value,
+                      children: bodyList,
+                    ),
+                  ],
+                )
+              : Container());
     });
   }
 }

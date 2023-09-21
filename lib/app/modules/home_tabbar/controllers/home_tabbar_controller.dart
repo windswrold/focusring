@@ -1,18 +1,29 @@
 import 'package:beering/app/data/app_update_model.dart';
+import 'package:beering/ble/ble_manager.dart';
 import 'package:beering/const/constant.dart';
 import 'package:beering/net/app_api.dart';
 import 'package:beering/public.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
+import '../../home_devices/controllers/home_devices_controller.dart';
+import '../../home_mine/controllers/home_mine_controller.dart';
+import '../../home_state/controllers/home_state_controller.dart';
+
 class HomeTabbarController extends GetxController {
   //TODO: Implement HomeTabbarController
 
   final currentIndex = 0.obs;
 
+  final bleIsok = false.obs;
+
   @override
   void onInit() {
     super.onInit();
+
+    Get.put(HomeDevicesController());
+    Get.put(HomeMineController());
+    Get.put(HomeStateController());
   }
 
   @override
@@ -23,6 +34,10 @@ class HomeTabbarController extends GetxController {
   }
 
   void _initData() async {
+    final state = await KBLEManager.checkBle();
+    vmPrint("checkBle $state");
+    bleIsok.value = state;
+
     AppApi.checkAppUpdateStream(
             systemType: getSystemType(),
             currentVersion: GlobalValues.appInfo?.version ?? "1.0.0")

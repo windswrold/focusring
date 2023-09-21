@@ -50,7 +50,6 @@ class PermissionUtils {
       a = [
         Permission.bluetoothConnect,
         Permission.bluetoothScan,
-        Permission.bluetooth
       ];
     } else {
       a = [
