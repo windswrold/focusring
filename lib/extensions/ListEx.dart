@@ -169,7 +169,7 @@ extension ListEx<E> on List<E> {
   }
 
   static List<String> generateBloodOxygenAutoTestInterval() {
-    return ["4", "6", "8", "12"];
+    return ["5", "30", "60"];
   }
 
   static double averageNum(List data) {

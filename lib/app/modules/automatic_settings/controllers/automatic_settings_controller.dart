@@ -14,7 +14,7 @@ class AutomaticSettingsController extends GetxController {
   final bloodOxygenAutoTestSwitch = false.obs;
 
   final heartRateAutoTestInterval = "5".obs;
-  final bloodOxygenAutoTestInterval = "4".obs;
+  final bloodOxygenAutoTestInterval = "5".obs;
 
   StreamSubscription? receive;
 
@@ -28,7 +28,7 @@ class AutomaticSettingsController extends GetxController {
     heartRateAutoTestInterval.value =
         (us?.heartRateAutoTestInterval ?? 5).toString();
     bloodOxygenAutoTestInterval.value =
-        (us?.bloodOxygenAutoTestInterval ?? 4).toString();
+        (us?.bloodOxygenAutoTestInterval ?? 5).toString();
 
     receive = KBLEManager.receiveDataStream.listen((event) {
       if (event.command == KBLECommandType.ppg) {
@@ -115,7 +115,7 @@ class AutomaticSettingsController extends GetxController {
     final selectIndex = await DialogUtils.dialogDataPicker(
       title: "bloodoxygen_interval".tr,
       datas: arrs,
-      symbolText: KHealthDataType.BLOOD_OXYGEN.getSymbol(),
+      symbolText: "  min",
       symbolRight: 100.w,
       initialItem: arrs.indexOf(bloodOxygenAutoTestInterval.value),
     );

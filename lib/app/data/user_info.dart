@@ -87,7 +87,7 @@ class UserInfoModel {
     heartRateAutoTestSwitch = json["heartRateAutoTestSwitch"] ?? false;
     heartRateAutoTestInterval = json["heartRateAutoTestInterval"] ?? 5;
     bloodOxygenAutoTestSwitch = json["bloodOxygenAutoTestSwitch"] ?? false;
-    bloodOxygenAutoTestInterval = json["bloodOxygenAutoTestInterval"] ?? 4;
+    bloodOxygenAutoTestInterval = json["bloodOxygenAutoTestInterval"] ?? 5;
   }
 
   Map<String, dynamic> toJson() {

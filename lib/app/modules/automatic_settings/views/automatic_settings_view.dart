@@ -130,7 +130,7 @@ class AutomaticSettingsView extends GetView<AutomaticSettingsController> {
             },
             subTitle: 'bloodoxygen_interval'.tr,
             subValue: controller.bloodOxygenAutoTestInterval,
-            symbol: KHealthDataType.BLOOD_OXYGEN.getSymbol(),
+            symbol: " min",
           ),
         ],
       ),
