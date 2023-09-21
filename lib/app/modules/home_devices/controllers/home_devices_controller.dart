@@ -38,6 +38,7 @@ class HomeDevicesController extends GetxController {
       } else {
         isConnect.value = false;
         _maxScanCount -= 1;
+        _autoScanConnect();
       }
     });
 
@@ -69,6 +70,25 @@ class HomeDevicesController extends GetxController {
       connectDevice.value = a.tryFirst;
       KBLEManager.connect(device: connectDevice.value!);
     }
+  }
+
+  void _autoScanConnect() {
+    if (_maxScanCount <= 0) {
+      return;
+    }
+    vmPrint("准备回连。。。", KBLEManager.logevel);
+    Future.delayed(Duration(seconds: 30)).then((value) {
+      vmPrint("延迟30s回连。。。", KBLEManager.logevel);
+      if (connectDevice.value == null) {
+        vmPrint("当前设备已删除回连失败", KBLEManager.logevel);
+        return;
+      }
+      if (isConnect.value == true) {
+        vmPrint("当前设备已连接成功", KBLEManager.logevel);
+        return;
+      }
+      KBLEManager.connect(device: connectDevice.value!);
+    });
   }
 
   @override
