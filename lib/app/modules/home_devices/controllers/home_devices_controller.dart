@@ -30,6 +30,7 @@ class HomeDevicesController extends GetxController {
     super.onReady();
 
     deviceStateStream = KBLEManager.deviceStateStream.listen((event) {
+      vmPrint("deviceStateStream $event");
       if (event == BluetoothConnectionState.connected) {
         isConnect.value = true;
       } else {
@@ -50,6 +51,21 @@ class HomeDevicesController extends GetxController {
         }
       }
     });
+
+    _initData();
+  }
+
+  void _initData() async {
+    if (SPManager.getGlobalUser() == null) {
+      return;
+    }
+
+    final a = await RingDeviceModel.queryUserAllWithSelect(
+        SPManager.getGlobalUser()!.id.toString(), true);
+    if (a.tryFirst != null) {
+      connectDevice.value = a.tryFirst;
+      KBLEManager.connect(device: a.tryFirst!);
+    }
   }
 
   @override

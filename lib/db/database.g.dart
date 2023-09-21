@@ -97,7 +97,7 @@ class _$FlutterDatabase extends FlutterDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `health_index_table` (`appUserId` TEXT NOT NULL, `index` INTEGER NOT NULL, `type` INTEGER NOT NULL, `state` INTEGER NOT NULL, PRIMARY KEY (`appUserId`, `type`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `ring_device_table` (`appUserId` TEXT, `remoteId` TEXT, `localName` TEXT, `macAddress` TEXT, `select` INTEGER, PRIMARY KEY (`appUserId`, `remoteId`))');
+            'CREATE TABLE IF NOT EXISTS `ring_device_table` (`appUserId` TEXT, `remoteId` TEXT, `localName` TEXT, `macAddress` TEXT, `isSelect` INTEGER, PRIMARY KEY (`appUserId`, `remoteId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `bloodOxygenData` (`appUserId` INTEGER, `mac` TEXT, `createTime` TEXT, `averageHeartRate` INTEGER, `max` INTEGER, `min` INTEGER, `bloodArray` TEXT, PRIMARY KEY (`appUserId`, `createTime`))');
         await database.execute(
@@ -242,7 +242,8 @@ class _$RingDeviceDao extends RingDeviceDao {
                   'remoteId': item.remoteId,
                   'localName': item.localName,
                   'macAddress': item.macAddress,
-                  'select': item.select == null ? null : (item.select! ? 1 : 0)
+                  'isSelect':
+                      item.isSelect == null ? null : (item.isSelect! ? 1 : 0)
                 }),
         _ringDeviceModelUpdateAdapter = UpdateAdapter(
             database,
@@ -253,7 +254,8 @@ class _$RingDeviceDao extends RingDeviceDao {
                   'remoteId': item.remoteId,
                   'localName': item.localName,
                   'macAddress': item.macAddress,
-                  'select': item.select == null ? null : (item.select! ? 1 : 0)
+                  'isSelect':
+                      item.isSelect == null ? null : (item.isSelect! ? 1 : 0)
                 }),
         _ringDeviceModelDeletionAdapter = DeletionAdapter(
             database,
@@ -264,7 +266,8 @@ class _$RingDeviceDao extends RingDeviceDao {
                   'remoteId': item.remoteId,
                   'localName': item.localName,
                   'macAddress': item.macAddress,
-                  'select': item.select == null ? null : (item.select! ? 1 : 0)
+                  'isSelect':
+                      item.isSelect == null ? null : (item.isSelect! ? 1 : 0)
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -288,7 +291,8 @@ class _$RingDeviceDao extends RingDeviceDao {
             remoteId: row['remoteId'] as String?,
             localName: row['localName'] as String?,
             macAddress: row['macAddress'] as String?,
-            select: row['select'] == null ? null : (row['select'] as int) != 0),
+            isSelect:
+                row['isSelect'] == null ? null : (row['isSelect'] as int) != 0),
         arguments: [appUserId]);
   }
 
@@ -298,13 +302,8 @@ class _$RingDeviceDao extends RingDeviceDao {
     bool select,
   ) async {
     return _queryAdapter.queryList(
-        'SELECT * FROM ring_device_table WHERE appUserId = ?1 and select = ?2',
-        mapper: (Map<String, Object?> row) => RingDeviceModel(
-            appUserId: row['appUserId'] as String?,
-            remoteId: row['remoteId'] as String?,
-            localName: row['localName'] as String?,
-            macAddress: row['macAddress'] as String?,
-            select: row['select'] == null ? null : (row['select'] as int) != 0),
+        'SELECT * FROM ring_device_table WHERE appUserId = ?1 and isSelect = ?2',
+        mapper: (Map<String, Object?> row) => RingDeviceModel(appUserId: row['appUserId'] as String?, remoteId: row['remoteId'] as String?, localName: row['localName'] as String?, macAddress: row['macAddress'] as String?, isSelect: row['isSelect'] == null ? null : (row['isSelect'] as int) != 0),
         arguments: [appUserId, select ? 1 : 0]);
   }
 

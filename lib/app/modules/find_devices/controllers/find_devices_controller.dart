@@ -70,6 +70,13 @@ class FindDevicesController extends GetxController {
       vmPrint("BluetoothConnectionState ${event.toString()}");
       if (event == BluetoothConnectionState.connected) {
         HWToast.showSucText(text: "已连接");
+
+        if (_selectaItem == null) {
+          return;
+        }
+        _selectaItem!.isSelect = true;
+        _selectaItem!.appUserId = SPManager.getGlobalUser()?.id.toString();
+        RingDeviceModel.insertTokens([_selectaItem!]);
       } else if (event == BluetoothConnectionState.disconnected) {
         HWToast.showSucText(text: "断开连接");
       }

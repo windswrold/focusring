@@ -97,13 +97,13 @@ class KBLEManager {
       return null;
     }
 
-    if (!inProduction) {
-      //绑定认证
-      // _onValueReceived(HEXUtil.decode("EEEE0003010000"));
-      //时间绑定
-      onValueReceived(HEXUtil.decode("EEEE0003020000"));
-      return;
-    }
+    // if (!inProduction) {
+    //   //绑定认证
+    //   // _onValueReceived(HEXUtil.decode("EEEE0003010000"));
+    //   //时间绑定
+    //   onValueReceived(HEXUtil.decode("EEEE0003020000"));
+    //   return;
+    // }
 
     var bleDevice = getDevice(device: device);
     bleDevice.connect(timeout: timeout);
@@ -238,11 +238,11 @@ class KBLEManager {
       await Future.delayed(const Duration(seconds: 2));
     }
 
-    if ((await FlutterBluePlus.adapterState.first) ==
-        BluetoothAdapterState.turningOff) {
-      HWToast.showErrText(text: "turnon_ble".tr);
-      return false;
-    }
+    // if ((await FlutterBluePlus.adapterState.last) ==
+    //     BluetoothAdapterState.turningOff) {
+    //   HWToast.showErrText(text: "turnon_ble".tr);
+    //   return false;
+    // }
 
     return true;
   }
