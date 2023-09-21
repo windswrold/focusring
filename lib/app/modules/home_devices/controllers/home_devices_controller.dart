@@ -67,6 +67,7 @@ class HomeDevicesController extends GetxController {
         SPManager.getGlobalUser()!.id.toString(), true);
     if (a.tryFirst != null) {
       connectDevice.value = a.tryFirst;
+      KBLEManager.connect(device: connectDevice.value!);
     }
   }
 
