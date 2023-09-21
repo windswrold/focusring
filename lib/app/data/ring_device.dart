@@ -85,6 +85,12 @@ class RingDeviceModel {
     final db = await DataBaseConfig.openDataBase();
     return db?.ringDao.updateTokens(model);
   }
+
+
+  static Future<void> delTokens(RingDeviceModel model) async {
+    final db = await DataBaseConfig.openDataBase();
+    return db?.database?.execute("Delete FROM $tableName where appUserId = '${model.appUserId}' and remoteId = '${model.remoteId}'");
+  }
 }
 
 @dao
