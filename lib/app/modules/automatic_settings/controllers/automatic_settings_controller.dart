@@ -4,6 +4,7 @@ import 'package:beering/ble/ble_manager.dart';
 import 'package:beering/ble/bledata_serialization.dart';
 import 'package:beering/net/app_api.dart';
 import 'package:beering/utils/date_util.dart';
+import 'package:beering/utils/hex_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
@@ -55,7 +56,7 @@ class AutomaticSettingsController extends GetxController {
           int hour1 = result[3];
           int min1 = result[4];
           endTimeHeart.value = "$hour1:$min1";
-          heartRateAutoTestInterval.value = result[5];
+          heartRateAutoTestInterval.value = result[5].toString();
           //心率回复设置
           KBLEManager.sendData(
               sendData: KBLESerialization.ppg_getHeartTimingSetting(
@@ -100,6 +101,10 @@ class AutomaticSettingsController extends GetxController {
     KBLEManager.sendData(
         sendData: KBLESerialization.ppg_getHeartTimingSetting(
             isHeart: KHealthDataType.HEART_RATE));
+
+    if (inProduction == false) {
+      KBLEManager.onValueReceived(HEXUtil.decode("eeee00080302010800160005"));
+    }
   }
 
   @override
