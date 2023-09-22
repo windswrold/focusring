@@ -205,7 +205,7 @@ class ReceiveDataHandler {
       }
     } else if (type == 0x02) {
       //当天步数
-      _parseDataHistoryData(KHealthDataType.STEPS, valueData);
+      _parseDataCurrentDayData(KHealthDataType.STEPS, valueData);
     }
     return ReceiveDataModel(status: status, tip: tip, command: com);
   }
