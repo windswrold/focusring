@@ -18,12 +18,26 @@ class HomeDevicesController extends GetxController {
   RxInt batNum = RxInt(0);
   RxBool isCharging = RxBool(false);
 
-  StreamSubscription? deviceStateStream, receiveDataStream;
+  StreamSubscription? deviceStateStream,
+      receiveDataStream,
+      isScanning,
+      scanResults;
   int _maxScanCount = 10;
+  bool _isScan = false;
+  ScanResult? _connect;
 
   @override
   void onInit() {
     super.onInit();
+  }
+
+  @override
+  void onClose() {
+    receiveDataStream?.cancel();
+    deviceStateStream?.cancel();
+    isScanning?.cancel();
+    scanResults?.cancel();
+    super.onClose();
   }
 
   @override
@@ -37,7 +51,6 @@ class HomeDevicesController extends GetxController {
         _maxScanCount = 10;
       } else {
         isConnect.value = false;
-        _maxScanCount -= 1;
         _autoScanConnect();
       }
     });
@@ -56,6 +69,33 @@ class HomeDevicesController extends GetxController {
       }
     });
 
+    isScanning = KBLEManager.isScanning.listen((event) {
+      _isScan = event;
+      vmPrint("_isScan $_isScan isConnect $isConnect $_connect",
+          KBLEManager.logevel);
+      if (_isScan == false &&
+          isConnect.value == false &&
+          connectDevice.value != null &&
+          _connect == null) {
+        _maxScanCount -= 1;
+        vmPrint("扫描超时了还没连接上继续扫描 还剩$_maxScanCount 次", KBLEManager.logevel);
+        _autoScanConnect();
+      }
+    });
+
+    scanResults = KBLEManager.scanResults.listen((results) {
+      for (ScanResult d in results) {
+        vmPrint(
+            "scanResults ${d.toString()}  ${connectDevice.value?.remoteId}");
+        if (d.device.remoteId.str == (connectDevice.value?.remoteId ?? "") &&
+            _connect == null) {
+          _connect = d;
+          KBLEManager.stopScan();
+          KBLEManager.connect(device: connectDevice.value!, ble: d.device);
+        }
+      }
+    });
+
     _initData();
   }
 
@@ -68,7 +108,7 @@ class HomeDevicesController extends GetxController {
         SPManager.getGlobalUser()!.id.toString(), true);
     if (a.tryFirst != null) {
       connectDevice.value = a.tryFirst;
-      KBLEManager.connect(device: connectDevice.value!);
+      _autoScanConnect();
     }
   }
 
@@ -76,26 +116,14 @@ class HomeDevicesController extends GetxController {
     if (_maxScanCount <= 0) {
       return;
     }
-    vmPrint("准备回连。。。", KBLEManager.logevel);
-    Future.delayed(Duration(seconds: 5)).then((value) {
-      vmPrint("延迟5s回连。。。", KBLEManager.logevel);
-      if (connectDevice.value == null) {
-        vmPrint("当前设备已删除回连失败", KBLEManager.logevel);
-        return;
-      }
-      if (isConnect.value == true) {
-        vmPrint("当前设备已连接成功", KBLEManager.logevel);
-        return;
-      }
-      KBLEManager.connect(device: connectDevice.value!);
-    });
-  }
-
-  @override
-  void onClose() {
-    receiveDataStream?.cancel();
-    deviceStateStream?.cancel();
-    super.onClose();
+    if (connectDevice.value == null) {
+      return;
+    }
+    if (_connect == null) {
+      KBLEManager.startScan();
+    } else {
+      KBLEManager.connect(device: connectDevice.value!, ble: _connect!.device);
+    }
   }
 
   void onTapList(int indx) {
@@ -193,9 +221,11 @@ class HomeDevicesController extends GetxController {
       }
     }
 
+    if (isConnect.value == true) {
+      return;
+    }
     if (connectDevice.value != null) {
-      HWToast.showLoading();
-      KBLEManager.connect(device: connectDevice.value!);
+      _autoScanConnect();
       return;
     }
 

@@ -230,11 +230,13 @@ class HomeDevicesView extends GetView<HomeDevicesController> {
                             ),
                           ),
                           3.columnWidget,
-                          Text(
-                            controller.isConnect.value == true
-                                ? "Linked"
-                                : "UnLink",
-                            style: Get.textTheme.titleSmall,
+                          Obx(
+                            () => Text(
+                              controller.isConnect.value == true
+                                  ? "Linked"
+                                  : "UnLink",
+                              style: Get.textTheme.titleSmall,
+                            ),
                           ),
                           7.columnWidget,
                           Row(

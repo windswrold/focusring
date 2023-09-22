@@ -74,7 +74,7 @@ class KBLEManager {
   }
 
   static void startScan(
-      {Duration timeout = const Duration(seconds: 10)}) async {
+      {Duration timeout = const Duration(seconds: 30)}) async {
     if ((await checkBle()) == false) {
       return;
     }
@@ -92,6 +92,7 @@ class KBLEManager {
 
   static void connect(
       {required RingDeviceModel device,
+      BluetoothDevice? ble,
       Duration timeout = const Duration(seconds: 20)}) async {
     if ((await checkBle()) == false) {
       return null;
@@ -105,19 +106,23 @@ class KBLEManager {
     //   return;
     // }
 
-    var bleDevice = getDevice(device: device);
+    var bleDevice = ble ?? getDevice(device: device);
     bleDevice.connect(timeout: timeout);
     await Future.delayed(Duration(seconds: 1));
-    _connectSubscription = bleDevice.connectionState.listen((event) {
+    _connectSubscription?.cancel();
+    _connectSubscription == null;
+    _connectSubscription = bleDevice.connectionState.listen((event) async {
       vmPrint("connectionState $event");
       _deviceStateSC.sink.add(event);
       if (event == BluetoothConnectionState.connected) {
         currentDevices = device;
         findCharacteristics(bleDevice);
+        await Future.delayed(Duration(seconds: 1));
+        stopScan();
       } else if (event == BluetoothConnectionState.disconnected) {
         clean();
       }
-      // KBLEManager.stopScan();
+// KBLEManager.stopScan();
     });
   }
 
@@ -134,13 +139,13 @@ class KBLEManager {
     vmPrint("开始找特征", logevel);
     List<BluetoothService> services = await bluetoothDevice.discoverServices();
     for (var service in services) {
-      //读取服务ID
+//读取服务ID
       vmPrint("服务ID ${service.uuid}", logevel);
       if (compareUUID(service.uuid.toString(), BLEConfig.SERVICEUUID) == true) {
         List<BluetoothCharacteristic> characteristics = service.characteristics;
         for (BluetoothCharacteristic characteristic in characteristics) {
           vmPrint("当前id ${characteristic.uuid}", logevel);
-          //读取外设ID
+//读取外设ID
           if (compareUUID(
                   characteristic.uuid.toString(), BLEConfig.NOTIFYUUID) ==
               true) {
@@ -177,9 +182,9 @@ class KBLEManager {
   static void zhiie({
     required List<int> datas,
   }) async {
-    // if (_writeCharacteristic == null) {
-    //   return;
-    // }
+// if (_writeCharacteristic == null) {
+//   return;
+// }
     vmPrint("发送数据 ${HEX.encode(datas)}", logevel);
     await _writeCharacteristic?.write(datas, withoutResponse: true);
   }
@@ -198,7 +203,7 @@ class KBLEManager {
         int currentLen = len + 4;
         vmPrint("数据域长度 len $currentLen", logevel);
         if (_allValues.length >= currentLen) {
-          //取出后移除
+//取出后移除
           List<int> _allDatas = _allValues.sublist(0, currentLen);
           _allValues.removeRange(0, currentLen);
           ReceiveDataModel model =
@@ -238,11 +243,11 @@ class KBLEManager {
       await Future.delayed(const Duration(seconds: 2));
     }
 
-    // if ((await FlutterBluePlus.adapterState.last) ==
-    //     BluetoothAdapterState.turningOff) {
-    //   HWToast.showErrText(text: "turnon_ble".tr);
-    //   return false;
-    // }
+// if ((await FlutterBluePlus.adapterState.last) ==
+//     BluetoothAdapterState.turningOff) {
+//   HWToast.showErrText(text: "turnon_ble".tr);
+//   return false;
+// }
 
     return true;
   }
