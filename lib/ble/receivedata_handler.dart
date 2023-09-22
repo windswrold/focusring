@@ -289,24 +289,10 @@ class ReceiveDataHandler {
     int current = valueData[2];
     _cachePPGData.addAll(valueData.sublist(3)); //包含时间
 
-    if (datatype == KHealthDataType.STEPS) {
-      KBLEManager.sendData(
-        sendData:
-            KBLESerialization.getStepsHistoryDataByCurrentByIndex(current),
-      );
-    } else if (datatype == KHealthDataType.BLOOD_OXYGEN ||
-        datatype == KHealthDataType.HEART_RATE) {
-      //心率或者血氧
-      KBLEManager.sendData(
-          sendData: KBLESerialization.getHeartHistoryDataByCurrentByIndex(
-              current,
-              isHeart: datatype));
-    } else if (datatype == KHealthDataType.SLEEP) {
-      //睡眠
-      KBLEManager.sendData(
-          sendData:
-              KBLESerialization.getSleepHistoryDataByCurrentByIndex(current));
-    }
+    KBLEManager.sendData(
+      sendData: KBLESerialization.sendDataIndex(current,
+          type: datatype, isToday: false),
+    );
 
     if (all == current) {
       vmPrint("一个包结束了，接收完毕", KBLEManager.logevel);
@@ -349,23 +335,25 @@ class ReceiveDataHandler {
     KHealthDataType datatype,
     List<int> valueData,
   ) {
-    //   int all = valueData[1];
-    //   int current = valueData[2];
-    //   status = true;
-    //   if (all == current) {
-    //   } else {}
-    //   KBLEManager.sendData(
-    //       sendData: KBLESerialization.getHeartHistoryDataByCurrentByIndex(
-    //     current,
-    //     isHeart: type == 0x04
-    //         ? KHealthDataType.HEART_RATE
-    //         : KHealthDataType.BLOOD_OXYGEN,
-    //   ));
-    //   HealthData.insertHealthBleData(
-    //       datas: valueData.sublist(3),
-    //       isContainTime: false,
-    //       type: type == 0x04
-    //           ? KHealthDataType.HEART_RATE
-    //           : KHealthDataType.BLOOD_OXYGEN);
+    int all = valueData[1];
+    int current = valueData[2];
+    _cachePPGData.addAll(valueData.sublist(3)); //不包含时间
+
+    KBLEManager.sendData(
+      sendData: KBLESerialization.sendDataIndex(current,
+          type: datatype, isToday: true),
+    );
+
+    if (all == current) {
+      vmPrint("一个包结束了，接收完毕", KBLEManager.logevel);
+      //存
+      HealthData.insertHealthBleData(
+          datas: List.from(_cachePPGData),
+          isContainTime: false,
+          type: datatype);
+      _cachePPGData.clear();
+      _maxDay = _maxDay - 1;
+      _currentDay = _currentDay + 1;
+    }
   }
 }

@@ -164,34 +164,34 @@ class KBLESerialization {
     throw "add type";
   }
 
-  ///回复收到相应包，并带上包序号 血氧
-  static BLESendData getHeartHistoryDataByCurrentByIndex(int index,
-      {required KHealthDataType isHeart}) {
-    List<int> e = [0xcc, index];
-    return BLESendData(
-        cmd: KBLECommandType.ppg,
-        typeStr: isHeart == KHealthDataType.HEART_RATE ? "03" : "08",
-        valueStr: HEXUtil.encode(e));
-  }
-
   ///回复收到相应包，并带上包序号
-  static BLESendData getStepsHistoryDataByCurrentByIndex(
-    int index,
-  ) {
+  static BLESendData sendDataIndex(int index,
+      {required KHealthDataType type, required bool isToday}) {
     List<int> e = [0xcc, index];
-    return BLESendData(
-        cmd: KBLECommandType.gsensor,
-        typeStr: "03",
-        valueStr: HEXUtil.encode(e));
-  }
 
-  ///回复收到相应包，并带上包序号
-  static BLESendData getSleepHistoryDataByCurrentByIndex(
-    int index,
-  ) {
-    List<int> e = [0xcc, index];
-    return BLESendData(
-        cmd: KBLECommandType.sleep, typeStr: "01", valueStr: HEXUtil.encode(e));
+    if (type == KHealthDataType.HEART_RATE) {
+      return BLESendData(
+          cmd: KBLECommandType.ppg,
+          typeStr: isToday ? "04" : "03",
+          valueStr: HEXUtil.encode(e));
+    } else if (type == KHealthDataType.BLOOD_OXYGEN) {
+      return BLESendData(
+          cmd: KBLECommandType.ppg,
+          typeStr: isToday ? "09" : "08",
+          valueStr: HEXUtil.encode(e));
+    } else if (type == KHealthDataType.STEPS) {
+      return BLESendData(
+          cmd: KBLECommandType.gsensor,
+          typeStr: isToday ? "02" : "03",
+          valueStr: HEXUtil.encode(e));
+    } else if (type == KHealthDataType.SLEEP) {
+      return BLESendData(
+          cmd: KBLECommandType.sleep,
+          typeStr: "01",
+          valueStr: HEXUtil.encode(e));
+    }
+
+    throw "add type";
   }
 
   ///电量在发送变化的时候设备回主动上报

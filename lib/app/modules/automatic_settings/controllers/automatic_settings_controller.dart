@@ -83,7 +83,7 @@ class AutomaticSettingsController extends GetxController {
             offset: int.tryParse(bloodOxygenAutoTestInterval.value),
             isHeart: KHealthDataType.BLOOD_OXYGEN,
           ));
-        } else if (event.type == 0x02) {
+        } else if (event.type == 0x06) {
           HWToast.showSucText(text: event.tip);
           //血氧更新成功
           Future.delayed(Duration(seconds: 1)).then((value) => {

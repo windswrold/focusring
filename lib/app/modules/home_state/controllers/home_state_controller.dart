@@ -168,10 +168,11 @@ class HomeStateController extends GetxController {
   }
 
   void onTapCardType(KHomeCardModel type) {
-  
-    KBLEManager.sendData(
-        sendData: KBLESerialization.getTodayData(
-            type: type.type ?? KHealthDataType.STEPS));
+    try {
+      KBLEManager.sendData(
+          sendData: KBLESerialization.getTodayData(
+              type: type.type ?? KHealthDataType.STEPS));
+    } catch (e) {}
 
     // Get.toNamed(Routes.REPORT_INFO_STEPS, arguments: type.type);
 
