@@ -225,7 +225,8 @@ class HomeDevicesController extends GetxController {
       return;
     }
     if (connectDevice.value != null) {
-      _autoScanConnect();
+      _connect = null;
+      KBLEManager.startScan();
       return;
     }
 
