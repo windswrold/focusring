@@ -219,6 +219,11 @@
   "max_temp": "Température corporelle maximale",
   "low_temp": "Température corporelle la plus basse",
   "err_temp": "nombre d'exceptions",
-  "request": "Autorisation de localisation non autorisée",
-  "request_tip": "Lors de son utilisation, cette application nécessite un accès à votre localisation pour découvrir, ajouter et gérer des appareils."
-}
+  "request_we": "Welcome",
+  "request_tip": "During use, in order to provide more services, you need to apply for the following permissions: obtain Bluetooth, obtain positioning, read and write mobile phone storage, etc. You can go to permission management at any time to adjust the authorization of all permissions." ,
+  "request_cle": "click",
+  "request_tip02": "That means you agree",
+  "request_tip03": "BeeRing permission statement",
+  "request_tip04": "BeeRing User Agreement",
+  "request_tip05": "And know about",
+  "request_tip06": "BeeRing Privacy Statement."}

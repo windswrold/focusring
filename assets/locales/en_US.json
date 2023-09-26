@@ -220,5 +220,6 @@
   "low_temp": "Lowest body temperature",
   "err_temp": "number of exceptions",
   "request": "Unauthorized location permission",
-  "request_tip": "While in use, this app requires access to your location to discover, add, and manage devices."
+  "request_tip": "During use, in order to provide more services, you may need to apply for the following permissions: obtain Bluetooth, obtain positioning, read and write mobile phone storage, etc. You can go to permission management at any time to adjust the authorization of all permissions. ",
+  "request_tip02": "Please read and agree to the User Agreement and Privacy Policy"
 }

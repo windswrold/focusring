@@ -243,8 +243,15 @@ class LocaleKeys {
   static const max_temp = 'max_temp';
   static const low_temp = 'low_temp';
   static const err_temp = 'err_temp';
-  static const request = 'request';
+  static const request_we = 'request_we';
   static const request_tip = 'request_tip';
+  static const request_cle = 'request_cle';
+  static const request_tip02 = 'request_tip02';
+  static const request_tip03 = 'request_tip03';
+  static const request_tip04 = 'request_tip04';
+  static const request_tip05 = 'request_tip05';
+  static const request_tip06 = 'request_tip06';
+  static const request = 'request';
   static const emotion_report = 'emotion_report';
   static const about_activitytip = 'about_activitytip';
   static const about_activitytip01 = 'about_activitytip01';
@@ -489,9 +496,15 @@ class Locales {
     'max_temp': 'Temperatura corporal máxima',
     'low_temp': 'Temperatura corporal mais baixa',
     'err_temp': 'número de excepções',
-    'request': 'Permissão de localização não autorizada',
+    'request_we': 'Welcome',
     'request_tip':
-        'Durante a utilização, esta aplicação necessita de acesso à sua localização para descobrir, adicionar e gerir dispositivos.',
+        'During use, in order to provide more services, you need to apply for the following permissions: obtain Bluetooth, obtain positioning, read and write mobile phone storage, etc. You can go to permission management at any time to adjust the authorization of all permissions.',
+    'request_cle': 'click',
+    'request_tip02': 'That means you agree',
+    'request_tip03': 'BeeRing permission statement',
+    'request_tip04': 'BeeRing User Agreement',
+    'request_tip05': 'And know about',
+    'request_tip06': 'BeeRing Privacy Statement.',
   };
   static const es_ES = {
     'tabbar_status': 'Estado',
@@ -727,9 +740,15 @@ class Locales {
     'max_temp': 'Temperatura corporal máxima',
     'low_temp': 'Temperatura corporal más baja',
     'err_temp': 'Número de excepciones',
-    'request': 'Permiso de ubicación no autorizado',
+    'request_we': 'Welcome',
     'request_tip':
-        'Durante el uso, esta aplicación requiere acceso a tu ubicación para descubrir, agregar y gestionar dispositivos.',
+        'During use, in order to provide more services, you need to apply for the following permissions: obtain Bluetooth, obtain positioning, read and write mobile phone storage, etc. You can go to permission management at any time to adjust the authorization of all permissions.',
+    'request_cle': 'click',
+    'request_tip02': 'That means you agree',
+    'request_tip03': 'BeeRing permission statement',
+    'request_tip04': 'BeeRing User Agreement',
+    'request_tip05': 'And know about',
+    'request_tip06': 'BeeRing Privacy Statement.',
   };
   static const ja_JP = {
     'tabbar_status': 'ステータス',
@@ -959,8 +978,15 @@ class Locales {
     'max_temp': '最高体温',
     'low_temp': '最低体温',
     'err_temp': '例外の数',
-    'request': '位置情報の権限が許可されていません',
-    'request_tip': '使用中、このアプリはデバイスの検出、追加、および管理のためにあなたの位置情報へのアクセスが必要です。',
+    'request_we': 'Welcome',
+    'request_tip':
+        'During use, in order to provide more services, you need to apply for the following permissions: obtain Bluetooth, obtain positioning, read and write mobile phone storage, etc. You can go to permission management at any time to adjust the authorization of all permissions.',
+    'request_cle': 'click',
+    'request_tip02': 'That means you agree',
+    'request_tip03': 'BeeRing permission statement',
+    'request_tip04': 'BeeRing User Agreement',
+    'request_tip05': 'And know about',
+    'request_tip06': 'BeeRing Privacy Statement.',
   };
   static const zh_CN = {
     'tabbar_status': '状态',
@@ -1190,7 +1216,15 @@ class Locales {
     'low_temp': '最低体温',
     'err_temp': '异常次数',
     'request': '未授权位置权限',
-    'request_tip': '在使用过程中，本应用需要访问定位权限，用于发现，添加和管理设备。',
+    'request_we': '欢迎使用',
+    'request_tip':
+        '在使用过程中，为提供更多服务，需申请以下权限：获取蓝牙、获取定位、读写手机存储、等权限。您可随时前往权限管理，调整所有权限的授权情况。',
+    'request_cle': '点击',
+    'request_tip02': '即表示您同意',
+    'request_tip03': 'BeeRing权限声明',
+    'request_tip04': 'BeeRing用户协议',
+    'request_tip05': '并知悉关于',
+    'request_tip06': 'BeeRing隐私的声明。',
   };
   static const it_IT = {
     'tabbar_status': 'Stato',
@@ -1427,9 +1461,15 @@ class Locales {
     'max_temp': 'Temperatura corporea massima',
     'low_temp': 'Temperatura corporea più bassa',
     'err_temp': 'numero di eccezioni',
-    'request': 'Permesso di localizzazione non autorizzato',
+    'request_we': 'Welcome',
     'request_tip':
-        'Durante l\'uso, questa app richiede l\'accesso alla tua posizione per scoprire, aggiungere e gestire dispositivi.',
+        'During use, in order to provide more services, you need to apply for the following permissions: obtain Bluetooth, obtain positioning, read and write mobile phone storage, etc. You can go to permission management at any time to adjust the authorization of all permissions.',
+    'request_cle': 'click',
+    'request_tip02': 'That means you agree',
+    'request_tip03': 'BeeRing permission statement',
+    'request_tip04': 'BeeRing User Agreement',
+    'request_tip05': 'And know about',
+    'request_tip06': 'BeeRing Privacy Statement.',
   };
   static const en_US = {
     'tabbar_status': 'Status',
@@ -1664,7 +1704,9 @@ class Locales {
     'err_temp': 'number of exceptions',
     'request': 'Unauthorized location permission',
     'request_tip':
-        'While in use, this app requires access to your location to discover, add, and manage devices.',
+        'During use, in order to provide more services, you may need to apply for the following permissions: obtain Bluetooth, obtain positioning, read and write mobile phone storage, etc. You can go to permission management at any time to adjust the authorization of all permissions. ',
+    'request_tip02':
+        'Please read and agree to the User Agreement and Privacy Policy',
   };
   static const nl_NL = {
     'tabbar_status': 'status',
@@ -1899,9 +1941,15 @@ class Locales {
     'max_temp': 'Maximale lichaamstemperatuur',
     'low_temp': 'Laagste lichaamstemperatuur',
     'err_temp': 'aantal uitzonderingen',
-    'request': 'Ongeautoriseerde locatie toestemming',
+    'request_we': 'Welcome',
     'request_tip':
-        'Tijdens het gebruik heeft deze app toegang tot uw locatie nodig om apparaten te vinden, toe te voegen en te beheren.',
+        'During use, in order to provide more services, you need to apply for the following permissions: obtain Bluetooth, obtain positioning, read and write mobile phone storage, etc. You can go to permission management at any time to adjust the authorization of all permissions.',
+    'request_cle': 'click',
+    'request_tip02': 'That means you agree',
+    'request_tip03': 'BeeRing permission statement',
+    'request_tip04': 'BeeRing User Agreement',
+    'request_tip05': 'And know about',
+    'request_tip06': 'BeeRing Privacy Statement.',
   };
   static const da_DK = {
     'tabbar_status': 'status',
@@ -2133,9 +2181,15 @@ class Locales {
     'max_temp': 'Maksimal kropstemperatur',
     'low_temp': 'Minimum kropstemperatur',
     'err_temp': 'Antal undtagelser',
-    'request': 'Uautoriseret placeringstilladelse',
+    'request_we': 'Welcome',
     'request_tip':
-        'Under brug skal denne app have adgang til din placering for at finde, tilføje og administrere enheder.',
+        'During use, in order to provide more services, you need to apply for the following permissions: obtain Bluetooth, obtain positioning, read and write mobile phone storage, etc. You can go to permission management at any time to adjust the authorization of all permissions.',
+    'request_cle': 'click',
+    'request_tip02': 'That means you agree',
+    'request_tip03': 'BeeRing permission statement',
+    'request_tip04': 'BeeRing User Agreement',
+    'request_tip05': 'And know about',
+    'request_tip06': 'BeeRing Privacy Statement.',
   };
   static const de_DE = {
     'tabbar_status': 'Status',
@@ -2373,9 +2427,15 @@ class Locales {
     'max_temp': 'Maximale Körpertemperatur',
     'low_temp': 'Niedrigste Körpertemperatur',
     'err_temp': 'Anzahl der Ausnahmen',
-    'request': 'Unautorisierte Standortberechtigung',
+    'request_we': 'Welcome',
     'request_tip':
-        'Während der Nutzung benötigt diese App Zugriff auf Ihren Standort, um Geräte zu finden, hinzuzufügen und zu verwalten.',
+        'During use, in order to provide more services, you need to apply for the following permissions: obtain Bluetooth, obtain positioning, read and write mobile phone storage, etc. You can go to permission management at any time to adjust the authorization of all permissions.',
+    'request_cle': 'click',
+    'request_tip02': 'That means you agree',
+    'request_tip03': 'BeeRing permission statement',
+    'request_tip04': 'BeeRing User Agreement',
+    'request_tip05': 'And know about',
+    'request_tip06': 'BeeRing Privacy Statement.',
   };
   static const pt_BR = {
     'tabbar_status': 'Status',
@@ -2612,9 +2672,15 @@ class Locales {
     'max_temp': 'Temperatura máxima do corpo',
     'low_temp': 'Temperatura corporal mais baixa',
     'err_temp': 'número de exceções',
-    'request': 'Permissão de localização não autorizada',
+    'request_we': 'Welcome',
     'request_tip':
-        'Ao usar, este aplicativo requer acesso à sua localização para descobrir, adicionar e gerenciar dispositivos.',
+        'During use, in order to provide more services, you need to apply for the following permissions: obtain Bluetooth, obtain positioning, read and write mobile phone storage, etc. You can go to permission management at any time to adjust the authorization of all permissions.',
+    'request_cle': 'click',
+    'request_tip02': 'That means you agree',
+    'request_tip03': 'BeeRing permission statement',
+    'request_tip04': 'BeeRing User Agreement',
+    'request_tip05': 'And know about',
+    'request_tip06': 'BeeRing Privacy Statement.',
   };
   static const fr_FR = {
     'tabbar_status': 'Statut',
@@ -2852,9 +2918,15 @@ class Locales {
     'max_temp': 'Température corporelle maximale',
     'low_temp': 'Température corporelle la plus basse',
     'err_temp': 'nombre d\'exceptions',
-    'request': 'Autorisation de localisation non autorisée',
+    'request_we': 'Welcome',
     'request_tip':
-        'Lors de son utilisation, cette application nécessite un accès à votre localisation pour découvrir, ajouter et gérer des appareils.',
+        'During use, in order to provide more services, you need to apply for the following permissions: obtain Bluetooth, obtain positioning, read and write mobile phone storage, etc. You can go to permission management at any time to adjust the authorization of all permissions.',
+    'request_cle': 'click',
+    'request_tip02': 'That means you agree',
+    'request_tip03': 'BeeRing permission statement',
+    'request_tip04': 'BeeRing User Agreement',
+    'request_tip05': 'And know about',
+    'request_tip06': 'BeeRing Privacy Statement.',
   };
   static const cs_CZ = {
     'tabbar_status': 'Stav',
@@ -3087,9 +3159,15 @@ class Locales {
     'max_temp': 'Maximální tělesná teplota',
     'low_temp': 'Minimální tělesná teplota',
     'err_temp': 'Počet výjimek',
-    'request': 'Nepovolený přístup kpoloze',
+    'request_we': 'Welcome',
     'request_tip':
-        'Během používání této aplikace je potřeba přístup k vaší poloze pro objevení, přidání a správu zařízení.',
+        'During use, in order to provide more services, you need to apply for the following permissions: obtain Bluetooth, obtain positioning, read and write mobile phone storage, etc. You can go to permission management at any time to adjust the authorization of all permissions.',
+    'request_cle': 'click',
+    'request_tip02': 'That means you agree',
+    'request_tip03': 'BeeRing permission statement',
+    'request_tip04': 'BeeRing User Agreement',
+    'request_tip05': 'And know about',
+    'request_tip06': 'BeeRing Privacy Statement.',
   };
   static const ro_RO = {
     'tabbar_status': 'Statut',
@@ -3327,9 +3405,15 @@ class Locales {
     'max_temp': 'Temperatura maximă a corpului',
     'low_temp': 'Cea mai scăzută temperatură a corpului',
     'err_temp': 'numărul de excepții',
-    'request': 'Permisiune de localizare neautorizată',
+    'request_we': 'Welcome',
     'request_tip':
-        'În timpul utilizării, această aplicație necesită acces la locația dvs. pentru a descoperi, adăuga și gestiona dispozitive.',
+        'During use, in order to provide more services, you need to apply for the following permissions: obtain Bluetooth, obtain positioning, read and write mobile phone storage, etc. You can go to permission management at any time to adjust the authorization of all permissions.',
+    'request_cle': 'click',
+    'request_tip02': 'That means you agree',
+    'request_tip03': 'BeeRing permission statement',
+    'request_tip04': 'BeeRing User Agreement',
+    'request_tip05': 'And know about',
+    'request_tip06': 'BeeRing Privacy Statement.',
   };
   static const pl_PL = {
     'tabbar_status': 'Status',
@@ -3563,8 +3647,14 @@ class Locales {
     'max_temp': 'Maksymalna temperatura ciała',
     'low_temp': 'Najniższa temperatura ciała',
     'err_temp': 'liczba wyjątków',
-    'request': 'Nieautoryzowane uprawnienia do lokalizacji',
+    'request_we': 'Welcome',
     'request_tip':
-        'Podczas korzystania z tej aplikacji wymagany jest dostęp do Twojej lokalizacji w celu odkrywania, dodawania i zarządzania urządzeniami.',
+        'During use, in order to provide more services, you need to apply for the following permissions: obtain Bluetooth, obtain positioning, read and write mobile phone storage, etc. You can go to permission management at any time to adjust the authorization of all permissions.',
+    'request_cle': 'click',
+    'request_tip02': 'That means you agree',
+    'request_tip03': 'BeeRing permission statement',
+    'request_tip04': 'BeeRing User Agreement',
+    'request_tip05': 'And know about',
+    'request_tip06': 'BeeRing Privacy Statement.',
   };
 }

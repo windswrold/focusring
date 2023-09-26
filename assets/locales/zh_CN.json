@@ -220,5 +220,12 @@
   "low_temp": "最低体温",
   "err_temp": "异常次数",
   "request": "未授权位置权限",
-  "request_tip": "在使用过程中，本应用需要访问定位权限，用于发现，添加和管理设备。"
+  "request_we": "欢迎使用",
+  "request_tip": "在使用过程中，为提供更多服务，需申请以下权限：获取蓝牙、获取定位、读写手机存储、等权限。您可随时前往权限管理，调整所有权限的授权情况。",
+  "request_cle": "点击",
+  "request_tip02": "即表示您同意",
+  "request_tip03": "BeeRing权限声明",
+  "request_tip04": "BeeRing用户协议",
+  "request_tip05": "并知悉关于",
+  "request_tip06": "BeeRing隐私的声明。"
 }

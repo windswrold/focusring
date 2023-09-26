@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:beering/ble/receivedata_handler.dart';
 import 'package:beering/extensions/StringEx.dart';
@@ -199,6 +200,7 @@ class KBLEManager {
     final b = await PermissionUtils.showBleDialog();
     if (b == false) {
       HWToast.showErrText(text: "permission_err".tr);
+      exit(0);
       return false;
     }
     bool isok = await PermissionUtils.requestBle();

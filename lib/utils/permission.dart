@@ -91,7 +91,10 @@ class PermissionUtils {
         break;
       }
     }
-    return isok;
+
+    await Future.delayed(Duration(milliseconds: 500));
+
+    return checkBle();
   }
 
   static Future<bool> checkStoragePermissions() async {

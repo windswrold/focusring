@@ -219,6 +219,11 @@
   "max_temp": "最高体温",
   "low_temp": "最低体温",
   "err_temp": "例外の数",
-  "request": "位置情報の権限が許可されていません",
-  "request_tip": "使用中、このアプリはデバイスの検出、追加、および管理のためにあなたの位置情報へのアクセスが必要です。"
-}
+  "request_we": "Welcome",
+  "request_tip": "During use, in order to provide more services, you need to apply for the following permissions: obtain Bluetooth, obtain positioning, read and write mobile phone storage, etc. You can go to permission management at any time to adjust the authorization of all permissions." ,
+  "request_cle": "click",
+  "request_tip02": "That means you agree",
+  "request_tip03": "BeeRing permission statement",
+  "request_tip04": "BeeRing User Agreement",
+  "request_tip05": "And know about",
+  "request_tip06": "BeeRing Privacy Statement."}

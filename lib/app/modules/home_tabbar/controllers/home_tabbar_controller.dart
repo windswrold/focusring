@@ -1,11 +1,15 @@
+import 'dart:io';
+
 import 'package:beering/app/data/app_update_model.dart';
 import 'package:beering/ble/ble_manager.dart';
 import 'package:beering/const/constant.dart';
 import 'package:beering/net/app_api.dart';
 import 'package:beering/public.dart';
+import 'package:flutter/gestures.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
+import '../../../../utils/permission.dart';
 import '../../home_devices/controllers/home_devices_controller.dart';
 import '../../home_mine/controllers/home_mine_controller.dart';
 import '../../home_state/controllers/home_state_controller.dart';
@@ -16,6 +20,17 @@ class HomeTabbarController extends GetxController {
   final currentIndex = 0.obs;
 
   final bleIsok = false.obs;
+
+  GestureRecognizer tap = TapGestureRecognizer()
+    ..onTap = () {
+      launchUrlString("https://bee-ring.hlcrazy.com/api/app/common/agreement");
+    };
+
+  GestureRecognizer tap2 = TapGestureRecognizer()
+    ..onTap = () {
+      launchUrlString(
+          "https://www.freeprivacypolicy.com/live/a5455ff9-f03c-4bb0-b0a8-d74475d6e1ac");
+    };
 
   @override
   void onInit() {
@@ -33,9 +48,17 @@ class HomeTabbarController extends GetxController {
     _initData();
   }
 
+  void cancel() async {
+    exit(0);
+  }
+
+  void confirm() async {
+    final aaa = await PermissionUtils.requestBle();
+    bleIsok.value = aaa;
+  }
+
   void _initData() async {
-    final state = await KBLEManager.checkBle();
-    vmPrint("checkBle $state");
+    final state = await PermissionUtils.checkBle();
     bleIsok.value = state;
 
     AppApi.checkAppUpdateStream(
