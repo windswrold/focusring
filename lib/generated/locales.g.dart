@@ -251,6 +251,7 @@ class LocaleKeys {
   static const request_tip04 = 'request_tip04';
   static const request_tip05 = 'request_tip05';
   static const request_tip06 = 'request_tip06';
+  static const request_tip07 = 'request_tip07';
   static const request = 'request';
   static const emotion_report = 'emotion_report';
   static const about_activitytip = 'about_activitytip';
@@ -505,6 +506,8 @@ class Locales {
     'request_tip04': 'BeeRing User Agreement',
     'request_tip05': 'And know about',
     'request_tip06': 'BeeRing Privacy Statement.',
+    'request_tip07':
+        'Permission has been denied. Do you want to go to the settings page to change the settings?',
   };
   static const es_ES = {
     'tabbar_status': 'Estado',
@@ -749,6 +752,8 @@ class Locales {
     'request_tip04': 'BeeRing User Agreement',
     'request_tip05': 'And know about',
     'request_tip06': 'BeeRing Privacy Statement.',
+    'request_tip07':
+        'Permission has been denied. Do you want to go to the settings page to change the settings?',
   };
   static const ja_JP = {
     'tabbar_status': 'ステータス',
@@ -987,6 +992,8 @@ class Locales {
     'request_tip04': 'BeeRing User Agreement',
     'request_tip05': 'And know about',
     'request_tip06': 'BeeRing Privacy Statement.',
+    'request_tip07':
+        'Permission has been denied. Do you want to go to the settings page to change the settings?',
   };
   static const zh_CN = {
     'tabbar_status': '状态',
@@ -1225,6 +1232,7 @@ class Locales {
     'request_tip04': 'BeeRing用户协议',
     'request_tip05': '并知悉关于',
     'request_tip06': 'BeeRing隐私的声明。',
+    'request_tip07': '当前已拒绝权限,是否前往设置页面更改设置?',
   };
   static const it_IT = {
     'tabbar_status': 'Stato',
@@ -1470,6 +1478,8 @@ class Locales {
     'request_tip04': 'BeeRing User Agreement',
     'request_tip05': 'And know about',
     'request_tip06': 'BeeRing Privacy Statement.',
+    'request_tip07':
+        'Permission has been denied. Do you want to go to the settings page to change the settings?',
   };
   static const en_US = {
     'tabbar_status': 'Status',
@@ -1707,6 +1717,8 @@ class Locales {
         'During use, in order to provide more services, you may need to apply for the following permissions: obtain Bluetooth, obtain positioning, read and write mobile phone storage, etc. You can go to permission management at any time to adjust the authorization of all permissions. ',
     'request_tip02':
         'Please read and agree to the User Agreement and Privacy Policy',
+    'request_tip07':
+        'Permission has been denied. Do you want to go to the settings page to change the settings?',
   };
   static const nl_NL = {
     'tabbar_status': 'status',
@@ -1950,6 +1962,8 @@ class Locales {
     'request_tip04': 'BeeRing User Agreement',
     'request_tip05': 'And know about',
     'request_tip06': 'BeeRing Privacy Statement.',
+    'request_tip07':
+        'Permission has been denied. Do you want to go to the settings page to change the settings?',
   };
   static const da_DK = {
     'tabbar_status': 'status',
@@ -2190,6 +2204,8 @@ class Locales {
     'request_tip04': 'BeeRing User Agreement',
     'request_tip05': 'And know about',
     'request_tip06': 'BeeRing Privacy Statement.',
+    'request_tip07':
+        'Permission has been denied. Do you want to go to the settings page to change the settings?',
   };
   static const de_DE = {
     'tabbar_status': 'Status',
@@ -2436,6 +2452,8 @@ class Locales {
     'request_tip04': 'BeeRing User Agreement',
     'request_tip05': 'And know about',
     'request_tip06': 'BeeRing Privacy Statement.',
+    'request_tip07':
+        'Permission has been denied. Do you want to go to the settings page to change the settings?',
   };
   static const pt_BR = {
     'tabbar_status': 'Status',
@@ -2681,6 +2699,8 @@ class Locales {
     'request_tip04': 'BeeRing User Agreement',
     'request_tip05': 'And know about',
     'request_tip06': 'BeeRing Privacy Statement.',
+    'request_tip07':
+        'Permission has been denied. Do you want to go to the settings page to change the settings?',
   };
   static const fr_FR = {
     'tabbar_status': 'Statut',
@@ -2927,6 +2947,8 @@ class Locales {
     'request_tip04': 'BeeRing User Agreement',
     'request_tip05': 'And know about',
     'request_tip06': 'BeeRing Privacy Statement.',
+    'request_tip07':
+        'Permission has been denied. Do you want to go to the settings page to change the settings?',
   };
   static const cs_CZ = {
     'tabbar_status': 'Stav',
@@ -3168,6 +3190,8 @@ class Locales {
     'request_tip04': 'BeeRing User Agreement',
     'request_tip05': 'And know about',
     'request_tip06': 'BeeRing Privacy Statement.',
+    'request_tip07':
+        'Permission has been denied. Do you want to go to the settings page to change the settings?',
   };
   static const ro_RO = {
     'tabbar_status': 'Statut',
@@ -3414,6 +3438,8 @@ class Locales {
     'request_tip04': 'BeeRing User Agreement',
     'request_tip05': 'And know about',
     'request_tip06': 'BeeRing Privacy Statement.',
+    'request_tip07':
+        'Permission has been denied. Do you want to go to the settings page to change the settings?',
   };
   static const pl_PL = {
     'tabbar_status': 'Status',
@@ -3656,5 +3682,7 @@ class Locales {
     'request_tip04': 'BeeRing User Agreement',
     'request_tip05': 'And know about',
     'request_tip06': 'BeeRing Privacy Statement.',
+    'request_tip07':
+        'Permission has been denied. Do you want to go to the settings page to change the settings?',
   };
 }

@@ -7,6 +7,7 @@ import 'package:beering/net/app_api.dart';
 import 'package:beering/public.dart';
 import 'package:flutter/gestures.dart';
 import 'package:get/get.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../utils/permission.dart';
@@ -55,6 +56,15 @@ class HomeTabbarController extends GetxController {
   void confirm() async {
     final aaa = await PermissionUtils.requestBle();
     bleIsok.value = aaa;
+    if (aaa == false) {
+      DialogUtils.defaultDialog(
+        title: "request_tip07".tr,
+        onConfirm: () {
+          openAppSettings();
+        },
+        onCancel: cancel,
+      );
+    }
   }
 
   void _initData() async {
