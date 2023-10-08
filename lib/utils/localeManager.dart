@@ -10,7 +10,7 @@ String getLocaleKey(Locale locale) {
   return '${locale.languageCode}_${locale.countryCode}';
 }
 
-const fallbackLocale = Locale('zh', 'CN');
+const fallbackLocale = Locale('en', 'US');
 
 /** 
 日语,
