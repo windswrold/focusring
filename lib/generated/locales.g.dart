@@ -250,6 +250,8 @@ class LocaleKeys {
   static const request_tip03 = 'request_tip03';
   static const request_tip04 = 'request_tip04';
   static const request_tip05 = 'request_tip05';
+  static const agree = 'agree';
+  static const disagree = 'disagree';
   static const request_tip06 = 'request_tip06';
   static const request_tip07 = 'request_tip07';
   static const request = 'request';
@@ -507,6 +509,8 @@ class Locales {
     'request_tip03': 'BeeRing permission statement',
     'request_tip04': 'BeeRing User Agreement',
     'request_tip05': 'And know about',
+    'agree': 'Agree',
+    'disagree': 'Disagree',
     'request_tip06': 'BeeRing Privacy Statement.',
     'request_tip07':
         'Permission has been denied. Do you want to go to the settings page to change the settings?',
@@ -750,6 +754,8 @@ class Locales {
         'During use, in order to provide more services, you need to apply for the following permissions: obtain Bluetooth, obtain positioning, read and write mobile phone storage, etc. You can go to permission management at any time to adjust the authorization of all permissions.',
     'request_cle': 'click',
     'request_tip02': 'That means you agree',
+    'agree': 'Agree',
+    'disagree': 'Disagree',
     'request_tip03': 'BeeRing permission statement',
     'request_tip04': 'BeeRing User Agreement',
     'request_tip05': 'And know about',
@@ -989,6 +995,8 @@ class Locales {
     'request_tip':
         'During use, in order to provide more services, you need to apply for the following permissions: obtain Bluetooth, obtain positioning, read and write mobile phone storage, etc. You can go to permission management at any time to adjust the authorization of all permissions.',
     'request_cle': 'click',
+    'agree': 'Agree',
+    'disagree': 'Disagree',
     'request_tip02': 'That means you agree',
     'request_tip03': 'BeeRing permission statement',
     'request_tip04': 'BeeRing User Agreement',
@@ -1237,6 +1245,8 @@ class Locales {
     'request_tip07': '当前已拒绝权限,是否前往设置页面更改设置?',
     'starttime': '开始时间',
     'endtime': '结束时间',
+    'agree': '同意',
+    'disagree': '不同意',
   };
   static const it_IT = {
     'tabbar_status': 'Stato',
@@ -1477,6 +1487,8 @@ class Locales {
     'request_tip':
         'During use, in order to provide more services, you need to apply for the following permissions: obtain Bluetooth, obtain positioning, read and write mobile phone storage, etc. You can go to permission management at any time to adjust the authorization of all permissions.',
     'request_cle': 'click',
+    'agree': 'Agree',
+    'disagree': 'Disagree',
     'request_tip02': 'That means you agree',
     'request_tip03': 'BeeRing permission statement',
     'request_tip04': 'BeeRing User Agreement',
@@ -1716,6 +1728,8 @@ class Locales {
     'max_temp': 'Maximum body temperature',
     'low_temp': 'Lowest body temperature',
     'err_temp': 'number of exceptions',
+    'agree': 'Agree',
+    'disagree': 'Disagree',
     'request': 'Unauthorized location permission',
     'request_tip':
         'During use, in order to provide more services, you may need to apply for the following permissions: obtain Bluetooth, obtain positioning, read and write mobile phone storage, etc. You can go to permission management at any time to adjust the authorization of all permissions. ',
@@ -1962,6 +1976,8 @@ class Locales {
         'During use, in order to provide more services, you need to apply for the following permissions: obtain Bluetooth, obtain positioning, read and write mobile phone storage, etc. You can go to permission management at any time to adjust the authorization of all permissions.',
     'request_cle': 'click',
     'request_tip02': 'That means you agree',
+    'agree': 'Agree',
+    'disagree': 'Disagree',
     'request_tip03': 'BeeRing permission statement',
     'request_tip04': 'BeeRing User Agreement',
     'request_tip05': 'And know about',
@@ -2205,6 +2221,8 @@ class Locales {
     'request_cle': 'click',
     'request_tip02': 'That means you agree',
     'request_tip03': 'BeeRing permission statement',
+    'agree': 'Agree',
+    'disagree': 'Disagree',
     'request_tip04': 'BeeRing User Agreement',
     'request_tip05': 'And know about',
     'request_tip06': 'BeeRing Privacy Statement.',
@@ -2452,6 +2470,8 @@ class Locales {
         'During use, in order to provide more services, you need to apply for the following permissions: obtain Bluetooth, obtain positioning, read and write mobile phone storage, etc. You can go to permission management at any time to adjust the authorization of all permissions.',
     'request_cle': 'click',
     'request_tip02': 'That means you agree',
+    'agree': 'Agree',
+    'disagree': 'Disagree',
     'request_tip03': 'BeeRing permission statement',
     'request_tip04': 'BeeRing User Agreement',
     'request_tip05': 'And know about',
@@ -2702,6 +2722,8 @@ class Locales {
     'request_tip03': 'BeeRing permission statement',
     'request_tip04': 'BeeRing User Agreement',
     'request_tip05': 'And know about',
+    'agree': 'Agree',
+    'disagree': 'Disagree',
     'request_tip06': 'BeeRing Privacy Statement.',
     'request_tip07':
         'Permission has been denied. Do you want to go to the settings page to change the settings?',
@@ -2946,6 +2968,8 @@ class Locales {
     'request_tip':
         'During use, in order to provide more services, you need to apply for the following permissions: obtain Bluetooth, obtain positioning, read and write mobile phone storage, etc. You can go to permission management at any time to adjust the authorization of all permissions.',
     'request_cle': 'click',
+    'agree': 'Agree',
+    'disagree': 'Disagree',
     'request_tip02': 'That means you agree',
     'request_tip03': 'BeeRing permission statement',
     'request_tip04': 'BeeRing User Agreement',
@@ -3192,6 +3216,8 @@ class Locales {
     'request_tip02': 'That means you agree',
     'request_tip03': 'BeeRing permission statement',
     'request_tip04': 'BeeRing User Agreement',
+    'agree': 'Agree',
+    'disagree': 'Disagree',
     'request_tip05': 'And know about',
     'request_tip06': 'BeeRing Privacy Statement.',
     'request_tip07':
@@ -3441,6 +3467,8 @@ class Locales {
     'request_tip03': 'BeeRing permission statement',
     'request_tip04': 'BeeRing User Agreement',
     'request_tip05': 'And know about',
+    'agree': 'Agree',
+    'disagree': 'Disagree',
     'request_tip06': 'BeeRing Privacy Statement.',
     'request_tip07':
         'Permission has been denied. Do you want to go to the settings page to change the settings?',
@@ -3681,6 +3709,8 @@ class Locales {
     'request_tip':
         'During use, in order to provide more services, you need to apply for the following permissions: obtain Bluetooth, obtain positioning, read and write mobile phone storage, etc. You can go to permission management at any time to adjust the authorization of all permissions.',
     'request_cle': 'click',
+    'agree': 'Agree',
+    'disagree': 'Disagree',
     'request_tip02': 'That means you agree',
     'request_tip03': 'BeeRing permission statement',
     'request_tip04': 'BeeRing User Agreement',

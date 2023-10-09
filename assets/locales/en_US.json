@@ -219,7 +219,10 @@
   "max_temp": "Maximum body temperature",
   "low_temp": "Lowest body temperature",
   "err_temp": "number of exceptions",
+  "agree": "Agree",
+  "disagree": "Disagree",
   "request": "Unauthorized location permission",
   "request_tip": "During use, in order to provide more services, you may need to apply for the following permissions: obtain Bluetooth, obtain positioning, read and write mobile phone storage, etc. You can go to permission management at any time to adjust the authorization of all permissions. ",
-  "request_tip02": "Please read and agree to the User Agreement and Privacy Policy"
-,"request_tip07":"Permission has been denied. Do you want to go to the settings page to change the settings?"}
+  "request_tip02": "Please read and agree to the User Agreement and Privacy Policy",
+  "request_tip07": "Permission has been denied. Do you want to go to the settings page to change the settings?"
+}
