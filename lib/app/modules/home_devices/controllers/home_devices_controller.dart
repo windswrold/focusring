@@ -25,6 +25,7 @@ class HomeDevicesController extends GetxController {
   int _maxScanCount = 10;
   bool _isScan = false;
   ScanResult? _connect;
+  
 
   @override
   void onInit() {
@@ -142,14 +143,14 @@ class HomeDevicesController extends GetxController {
       }
       Get.toNamed(Routes.DEVICE_INFO, arguments: connectDevice.value);
     } else if (indx == 3) {
-      if (isConnect.value == false) {
-        DialogUtils.defaultDialog(
-          title: "empty_unbind".tr,
-          content: "empty_unbindtip".tr,
-          alignment: Alignment.center,
-        );
-        return;
-      }
+      // if (isConnect.value == false) {
+      //   DialogUtils.defaultDialog(
+      //     title: "empty_unbind".tr,
+      //     content: "empty_unbindtip".tr,
+      //     alignment: Alignment.center,
+      //   );
+      //   return;
+      // }
       DialogUtils.dialogResetDevices(
         onConfirm: () async {
           vmPrint("确定恢复", KBLEManager.logevel);

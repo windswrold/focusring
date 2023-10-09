@@ -1,3 +1,4 @@
+import 'package:beering/app/data/ring_device.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:drag_and_drop_lists/drag_and_drop_lists.dart';
 import 'package:beering/app/data/card_health_index.dart';
@@ -21,20 +22,23 @@ class HomeEditCardController extends GetxController {
 
   void _initData() async {
     final appUserId = await SPManager.getPhoneID();
+
+    final a = await RingDeviceModel.queryUserAllWithSelect(
+        SPManager.getGlobalUser()!.id.toString(), true);
+
     visibleItems.value =
         await KBaseHealthType.queryAllWithState(appUserId, true);
-    visibleItems.value = visibleItems
-        // .where((p0) => p0.type != KHealthDataType.BLOOD_OXYGEN)
-        // .where((p0) => p0.type != KHealthDataType.HEART_RATE)
-        // .where((p0) => p0.type != KHealthDataType.BODY_TEMPERATURE)
-        // .where((p0) => p0.type != KHealthDataType.EMOTION)
-        // .where((p0) => p0.type != KHealthDataType.STRESS)
-        .toList();
+    if (a.isEmpty) {
+      //为空则隐藏
+      visibleItems.value = visibleItems
+          .where((p0) => p0.type != KHealthDataType.BLOOD_OXYGEN)
+          .where((p0) => p0.type != KHealthDataType.HEART_RATE)
+          .where((p0) => p0.type != KHealthDataType.BODY_TEMPERATURE)
+          .where((p0) => p0.type != KHealthDataType.EMOTION)
+          .where((p0) => p0.type != KHealthDataType.STRESS)
+          .toList();
+    }
 
-    //     if (element.type == KHealthDataType.BLOOD_OXYGEN ||
-    //     element.type == KHealthDataType.HEART_RATE) {
-    //   continue;
-    // }
     hiddenItems.value =
         await KBaseHealthType.queryAllWithState(appUserId, false);
     update();

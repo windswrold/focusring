@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 
@@ -15,6 +16,7 @@ import 'package:beering/views/charts/home_card/model/home_card_type.dart';
 import 'package:beering/views/charts/home_card/model/home_card_x.dart';
 import 'package:beering/views/charts/radio_gauge_chart/model/radio_gauge_chart_model.dart';
 import 'package:beering/views/tra_led_button.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
@@ -31,16 +33,27 @@ class HomeStateController extends GetxController {
 
   late RefreshController refreshController = RefreshController();
 
+  StreamSubscription? receiveDataStream;
+
   @override
   void onInit() {
     super.onInit();
+
+    receiveDataStream = KBLEManager.deviceStateStream.listen((event) {
+      vmPrint("deviceStateStream $event");
+      if (event == BluetoothConnectionState.connected) {
+        initData(showHeartrate: true);
+      } else {
+        initData(showHeartrate: false);
+      }
+    });
 
     initData();
   }
 
   void onRefresh() {}
 
-  void initData() async {
+  void initData({bool showHeartrate = false}) async {
     final us =
         (Get.find<AppViewController>(tag: AppViewController.tag)).user.value;
 
@@ -94,6 +107,16 @@ class HomeStateController extends GetxController {
           color: element.type.getTypeMainColor(),
         ),
       );
+
+      if (showHeartrate == false) {
+        if (element.type == KHealthDataType.BLOOD_OXYGEN ||
+            element.type == KHealthDataType.HEART_RATE ||
+            element.type == KHealthDataType.EMOTION ||
+            element.type == KHealthDataType.STRESS ||
+            element.type == KHealthDataType.BODY_TEMPERATURE) {
+          continue;
+        }
+      }
 
       KHomeCardModel card = KHomeCardModel(
         type: element.type,
@@ -167,6 +190,7 @@ class HomeStateController extends GetxController {
 
   @override
   void onClose() {
+    receiveDataStream?.cancel();
     super.onClose();
   }
 
