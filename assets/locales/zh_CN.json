@@ -228,5 +228,7 @@
   "request_tip04": "BeeRing用户协议",
   "request_tip05": "并知悉关于",
   "request_tip06": "BeeRing隐私的声明。",
-  "request_tip07":"当前已拒绝权限,是否前往设置页面更改设置?"
+  "request_tip07": "当前已拒绝权限,是否前往设置页面更改设置?",
+  "starttime": "开始时间",
+  "endtime": "结束时间"
 }

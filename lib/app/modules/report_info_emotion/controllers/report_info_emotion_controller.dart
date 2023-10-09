@@ -11,7 +11,6 @@ class ReportInfoEmotionController extends GetxController {
 
   static const String id_data_souce_update = "id_data_souce_update_emotion";
 
-  late StreamSubscription dateSc;
   late RxString allResult = "-".obs;
 
   late RxString chartTipValue = "".obs;
@@ -27,27 +26,22 @@ class ReportInfoEmotionController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-
-    final a = Get.find<TraLedButtonController>();
-    dateSc = a.displayTimeStream.listen((event) {
-      vmPrint("displayTimeStream $event");
-      // allResult.value = Random.secure().nextInt(1000).toString();
-    });
   }
 
   @override
   void onClose() {
-    dateSc.cancel();
     super.onClose();
   }
 
   void _queryDataSource() {
+    int sumVal = 250;
+
     dataSource.value = [
       List.generate(
         30,
         (index) => KChartCellData(
           x: index.toString(),
-          y: 0,
+          y: Random.secure().nextInt(50),
           color: KEMOTIONStatusType.positive.getStatusColor(),
         ),
       ),
@@ -55,7 +49,7 @@ class ReportInfoEmotionController extends GetxController {
         30,
         (index) => KChartCellData(
           x: index.toString(),
-          y: 0,
+          y: Random.secure().nextInt(50),
           color: KEMOTIONStatusType.neutral.getStatusColor(),
         ),
       ),
@@ -63,7 +57,7 @@ class ReportInfoEmotionController extends GetxController {
         30,
         (index) => KChartCellData(
           x: index.toString(),
-          y: 0,
+          y: Random.secure().nextInt(50),
           color: KEMOTIONStatusType.negative.getStatusColor(),
         ),
       )

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:beering/utils/hex_util.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:beering/app/data/ring_device.dart';
 import 'package:beering/ble/ble_config.dart';
@@ -27,6 +28,7 @@ class TestdfuController extends GetxController {
       onDfuError,
       onDfuProgress,
       onDfuComplete,
+      sen,
       receiveDataStream;
 
   RxList<String> receDatas = RxList();
@@ -50,6 +52,10 @@ class TestdfuController extends GetxController {
 
     receiveDataStream = KBLEManager.receiveDataStream.listen((event) {
       // HWToast.showSucText(text: "收到的数据 $event");
+      receDatas.add(event.toString());
+    });
+
+    sen = KBLEManager.logController.stream.listen((event) {
       receDatas.add(event);
     });
   }
@@ -67,6 +73,7 @@ class TestdfuController extends GetxController {
     onDfuComplete?.cancel();
     receiveDataStream?.cancel();
     receiveDataStream = null;
+    sen?.cancel();
     KBLEManager.clean();
     super.onClose();
   }

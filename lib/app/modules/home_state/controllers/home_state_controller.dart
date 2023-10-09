@@ -1,15 +1,22 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:beering/app/data/card_health_index.dart';
+import 'package:beering/app/data/health_data.dart';
 import 'package:beering/app/modules/app_view/controllers/app_view_controller.dart';
 import 'package:beering/ble/ble_manager.dart';
+
+import 'package:beering/ble/bledata_serialization.dart';
 import 'package:beering/net/app_api.dart';
 import 'package:beering/public.dart';
 import 'package:beering/utils/console_logger.dart';
+import 'package:beering/utils/json_util.dart';
 import 'package:beering/views/charts/home_card/model/home_card_type.dart';
 import 'package:beering/views/charts/home_card/model/home_card_x.dart';
 import 'package:beering/views/charts/radio_gauge_chart/model/radio_gauge_chart_model.dart';
+import 'package:beering/views/tra_led_button.dart';
 import 'package:get/get.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 class HomeStateController extends GetxController {
   //TODO: Implement HomeStateController
@@ -22,12 +29,16 @@ class HomeStateController extends GetxController {
 
   RxList<KHomeCardModel> dataTypes = <KHomeCardModel>[].obs;
 
+  late RefreshController refreshController = RefreshController();
+
   @override
   void onInit() {
     super.onInit();
 
     initData();
   }
+
+  void onRefresh() {}
 
   void initData() async {
     final us =
@@ -83,25 +94,9 @@ class HomeStateController extends GetxController {
           color: element.type.getTypeMainColor(),
         ),
       );
-      if (element.type == KHealthDataType.BLOOD_OXYGEN ||
-          element.type == KHealthDataType.HEART_RATE ||
-          element.type == KHealthDataType.EMOTION ||
-          element.type == KHealthDataType.STRESS ||
-          element.type == KHealthDataType.BODY_TEMPERATURE) {
-        continue;
-      }
+
       KHomeCardModel card = KHomeCardModel(
         type: element.type,
-        // datas: element.type == KHealthDataType.EMOTION
-        //     ? [
-        //         List.generate(
-        //             30, (index) => KChartCellData(x: index.toString(), y: 300)),
-        //         List.generate(
-        //             30, (index) => KChartCellData(x: index.toString(), y: 100)),
-        //         List.generate(
-        //             30, (index) => KChartCellData(x: index.toString(), y: 1000))
-        //       ]
-        //     : [data],
         date: "empty_data".tr,
         result: "",
         resultDesc: "",
@@ -128,7 +123,45 @@ class HomeStateController extends GetxController {
     // KBLEManager.checkBle();
   }
 
-  void onTapEditCard() {
+  void onTapEditCard() async {
+    // final now = DateTime.now();
+    // final time = getZeroDateTime(now: now);
+    // //
+    // // final nextTime = getZeroDateTime(now: now.add(Duration(days: 1)));
+    // int userid = SPManager.getGlobalUser()!.id!;
+    // //
+    // final a = ListEx.generateArray<int>(0, 95, 1);
+    // //
+    // // final item = HeartRateData(
+    // //   appUserId: userid,
+    // //   createTime: time,
+    // //   heartArray: JsonUtil.encodeObj(a),
+    // // );
+    // // HeartRateData.insertTokens([item]);
+    // //
+    // final ccc = StepData(
+    //   appUserId: userid,
+    //   createTime: time,
+    //   dataArrs: JsonUtil.encodeObj(a),
+    // );
+    // StepData.insertTokens([ccc]);
+
+    // await Future.delayed(Duration(seconds: 4));
+
+    // try {
+    //   final a = await StepData.queryUserAll(userid, time, nextTime);
+    //
+    //   vmPrint("aaaaa " + a.jsonString);
+    //
+    //   final b = await HealthData.queryHealthData(
+    //       reportType: KReportType.day, types: KHealthDataType.STEPS);
+    //
+    //   vmPrint("bbbb " + b.jsonString);
+    // } catch (e) {
+    //   vmPrint("eeee " + e.toString());
+    //   HWToast.showErrText(text: "e $e");
+    // }
+
     Get.toNamed(Routes.HOME_EDIT_CARD);
   }
 
@@ -138,6 +171,12 @@ class HomeStateController extends GetxController {
   }
 
   void onTapCardType(KHomeCardModel type) {
+    try {
+      KBLEManager.sendData(
+          sendData: KBLESerialization.getTodayData(
+              type: type.type ?? KHealthDataType.STEPS));
+    } catch (e) {}
+
     // Get.toNamed(Routes.REPORT_INFO_STEPS, arguments: type.type);
 
     // return;

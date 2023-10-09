@@ -51,9 +51,7 @@ class AppApi {
       re: VMRequest()
         ..vmMethod = VMMethod.POST
         ..needAccessToken = true
-        ..httpBody = {
-          "bindDeviceDto": {"mac": mac}
-        }
+        ..httpBody = {"mac": mac}
         ..path = "/app/device/bind",
     );
   }

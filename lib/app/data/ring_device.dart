@@ -6,18 +6,18 @@ const String tableName = 'ring_device_table';
 
 @Entity(tableName: tableName, primaryKeys: ["appUserId", "remoteId"])
 class RingDeviceModel {
-  final String? appUserId;
+  String? appUserId;
   final String? remoteId;
   final String? localName;
   final String? macAddress;
-  final bool? select;
+  bool? isSelect;
 
   RingDeviceModel({
     this.appUserId,
     this.remoteId,
     this.localName,
     this.macAddress,
-    this.select,
+    this.isSelect,
   });
 
   factory RingDeviceModel.fromResult(ScanResult result) {
@@ -76,12 +76,20 @@ class RingDeviceModel {
 
   static Future<void> insertTokens(List<RingDeviceModel> models) async {
     final db = await DataBaseConfig.openDataBase();
+    db?.database.execute("update $tableName set isSelect = 0");
+
     return db?.ringDao.insertTokens(models);
   }
 
   static Future<void> updateTokens(List<RingDeviceModel> model) async {
     final db = await DataBaseConfig.openDataBase();
     return db?.ringDao.updateTokens(model);
+  }
+
+
+  static Future<void> delTokens(RingDeviceModel model) async {
+    final db = await DataBaseConfig.openDataBase();
+    return db?.database?.execute("Delete FROM $tableName where appUserId = '${model.appUserId}' and remoteId = '${model.remoteId}'");
   }
 }
 
@@ -91,7 +99,7 @@ abstract class RingDeviceDao {
   Future<List<RingDeviceModel>> queryUserAll(String appUserId);
 
   @Query(
-      'SELECT * FROM $tableName WHERE appUserId = :appUserId and select = :select ')
+      'SELECT * FROM $tableName WHERE appUserId = :appUserId and isSelect = :select ')
   Future<List<RingDeviceModel>> queryUserAllWithSelect(
       String appUserId, bool select);
 

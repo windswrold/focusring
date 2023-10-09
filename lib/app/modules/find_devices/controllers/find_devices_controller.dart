@@ -1,6 +1,8 @@
 import 'dart:async';
 
+
 import 'package:beering/utils/permission.dart';
+import 'package:beering/ble/bledata_serialization.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:beering/app/data/ring_device.dart';
 import 'package:beering/app/modules/app_view/controllers/app_view_controller.dart';
@@ -17,9 +19,11 @@ class FindDevicesController extends GetxController {
 
   late RxList<RingDeviceModel> scanResults = <RingDeviceModel>[].obs;
 
-  StreamSubscription? scanStream, isScan;
+  StreamSubscription? scanStream, isScan, connect, receive;
 
   late RefreshController refreshController = RefreshController();
+
+  RingDeviceModel? _selectaItem;
 
   @override
   void onInit() {
@@ -28,6 +32,16 @@ class FindDevicesController extends GetxController {
 
   void onCreate(AnimationController c) {
     controller = c;
+  }
+
+  @override
+  void onClose() {
+    KBLEManager.stopScan();
+    scanStream?.cancel();
+    isScan?.cancel();
+    connect?.cancel();
+    receive?.cancel();
+    super.onClose();
   }
 
   void onRefresh() {
@@ -54,6 +68,36 @@ class FindDevicesController extends GetxController {
       }
     });
 
+    connect = KBLEManager.deviceStateStream.listen((event) {
+      vmPrint("BluetoothConnectionState ${event.toString()}");
+      if (event == BluetoothConnectionState.connected) {
+        HWToast.showSucText(text: "已连接");
+
+        if (_selectaItem == null) {
+          return;
+        }
+        _selectaItem!.isSelect = true;
+        _selectaItem!.appUserId = SPManager.getGlobalUser()?.id.toString();
+        RingDeviceModel.insertTokens([_selectaItem!]);
+      } else if (event == BluetoothConnectionState.disconnected) {
+        HWToast.showSucText(text: "断开连接");
+      }
+    });
+    receive = KBLEManager.receiveDataStream.listen((event) {
+      if (event.command == KBLECommandType.bindingsverify) {
+        if (event.status == true) {
+          HWToast.showSucText(text: event.tip);
+        } else {
+          HWToast.showErrText(text: event.tip);
+        }
+      } else if (event.command == KBLECommandType.system) {
+        if (event.status == true) {
+          HWToast.showSucText(text: event.tip);
+          Get.backDelay(result: _selectaItem);
+        }
+      }
+    });
+
     startScan();
   }
 
@@ -70,33 +114,12 @@ class FindDevicesController extends GetxController {
   void onTapItem(RingDeviceModel item) async {
     vmPrint(item.localName);
     try {
-      Stream<BluetoothConnectionState>? a =
-          await KBLEManager.connect(device: item);
-      if (a == null) {
-        return;
-      }
+      _selectaItem = item;
+      KBLEManager.connect(device: item);
       HWToast.showLoading();
-      var stateConnect = a.listen((event) {
-        vmPrint("BluetoothConnectionState ${event.toString()}");
-        if (event == BluetoothConnectionState.connected) {
-          HWToast.showSucText(text: "已连接");
-          KBLEManager.stopScan();
-          // KBLEManager.findCharacteristics(KBLEManager.getDevice(device: item));
-          // Get.toNamed(Routes.TESTDFU);
-          Get.back<RingDeviceModel>(result: item);
-        }
-      });
     } catch (e) {
       HWToast.showErrText(text: e.toString());
     }
-  }
-
-  @override
-  void onClose() {
-    KBLEManager.stopScan();
-    scanStream?.cancel();
-    isScan?.cancel();
-    super.onClose();
   }
 
   void pauseAnimation() {

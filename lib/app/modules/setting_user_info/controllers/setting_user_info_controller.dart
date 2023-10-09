@@ -42,6 +42,9 @@ class SettingUserInfoController extends GetxController {
         title: "yours_sex".tr,
         datas: ["man".tr, "woman".tr],
       );
+      if (selectIndex == null) {
+        return;
+      }
       params["sex"] = selectIndex + 1;
     } else if (index == 2) {
       final arrs = ListEx.generateHeightArr(units);
@@ -52,7 +55,9 @@ class SettingUserInfoController extends GetxController {
         initialItem: arrs.indexOf(height),
         symbolRight: 124.w,
       );
-
+      if (selectIndex == null) {
+        return;
+      }
       params[units == KUnitsType.metric ? "heightMetric" : "heightBritish"] =
           arrs[selectIndex];
     }
@@ -65,6 +70,9 @@ class SettingUserInfoController extends GetxController {
         initialItem: arrs.indexOf(weigtht),
         symbolRight: 124.w,
       );
+      if (selectIndex == null) {
+        return;
+      }
       params[units == KUnitsType.metric ? "weightMetric" : "weightBritish"] =
           arrs[selectIndex];
     }

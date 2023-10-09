@@ -1,19 +1,19 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:beering/utils/date_util.dart';
 
 import '../public.dart';
 
 class TraLedButtonController extends GetxController {
-  Rx<DateTime> disPlayTime = DateTime.now().obs;
-
-  Stream<DateTime> get displayTimeStream =>
-      _displayTimeStreamController.stream.asBroadcastStream();
-  final _displayTimeStreamController = StreamController<DateTime>();
+  Rx<String> disPlayTime = "".obs;
+  DateTime currentTime = DateTime.now();
+  KReportType? _type;
 
   @override
   void onInit() {
     super.onInit();
+    changeReportType(KReportType.day);
   }
 
   @override
@@ -26,20 +26,52 @@ class TraLedButtonController extends GetxController {
     super.onClose();
   }
 
+  void changeReportType(KReportType type) {
+    _type = type;
+    _setDisplayValue();
+  }
+
   void left() {
-    final now = disPlayTime.value.subtract(const Duration(days: 1));
-    disPlayTime.value = now;
-    _displayTimeStreamController.add(now);
+    if (_type == KReportType.day) {
+      currentTime = currentTime.subtract(const Duration(days: 1));
+    } else if (_type == KReportType.week) {
+      currentTime = currentTime.subtract(const Duration(days: 7));
+    } else {
+      currentTime = currentTime.previousMonth();
+    }
+    _setDisplayValue();
   }
 
   void right() {
-    if (DateUtil.dayIsEqual(disPlayTime.value, DateTime.now())) {
+    DateTime nowCureent = currentTime;
+    DateTime newTime = nowCureent;
+    if (_type == KReportType.day) {
+      nowCureent = currentTime.add(const Duration(days: 1));
+    } else if (_type == KReportType.week) {
+      int offset = nowCureent.difference(currentTime).inDays;
+      offset = min(7, offset);
+      offset = max(0, offset);
+      nowCureent = currentTime.add(Duration(days: offset));
+    } else {
+      nowCureent = currentTime.nextMonth();
+    }
+    if (nowCureent.compareTo(newTime) >= 0) {
       return;
     }
+    currentTime = nowCureent;
+    _setDisplayValue();
+  }
 
-    final now = disPlayTime.value.add(const Duration(days: 1));
-    disPlayTime.value = now;
-    _displayTimeStreamController.add(now);
+  void _setDisplayValue() {
+    if (_type == KReportType.day) {
+      disPlayTime.value =
+          DateUtil.formatDate(currentTime, format: "yyyy/MM/dd");
+    } else if (_type == KReportType.week) {
+      disPlayTime.value =
+          "${DateUtil.formatDate(currentTime.subtract(const Duration(days: 7)), format: "yyyy/MM/dd")}-${DateUtil.formatDate(currentTime, format: "yyyy/MM/dd")}";
+    } else {
+      disPlayTime.value = DateUtil.formatDate(currentTime, format: "yyyy/MM");
+    }
   }
 }
 
@@ -67,10 +99,7 @@ class TraLedButtonView extends StatelessWidget {
                   Expanded(
                     child: Obx(
                       () => Text(
-                        DateUtil.formatDate(
-                          controller.disPlayTime.value,
-                          format: "yyyy/MM/dd",
-                        ),
+                        controller.disPlayTime.value,
                         textAlign: TextAlign.center,
                       ),
                     ),

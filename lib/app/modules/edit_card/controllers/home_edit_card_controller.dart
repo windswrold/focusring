@@ -24,11 +24,11 @@ class HomeEditCardController extends GetxController {
     visibleItems.value =
         await KBaseHealthType.queryAllWithState(appUserId, true);
     visibleItems.value = visibleItems
-        .where((p0) => p0.type != KHealthDataType.BLOOD_OXYGEN)
-        .where((p0) => p0.type != KHealthDataType.HEART_RATE)
-        .where((p0) => p0.type != KHealthDataType.BODY_TEMPERATURE)
-        .where((p0) => p0.type != KHealthDataType.EMOTION)
-        .where((p0) => p0.type != KHealthDataType.STRESS)
+        // .where((p0) => p0.type != KHealthDataType.BLOOD_OXYGEN)
+        // .where((p0) => p0.type != KHealthDataType.HEART_RATE)
+        // .where((p0) => p0.type != KHealthDataType.BODY_TEMPERATURE)
+        // .where((p0) => p0.type != KHealthDataType.EMOTION)
+        // .where((p0) => p0.type != KHealthDataType.STRESS)
         .toList();
 
     //     if (element.type == KHealthDataType.BLOOD_OXYGEN ||

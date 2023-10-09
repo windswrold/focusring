@@ -70,22 +70,22 @@ class HomeDevicesView extends GetView<HomeDevicesController> {
       ),
       child: Column(
         children: [
-          // GetBuilder<AppViewController>(
-          //     tag: AppViewController.tag,
-          //     id: AppViewController.userinfoID,
-          //     builder: (a) {
-          //       return _getListItem(
-          //         index: 0,
-          //         icon: "icons/device_icon_hrwarning",
-          //         title: "heartrate_alert",
-          //         desc:
-          //             a.user.value?.heartRateWarnSwitch == true ? "On" : "Off",
-          //       );
-          //     }),
-          // _getListItem(
-          //     index: 1,
-          //     icon: "icons/device_icon_auto",
-          //     title: "automatic_settings"),
+          GetBuilder<AppViewController>(
+              tag: AppViewController.tag,
+              id: AppViewController.userinfoID,
+              builder: (a) {
+                return _getListItem(
+                  index: 0,
+                  icon: "icons/device_icon_hrwarning",
+                  title: "heartrate_alert",
+                  desc:
+                      a.user.value?.heartRateWarnSwitch == true ? "On" : "Off",
+                );
+              }),
+          _getListItem(
+              index: 1,
+              icon: "icons/device_icon_auto",
+              title: "automatic_settings"),
           _getListItem(
               index: 2,
               icon: "icons/device_icon_upgrade",
@@ -230,24 +230,27 @@ class HomeDevicesView extends GetView<HomeDevicesController> {
                             ),
                           ),
                           3.columnWidget,
-                          Text(
-                            controller.isConnect.value == true
-                                ? "Linked"
-                                : "UnLink",
-                            style: Get.textTheme.titleSmall,
+                          Obx(
+                            () => Text(
+                              controller.isConnect.value == true
+                                  ? "Linked"
+                                  : "UnLink",
+                              style: Get.textTheme.titleSmall,
+                            ),
                           ),
                           7.columnWidget,
                           Row(
                             children: [
                               LoadAssetsImage(
                                 RingDeviceModel.getBatIcon(
-                                    bat: controller.bat.value),
+                                    bat: controller.batNum.value,
+                                    isCharging: controller.isCharging.value),
                                 width: 23,
                                 height: 12,
                               ),
                               5.rowWidget,
                               Text(
-                                "${controller.bat.value}%",
+                                "${controller.batNum.value}%",
                                 style: Get.textTheme.displaySmall,
                               ),
                             ],
@@ -309,7 +312,7 @@ class HomeDevicesView extends GetView<HomeDevicesController> {
         child: Column(
           children: [
             _getDevicesCard(),
-            // _getManual_test(),
+            _getManual_test(),
             _getList(),
           ],
         ),

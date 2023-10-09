@@ -9,7 +9,6 @@ import 'package:get/get.dart';
 class ReportInfoStressController extends GetxController {
   //TODO: Implement ReportInfoStressController
 
-  late StreamSubscription dateSc;
   late RxString chartTipValue = "".obs;
   static const String id_data_souce_update = "id_data_souce_update_stress";
   late RxList<List<KChartCellData>> dataSource = [<KChartCellData>[]].obs;
@@ -25,15 +24,11 @@ class ReportInfoStressController extends GetxController {
   void onReady() {
     super.onReady();
 
-    final a = Get.find<TraLedButtonController>();
-    dateSc = a.displayTimeStream.listen((event) {
-      vmPrint("displayTimeStream $event");
-    });
+   
   }
 
   @override
   void onClose() {
-    dateSc.cancel();
     super.onClose();
   }
 

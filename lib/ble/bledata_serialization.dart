@@ -10,7 +10,7 @@ import 'package:beering/utils/json_util.dart';
 import 'package:flutter/services.dart';
 import 'package:hex/hex.dart';
 
-class BLESerialization {
+class KBLESerialization {
   ///更新
   // static Future<List<List<int>>> update() async {
   //   File file = await Constant.getBinFile();
@@ -45,65 +45,165 @@ class BLESerialization {
         valueStr: a.toCustomFormat());
   }
 
-  static BLESendData ppg_heartOnceTest() {
-    return BLESendData(cmd: KBLECommandType.ppg, typeStr: "00", valueStr: "00");
+  static BLESendData unBindDevice() {
+    return BLESendData(
+        cmd: KBLECommandType.system, typeStr: "02", valueStr: "00");
   }
 
+  ///心率实时单次测量设置 血氧
+  static BLESendData ppg_heartOnceTest({required KHealthDataType isHeart}) {
+    return BLESendData(
+        cmd: KBLECommandType.ppg,
+        typeStr: isHeart == KHealthDataType.HEART_RATE ? "00" : "05",
+        valueStr: "00");
+  }
+
+  ///心率定时测量设置 血氧
   static BLESendData ppg_heartTimingTest({
     required bool isOn,
-    required DateTime? startTime,
-    required DateTime? endTime,
+    required DateTime startTime,
+    required DateTime endTime,
     required int? offset,
+    required KHealthDataType isHeart,
   }) {
     List<int> data = [];
     data.add(isOn ? 0x01 : 0x00);
-    if (isOn == true) {
-      if (startTime == null || endTime == null || offset == null) {
-        throw "无效数据";
-      }
-      if (startTime.compareTo(endTime) > 0) {
-        throw "无效数据";
-      }
-      data.add(startTime.hour);
-      data.add(startTime.minute);
-      data.add(endTime.hour);
-      data.add(endTime.minute);
-      data.add(offset);
+    if (startTime == null || endTime == null || offset == null) {
+      throw "无效数据";
     }
+    if (startTime.compareTo(endTime) > 0) {
+      throw "无效数据";
+    }
+    data.add(startTime.hour);
+    data.add(startTime.minute);
+    data.add(endTime.hour);
+    data.add(endTime.minute);
+    data.add(offset);
+
     return BLESendData(
         cmd: KBLECommandType.ppg,
-        typeStr: "01",
+        typeStr: isHeart == KHealthDataType.HEART_RATE ? "01" : "06",
         valueStr: HEXUtil.encode(data));
   }
 
-  static BLESendData ppg_getHeartTimingSetting() {
-    return BLESendData(cmd: KBLECommandType.ppg, typeStr: "02", valueStr: "00");
+  ///心率定时测量设置获取 血氧
+  static BLESendData ppg_getHeartTimingSetting(
+      {required KHealthDataType isHeart}) {
+    return BLESendData(
+        cmd: KBLECommandType.ppg,
+        typeStr: isHeart == KHealthDataType.HEART_RATE ? "02" : "07",
+        valueStr: "00");
   }
 
-  ///发送获取历史心率数据天数获取
-  static BLESendData getHeartHistoryDataDayNum() {
-    return BLESendData(
-        cmd: KBLECommandType.ppg, typeStr: "03", valueStr: "aa00");
+  ///发送获取历史数据的天数 心率血氧 步数 睡眠
+  static BLESendData getDayNumWithType({required KHealthDataType type}) {
+    if (type == KHealthDataType.HEART_RATE ||
+        type == KHealthDataType.BLOOD_OXYGEN) {
+      return BLESendData(
+          cmd: KBLECommandType.ppg,
+          typeStr: type == KHealthDataType.HEART_RATE ? "03" : "08",
+          valueStr: "aa00");
+    }
+
+    if (type == KHealthDataType.STEPS) {
+      return BLESendData(
+          cmd: KBLECommandType.gsensor, typeStr: "03", valueStr: "aa00");
+    }
+
+    if (type == KHealthDataType.SLEEP) {
+      return BLESendData(
+          cmd: KBLECommandType.sleep, typeStr: "01", valueStr: "aa00");
+    }
+
+    throw "add type";
   }
 
-  ///获取历史心率数据请求当天数据
-  static BLESendData getHeartHistoryDataByCurrent() {
-    return BLESendData(
-        cmd: KBLECommandType.ppg, typeStr: "03", valueStr: "bb00");
+  ///根据天数获取历史数据 心率血氧 步数 睡眠
+  static BLESendData getHistoryDataWithType(
+      {required KHealthDataType type, required int index}) {
+    String dayIndex = HEXUtil.encode([index]);
+
+    if (type == KHealthDataType.HEART_RATE ||
+        type == KHealthDataType.BLOOD_OXYGEN) {
+      return BLESendData(
+          cmd: KBLECommandType.ppg,
+          typeStr: type == KHealthDataType.HEART_RATE ? "03" : "08",
+          valueStr: "bb$dayIndex");
+    }
+
+    if (type == KHealthDataType.STEPS) {
+      return BLESendData(
+          cmd: KBLECommandType.gsensor, typeStr: "03", valueStr: "bb$dayIndex");
+    }
+
+    if (type == KHealthDataType.SLEEP) {
+      return BLESendData(
+          cmd: KBLECommandType.sleep, typeStr: "01", valueStr: "bb$dayIndex");
+    }
+    throw "add type";
+  }
+
+  ///获取当天数据
+  static BLESendData getTodayData({
+    required KHealthDataType type,
+  }) {
+    if (type == KHealthDataType.HEART_RATE) {
+      return BLESendData(
+          cmd: KBLECommandType.ppg, typeStr: "04", valueStr: "bb01");
+    } else if (type == KHealthDataType.BLOOD_OXYGEN) {
+      return BLESendData(
+          cmd: KBLECommandType.ppg, typeStr: "09", valueStr: "bb01");
+    } else if (type == KHealthDataType.STEPS) {
+      return BLESendData(
+          cmd: KBLECommandType.gsensor, typeStr: "02", valueStr: "bb01");
+    } else if (type == KHealthDataType.SLEEP) {
+      return BLESendData(
+          cmd: KBLECommandType.sleep, typeStr: "01", valueStr: "bb00");
+    }
+
+    throw "add type";
   }
 
   ///回复收到相应包，并带上包序号
-  static BLESendData getHeartHistoryDataByCurrentByIndex(int index) {
-    List<int> e = [0xbb, index];
-    return BLESendData(
-        cmd: KBLECommandType.ppg, typeStr: "03", valueStr: HEXUtil.encode(e));
+  static BLESendData sendDataIndex(int index,
+      {required KHealthDataType type, required bool isToday}) {
+    List<int> e = [0xcc, index];
+
+    if (type == KHealthDataType.HEART_RATE) {
+      return BLESendData(
+          cmd: KBLECommandType.ppg,
+          typeStr: isToday ? "04" : "03",
+          valueStr: HEXUtil.encode(e));
+    } else if (type == KHealthDataType.BLOOD_OXYGEN) {
+      return BLESendData(
+          cmd: KBLECommandType.ppg,
+          typeStr: isToday ? "09" : "08",
+          valueStr: HEXUtil.encode(e));
+    } else if (type == KHealthDataType.STEPS) {
+      return BLESendData(
+          cmd: KBLECommandType.gsensor,
+          typeStr: isToday ? "02" : "03",
+          valueStr: HEXUtil.encode(e));
+    } else if (type == KHealthDataType.SLEEP) {
+      return BLESendData(
+          cmd: KBLECommandType.sleep,
+          typeStr: "01",
+          valueStr: HEXUtil.encode(e));
+    }
+
+    throw "add type";
   }
 
-  ///心率当天数据获取心率按照5min一个值：
-  ///1天：12X24=288个字节；固定大小；
-  static BLESendData getHeartHistoryDataByCurrentLong() {
+  ///电量在发送变化的时候设备回主动上报
+  static BLESendData getBattery() {
     return BLESendData(
-        cmd: KBLECommandType.ppg, typeStr: "04", valueStr: "bb01");
+        cmd: KBLECommandType.battery, typeStr: "00", valueStr: "00");
+  }
+
+  ///充电状态
+  static BLESendData getCharger() {
+    return BLESendData(
+        cmd: KBLECommandType.charger, typeStr: "00", valueStr: "00");
   }
 }
 
@@ -118,13 +218,17 @@ extension DateTimeEX on DateTime {
     int second = this.second; // 30
 
     // Convert to custom format
-    ByteData byteData = ByteData(7); // 7 bytes in total
+    ByteData byteData = ByteData(8); // 7 bytes in total
     byteData.setUint16(0, year, Endian.little);
     byteData.setUint8(2, month);
     byteData.setUint8(3, day);
     byteData.setUint8(4, hour);
     byteData.setUint8(5, minute);
     byteData.setUint8(6, second);
+
+    final offset = timeZoneOffset.inHours;
+    byteData.setUint8(7, offset);
+
     return HEXUtil.encode(byteData.buffer.asUint8List().toList());
   }
 }

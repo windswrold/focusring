@@ -13,6 +13,7 @@ class HomeMineController extends GetxController {
   RxList my_goalsList = [].obs;
 
   RxList my_defaultList = [].obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -47,6 +48,11 @@ class HomeMineController extends GetxController {
         "a": "icons/mine_icon_about",
         "b": "about",
         "r": Routes.ABOUT_US,
+      },
+      {
+        "a": "icons/mine_icon_about",
+        "b": "test page",
+        "r": Routes.TESTDFU,
       },
     ].obs;
   }

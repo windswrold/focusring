@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:beering/app/data/health_data.dart';
 import 'package:beering/app/data/steps_card_model.dart';
 import 'package:beering/public.dart';
 import 'package:beering/views/charts/home_card/model/home_card_x.dart';
@@ -19,8 +20,6 @@ class ReportInfoStepsController extends GetxController
   late KHealthDataType currentType;
 
   late RxString allResult = "-".obs;
-
-  late StreamSubscription dateSc;
 
   late RxList<StepsCardAssetsModel> stepsCards = <StepsCardAssetsModel>[].obs;
 
@@ -46,26 +45,23 @@ class ReportInfoStepsController extends GetxController
     ];
     tabController = TabController(vsync: this, length: myTabbas.length);
     configCardData();
-    _queryDataSource();
   }
 
   @override
   void onReady() {
     super.onReady();
-    final a = Get.find<TraLedButtonController>();
-    dateSc = a.displayTimeStream.listen((event) {
-      vmPrint("displayTimeStream $event");
-    });
+    _queryDataSource();
   }
 
   @override
   void onClose() {
-    dateSc.cancel();
     super.onClose();
   }
 
   void onTapType(int type) {
     reportType.value = KReportType.values[type];
+
+    Get.find<TraLedButtonController>().changeReportType(reportType.value);
 
     // allResult.value = Random.secure().nextInt(10000).toString();
 
@@ -159,7 +155,7 @@ class ReportInfoStepsController extends GetxController
     stepsCards.value = datas;
   }
 
-  void _queryDataSource() {
+  void _queryDataSource() async {
     if (currentType == KHealthDataType.SLEEP) {
       dataSource.value = [
         List.generate(
@@ -188,15 +184,31 @@ class ReportInfoStepsController extends GetxController
         )
       ];
     } else {
-      var data = List.generate(
-        30,
-        (index) => KChartCellData(
-          x: index.toString(),
-          y: 0,
-          color: currentType.getTypeMainColor(),
-        ),
-      );
-      dataSource.value = [data];
+      List<dynamic> datas = [];
+
+      if (currentType == KHealthDataType.HEART_RATE ||
+          currentType == KHealthDataType.BLOOD_OXYGEN ||
+          currentType == KHealthDataType.STEPS ||
+          currentType == KHealthDataType.LiCheng ||
+          currentType == KHealthDataType.CALORIES_BURNED ||
+          currentType == KHealthDataType.BODY_TEMPERATURE) {
+        final currentTime = Get.find<TraLedButtonController>().currentTime;
+        datas = await HealthData.queryHealthData(
+            reportType: reportType.value,
+            types: currentType,
+            currentTime: currentTime);
+      } else {
+        datas = List.generate(
+          30,
+          (index) => KChartCellData(
+            x: index.toString(),
+            y: 0,
+            color: currentType.getTypeMainColor(),
+          ),
+        );
+      }
+
+      // dataSource.value = [datas];
     }
 
     update([id_data_souce_update]);
@@ -206,19 +218,13 @@ class ReportInfoStepsController extends GetxController
     if (index == null) {
       return;
     }
-    //11:30-11:59:765 steps
 
-    String text = "";
-    if (currentType == KHealthDataType.SLEEP) {
-      // chartTipValue.value = "${item.x}:${item.y} steps";
-      text = "-";
-    } else {
-      final item = dataSource.first[index];
-      text = "- ${currentType.getSymbol()}";
-    }
+    String text = HealthData.getOnTrackballTitle(
+      type: reportType.value,
+      currentType: currentType,
+      dataSource: dataSource,
+      index: index,
+    );
     chartTipValue.value = text;
-    Future.delayed(const Duration(seconds: 3)).then((value) => {
-          chartTipValue.value = "",
-        });
   }
 }

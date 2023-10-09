@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:io';
-
+import 'package:beering/ble/bledata_serialization.dart';
 import 'package:beering/ble/receivedata_handler.dart';
 import 'package:beering/extensions/StringEx.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
@@ -12,16 +12,22 @@ import 'package:beering/utils/permission.dart';
 import 'package:hex/hex.dart';
 
 class KBLEManager {
+  static int logevel = 999;
   static BluetoothCharacteristic? _writeCharacteristic; //写入特征
   static BluetoothCharacteristic? _notifyCharacteristic; //通知特征
-  static BluetoothDevice? _mBluetoothDevice; //记录当前链接的蓝牙
-  static StreamSubscription? _notifySubscription, _mtuSubscripation;
+  static StreamSubscription? _notifySubscription,
+      _mtuSubscripation,
+      _connectSubscription;
   static List<int> _allValues = []; //接收缓存数据
+  static List<List<int>> _cacheSendData = []; //缓存发送的数据集合
+  static RingDeviceModel? currentDevices;
 
-  static BluetoothDevice? _currentDevice;
+  static final _receiveController =
+      StreamController<ReceiveDataModel>.broadcast();
+  static final _deviceStateSC =
+      StreamController<BluetoothConnectionState>.broadcast();
 
-  static Stream<String> get receiveDataStream => _receiveController.stream;
-  static final _receiveController = StreamController<String>.broadcast();
+  static final logController = StreamController<String>.broadcast();
 
   static clean() {
     _allValues.clear();
@@ -29,7 +35,9 @@ class KBLEManager {
     _mtuSubscripation?.cancel();
     _notifyCharacteristic = null;
     _writeCharacteristic = null;
-    _mBluetoothDevice = null;
+    currentDevices = null;
+    _connectSubscription?.cancel();
+    _cacheSendData.clear();
   }
 
   static Stream<List<ScanResult>> get scanResults {
@@ -56,8 +64,16 @@ class KBLEManager {
     return FlutterBluePlus.onDfuComplete;
   }
 
+  static Stream<ReceiveDataModel> get receiveDataStream {
+    return _receiveController.stream;
+  }
+
+  static Stream<BluetoothConnectionState> get deviceStateStream {
+    return _deviceStateSC.stream;
+  }
+
   static void startScan(
-      {Duration timeout = const Duration(seconds: 10)}) async {
+      {Duration timeout = const Duration(seconds: 30)}) async {
     if ((await checkBle()) == false) {
       return;
     }
@@ -73,59 +89,85 @@ class KBLEManager {
     FlutterBluePlus.stopScan();
   }
 
-  static Future<Stream<BluetoothConnectionState>?> connect(
+  static void connect(
       {required RingDeviceModel device,
+      BluetoothDevice? ble,
       Duration timeout = const Duration(seconds: 20)}) async {
     if ((await checkBle()) == false) {
       return null;
     }
 
-    var bleDevice = getDevice(device: device);
+    // if (!inProduction) {
+    //   //绑定认证
+    //   // _onValueReceived(HEXUtil.decode("EEEE0003010000"));
+    //   //时间绑定
+    //   onValueReceived(HEXUtil.decode("EEEE0003020000"));
+    //   return;
+    // }
+
+    var bleDevice = ble ?? getDevice(device: device);
     bleDevice.connect(timeout: timeout);
-    return bleDevice.connectionState;
+    await Future.delayed(Duration(seconds: 1));
+    _connectSubscription?.cancel();
+    _connectSubscription == null;
+    _connectSubscription = bleDevice.connectionState.listen((event) async {
+      vmPrint("connectionState $event");
+      _deviceStateSC.sink.add(event);
+      if (event == BluetoothConnectionState.connected) {
+        currentDevices = device;
+        findCharacteristics(bleDevice);
+        await Future.delayed(Duration(seconds: 1));
+        stopScan();
+      } else if (event == BluetoothConnectionState.disconnected) {
+        clean();
+      }
+// KBLEManager.stopScan();
+    });
+  }
+
+  Future disconnectedAllBle() async {
+    List<BluetoothDevice> devices =
+        await FlutterBluePlus.connectedSystemDevices;
+    devices.forEach((element) {
+      element.disconnect();
+    });
   }
 
   ///发现外设
   static void findCharacteristics(BluetoothDevice bluetoothDevice) async {
-    vmPrint("开始找特征 _findCharacteristics");
+    vmPrint("开始找特征", logevel);
     List<BluetoothService> services = await bluetoothDevice.discoverServices();
     for (var service in services) {
-      //读取服务ID
-      vmPrint("服务ID ${service.uuid}");
-      HWToast.showSucText(text: "服务ID ${service.uuid}");
-      await Future.delayed(Duration(milliseconds: 500));
-
+//读取服务ID
+      vmPrint("服务ID ${service.uuid}", logevel);
       if (compareUUID(service.uuid.toString(), BLEConfig.SERVICEUUID) == true) {
         List<BluetoothCharacteristic> characteristics = service.characteristics;
         for (BluetoothCharacteristic characteristic in characteristics) {
-          vmPrint("当前id ${characteristic.uuid}");
-          HWToast.showSucText(text: "特征id ${characteristic.uuid}");
-          await Future.delayed(Duration(milliseconds: 500));
-          //读取外设ID
+          vmPrint("当前id ${characteristic.uuid}", logevel);
+//读取外设ID
           if (compareUUID(
                   characteristic.uuid.toString(), BLEConfig.NOTIFYUUID) ==
               true) {
-            vmPrint("记录通知");
-            vmPrint("找到NOTIFYUUID");
-            HWToast.showSucText(text: "找到NOTIFYUUID");
-            await Future.delayed(Duration(milliseconds: 500));
             _notifyCharacteristic = characteristic;
             await characteristic.setNotifyValue(true);
             _notifySubscription =
                 characteristic.onValueReceived.listen((event) {
-              _onValueReceived(event);
+              onValueReceived(event);
             });
           } else if (compareUUID(
                   characteristic.uuid.toString(), BLEConfig.WRITEUUID) ==
               true) {
-            vmPrint("记录写");
-            HWToast.showSucText(text: "找到WRITEUUID");
             _writeCharacteristic = characteristic;
-            await Future.delayed(Duration(milliseconds: 500));
+            final isBind = SPManager.isBindDevice();
+            if (isBind == true) {
+              KBLEManager.sendData(sendData: KBLESerialization.timeSetting());
+            } else {
+              KBLEManager.sendData(
+                  sendData: KBLESerialization.bindingsverify());
+            }
           }
         }
       }
-      await Future.delayed(Duration(milliseconds: 500));
     }
   }
 
@@ -139,39 +181,46 @@ class KBLEManager {
   static void zhiie({
     required List<int> datas,
   }) async {
-    if (_writeCharacteristic == null) {
-      return;
-    }
-
-    _receiveController.add("准备发送数据 ${HEX.encode(datas)}");
+// if (_writeCharacteristic == null) {
+//   return;
+// }
+    vmPrint("发送数据 ${HEX.encode(datas)}", logevel);
     await _writeCharacteristic?.write(datas, withoutResponse: true);
   }
 
-  static void _onValueReceived(List<int> values) {
+  static void onValueReceived(List<int> values) {
     final a = HEXUtil.encode(values);
-    _receiveController.add("接收的数据: $a");
     _allValues.addAll(values);
-
-    vmPrint("接收到结果 是${HEXUtil.encode(values)}");
-    vmPrint("接收到结果 长度是${values.length}");
+    vmPrint("接收到结果是 ${HEXUtil.encode(values)} len ${values.length} ", logevel);
+    vmPrint("合并的总数据 ${HEXUtil.encode(_allValues)} len ${_allValues.length}",
+        logevel);
     final first = HEXUtil.encode(_allValues);
     if (first.startsWith(BLEConfig.ringSlave)) {
       bool isLoop = true;
       while (isLoop && _allValues.length > 4) {
         int len = (_allValues[2] << 8) | _allValues[3];
-        int currentLen = len + 2;
-        vmPrint("数据域长度 len $currentLen");
-        vmPrint("当前总长度_allValues ${_allValues.length}");
+        int currentLen = len + 4;
+        vmPrint("数据域长度 len $currentLen", logevel);
         if (_allValues.length >= currentLen) {
-          //取出后移除
+//取出后移除
           List<int> _allDatas = _allValues.sublist(0, currentLen);
           _allValues.removeRange(0, currentLen);
-          ReceiveDataHandler.parseDataHandler(_allDatas);
+          ReceiveDataModel model =
+              ReceiveDataHandler.parseDataHandler(_allDatas);
+          _receiveController.add(model);
         } else {
           isLoop = false;
         }
       }
     } else {}
+  }
+
+  static void disAllConnect() async {
+    List<BluetoothDevice> datas = await FlutterBluePlus.connectedSystemDevices;
+
+    for (var element in datas) {
+      element.disconnect();
+    }
   }
 
   static BluetoothDevice getDevice({
@@ -187,11 +236,11 @@ class KBLEManager {
       await Future.delayed(const Duration(seconds: 2));
     }
 
-    if ((await FlutterBluePlus.adapterState.first) ==
-        BluetoothAdapterState.turningOff) {
-      HWToast.showErrText(text: "turnon_ble".tr);
-      return false;
-    }
+// if ((await FlutterBluePlus.adapterState.last) ==
+//     BluetoothAdapterState.turningOff) {
+//   HWToast.showErrText(text: "turnon_ble".tr);
+//   return false;
+// }
 
     bool a = await PermissionUtils.checkBle();
     if (a == true) {

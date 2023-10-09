@@ -77,6 +77,8 @@ dependencies:
   flutter_device_identifier: ^0.0.1
   hex: ^0.2.0
   app_settings: ^5.1.1
+  share_plus: 4.0.4
+
  
   
 

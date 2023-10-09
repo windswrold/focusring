@@ -10,6 +10,7 @@ import 'package:beering/views/charts/home_card/model/home_card_type.dart';
 import 'package:beering/views/charts/home_card/views/home_card_item.dart';
 import 'package:beering/views/charts/radio_gauge_chart/model/radio_gauge_chart_model.dart';
 import 'package:get/get.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import '../controllers/home_state_controller.dart';
 
@@ -21,23 +22,31 @@ class HomeStateView extends GetView<HomeStateController> {
       titleStr: "home_status".tr,
       centerTitle: false,
       hiddenLeading: true,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            _buildHeader(),
-            Obx(
-              () => Column(
-                  children:
-                      controller.dataTypes.map((e) => _buildCard(e)).toList()),
-            ),
-            NextButton(
-              onPressed: () {
-                controller.onTapEditCard();
-              },
-              margin: EdgeInsets.only(left: 12.w, right: 12.w, bottom: 12.w),
-              title: 'edit_card'.tr,
-            ),
-          ],
+      body: SmartRefresher(
+        controller: controller.refreshController,
+        enablePullUp: false,
+        onRefresh: () {
+          controller.onRefresh();
+        },
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              _buildHeader(),
+              Obx(
+                () => Column(
+                    children: controller.dataTypes
+                        .map((e) => _buildCard(e))
+                        .toList()),
+              ),
+              NextButton(
+                onPressed: () {
+                  controller.onTapEditCard();
+                },
+                margin: EdgeInsets.only(left: 12.w, right: 12.w, bottom: 12.w),
+                title: 'edit_card'.tr,
+              ),
+            ],
+          ),
         ),
       ),
     );

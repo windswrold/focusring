@@ -87,7 +87,7 @@ class UserInfoModel {
     heartRateAutoTestSwitch = json["heartRateAutoTestSwitch"] ?? false;
     heartRateAutoTestInterval = json["heartRateAutoTestInterval"] ?? 5;
     bloodOxygenAutoTestSwitch = json["bloodOxygenAutoTestSwitch"] ?? false;
-    bloodOxygenAutoTestInterval = json["bloodOxygenAutoTestInterval"] ?? 4;
+    bloodOxygenAutoTestInterval = json["bloodOxygenAutoTestInterval"] ?? 5;
   }
 
   Map<String, dynamic> toJson() {
@@ -126,15 +126,37 @@ class UserInfoModel {
 
   String displayHeight({bool displaySymbol = true}) {
     if (displaySymbol) {
-      return units == KUnitsType.metric ? "$heightMetric cm" : "$heightBritish in";
+      return units == KUnitsType.metric
+          ? "$heightMetric cm"
+          : "$heightBritish in";
     }
     return units == KUnitsType.metric ? "$heightMetric" : "$heightBritish";
   }
 
   String displayWeight({bool displaySymbol = true}) {
     if (displaySymbol) {
-      return units == KUnitsType.metric ? "$weightMetric kg" : "$weightBritish lb";
+      return units == KUnitsType.metric
+          ? "$weightMetric kg"
+          : "$weightBritish lb";
     }
     return units == KUnitsType.metric ? "$weightMetric" : "$weightBritish";
+  }
+
+  ///获取公制身高
+  int calMetricHeight() {
+    if (heightMetric != null) {
+      return heightMetric!;
+    }
+
+    return (heightBritish! * 2.54).toInt();
+  }
+
+  //获取公制体重
+  int calMetricWeight() {
+    if (weightMetric != null) {
+      return weightMetric!;
+    }
+
+    return weightBritish! ~/ 0.453592;
   }
 }

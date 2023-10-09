@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:beering/public.dart';
+import 'package:beering/utils/date_util.dart';
+import 'package:decimal/decimal.dart';
 import 'package:hex/hex.dart';
 
 extension ListEx<E> on List<E> {
@@ -168,7 +170,43 @@ extension ListEx<E> on List<E> {
   }
 
   static List<String> generateBloodOxygenAutoTestInterval() {
-    return ["4", "6", "8", "12"];
+    return ["5", "30", "60"];
   }
 
+  static double averageNum(List data) {
+    Decimal result = sumVal(data);
+    return (result / Decimal.fromInt(data.length)).toDouble();
+  }
+
+  static T maxVal<T extends num>(List<T> data) {
+    return data.reduce((a, b) => a > b ? a : b);
+  }
+
+  static T minVal<T extends num>(List<T> data) {
+    return data.reduce((a, b) => a < b ? a : b);
+  }
+
+  static Decimal sumVal(List data) {
+    Decimal value = Decimal.zero;
+    for (var element in data) {
+      value = value + Decimal.parse(element.toString());
+    }
+    return value;
+  }
+
+  static List<String> getFiveMinuteIntervals() {
+    final DateTime startDate = DateTime(2023, 9, 21, 0, 0); // 开始时间00:00
+    final DateTime endDate = DateTime(2023, 9, 22, 0, 0); // 结束时间00:00
+
+    List<String> intervals = [];
+    DateTime currentTime = startDate;
+
+    while (currentTime.isBefore(endDate) ||
+        currentTime.isAtSameMomentAs(endDate)) {
+      intervals.add(DateUtil.formatDate(currentTime, format: "HH:mm"));
+      currentTime = currentTime.add(Duration(minutes: 5));
+    }
+
+    return intervals;
+  }
 }
