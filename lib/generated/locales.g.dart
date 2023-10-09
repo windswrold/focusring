@@ -253,6 +253,8 @@ class LocaleKeys {
   static const request_tip06 = 'request_tip06';
   static const request_tip07 = 'request_tip07';
   static const request = 'request';
+  static const starttime = 'starttime';
+  static const endtime = 'endtime';
   static const emotion_report = 'emotion_report';
   static const about_activitytip = 'about_activitytip';
   static const about_activitytip01 = 'about_activitytip01';
@@ -1233,6 +1235,8 @@ class Locales {
     'request_tip05': '并知悉关于',
     'request_tip06': 'BeeRing隐私的声明。',
     'request_tip07': '当前已拒绝权限,是否前往设置页面更改设置?',
+    'starttime': '开始时间',
+    'endtime': '结束时间',
   };
   static const it_IT = {
     'tabbar_status': 'Stato',
