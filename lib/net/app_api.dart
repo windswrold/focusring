@@ -15,7 +15,7 @@ import 'api_stream/header.dart';
 class AppApi {
   static VMApi get _api => VMApi(
       network: const VMNetwork(
-          prefix: 'http://119.23.24.144/hlcrazy-ring', printLevel: 1),
+          prefix: 'https://bee-ring.hlcrazy.com/api', printLevel: 1),
       customAnalysis: (
         VMRequest request,
         Options options,
