@@ -43,19 +43,19 @@ class TraLedButtonController extends GetxController {
   }
 
   void right() {
-    DateTime nowCureent = currentTime;
-    DateTime newTime = nowCureent;
+    DateTime nowCureent;
+    // DateTime newTime = nowCureent;
     if (_type == KReportType.day) {
       nowCureent = currentTime.add(const Duration(days: 1));
     } else if (_type == KReportType.week) {
-      int offset = nowCureent.difference(currentTime).inDays;
+      int offset = DateTime.now().difference(currentTime).inDays;
       offset = min(7, offset);
       offset = max(0, offset);
       nowCureent = currentTime.add(Duration(days: offset));
     } else {
       nowCureent = currentTime.nextMonth();
     }
-    if (nowCureent.compareTo(newTime) >= 0) {
+    if (nowCureent.compareTo(DateTime.now()) >= 0) {
       return;
     }
     currentTime = nowCureent;
