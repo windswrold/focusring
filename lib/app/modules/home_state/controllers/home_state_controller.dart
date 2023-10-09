@@ -39,12 +39,12 @@ class HomeStateController extends GetxController {
   void onInit() {
     super.onInit();
 
-    receiveDataStream = KBLEManager.deviceStateStream.listen((event) {
-      vmPrint("HomeStateController $event");
-      if (event == BluetoothConnectionState.connected) {
+    receiveDataStream = KBLEManager.receiveDataStream.listen((event) {
+      if (event.command == KBLECommandType.system) {
+        // if (event.type == 0x00) {
+        //时间设置成功
         initData(showHeartrate: true);
-      } else {
-        initData(showHeartrate: false);
+        // }
       }
     });
 
