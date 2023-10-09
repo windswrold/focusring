@@ -527,7 +527,7 @@ class HealthData {
         return [];
       }
     } catch (e) {
-      HWToast.showErrText(text: "读取失败 ${e}");
+      // HWToast.showErrText(text: "读取失败 ${e}");
     }
     return [];
   }

@@ -40,7 +40,7 @@ class HomeStateController extends GetxController {
     super.onInit();
 
     receiveDataStream = KBLEManager.deviceStateStream.listen((event) {
-      vmPrint("deviceStateStream $event");
+      vmPrint("HomeStateController $event");
       if (event == BluetoothConnectionState.connected) {
         initData(showHeartrate: true);
       } else {
@@ -119,13 +119,13 @@ class HomeStateController extends GetxController {
       }
 
       KHomeCardModel card = KHomeCardModel(
-        type: element.type,
-        date: "empty_data".tr,
-        result: "",
-        resultDesc: "",
-        startDesc: "",
-        endDesc: "",
-      );
+          type: element.type,
+          date: "empty_data".tr,
+          result: "",
+          resultDesc: "",
+          startDesc: "",
+          endDesc: "",
+          datas: [data, data, data]);
       dataArr.add(card);
     }
 

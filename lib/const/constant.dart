@@ -204,7 +204,7 @@ bool compareUUID(String a, String b) {
   b = b.toLowerCase().replaceAll("-", "");
   vmPrint("a $a b $b");
 
-  HWToast.showSucText(text: "比对 id\n$a\napp: $b\n结果 ${a == b}");
+  // HWToast.showSucText(text: "比对 id\n$a\napp: $b\n结果 ${a == b}");
   return a == b;
 }
 

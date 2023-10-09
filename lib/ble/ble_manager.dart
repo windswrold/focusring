@@ -100,9 +100,9 @@ class KBLEManager {
     if (!inProduction) {
       //绑定认证
       // _onValueReceived(HEXUtil.decode("EEEE0003010000"));
-      //时间绑定
+      // 时间绑定
       // onValueReceived(HEXUtil.decode("EEEE0003020000"));
-      return;
+      // return;
     }
 
     var bleDevice = ble ?? getDevice(device: device);
