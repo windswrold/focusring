@@ -162,7 +162,7 @@ class ReportInfoStepsController extends GetxController
           30,
           (index) => KChartCellData(
             x: index.toString(),
-            y: 0,
+            y: Random.secure().nextDouble() * 500,
             color: KSleepStatusType.deepSleep.getStatusColor(),
           ),
         ),
@@ -170,7 +170,7 @@ class ReportInfoStepsController extends GetxController
           30,
           (index) => KChartCellData(
             x: index.toString(),
-            y: 0,
+            y: Random.secure().nextDouble() * 500,
             color: KSleepStatusType.lightSleep.getStatusColor(),
           ),
         ),
@@ -178,37 +178,37 @@ class ReportInfoStepsController extends GetxController
           30,
           (index) => KChartCellData(
             x: index.toString(),
-            y: 0,
+            y: Random.secure().nextDouble() * 500,
             color: KSleepStatusType.awake.getStatusColor(),
           ),
         )
       ];
     } else {
-      List<dynamic> datas = [];
+      List<KChartCellData> datas = [];
 
-      if (currentType == KHealthDataType.HEART_RATE ||
-          currentType == KHealthDataType.BLOOD_OXYGEN ||
-          currentType == KHealthDataType.STEPS ||
-          currentType == KHealthDataType.LiCheng ||
-          currentType == KHealthDataType.CALORIES_BURNED ||
-          currentType == KHealthDataType.BODY_TEMPERATURE) {
-        final currentTime = Get.find<TraLedButtonController>().currentTime;
-        datas = await HealthData.queryHealthData(
-            reportType: reportType.value,
-            types: currentType,
-            currentTime: currentTime);
-      } else {
-        datas = List.generate(
-          30,
-          (index) => KChartCellData(
-            x: index.toString(),
-            y: 0,
-            color: currentType.getTypeMainColor(),
-          ),
-        );
-      }
+      // if (currentType == KHealthDataType.HEART_RATE ||
+      //     currentType == KHealthDataType.BLOOD_OXYGEN ||
+      //     currentType == KHealthDataType.STEPS ||
+      //     currentType == KHealthDataType.LiCheng ||
+      //     currentType == KHealthDataType.CALORIES_BURNED ||
+      //     currentType == KHealthDataType.BODY_TEMPERATURE) {
+      //   final currentTime = Get.find<TraLedButtonController>().currentTime;
+      //   datas = await HealthData.queryHealthData(
+      //       reportType: reportType.value,
+      //       types: currentType,
+      //       currentTime: currentTime);
+      // } else {
+      datas = List.generate(
+        30,
+        (index) => KChartCellData(
+          x: index.toString(),
+          y: Random.secure().nextDouble() * 500,
+          color: currentType.getTypeMainColor(),
+        ),
+      );
+      // }
 
-      // dataSource.value = [datas];
+      dataSource.value = [datas];
     }
 
     update([id_data_souce_update]);
