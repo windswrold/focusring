@@ -1728,6 +1728,8 @@ class Locales {
     'max_temp': 'Maximum body temperature',
     'low_temp': 'Lowest body temperature',
     'err_temp': 'number of exceptions',
+    'request_we': 'Welcome',
+    'request_cle': 'Click',
     'agree': 'Agree',
     'disagree': 'Disagree',
     'request': 'Unauthorized location permission',
@@ -1737,6 +1739,9 @@ class Locales {
         'Please read and agree to the User Agreement and Privacy Policy',
     'request_tip07':
         'Permission has been denied. Do you want to go to the settings page to change the settings?',
+    'request_tip04': 'BeeRing User Agreement',
+    'request_tip05': 'And be aware of the',
+    'request_tip06': 'BeeRing Privacy Statement.',
   };
   static const nl_NL = {
     'tabbar_status': 'status',
