@@ -252,6 +252,7 @@ class LocaleKeys {
   static const request_tip05 = 'request_tip05';
   static const agree = 'agree';
   static const disagree = 'disagree';
+  static const disagreetip = 'disagreetip';
   static const request_tip06 = 'request_tip06';
   static const request_tip07 = 'request_tip07';
   static const request = 'request';
@@ -511,6 +512,8 @@ class Locales {
     'request_tip05': 'And know about',
     'agree': 'Agree',
     'disagree': 'Disagree',
+    'disagreetip':
+        'Click [Disagree] and you will no longer be able to use this App. Therefore, we recommend that you read this statement carefully and carefully consider whether you agree with it.',
     'request_tip06': 'BeeRing Privacy Statement.',
     'request_tip07':
         'Permission has been denied. Do you want to go to the settings page to change the settings?',
@@ -759,6 +762,8 @@ class Locales {
     'request_tip03': 'BeeRing permission statement',
     'request_tip04': 'BeeRing User Agreement',
     'request_tip05': 'And know about',
+    'disagreetip':
+        'Click [Disagree] and you will no longer be able to use this App. Therefore, we recommend that you read this statement carefully and carefully consider whether you agree with it.',
     'request_tip06': 'BeeRing Privacy Statement.',
     'request_tip07':
         'Permission has been denied. Do you want to go to the settings page to change the settings?',
@@ -1001,6 +1006,8 @@ class Locales {
     'request_tip03': 'BeeRing permission statement',
     'request_tip04': 'BeeRing User Agreement',
     'request_tip05': 'And know about',
+    'disagreetip':
+        'Click [Disagree] and you will no longer be able to use this App. Therefore, we recommend that you read this statement carefully and carefully consider whether you agree with it.',
     'request_tip06': 'BeeRing Privacy Statement.',
     'request_tip07':
         'Permission has been denied. Do you want to go to the settings page to change the settings?',
@@ -1247,6 +1254,7 @@ class Locales {
     'endtime': '结束时间',
     'agree': '同意',
     'disagree': '不同意',
+    'disagreetip': '点击[不同意]，您将无法继续使用本App。因此，我们建议您仔细阅读该声明，并慎重考虑是否同意该声明。',
   };
   static const it_IT = {
     'tabbar_status': 'Stato',
@@ -1493,6 +1501,8 @@ class Locales {
     'request_tip03': 'BeeRing permission statement',
     'request_tip04': 'BeeRing User Agreement',
     'request_tip05': 'And know about',
+    'disagreetip':
+        'Click [Disagree] and you will no longer be able to use this App. Therefore, we recommend that you read this statement carefully and carefully consider whether you agree with it.',
     'request_tip06': 'BeeRing Privacy Statement.',
     'request_tip07':
         'Permission has been denied. Do you want to go to the settings page to change the settings?',
@@ -1741,6 +1751,8 @@ class Locales {
         'Permission has been denied. Do you want to go to the settings page to change the settings?',
     'request_tip04': 'BeeRing User Agreement',
     'request_tip05': 'And be aware of the',
+    'disagreetip':
+        'Click [Disagree] and you will no longer be able to use this App. Therefore, we recommend that you read this statement carefully and carefully consider whether you agree with it.',
     'request_tip06': 'BeeRing Privacy Statement.',
   };
   static const nl_NL = {
@@ -1986,6 +1998,8 @@ class Locales {
     'request_tip03': 'BeeRing permission statement',
     'request_tip04': 'BeeRing User Agreement',
     'request_tip05': 'And know about',
+    'disagreetip':
+        'Click [Disagree] and you will no longer be able to use this App. Therefore, we recommend that you read this statement carefully and carefully consider whether you agree with it.',
     'request_tip06': 'BeeRing Privacy Statement.',
     'request_tip07':
         'Permission has been denied. Do you want to go to the settings page to change the settings?',
@@ -2230,6 +2244,8 @@ class Locales {
     'disagree': 'Disagree',
     'request_tip04': 'BeeRing User Agreement',
     'request_tip05': 'And know about',
+    'disagreetip':
+        'Click [Disagree] and you will no longer be able to use this App. Therefore, we recommend that you read this statement carefully and carefully consider whether you agree with it.',
     'request_tip06': 'BeeRing Privacy Statement.',
     'request_tip07':
         'Permission has been denied. Do you want to go to the settings page to change the settings?',
@@ -2480,6 +2496,8 @@ class Locales {
     'request_tip03': 'BeeRing permission statement',
     'request_tip04': 'BeeRing User Agreement',
     'request_tip05': 'And know about',
+    'disagreetip':
+        'Click [Disagree] and you will no longer be able to use this App. Therefore, we recommend that you read this statement carefully and carefully consider whether you agree with it.',
     'request_tip06': 'BeeRing Privacy Statement.',
     'request_tip07':
         'Permission has been denied. Do you want to go to the settings page to change the settings?',
@@ -2729,6 +2747,8 @@ class Locales {
     'request_tip05': 'And know about',
     'agree': 'Agree',
     'disagree': 'Disagree',
+    'disagreetip':
+        'Click [Disagree] and you will no longer be able to use this App. Therefore, we recommend that you read this statement carefully and carefully consider whether you agree with it.',
     'request_tip06': 'BeeRing Privacy Statement.',
     'request_tip07':
         'Permission has been denied. Do you want to go to the settings page to change the settings?',
@@ -2979,6 +2999,8 @@ class Locales {
     'request_tip03': 'BeeRing permission statement',
     'request_tip04': 'BeeRing User Agreement',
     'request_tip05': 'And know about',
+    'disagreetip':
+        'Click [Disagree] and you will no longer be able to use this App. Therefore, we recommend that you read this statement carefully and carefully consider whether you agree with it.',
     'request_tip06': 'BeeRing Privacy Statement.',
     'request_tip07':
         'Permission has been denied. Do you want to go to the settings page to change the settings?',
@@ -3227,6 +3249,8 @@ class Locales {
     'request_tip06': 'BeeRing Privacy Statement.',
     'request_tip07':
         'Permission has been denied. Do you want to go to the settings page to change the settings?',
+    'disagreetip':
+        'Click [Disagree] and you will no longer be able to use this App. Therefore, we recommend that you read this statement carefully and carefully consider whether you agree with it.',
   };
   static const ro_RO = {
     'tabbar_status': 'Statut',
@@ -3474,6 +3498,8 @@ class Locales {
     'request_tip05': 'And know about',
     'agree': 'Agree',
     'disagree': 'Disagree',
+    'disagreetip':
+        'Click [Disagree] and you will no longer be able to use this App. Therefore, we recommend that you read this statement carefully and carefully consider whether you agree with it.',
     'request_tip06': 'BeeRing Privacy Statement.',
     'request_tip07':
         'Permission has been denied. Do you want to go to the settings page to change the settings?',
@@ -3720,6 +3746,8 @@ class Locales {
     'request_tip03': 'BeeRing permission statement',
     'request_tip04': 'BeeRing User Agreement',
     'request_tip05': 'And know about',
+    'disagreetip':
+        'Click [Disagree] and you will no longer be able to use this App. Therefore, we recommend that you read this statement carefully and carefully consider whether you agree with it.',
     'request_tip06': 'BeeRing Privacy Statement.',
     'request_tip07':
         'Permission has been denied. Do you want to go to the settings page to change the settings?',

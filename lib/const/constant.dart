@@ -216,21 +216,17 @@ String getZeroDateTime({DateTime? now}) {
 
 class GlobalValues {
   static PackageInfo? appInfo;
+  static AndroidDeviceInfo? androidDeviceInfo;
+  static IosDeviceInfo? iosDeviceInfo;
+
   static Future<void> init() async {
     if (Platform.isAndroid) {
       final AndroidDeviceInfo and = await DeviceInfoPlugin().androidInfo;
-      // deviceInfo.imei = and.deviceInfo;
-      // deviceInfo.machine = and.device;
-      // deviceInfo.system = 'Android' + (and.version.release ?? '');
-      // deviceInfo.appType = 'Android';
-
+      androidDeviceInfo = and;
       vmPrint("and " + and.data.toString());
     } else if (Platform.isIOS) {
       final IosDeviceInfo iOS = await DeviceInfoPlugin().iosInfo;
-      // deviceInfo.imei = iOS.identifierForVendor;
-      // deviceInfo.machine = iOS.utsname.machine;
-      // deviceInfo.system = (iOS.systemName ?? '') + (iOS.systemVersion ?? '');
-      // deviceInfo.appType = 'iOS';
+      iosDeviceInfo = iOS;
       vmPrint("ios " + iOS.toString());
     }
     final info = await PackageInfo.fromPlatform();
@@ -238,5 +234,9 @@ class GlobalValues {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     SPManager.spInit(prefs);
     vmPrint("pack " + info.toString());
+  }
+
+  static int? androidApiVersion() {
+    return androidDeviceInfo?.version.sdkInt;
   }
 }

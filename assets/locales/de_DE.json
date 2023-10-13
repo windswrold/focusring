@@ -228,6 +228,7 @@
   "request_tip03": "BeeRing permission statement",
   "request_tip04": "BeeRing User Agreement",
   "request_tip05": "And know about",
+  "disagreetip": "Click [Disagree] and you will no longer be able to use this App. Therefore, we recommend that you read this statement carefully and carefully consider whether you agree with it.",
   "request_tip06": "BeeRing Privacy Statement.",
   "request_tip07": "Permission has been denied. Do you want to go to the settings page to change the settings?"
 }

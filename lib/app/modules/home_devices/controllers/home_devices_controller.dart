@@ -25,7 +25,6 @@ class HomeDevicesController extends GetxController {
   int _maxScanCount = 10;
   bool _isScan = false;
   ScanResult? _connect;
-  
 
   @override
   void onInit() {
@@ -107,8 +106,8 @@ class HomeDevicesController extends GetxController {
 
     final a = await RingDeviceModel.queryUserAllWithSelect(
         SPManager.getGlobalUser()!.id.toString(), true);
-    if (a.tryFirst != null) {
-      connectDevice.value = a.tryFirst;
+    if (a != null) {
+      connectDevice.value = a;
       _autoScanConnect();
     }
   }

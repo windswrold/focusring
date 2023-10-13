@@ -50,7 +50,13 @@ class HomeTabbarController extends GetxController {
   }
 
   void cancel() async {
-    exit(0);
+    DialogUtils.defaultDialog(
+      title: "disagreetip".tr,
+      onConfirm: () {
+        openAppSettings();
+      },
+      onCancel: () {},
+    );
   }
 
   void confirm() async {
@@ -62,7 +68,6 @@ class HomeTabbarController extends GetxController {
         onConfirm: () {
           openAppSettings();
         },
-        onCancel: cancel,
       );
     }
   }

@@ -28,7 +28,7 @@ class HomeEditCardController extends GetxController {
 
     visibleItems.value =
         await KBaseHealthType.queryAllWithState(appUserId, true);
-    if (a.isEmpty) {
+    if (a == null) {
       //为空则隐藏
       visibleItems.value = visibleItems
           .where((p0) => p0.type != KHealthDataType.BLOOD_OXYGEN)

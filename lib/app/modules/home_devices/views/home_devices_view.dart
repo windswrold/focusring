@@ -68,33 +68,49 @@ class HomeDevicesView extends GetView<HomeDevicesController> {
         color: ColorUtils.fromHex("#FF000000"),
         borderRadius: BorderRadius.circular(14),
       ),
-      child: Column(
-        children: [
-          GetBuilder<AppViewController>(
-              tag: AppViewController.tag,
-              id: AppViewController.userinfoID,
-              builder: (a) {
-                return _getListItem(
-                  index: 0,
-                  icon: "icons/device_icon_hrwarning",
-                  title: "heartrate_alert",
-                  desc:
-                      a.user.value?.heartRateWarnSwitch == true ? "On" : "Off",
-                );
-              }),
-          _getListItem(
-              index: 1,
-              icon: "icons/device_icon_auto",
-              title: "automatic_settings"),
-          _getListItem(
-              index: 2,
-              icon: "icons/device_icon_upgrade",
-              title: "ota_upgrade"),
-          _getListItem(
-              index: 3,
-              icon: "icons/device_icon_reset",
-              title: "restore_settings"),
-        ],
+      child: Obx(
+        () => controller.isConnect.value == false
+            ? Column(
+                children: [
+                  _getListItem(
+                      index: 2,
+                      icon: "icons/device_icon_upgrade",
+                      title: "ota_upgrade"),
+                  _getListItem(
+                      index: 3,
+                      icon: "icons/device_icon_reset",
+                      title: "restore_settings"),
+                ],
+              )
+            : Column(
+                children: [
+                  GetBuilder<AppViewController>(
+                      tag: AppViewController.tag,
+                      id: AppViewController.userinfoID,
+                      builder: (a) {
+                        return _getListItem(
+                          index: 0,
+                          icon: "icons/device_icon_hrwarning",
+                          title: "heartrate_alert",
+                          desc: a.user.value?.heartRateWarnSwitch == true
+                              ? "On"
+                              : "Off",
+                        );
+                      }),
+                  _getListItem(
+                      index: 1,
+                      icon: "icons/device_icon_auto",
+                      title: "automatic_settings"),
+                  _getListItem(
+                      index: 2,
+                      icon: "icons/device_icon_upgrade",
+                      title: "ota_upgrade"),
+                  _getListItem(
+                      index: 3,
+                      icon: "icons/device_icon_reset",
+                      title: "restore_settings"),
+                ],
+              ),
       ),
     );
   }
@@ -146,51 +162,53 @@ class HomeDevicesView extends GetView<HomeDevicesController> {
       );
     }
 
-    return Container(
-      margin: EdgeInsets.only(left: 12.w, top: 12.w, right: 12.w),
-      padding:
-          EdgeInsets.only(left: 12.w, right: 12.w, bottom: 18.w, top: 12.w),
-      decoration: BoxDecoration(
-        color: ColorUtils.fromHex("#FF000000"),
-        borderRadius: BorderRadius.circular(14),
-      ),
-      alignment: Alignment.centerLeft,
-      child: Column(
-        children: [
-          Container(
+    return Obx(() => controller.isConnect.value == false
+        ? Container()
+        : Container(
+            margin: EdgeInsets.only(left: 12.w, top: 12.w, right: 12.w),
+            padding: EdgeInsets.only(
+                left: 12.w, right: 12.w, bottom: 18.w, top: 12.w),
+            decoration: BoxDecoration(
+              color: ColorUtils.fromHex("#FF000000"),
+              borderRadius: BorderRadius.circular(14),
+            ),
             alignment: Alignment.centerLeft,
-            child: Text("manual_test".tr),
-          ),
-          Container(
-            alignment: Alignment.centerLeft,
-            margin: EdgeInsets.only(top: 12.w),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Column(
               children: [
-                _getManual_item(
-                  bgIcon: "icons/device_hr_bg",
-                  icon: "icons/manual_icon_hr",
-                  title: "heartrate".tr,
-                  bgColor: ColorUtils.fromHex("#FF801A1A"),
-                  onTap: () {
-                    controller.onTapManualHeartrate();
-                  },
+                Container(
+                  alignment: Alignment.centerLeft,
+                  child: Text("manual_test".tr),
                 ),
-                _getManual_item(
-                  bgIcon: "icons/device_sao2_bg",
-                  icon: "icons/manual_icon_sao2",
-                  title: "blood_OXYGEN".tr,
-                  bgColor: ColorUtils.fromHex("#FF80611A"),
-                  onTap: () {
-                    controller.onTapBloodOxygen();
-                  },
+                Container(
+                  alignment: Alignment.centerLeft,
+                  margin: EdgeInsets.only(top: 12.w),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      _getManual_item(
+                        bgIcon: "icons/device_hr_bg",
+                        icon: "icons/manual_icon_hr",
+                        title: "heartrate".tr,
+                        bgColor: ColorUtils.fromHex("#FF801A1A"),
+                        onTap: () {
+                          controller.onTapManualHeartrate();
+                        },
+                      ),
+                      _getManual_item(
+                        bgIcon: "icons/device_sao2_bg",
+                        icon: "icons/manual_icon_sao2",
+                        title: "blood_OXYGEN".tr,
+                        bgColor: ColorUtils.fromHex("#FF80611A"),
+                        onTap: () {
+                          controller.onTapBloodOxygen();
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
-          ),
-        ],
-      ),
-    );
+          ));
   }
 
   Widget _getDevicesCard() {

@@ -297,11 +297,11 @@ class _$RingDeviceDao extends RingDeviceDao {
   }
 
   @override
-  Future<List<RingDeviceModel>> queryUserAllWithSelect(
+  Future<RingDeviceModel?> queryUserAllWithSelect(
     String appUserId,
     bool select,
   ) async {
-    return _queryAdapter.queryList(
+    return _queryAdapter.query(
         'SELECT * FROM ring_device_table WHERE appUserId = ?1 and isSelect = ?2',
         mapper: (Map<String, Object?> row) => RingDeviceModel(appUserId: row['appUserId'] as String?, remoteId: row['remoteId'] as String?, localName: row['localName'] as String?, macAddress: row['macAddress'] as String?, isSelect: row['isSelect'] == null ? null : (row['isSelect'] as int) != 0),
         arguments: [appUserId, select ? 1 : 0]);

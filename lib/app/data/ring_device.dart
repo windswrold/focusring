@@ -67,11 +67,15 @@ class RingDeviceModel {
     return datas ?? [];
   }
 
-  static Future<List<RingDeviceModel>> queryUserAllWithSelect(
+  static Future<RingDeviceModel?> queryUserAllWithSelect(
       String appUserId, bool select) async {
-    final db = await DataBaseConfig.openDataBase();
-    final datas = await db?.ringDao.queryUserAllWithSelect(appUserId, select);
-    return datas ?? [];
+    try {
+      final db = await DataBaseConfig.openDataBase();
+      final datas = await db?.ringDao.queryUserAllWithSelect(appUserId, select);
+      return datas;
+    } catch (e) {
+      return null;
+    }
   }
 
   static Future<void> insertTokens(List<RingDeviceModel> models) async {
@@ -86,10 +90,10 @@ class RingDeviceModel {
     return db?.ringDao.updateTokens(model);
   }
 
-
   static Future<void> delTokens(RingDeviceModel model) async {
     final db = await DataBaseConfig.openDataBase();
-    return db?.database?.execute("Delete FROM $tableName where appUserId = '${model.appUserId}' and remoteId = '${model.remoteId}'");
+    return db?.database?.execute(
+        "Delete FROM $tableName where appUserId = '${model.appUserId}' and remoteId = '${model.remoteId}'");
   }
 }
 
@@ -100,7 +104,7 @@ abstract class RingDeviceDao {
 
   @Query(
       'SELECT * FROM $tableName WHERE appUserId = :appUserId and isSelect = :select ')
-  Future<List<RingDeviceModel>> queryUserAllWithSelect(
+  Future<RingDeviceModel?> queryUserAllWithSelect(
       String appUserId, bool select);
 
   @Insert(onConflict: OnConflictStrategy.replace)

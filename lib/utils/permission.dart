@@ -45,18 +45,8 @@ class PermissionUtils {
   }
 
   static Future<bool> checkBle() async {
-    List<Permission> a = [];
-    if (isAndroid == true) {
-      a = [
-        Permission.bluetoothConnect,
-        Permission.bluetoothScan,
-        Permission.bluetooth
-      ];
-    } else {
-      a = [
-        Permission.bluetooth,
-      ];
-    }
+    List<Permission> a = perList();
+
     bool isok = true;
     for (var i = 0; i < a.length; i++) {
       Permission perItem = a[i];
@@ -71,19 +61,7 @@ class PermissionUtils {
   }
 
   static Future<bool> requestBle() async {
-    List<Permission> a = [];
-    if (isAndroid == true) {
-      a = [
-        Permission.bluetoothConnect,
-        Permission.bluetoothScan,
-        Permission.bluetooth
-      ];
-    } else {
-      a = [
-        Permission.bluetooth,
-      ];
-    }
-
+    List<Permission> a = perList();
     Map<Permission, PermissionStatus> statuses = await a.request();
     bool isok = true;
     for (var element in statuses.values) {
@@ -96,6 +74,20 @@ class PermissionUtils {
     await Future.delayed(Duration(milliseconds: 500));
 
     return checkBle();
+  }
+
+  static List<Permission> perList() {
+    if (isAndroid == true) {
+      int androidApiVersion = GlobalValues.androidApiVersion() ?? 30;
+      if (androidApiVersion <= 30) {
+        return [Permission.location];
+      }
+      return [
+        Permission.bluetoothConnect,
+        Permission.bluetoothScan,
+      ];
+    }
+    return [Permission.bluetooth];
   }
 
   static Future<bool> checkStoragePermissions() async {

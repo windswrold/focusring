@@ -49,11 +49,11 @@ class HomeMineController extends GetxController {
         "b": "about",
         "r": Routes.ABOUT_US,
       },
-      {
-        "a": "icons/mine_icon_about",
-        "b": "test page",
-        "r": Routes.TESTDFU,
-      },
+      // {
+      //   "a": "icons/mine_icon_about",
+      //   "b": "test page",
+      //   "r": Routes.TESTDFU,
+      // },
     ].obs;
   }
 
