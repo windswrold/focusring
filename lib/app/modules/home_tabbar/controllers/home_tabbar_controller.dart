@@ -53,7 +53,7 @@ class HomeTabbarController extends GetxController {
     DialogUtils.defaultDialog(
       title: "disagreetip".tr,
       onConfirm: () {
-        openAppSettings();
+        confirm();
       },
       onCancel: () {},
     );
@@ -73,8 +73,12 @@ class HomeTabbarController extends GetxController {
   }
 
   void _initData() async {
-    final state = await PermissionUtils.checkBle();
-    bleIsok.value = state;
+    if (isAndroid) {
+      final state = await PermissionUtils.checkBle();
+      bleIsok.value = state;
+    } else {
+      bleIsok.value = true;
+    }
 
     AppApi.checkAppUpdateStream(
             systemType: getSystemType(),

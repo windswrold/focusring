@@ -38,7 +38,7 @@ class ReportInfoStressController extends GetxController {
         30,
         (index) => KChartCellData(
           x: index.toString(),
-          y: Random.secure().nextDouble() * 500,
+          y: 0,
           color:
               KStressStatusType.values[Random.secure().nextInt(4)].getStatusColor(),
         ),

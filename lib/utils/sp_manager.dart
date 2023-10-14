@@ -26,7 +26,7 @@ class SPManager {
 
   static String getAppLanguage() {
     String? value = _sp!.getString(_systemlanguageSET);
-    return value ?? getLocaleKey(fallbackLocale);
+    return value ?? getLocaleKey(Get.deviceLocale!);
   }
 
   static void setAppLanguage(Locale value) {

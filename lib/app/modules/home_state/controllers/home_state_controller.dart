@@ -102,7 +102,7 @@ class HomeStateController extends GetxController {
         30,
         (index) => KChartCellData(
           x: index.toString(),
-          y: Random.secure().nextDouble() * 500,
+          y: 0,
           state: KSleepStatusType.values[Random.secure().nextInt(3)],
           color: element.type.getTypeMainColor(),
         ),
@@ -119,13 +119,13 @@ class HomeStateController extends GetxController {
       }
 
       KHomeCardModel card = KHomeCardModel(
-          type: element.type,
-          date: "empty_data".tr,
-          result: "",
-          resultDesc: "",
-          startDesc: "",
-          endDesc: "",
-          datas: [data, data, data]);
+        type: element.type,
+        date: "empty_data".tr,
+        result: "",
+        resultDesc: "",
+        startDesc: "",
+        endDesc: "",
+      );
       dataArr.add(card);
     }
 

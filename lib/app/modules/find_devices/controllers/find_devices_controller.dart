@@ -1,6 +1,5 @@
 import 'dart:async';
 
-
 import 'package:beering/utils/permission.dart';
 import 'package:beering/ble/bledata_serialization.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
@@ -55,8 +54,11 @@ class FindDevicesController extends GetxController {
 
     scanStream = KBLEManager.scanResults.listen((event) {
       vmPrint("scanResults ${event.length}");
-      scanResults.value =
-          event.map((e) => RingDeviceModel.fromResult(e)).toList();
+      scanResults.value = event
+          .where((element) =>
+              element.device.localName.toLowerCase().contains("ring"))
+          .map((e) => RingDeviceModel.fromResult(e))
+          .toList();
     });
 
     isScan = KBLEManager.isScanning.listen((event) {

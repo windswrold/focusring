@@ -45,8 +45,10 @@ class PermissionUtils {
   }
 
   static Future<bool> checkBle() async {
-    List<Permission> a = perList();
 
+
+
+    List<Permission> a = perList();
     bool isok = true;
     for (var i = 0; i < a.length; i++) {
       Permission perItem = a[i];
