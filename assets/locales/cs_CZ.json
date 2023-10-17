@@ -225,10 +225,14 @@
   "request_tip02": "That means you agree",
   "request_tip03": "BeeRing permission statement",
   "request_tip04": "BeeRing User Agreement",
-  "agree": "Agree",
-  "disagree": "Disagree",
   "request_tip05": "And know about",
   "request_tip06": "BeeRing Privacy Statement.",
   "request_tip07": "Permission has been denied. Do you want to go to the settings page to change the settings?",
-  "disagreetip": "Click [Disagree] and you will no longer be able to use this App. Therefore, we recommend that you read this statement carefully and carefully consider whether you agree with it."
+  "request": "Unauthorized location permission",
+  "starttime": "Starting time",
+  "endtime": "End Time",
+  "agree": "Agree",
+  "disagree": "Disagree",
+  "disagreetip": "Click [Disagree] and you will no longer be able to use this App. Therefore, we recommend that you read this statement carefully and carefully consider whether you agree with it.",
+  "disagreetip_1": "Please authorize the use of Bluetooth permissions and location permissions to discover and connect nearby devices. If you refuse, the App will not be able to function properly."
 }

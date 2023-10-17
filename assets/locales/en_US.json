@@ -227,8 +227,12 @@
   "request_tip": "During use, in order to provide more services, you may need to apply for the following permissions: obtain Bluetooth, obtain positioning, read and write mobile phone storage, etc. You can go to permission management at any time to adjust the authorization of all permissions. ",
   "request_tip02": "Please read and agree to the User Agreement and Privacy Policy",
   "request_tip07": "Permission has been denied. Do you want to go to the settings page to change the settings?",
+  "request_tip03": "BeeRing permission statement",
   "request_tip04": "BeeRing User Agreement",
   "request_tip05": "And be aware of the",
+  "starttime": "Starting time",
+  "endtime": "End Time",
   "disagreetip": "Click [Disagree] and you will no longer be able to use this App. Therefore, we recommend that you read this statement carefully and carefully consider whether you agree with it.",
-  "request_tip06": "BeeRing Privacy Statement."
+  "request_tip06": "BeeRing Privacy Statement.",
+  "disagreetip_1": "Please authorize the use of Bluetooth permissions and location permissions to discover and connect nearby devices. If you refuse, the App will not be able to function properly."
 }

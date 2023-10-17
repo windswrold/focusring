@@ -252,12 +252,13 @@ class LocaleKeys {
   static const request_tip05 = 'request_tip05';
   static const agree = 'agree';
   static const disagree = 'disagree';
-  static const disagreetip = 'disagreetip';
-  static const request_tip06 = 'request_tip06';
-  static const request_tip07 = 'request_tip07';
   static const request = 'request';
   static const starttime = 'starttime';
   static const endtime = 'endtime';
+  static const disagreetip = 'disagreetip';
+  static const disagreetip_1 = 'disagreetip_1';
+  static const request_tip06 = 'request_tip06';
+  static const request_tip07 = 'request_tip07';
   static const emotion_report = 'emotion_report';
   static const about_activitytip = 'about_activitytip';
   static const about_activitytip01 = 'about_activitytip01';
@@ -512,8 +513,13 @@ class Locales {
     'request_tip05': 'And know about',
     'agree': 'Agree',
     'disagree': 'Disagree',
+    'request': 'Unauthorized location permission',
+    'starttime': 'Starting time',
+    'endtime': 'End Time',
     'disagreetip':
         'Click [Disagree] and you will no longer be able to use this App. Therefore, we recommend that you read this statement carefully and carefully consider whether you agree with it.',
+    'disagreetip_1':
+        'Please authorize the use of Bluetooth permissions and location permissions to discover and connect nearby devices. If you refuse, the App will not be able to function properly.',
     'request_tip06': 'BeeRing Privacy Statement.',
     'request_tip07':
         'Permission has been denied. Do you want to go to the settings page to change the settings?',
@@ -757,7 +763,6 @@ class Locales {
         'During use, in order to provide more services, you need to apply for the following permissions: obtain Bluetooth, obtain positioning, read and write mobile phone storage, etc. You can go to permission management at any time to adjust the authorization of all permissions.',
     'request_cle': 'click',
     'request_tip02': 'That means you agree',
-    'agree': 'Agree',
     'disagree': 'Disagree',
     'request_tip03': 'BeeRing permission statement',
     'request_tip04': 'BeeRing User Agreement',
@@ -765,8 +770,14 @@ class Locales {
     'disagreetip':
         'Click [Disagree] and you will no longer be able to use this App. Therefore, we recommend that you read this statement carefully and carefully consider whether you agree with it.',
     'request_tip06': 'BeeRing Privacy Statement.',
+    'starttime': 'Starting time',
+    'endtime': 'End Time',
+    'agree': 'Agree',
+    'request': 'Unauthorized location permission',
     'request_tip07':
         'Permission has been denied. Do you want to go to the settings page to change the settings?',
+    'disagreetip_1':
+        'Please authorize the use of Bluetooth permissions and location permissions to discover and connect nearby devices. If you refuse, the App will not be able to function properly.',
   };
   static const ja_JP = {
     'tabbar_status': 'ステータス',
@@ -1006,11 +1017,16 @@ class Locales {
     'request_tip03': 'BeeRing permission statement',
     'request_tip04': 'BeeRing User Agreement',
     'request_tip05': 'And know about',
+    'request': 'Unauthorized location permission',
+    'starttime': 'Starting time',
+    'endtime': 'End Time',
     'disagreetip':
         'Click [Disagree] and you will no longer be able to use this App. Therefore, we recommend that you read this statement carefully and carefully consider whether you agree with it.',
     'request_tip06': 'BeeRing Privacy Statement.',
     'request_tip07':
         'Permission has been denied. Do you want to go to the settings page to change the settings?',
+    'disagreetip_1':
+        'Please authorize the use of Bluetooth permissions and location permissions to discover and connect nearby devices. If you refuse, the App will not be able to function properly.',
   };
   static const zh_CN = {
     'tabbar_status': '状态',
@@ -1255,6 +1271,7 @@ class Locales {
     'agree': '同意',
     'disagree': '不同意',
     'disagreetip': '点击[不同意]，您将无法继续使用本App。因此，我们建议您仔细阅读该声明，并慎重考虑是否同意该声明。',
+    'disagreetip_1': '请授权使用蓝牙权限和位置权限，用于发现、连接附近的设备，如果拒绝App将无法正常使用',
   };
   static const it_IT = {
     'tabbar_status': 'Stato',
@@ -1501,11 +1518,16 @@ class Locales {
     'request_tip03': 'BeeRing permission statement',
     'request_tip04': 'BeeRing User Agreement',
     'request_tip05': 'And know about',
+    'request': 'Unauthorized location permission',
+    'starttime': 'Starting time',
+    'endtime': 'End Time',
     'disagreetip':
         'Click [Disagree] and you will no longer be able to use this App. Therefore, we recommend that you read this statement carefully and carefully consider whether you agree with it.',
     'request_tip06': 'BeeRing Privacy Statement.',
     'request_tip07':
         'Permission has been denied. Do you want to go to the settings page to change the settings?',
+    'disagreetip_1':
+        'Please authorize the use of Bluetooth permissions and location permissions to discover and connect nearby devices. If you refuse, the App will not be able to function properly.',
   };
   static const en_US = {
     'tabbar_status': 'Status',
@@ -1749,11 +1771,16 @@ class Locales {
         'Please read and agree to the User Agreement and Privacy Policy',
     'request_tip07':
         'Permission has been denied. Do you want to go to the settings page to change the settings?',
+    'request_tip03': 'BeeRing permission statement',
     'request_tip04': 'BeeRing User Agreement',
     'request_tip05': 'And be aware of the',
+    'starttime': 'Starting time',
+    'endtime': 'End Time',
     'disagreetip':
         'Click [Disagree] and you will no longer be able to use this App. Therefore, we recommend that you read this statement carefully and carefully consider whether you agree with it.',
     'request_tip06': 'BeeRing Privacy Statement.',
+    'disagreetip_1':
+        'Please authorize the use of Bluetooth permissions and location permissions to discover and connect nearby devices. If you refuse, the App will not be able to function properly.',
   };
   static const nl_NL = {
     'tabbar_status': 'status',
@@ -2001,8 +2028,13 @@ class Locales {
     'disagreetip':
         'Click [Disagree] and you will no longer be able to use this App. Therefore, we recommend that you read this statement carefully and carefully consider whether you agree with it.',
     'request_tip06': 'BeeRing Privacy Statement.',
+    'request': 'Unauthorized location permission',
+    'starttime': 'Starting time',
+    'endtime': 'End Time',
     'request_tip07':
         'Permission has been denied. Do you want to go to the settings page to change the settings?',
+    'disagreetip_1':
+        'Please authorize the use of Bluetooth permissions and location permissions to discover and connect nearby devices. If you refuse, the App will not be able to function properly.',
   };
   static const da_DK = {
     'tabbar_status': 'status',
@@ -2247,8 +2279,13 @@ class Locales {
     'disagreetip':
         'Click [Disagree] and you will no longer be able to use this App. Therefore, we recommend that you read this statement carefully and carefully consider whether you agree with it.',
     'request_tip06': 'BeeRing Privacy Statement.',
+    'request': 'Unauthorized location permission',
+    'starttime': 'Starting time',
+    'endtime': 'End Time',
     'request_tip07':
         'Permission has been denied. Do you want to go to the settings page to change the settings?',
+    'disagreetip_1':
+        'Please authorize the use of Bluetooth permissions and location permissions to discover and connect nearby devices. If you refuse, the App will not be able to function properly.',
   };
   static const de_DE = {
     'tabbar_status': 'Status',
@@ -2499,8 +2536,13 @@ class Locales {
     'disagreetip':
         'Click [Disagree] and you will no longer be able to use this App. Therefore, we recommend that you read this statement carefully and carefully consider whether you agree with it.',
     'request_tip06': 'BeeRing Privacy Statement.',
+    'request': 'Unauthorized location permission',
+    'starttime': 'Starting time',
+    'endtime': 'End Time',
     'request_tip07':
         'Permission has been denied. Do you want to go to the settings page to change the settings?',
+    'disagreetip_1':
+        'Please authorize the use of Bluetooth permissions and location permissions to discover and connect nearby devices. If you refuse, the App will not be able to function properly.',
   };
   static const pt_BR = {
     'tabbar_status': 'Status',
@@ -2747,11 +2789,16 @@ class Locales {
     'request_tip05': 'And know about',
     'agree': 'Agree',
     'disagree': 'Disagree',
+    'request': 'Unauthorized location permission',
+    'starttime': 'Starting time',
+    'endtime': 'End Time',
     'disagreetip':
         'Click [Disagree] and you will no longer be able to use this App. Therefore, we recommend that you read this statement carefully and carefully consider whether you agree with it.',
     'request_tip06': 'BeeRing Privacy Statement.',
     'request_tip07':
         'Permission has been denied. Do you want to go to the settings page to change the settings?',
+    'disagreetip_1':
+        'Please authorize the use of Bluetooth permissions and location permissions to discover and connect nearby devices. If you refuse, the App will not be able to function properly.',
   };
   static const fr_FR = {
     'tabbar_status': 'Statut',
@@ -3002,8 +3049,13 @@ class Locales {
     'disagreetip':
         'Click [Disagree] and you will no longer be able to use this App. Therefore, we recommend that you read this statement carefully and carefully consider whether you agree with it.',
     'request_tip06': 'BeeRing Privacy Statement.',
+    'starttime': 'Starting time',
+    'endtime': 'End Time',
+    'request': 'Unauthorized location permission',
     'request_tip07':
         'Permission has been denied. Do you want to go to the settings page to change the settings?',
+    'disagreetip_1':
+        'Please authorize the use of Bluetooth permissions and location permissions to discover and connect nearby devices. If you refuse, the App will not be able to function properly.',
   };
   static const cs_CZ = {
     'tabbar_status': 'Stav',
@@ -3243,14 +3295,19 @@ class Locales {
     'request_tip02': 'That means you agree',
     'request_tip03': 'BeeRing permission statement',
     'request_tip04': 'BeeRing User Agreement',
-    'agree': 'Agree',
-    'disagree': 'Disagree',
     'request_tip05': 'And know about',
     'request_tip06': 'BeeRing Privacy Statement.',
     'request_tip07':
         'Permission has been denied. Do you want to go to the settings page to change the settings?',
+    'request': 'Unauthorized location permission',
+    'starttime': 'Starting time',
+    'endtime': 'End Time',
+    'agree': 'Agree',
+    'disagree': 'Disagree',
     'disagreetip':
         'Click [Disagree] and you will no longer be able to use this App. Therefore, we recommend that you read this statement carefully and carefully consider whether you agree with it.',
+    'disagreetip_1':
+        'Please authorize the use of Bluetooth permissions and location permissions to discover and connect nearby devices. If you refuse, the App will not be able to function properly.',
   };
   static const ro_RO = {
     'tabbar_status': 'Statut',
@@ -3501,8 +3558,13 @@ class Locales {
     'disagreetip':
         'Click [Disagree] and you will no longer be able to use this App. Therefore, we recommend that you read this statement carefully and carefully consider whether you agree with it.',
     'request_tip06': 'BeeRing Privacy Statement.',
+    'request': 'Unauthorized location permission',
+    'starttime': 'Starting time',
+    'endtime': 'End Time',
     'request_tip07':
         'Permission has been denied. Do you want to go to the settings page to change the settings?',
+    'disagreetip_1':
+        'Please authorize the use of Bluetooth permissions and location permissions to discover and connect nearby devices. If you refuse, the App will not be able to function properly.',
   };
   static const pl_PL = {
     'tabbar_status': 'Status',
@@ -3749,7 +3811,12 @@ class Locales {
     'disagreetip':
         'Click [Disagree] and you will no longer be able to use this App. Therefore, we recommend that you read this statement carefully and carefully consider whether you agree with it.',
     'request_tip06': 'BeeRing Privacy Statement.',
+    'request': 'Unauthorized location permission',
+    'starttime': 'Starting time',
+    'endtime': 'End Time',
     'request_tip07':
         'Permission has been denied. Do you want to go to the settings page to change the settings?',
+    'disagreetip_1':
+        'Please authorize the use of Bluetooth permissions and location permissions to discover and connect nearby devices. If you refuse, the App will not be able to function properly.',
   };
 }
