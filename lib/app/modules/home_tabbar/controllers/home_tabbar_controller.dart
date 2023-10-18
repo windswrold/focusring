@@ -61,7 +61,9 @@ class HomeTabbarController extends GetxController {
 
   void confirm() async {
     DialogUtils.defaultDialog(
-      title: "disagreetip_1".tr,
+      title: "request_auth".tr + "\n\n" + "disagreetip_1".tr,
+      // content: "disagreetip_1".tr,
+      // title: "disagreetip_1".tr,
       onConfirm: () async {
         final aaa = await PermissionUtils.requestBle();
         bleIsok.value = aaa;

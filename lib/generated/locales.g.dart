@@ -258,7 +258,14 @@ class LocaleKeys {
   static const disagreetip = 'disagreetip';
   static const disagreetip_1 = 'disagreetip_1';
   static const request_tip06 = 'request_tip06';
+  static const perferseting = 'perferseting';
   static const request_tip07 = 'request_tip07';
+  static const get_location = 'get_location';
+  static const get_location_01 = 'get_location_01';
+  static const get_location_02 = 'get_location_02';
+  static const unauth_ed = 'unauth_ed';
+  static const request_auth = 'request_auth';
+  static const unauth = 'unauth';
   static const emotion_report = 'emotion_report';
   static const about_activitytip = 'about_activitytip';
   static const about_activitytip01 = 'about_activitytip01';
@@ -519,10 +526,19 @@ class Locales {
     'disagreetip':
         'Click [Disagree] and you will no longer be able to use this App. Therefore, we recommend that you read this statement carefully and carefully consider whether you agree with it.',
     'disagreetip_1':
-        'Please authorize the use of Bluetooth permissions and location permissions to discover and connect nearby devices. If you refuse, the App will not be able to function properly.',
+        '1. Bluetooth permission: This permission is only used to communicate with the device.\n2. Location permission and Bluetooth background location information permission: This permission is only used for users to discover and connect nearby devices.\nNote: Location permissions and Bluetooth background location information permissions request the right to use rough location information, not the right to use precise location information. The above permissions are necessary permissions to use this program. They are only for the normal operation of the device. If you refuse, you will not be able to use the program normally.',
     'request_tip06': 'BeeRing Privacy Statement.',
+    'perferseting': 'Permission settings',
     'request_tip07':
         'Permission has been denied. Do you want to go to the settings page to change the settings?',
+    'get_location': 'Get location information',
+    'get_location_01':
+        'This permission allows the App to obtain mobile phone location information to ensure the use of some functions. Listed functions are as follows:',
+    'get_location_02':
+        'According to the regulations of the Android platform, when scanning a device with low-power Bluetooth, you need to obtain the location information of the mobile phone, otherwise it cannot be used.',
+    'unauth_ed': 'Authorized',
+    'request_auth': 'Request authorization',
+    'unauth': 'Unauthorized',
   };
   static const es_ES = {
     'tabbar_status': 'Estado',
@@ -774,10 +790,19 @@ class Locales {
     'endtime': 'End Time',
     'agree': 'Agree',
     'request': 'Unauthorized location permission',
+    'perferseting': 'Permission settings',
     'request_tip07':
         'Permission has been denied. Do you want to go to the settings page to change the settings?',
     'disagreetip_1':
-        'Please authorize the use of Bluetooth permissions and location permissions to discover and connect nearby devices. If you refuse, the App will not be able to function properly.',
+        '1. Bluetooth permission: This permission is only used to communicate with the device.\n2. Location permission and Bluetooth background location information permission: This permission is only used for users to discover and connect nearby devices.\nNote: Location permissions and Bluetooth background location information permissions request the right to use rough location information, not the right to use precise location information. The above permissions are necessary permissions to use this program. They are only for the normal operation of the device. If you refuse, you will not be able to use the program normally.',
+    'get_location': 'Get location information',
+    'get_location_01':
+        'This permission allows the App to obtain mobile phone location information to ensure the use of some functions. Listed functions are as follows:',
+    'get_location_02':
+        'According to the regulations of the Android platform, when scanning a device with low-power Bluetooth, you need to obtain the location information of the mobile phone, otherwise it cannot be used.',
+    'unauth_ed': 'Authorized',
+    'request_auth': 'Request authorization',
+    'unauth': 'Unauthorized',
   };
   static const ja_JP = {
     'tabbar_status': 'ステータス',
@@ -1023,10 +1048,19 @@ class Locales {
     'disagreetip':
         'Click [Disagree] and you will no longer be able to use this App. Therefore, we recommend that you read this statement carefully and carefully consider whether you agree with it.',
     'request_tip06': 'BeeRing Privacy Statement.',
+    'perferseting': 'Permission settings',
     'request_tip07':
         'Permission has been denied. Do you want to go to the settings page to change the settings?',
     'disagreetip_1':
-        'Please authorize the use of Bluetooth permissions and location permissions to discover and connect nearby devices. If you refuse, the App will not be able to function properly.',
+        '1. Bluetooth permission: This permission is only used to communicate with the device.\n2. Location permission and Bluetooth background location information permission: This permission is only used for users to discover and connect nearby devices.\nNote: Location permissions and Bluetooth background location information permissions request the right to use rough location information, not the right to use precise location information. The above permissions are necessary permissions to use this program. They are only for the normal operation of the device. If you refuse, you will not be able to use the program normally.',
+    'get_location': 'Get location information',
+    'get_location_01':
+        'This permission allows the App to obtain mobile phone location information to ensure the use of some functions. Listed functions are as follows:',
+    'get_location_02':
+        'According to the regulations of the Android platform, when scanning a device with low-power Bluetooth, you need to obtain the location information of the mobile phone, otherwise it cannot be used.',
+    'unauth_ed': 'Authorized',
+    'request_auth': 'Request authorization',
+    'unauth': 'Unauthorized',
   };
   static const zh_CN = {
     'tabbar_status': '状态',
@@ -1271,7 +1305,15 @@ class Locales {
     'agree': '同意',
     'disagree': '不同意',
     'disagreetip': '点击[不同意]，您将无法继续使用本App。因此，我们建议您仔细阅读该声明，并慎重考虑是否同意该声明。',
-    'disagreetip_1': '请授权使用蓝牙权限和位置权限，用于发现、连接附近的设备，如果拒绝App将无法正常使用',
+    'disagreetip_1':
+        '1、蓝牙权限：此权限仅用于与设备通信\n2、位置权限以及蓝牙后台位置信息权限：此权限仅用于用户发现、连接附近设备\n说明：位置权限以及蓝牙后台位置信息权限是请求粗略位置信息使用权，而非精确位置信息使用权，以上权限为使用本程序必要权限，仅为了设备能正常运行使用，如果拒绝将无法正常使用程序',
+    'perferseting': '权限设置',
+    'get_location': '获取手机位置信息',
+    'get_location_01': '此权限允许App获取手机位置信息，以保证一些功能的使用。列举功能如下：',
+    'get_location_02': '根据Android平台的规定，低功耗蓝牙扫描设备时，需要获取手机位置信息，否则无法使用',
+    'unauth_ed': '已授权',
+    'unauth': '未授权',
+    'request_auth': '请求授权',
   };
   static const it_IT = {
     'tabbar_status': 'Stato',
@@ -1524,10 +1566,19 @@ class Locales {
     'disagreetip':
         'Click [Disagree] and you will no longer be able to use this App. Therefore, we recommend that you read this statement carefully and carefully consider whether you agree with it.',
     'request_tip06': 'BeeRing Privacy Statement.',
+    'perferseting': 'Permission settings',
     'request_tip07':
         'Permission has been denied. Do you want to go to the settings page to change the settings?',
     'disagreetip_1':
-        'Please authorize the use of Bluetooth permissions and location permissions to discover and connect nearby devices. If you refuse, the App will not be able to function properly.',
+        '1. Bluetooth permission: This permission is only used to communicate with the device.\n2. Location permission and Bluetooth background location information permission: This permission is only used for users to discover and connect nearby devices.\nNote: Location permissions and Bluetooth background location information permissions request the right to use rough location information, not the right to use precise location information. The above permissions are necessary permissions to use this program. They are only for the normal operation of the device. If you refuse, you will not be able to use the program normally.',
+    'get_location': 'Get location information',
+    'get_location_01':
+        'This permission allows the App to obtain mobile phone location information to ensure the use of some functions. Listed functions are as follows:',
+    'get_location_02':
+        'According to the regulations of the Android platform, when scanning a device with low-power Bluetooth, you need to obtain the location information of the mobile phone, otherwise it cannot be used.',
+    'unauth_ed': 'Authorized',
+    'request_auth': 'Request authorization',
+    'unauth': 'Unauthorized',
   };
   static const en_US = {
     'tabbar_status': 'Status',
@@ -1779,8 +1830,17 @@ class Locales {
     'disagreetip':
         'Click [Disagree] and you will no longer be able to use this App. Therefore, we recommend that you read this statement carefully and carefully consider whether you agree with it.',
     'request_tip06': 'BeeRing Privacy Statement.',
+    'perferseting': 'Permission settings',
     'disagreetip_1':
-        'Please authorize the use of Bluetooth permissions and location permissions to discover and connect nearby devices. If you refuse, the App will not be able to function properly.',
+        '1. Bluetooth permission: This permission is only used to communicate with the device.\n2. Location permission and Bluetooth background location information permission: This permission is only used for users to discover and connect nearby devices.\n\nNote: Location permissions and Bluetooth background location information permissions request the right to use rough location information, not the right to use precise location information. The above permissions are necessary permissions to use this program. They are only for the normal operation of the device. If you refuse, you will not be able to use the program normally.',
+    'get_location': 'Get location information',
+    'get_location_01':
+        'This permission allows the App to obtain mobile phone location information to ensure the use of some functions. Listed functions are as follows:',
+    'get_location_02':
+        'According to the regulations of the Android platform, when scanning a device with low-power Bluetooth, you need to obtain the location information of the mobile phone, otherwise it cannot be used.',
+    'unauth_ed': 'Authorized',
+    'request_auth': 'Request authorization',
+    'unauth': 'Unauthorized',
   };
   static const nl_NL = {
     'tabbar_status': 'status',
@@ -2034,7 +2094,16 @@ class Locales {
     'request_tip07':
         'Permission has been denied. Do you want to go to the settings page to change the settings?',
     'disagreetip_1':
-        'Please authorize the use of Bluetooth permissions and location permissions to discover and connect nearby devices. If you refuse, the App will not be able to function properly.',
+        '1. Bluetooth permission: This permission is only used to communicate with the device.\n2. Location permission and Bluetooth background location information permission: This permission is only used for users to discover and connect nearby devices.\nNote: Location permissions and Bluetooth background location information permissions request the right to use rough location information, not the right to use precise location information. The above permissions are necessary permissions to use this program. They are only for the normal operation of the device. If you refuse, you will not be able to use the program normally.',
+    'perferseting': 'Permission settings',
+    'get_location': 'Get location information',
+    'get_location_01':
+        'This permission allows the App to obtain mobile phone location information to ensure the use of some functions. Listed functions are as follows:',
+    'get_location_02':
+        'According to the regulations of the Android platform, when scanning a device with low-power Bluetooth, you need to obtain the location information of the mobile phone, otherwise it cannot be used.',
+    'unauth_ed': 'Authorized',
+    'request_auth': 'Request authorization',
+    'unauth': 'Unauthorized',
   };
   static const da_DK = {
     'tabbar_status': 'status',
@@ -2284,8 +2353,17 @@ class Locales {
     'endtime': 'End Time',
     'request_tip07':
         'Permission has been denied. Do you want to go to the settings page to change the settings?',
+    'perferseting': 'Permission settings',
     'disagreetip_1':
-        'Please authorize the use of Bluetooth permissions and location permissions to discover and connect nearby devices. If you refuse, the App will not be able to function properly.',
+        '1. Bluetooth permission: This permission is only used to communicate with the device.\n2. Location permission and Bluetooth background location information permission: This permission is only used for users to discover and connect nearby devices.\nNote: Location permissions and Bluetooth background location information permissions request the right to use rough location information, not the right to use precise location information. The above permissions are necessary permissions to use this program. They are only for the normal operation of the device. If you refuse, you will not be able to use the program normally.',
+    'get_location': 'Get location information',
+    'get_location_01':
+        'This permission allows the App to obtain mobile phone location information to ensure the use of some functions. Listed functions are as follows:',
+    'get_location_02':
+        'According to the regulations of the Android platform, when scanning a device with low-power Bluetooth, you need to obtain the location information of the mobile phone, otherwise it cannot be used.',
+    'unauth_ed': 'Authorized',
+    'request_auth': 'Request authorization',
+    'unauth': 'Unauthorized',
   };
   static const de_DE = {
     'tabbar_status': 'Status',
@@ -2539,10 +2617,19 @@ class Locales {
     'request': 'Unauthorized location permission',
     'starttime': 'Starting time',
     'endtime': 'End Time',
+    'perferseting': 'Permission settings',
     'request_tip07':
         'Permission has been denied. Do you want to go to the settings page to change the settings?',
     'disagreetip_1':
-        'Please authorize the use of Bluetooth permissions and location permissions to discover and connect nearby devices. If you refuse, the App will not be able to function properly.',
+        'Please authorize the use of Bluetooth permissions, location permissions, and background location information permissions to discover and connect nearby devices. If you refuse, the App will not be able to use normally.',
+    'get_location': 'Get location information',
+    'get_location_01':
+        'This permission allows the App to obtain mobile phone location information to ensure the use of some functions. Listed functions are as follows:',
+    'get_location_02':
+        'According to the regulations of the Android platform, when scanning a device with low-power Bluetooth, you need to obtain the location information of the mobile phone, otherwise it cannot be used.',
+    'unauth_ed': 'Authorized',
+    'request_auth': 'Request authorization',
+    'unauth': 'Unauthorized',
   };
   static const pt_BR = {
     'tabbar_status': 'Status',
@@ -2795,10 +2882,19 @@ class Locales {
     'disagreetip':
         'Click [Disagree] and you will no longer be able to use this App. Therefore, we recommend that you read this statement carefully and carefully consider whether you agree with it.',
     'request_tip06': 'BeeRing Privacy Statement.',
+    'perferseting': 'Permission settings',
     'request_tip07':
         'Permission has been denied. Do you want to go to the settings page to change the settings?',
     'disagreetip_1':
-        'Please authorize the use of Bluetooth permissions and location permissions to discover and connect nearby devices. If you refuse, the App will not be able to function properly.',
+        '1. Bluetooth permission: This permission is only used to communicate with the device.\n2. Location permission and Bluetooth background location information permission: This permission is only used for users to discover and connect nearby devices.\nNote: Location permissions and Bluetooth background location information permissions request the right to use rough location information, not the right to use precise location information. The above permissions are necessary permissions to use this program. They are only for the normal operation of the device. If you refuse, you will not be able to use the program normally.',
+    'get_location': 'Get location information',
+    'get_location_01':
+        'This permission allows the App to obtain mobile phone location information to ensure the use of some functions. Listed functions are as follows:',
+    'get_location_02':
+        'According to the regulations of the Android platform, when scanning a device with low-power Bluetooth, you need to obtain the location information of the mobile phone, otherwise it cannot be used.',
+    'unauth_ed': 'Authorized',
+    'request_auth': 'Request authorization',
+    'unauth': 'Unauthorized',
   };
   static const fr_FR = {
     'tabbar_status': 'Statut',
@@ -3052,10 +3148,19 @@ class Locales {
     'starttime': 'Starting time',
     'endtime': 'End Time',
     'request': 'Unauthorized location permission',
+    'perferseting': 'Permission settings',
     'request_tip07':
         'Permission has been denied. Do you want to go to the settings page to change the settings?',
     'disagreetip_1':
-        'Please authorize the use of Bluetooth permissions and location permissions to discover and connect nearby devices. If you refuse, the App will not be able to function properly.',
+        '1. Bluetooth permission: This permission is only used to communicate with the device.\n2. Location permission and Bluetooth background location information permission: This permission is only used for users to discover and connect nearby devices.\nNote: Location permissions and Bluetooth background location information permissions request the right to use rough location information, not the right to use precise location information. The above permissions are necessary permissions to use this program. They are only for the normal operation of the device. If you refuse, you will not be able to use the program normally.',
+    'get_location': 'Get location information',
+    'get_location_01':
+        'This permission allows the App to obtain mobile phone location information to ensure the use of some functions. Listed functions are as follows:',
+    'get_location_02':
+        'According to the regulations of the Android platform, when scanning a device with low-power Bluetooth, you need to obtain the location information of the mobile phone, otherwise it cannot be used.',
+    'unauth_ed': 'Authorized',
+    'request_auth': 'Request authorization',
+    'unauth': 'Unauthorized',
   };
   static const cs_CZ = {
     'tabbar_status': 'Stav',
@@ -3307,7 +3412,16 @@ class Locales {
     'disagreetip':
         'Click [Disagree] and you will no longer be able to use this App. Therefore, we recommend that you read this statement carefully and carefully consider whether you agree with it.',
     'disagreetip_1':
-        'Please authorize the use of Bluetooth permissions and location permissions to discover and connect nearby devices. If you refuse, the App will not be able to function properly.',
+        '1. Bluetooth permission: This permission is only used to communicate with the device.\n2. Location permission and Bluetooth background location information permission: This permission is only used for users to discover and connect nearby devices.\nNote: Location permissions and Bluetooth background location information permissions request the right to use rough location information, not the right to use precise location information. The above permissions are necessary permissions to use this program. They are only for the normal operation of the device. If you refuse, you will not be able to use the program normally.',
+    'perferseting': 'Permission settings',
+    'get_location': 'Get location information',
+    'get_location_01':
+        'This permission allows the App to obtain mobile phone location information to ensure the use of some functions. Listed functions are as follows:',
+    'get_location_02':
+        'According to the regulations of the Android platform, when scanning a device with low-power Bluetooth, you need to obtain the location information of the mobile phone, otherwise it cannot be used.',
+    'unauth_ed': 'Authorized',
+    'unauth': 'Unauthorized',
+    'request_auth': 'Request authorization',
   };
   static const ro_RO = {
     'tabbar_status': 'Statut',
@@ -3561,10 +3675,19 @@ class Locales {
     'request': 'Unauthorized location permission',
     'starttime': 'Starting time',
     'endtime': 'End Time',
+    'perferseting': 'Permission settings',
     'request_tip07':
         'Permission has been denied. Do you want to go to the settings page to change the settings?',
     'disagreetip_1':
-        'Please authorize the use of Bluetooth permissions and location permissions to discover and connect nearby devices. If you refuse, the App will not be able to function properly.',
+        '1. Bluetooth permission: This permission is only used to communicate with the device.\n2. Location permission and Bluetooth background location information permission: This permission is only used for users to discover and connect nearby devices.\nNote: Location permissions and Bluetooth background location information permissions request the right to use rough location information, not the right to use precise location information. The above permissions are necessary permissions to use this program. They are only for the normal operation of the device. If you refuse, you will not be able to use the program normally.',
+    'get_location': 'Get location information',
+    'get_location_01':
+        'This permission allows the App to obtain mobile phone location information to ensure the use of some functions. Listed functions are as follows:',
+    'get_location_02':
+        'According to the regulations of the Android platform, when scanning a device with low-power Bluetooth, you need to obtain the location information of the mobile phone, otherwise it cannot be used.',
+    'unauth_ed': 'Authorized',
+    'request_auth': 'Request authorization',
+    'unauth': 'Unauthorized',
   };
   static const pl_PL = {
     'tabbar_status': 'Status',
@@ -3814,9 +3937,18 @@ class Locales {
     'request': 'Unauthorized location permission',
     'starttime': 'Starting time',
     'endtime': 'End Time',
+    'perferseting': 'Permission settings',
     'request_tip07':
         'Permission has been denied. Do you want to go to the settings page to change the settings?',
     'disagreetip_1':
-        'Please authorize the use of Bluetooth permissions and location permissions to discover and connect nearby devices. If you refuse, the App will not be able to function properly.',
+        '1. Bluetooth permission: This permission is only used to communicate with the device.\n2. Location permission and Bluetooth background location information permission: This permission is only used for users to discover and connect nearby devices.\nNote: Location permissions and Bluetooth background location information permissions request the right to use rough location information, not the right to use precise location information. The above permissions are necessary permissions to use this program. They are only for the normal operation of the device. If you refuse, you will not be able to use the program normally.',
+    'get_location': 'Get location information',
+    'get_location_01':
+        'This permission allows the App to obtain mobile phone location information to ensure the use of some functions. Listed functions are as follows:',
+    'get_location_02':
+        'According to the regulations of the Android platform, when scanning a device with low-power Bluetooth, you need to obtain the location information of the mobile phone, otherwise it cannot be used.',
+    'unauth_ed': 'Authorized',
+    'request_auth': 'Request authorization',
+    'unauth': 'Unauthorized',
   };
 }

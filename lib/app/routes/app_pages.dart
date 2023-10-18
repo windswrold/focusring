@@ -34,6 +34,8 @@ import '../modules/language_unit/bindings/language_unit_binding.dart';
 import '../modules/language_unit/views/language_unit_view.dart';
 import '../modules/login_view/bindings/login_view_binding.dart';
 import '../modules/login_view/views/login_view_view.dart';
+import '../modules/permiss_setting/bindings/permiss_setting_binding.dart';
+import '../modules/permiss_setting/views/permiss_setting_view.dart';
 import '../modules/report_info_emotion/bindings/report_info_emotion_binding.dart';
 import '../modules/report_info_emotion/views/report_info_emotion_view.dart';
 import '../modules/report_info_femmalehealth/bindings/report_info_femmalehealth_binding.dart';
@@ -196,6 +198,11 @@ class AppPages {
       name: _Paths.USER_MANUA_RECORD,
       page: () => const UserManuaRecordView(),
       binding: UserManuaRecordBinding(),
+    ),
+    GetPage(
+      name: _Paths.PERMISS_SETTING,
+      page: () => const PermissSettingView(),
+      binding: PermissSettingBinding(),
     ),
   ];
 }
