@@ -45,51 +45,57 @@ class PermissionUtils {
   }
 
   static Future<bool> checkBle() async {
-
-
-
-    List<Permission> a = perList();
-    bool isok = true;
-    for (var i = 0; i < a.length; i++) {
-      Permission perItem = a[i];
-      PermissionStatus status = await perItem.status;
-      if (status != PermissionStatus.granted) {
-        isok = false;
-        break;
-      }
-    }
-
-    return isok;
-  }
-
-  static Future<bool> requestBle() async {
-    List<Permission> a = perList();
-    Map<Permission, PermissionStatus> statuses = await a.request();
-    bool isok = true;
-    for (var element in statuses.values) {
-      if (element != PermissionStatus.granted) {
-        isok = false;
-        break;
-      }
-    }
-
-    await Future.delayed(Duration(milliseconds: 500));
-
-    return checkBle();
-  }
-
-  static List<Permission> perList() {
     if (isAndroid == true) {
       int androidApiVersion = GlobalValues.androidApiVersion() ?? 30;
       if (androidApiVersion <= 30) {
-        return [Permission.location];
+        PermissionStatus a = await Permission.location.status;
+        return a.isGranted;
+      } else {
+        PermissionStatus a = await Permission.bluetoothScan.status;
+        PermissionStatus b = await Permission.bluetoothConnect.status;
+
+        if (a.isGranted == true && b.isGranted == true) {
+          return true;
+        }
+        return false;
       }
-      return [
-        Permission.bluetoothConnect,
-        Permission.bluetoothScan,
-      ];
+    } else {
+      PermissionStatus a = await Permission.bluetooth.status;
+      return a.isGranted;
     }
-    return [Permission.bluetooth];
+  }
+
+  static Future<bool> requestBle() async {
+    if (isAndroid == true) {
+      int androidApiVersion = GlobalValues.androidApiVersion() ?? 30;
+      if (androidApiVersion <= 30) {
+        if (await Permission.location.isDenied) {
+          await Permission.location.request();
+          if (await Permission.location.isGranted) {
+            await Permission.locationAlways.request();
+            return true;
+          }
+        }
+        return false;
+      } else {
+        PermissionStatus a = await Permission.bluetoothScan.request();
+        PermissionStatus b = await Permission.bluetoothConnect.request();
+
+        if (await Permission.location.isDenied) {
+          await Permission.location.request();
+          if (await Permission.location.isGranted) {
+            await Permission.locationAlways.request();
+          }
+        }
+        if (a.isGranted == true && b.isGranted == true) {
+          return true;
+        }
+        return false;
+      }
+    } else {
+      PermissionStatus a = await Permission.bluetooth.request();
+      return a.isGranted;
+    }
   }
 
   static Future<bool> checkStoragePermissions() async {
