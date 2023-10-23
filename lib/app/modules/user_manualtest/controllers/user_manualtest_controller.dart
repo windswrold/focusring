@@ -38,7 +38,7 @@ class UserManualtestController extends GetxController
   @override
   void onReady() {
     kState.value = KStateType.loading;
-    _timerUtil.startCountDown();
+    _setTime();
     _timerUtil.setOnTimerTickCallback((millisUntilFinished) {
       vmPrint(millisUntilFinished);
       countDownNum.value = (millisUntilFinished ?? 0) ~/ 1000;
@@ -87,7 +87,7 @@ class UserManualtestController extends GetxController
     if (!gifController.isAnimating) {
       gifController.repeat();
       kState.value = KStateType.loading;
-      _timerUtil.updateTotalTime(countDownTime.inMilliseconds);
+      _setTime();
       KBLEManager.sendData(
           sendData: KBLESerialization.ppg_heartOnceTest(
         isHeart: type.value,
@@ -114,10 +114,18 @@ class UserManualtestController extends GetxController
       // KBLEManager.onValueReceived(HEXUtil.decode("EEEE000403000400"));
       // KBLEManager.onValueReceived(HEXUtil.decode("EEEE0004030006aa"));
 
-      KBLEManager.onValueReceived(
-          HEXUtil.decode("EEEE0004030506aa"));
+      KBLEManager.onValueReceived(HEXUtil.decode("EEEE0004030506aa"));
 
       return;
     }
+  }
+
+  void _setTime() {
+    if (type.value == KHealthDataType.HEART_RATE) {
+      _timerUtil.updateTotalTime(Duration(seconds: 30).inMilliseconds);
+    } else {
+      _timerUtil.updateTotalTime(Duration(seconds: 60).inMilliseconds);
+    }
+    countDownNum.value = (_timerUtil.mTotalTime ?? 0) ~/ 1000;
   }
 }
