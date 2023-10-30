@@ -55,8 +55,8 @@ class FindDevicesController extends GetxController {
     scanStream = KBLEManager.scanResults.listen((event) {
       vmPrint("scanResults ${event.length}");
       scanResults.value = event
-          .where((element) =>
-              element.device.localName.toLowerCase().contains("ring"))
+          // .where((element) =>
+          //     element.device.localName.toLowerCase().contains("ring"))
           .map((e) => RingDeviceModel.fromResult(e))
           .toList();
     });
