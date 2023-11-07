@@ -157,7 +157,7 @@ class HomeDevicesController extends GetxController {
           await Future.delayed(Duration(milliseconds: 500));
           vmPrint("断开连接", KBLEManager.logevel);
           KBLEManager.disAllConnect();
-          RingDeviceModel.delTokens(connectDevice.value!);
+          RingDeviceModel.delTokens();
           connectDevice.value = null;
         },
       );

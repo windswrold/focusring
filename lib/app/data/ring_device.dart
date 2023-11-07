@@ -78,10 +78,10 @@ class RingDeviceModel {
     }
   }
 
+  //插入时顺便移除
   static Future<void> insertTokens(List<RingDeviceModel> models) async {
     final db = await DataBaseConfig.openDataBase();
-    db?.database.execute("update $tableName set isSelect = 0");
-
+    await db?.database?.execute("Delete FROM $tableName ");
     return db?.ringDao.insertTokens(models);
   }
 
@@ -90,10 +90,9 @@ class RingDeviceModel {
     return db?.ringDao.updateTokens(model);
   }
 
-  static Future<void> delTokens(RingDeviceModel model) async {
+  static Future<void> delTokens() async {
     final db = await DataBaseConfig.openDataBase();
-    return db?.database?.execute(
-        "Delete FROM $tableName where appUserId = '${model.appUserId}' and remoteId = '${model.remoteId}'");
+    return db?.database?.execute("Delete FROM $tableName ");
   }
 }
 

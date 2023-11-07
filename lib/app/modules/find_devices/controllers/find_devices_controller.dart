@@ -74,13 +74,6 @@ class FindDevicesController extends GetxController {
       vmPrint("BluetoothConnectionState ${event.toString()}");
       if (event == BluetoothConnectionState.connected) {
         HWToast.showSucText(text: "已连接");
-
-        if (_selectaItem == null) {
-          return;
-        }
-        _selectaItem!.isSelect = true;
-        _selectaItem!.appUserId = SPManager.getGlobalUser()?.id.toString();
-        RingDeviceModel.insertTokens([_selectaItem!]);
       } else if (event == BluetoothConnectionState.disconnected) {
         HWToast.showSucText(text: "断开连接");
       }
@@ -95,6 +88,10 @@ class FindDevicesController extends GetxController {
       } else if (event.command == KBLECommandType.system) {
         if (event.status == true) {
           HWToast.showSucText(text: event.tip);
+          _selectaItem!.isSelect = true;
+          //插入
+          _selectaItem!.appUserId = SPManager.getGlobalUser()?.id.toString();
+          RingDeviceModel.insertTokens([_selectaItem!]);
           Get.backDelay(result: _selectaItem);
         }
       }
