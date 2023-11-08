@@ -11,7 +11,7 @@ import 'package:get/get.dart';
 class HomeDevicesController extends GetxController {
   //TODO: Implement HomeDevicesController
 
-  Rx<RingDeviceModel?> connectDevice = Rx<RingDeviceModel?>(null);
+  Rx<RingDeviceModel?> connectDevice = Rx(null);
 
   RxBool isConnect = false.obs;
 
@@ -24,7 +24,7 @@ class HomeDevicesController extends GetxController {
       scanResults;
   int _maxScanCount = 10;
   bool _isScan = false;
-  ScanResult? _connect;
+  ScanResult? _cacheDevices;
 
   @override
   void onInit() {
@@ -71,12 +71,12 @@ class HomeDevicesController extends GetxController {
 
     isScanning = KBLEManager.isScanning.listen((event) {
       _isScan = event;
-      vmPrint("_isScan $_isScan isConnect $isConnect $_connect",
+      vmPrint("_isScan $_isScan isConnect $isConnect $_cacheDevices",
           KBLEManager.logevel);
       if (_isScan == false &&
           isConnect.value == false &&
           connectDevice.value != null &&
-          _connect == null) {
+          _cacheDevices == null) {
         _maxScanCount -= 1;
         vmPrint("扫描超时了还没连接上继续扫描 还剩$_maxScanCount 次", KBLEManager.logevel);
         _autoScanConnect();
@@ -88,8 +88,8 @@ class HomeDevicesController extends GetxController {
         vmPrint(
             "scanResults ${d.toString()}  ${connectDevice.value?.remoteId}");
         if (d.device.remoteId.str == (connectDevice.value?.remoteId ?? "") &&
-            _connect == null) {
-          _connect = d;
+            _cacheDevices == null) {
+          _cacheDevices = d;
           KBLEManager.stopScan();
           KBLEManager.connect(device: connectDevice.value!, ble: d.device);
         }
@@ -119,10 +119,11 @@ class HomeDevicesController extends GetxController {
     if (connectDevice.value == null) {
       return;
     }
-    if (_connect == null) {
+    if (_cacheDevices == null) {
       KBLEManager.startScan();
     } else {
-      KBLEManager.connect(device: connectDevice.value!, ble: _connect!.device);
+      KBLEManager.connect(
+          device: connectDevice.value!, ble: _cacheDevices!.device);
     }
   }
 
@@ -225,7 +226,7 @@ class HomeDevicesController extends GetxController {
       return;
     }
     if (connectDevice.value != null) {
-      _connect = null;
+      _cacheDevices = null;
       KBLEManager.startScan();
       return;
     }

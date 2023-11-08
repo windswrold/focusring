@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:beering/app/data/health_data.dart';
+import 'package:beering/app/data/health_data_utils.dart';
 import 'package:beering/app/data/health_data_dao.dart';
 import 'package:floor/floor.dart';
 import 'package:beering/app/data/card_health_index.dart';

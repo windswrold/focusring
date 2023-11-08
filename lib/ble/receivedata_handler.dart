@@ -1,4 +1,4 @@
-import 'package:beering/app/data/health_data.dart';
+import 'package:beering/app/data/health_data_utils.dart';
 import 'package:beering/ble/ble_config.dart';
 import 'package:beering/ble/ble_manager.dart';
 import 'package:beering/ble/bledata_serialization.dart';
@@ -297,7 +297,7 @@ class ReceiveDataHandler {
     if (all == current) {
       vmPrint("一个包结束了，接收完毕", KBLEManager.logevel);
       //存
-      HealthData.insertHealthBleData(
+      HealthDataUtils.insertHealthBleData(
           datas: List.from(_cachePPGData), isContainTime: true, type: datatype);
       _cachePPGData.clear();
       _maxDay = _maxDay - 1;
@@ -347,7 +347,7 @@ class ReceiveDataHandler {
     if (all == current) {
       vmPrint("一个包结束了，接收完毕", KBLEManager.logevel);
       //存
-      HealthData.insertHealthBleData(
+      HealthDataUtils.insertHealthBleData(
           datas: List.from(_cachePPGData),
           isContainTime: false,
           type: datatype);

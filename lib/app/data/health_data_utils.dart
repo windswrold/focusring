@@ -415,7 +415,7 @@ class PressureData {
       };
 }
 
-class HealthData {
+class HealthDataUtils {
   List<BloodOxygenData>? bloodOxygenData;
   List<FemalePeriodData>? femalePeriodData;
   List<HeartRateData>? heartRateData;
@@ -425,7 +425,7 @@ class HealthData {
   List<EmotionData>? emotionData;
   List<PressureData>? pressureData;
 
-  HealthData({
+  HealthDataUtils({
     this.bloodOxygenData,
     this.femalePeriodData,
     this.heartRateData,
@@ -436,7 +436,8 @@ class HealthData {
     this.pressureData,
   });
 
-  factory HealthData.fromJson(Map<String, dynamic> json) => HealthData(
+  factory HealthDataUtils.fromJson(Map<String, dynamic> json) =>
+      HealthDataUtils(
         bloodOxygenData: (json["bloodOxygenData"] as List)
             .map((i) => BloodOxygenData.fromJson(i))
             .toList(),
@@ -531,9 +532,6 @@ class HealthData {
     }
     return [];
   }
-
-
-
 
   static void insertHealthBleData(
       {required List<int> datas,

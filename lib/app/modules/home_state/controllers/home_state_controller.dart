@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:beering/app/data/card_health_index.dart';
-import 'package:beering/app/data/health_data.dart';
+import 'package:beering/app/data/health_data_utils.dart';
 import 'package:beering/app/modules/app_view/controllers/app_view_controller.dart';
 import 'package:beering/ble/ble_manager.dart';
 
