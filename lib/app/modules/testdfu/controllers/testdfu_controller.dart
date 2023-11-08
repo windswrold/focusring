@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:hex/hex.dart';
 
 import '../../../../public.dart';
+import '../../home_devices/controllers/home_devices_controller.dart';
 
 class TestdfuController extends GetxController {
   //TODO: Implement TestdfuController
@@ -22,7 +23,7 @@ class TestdfuController extends GetxController {
   TextEditingController copy5 = TextEditingController();
 
   RxBool isExtFlash = false.obs;
-  RxBool isfastMode = true.obs;
+  RxBool isfastMode = false.obs;
 
   StreamSubscription? onDfuStart,
       onDfuError,
@@ -130,7 +131,7 @@ class TestdfuController extends GetxController {
       return;
     }
 
-    RingDeviceModel de = Get.arguments;
+    RingDeviceModel de = Get.find<HomeDevicesController>().connectDevice.value!;
 
     try {
       await KBLEManager.getDevice(device: de).startCopyDfu(

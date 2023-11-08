@@ -57,6 +57,8 @@ class FindDevicesController extends GetxController {
       scanResults.value = event
           // .where((element) =>
           //     element.device.localName.toLowerCase().contains("ring"))
+          .where((element) =>
+              element.advertisementData.manufacturerData.containsKey(26214))
           .map((e) => RingDeviceModel.fromResult(e))
           .toList();
     });

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:beering/app/data/ring_device.dart';
+import 'package:beering/net/app_api.dart';
 import 'package:beering/utils/timer_util.dart';
 import 'package:get/get.dart';
 
@@ -27,6 +28,17 @@ class DeviceInfoController extends GetxController {
   @override
   void onClose() {
     super.onClose();
+  }
+
+  void startDFU() {
+    // HWToast.showSucText(text: "no_v".tr);
+
+    HWToast.showLoading();
+    AppApi.getLatestFirmwareStream().onSuccess((value) {
+      HWToast.hiddenAllToast();
+    }).onError((r) {
+      HWToast.showErrText(text: r.error ?? "");
+    });
   }
 
   void changeButtonState(KStateType state) async {

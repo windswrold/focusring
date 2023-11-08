@@ -121,9 +121,6 @@ class HeartRateData {
     final datas =
         (await db?.heartDao.queryUserAll(appUserId, createTime, nextTime)) ??
             [];
-
-    HWToast.showSucText(
-        text: "queryUserAll ${datas.length} datas ${datas.first.heartArray}");
     return datas;
   }
 
@@ -132,6 +129,33 @@ class HeartRateData {
     final datas = await db?.heartDao.insertTokens(models);
     return;
   }
+//
+// static List<KChartCellData> generateCellData({required List<HeartRateData> datas,required KReportType reportType}){
+//
+//   if (reportType == KReportType.day) {
+//     final results = generateCellData(
+//       createTime: datas.first.createTime ?? "",
+//       data: datas.first.heartArray ?? "",
+//       type: types,
+//     );
+//     cellDatas.addAll(results);
+//   } else {
+//     for (var i = 0; i < datas.length; i++) {
+//       final e = datas[i];
+//       cellDatas.add(
+//         KChartCellData(
+//           x: e.createTime,
+//           y: (e.min ?? 0),
+//           z: e.max ?? 0,
+//           a: e.averageHeartRate ?? 0,
+//           color: types.getTypeMainColor(),
+//         ),
+//       );
+//     }
+//   }
+//
+//
+// }
 }
 
 const String tableName3 = 'stepData';
@@ -475,10 +499,12 @@ class HealthDataUtils {
         "pressureData": pressureData?.map((x) => x.toJson()).toList(),
       };
 
-  static Future<List<dynamic>> queryHealthData({
+  static void queryHealthData({
     required KHealthDataType types,
     required KReportType reportType,
     required DateTime? currentTime,
+    required void Function(List datas, List<List<KChartCellData>> cellDttas)
+        callBackData,
   }) async {
     currentTime ??= DateTime.now();
     try {
@@ -504,33 +530,120 @@ class HealthDataUtils {
 
       vmPrint("create $create  nextTime $nextTime reportType $reportType");
 
+      ///如果多天数据，则取每一天的平均值进行画点拆分
       if (types == KHealthDataType.HEART_RATE) {
         List<HeartRateData> datas =
             await HeartRateData.queryUserAll(userid, create, nextTime);
-        return datas;
+        List<KChartCellData> cellDatas = [];
+        if (reportType == KReportType.day) {
+          final results = generateDay(
+            createTime: datas.tryFirst?.createTime ?? "",
+            data: datas.tryFirst?.heartArray ?? "",
+            type: types,
+            reportType: reportType,
+          );
+          cellDatas.addAll(results);
+        } else {
+          for (var i = 0; i < datas.length; i++) {
+            final e = datas[i];
+            final cell = KChartCellData(
+                x: e.createTime,
+                y: (e.min ?? 0),
+                z: e.max ?? 0,
+                a: e.averageHeartRate ?? 0,
+                color: types.getTypeMainColor());
+            cellDatas.add(cell);
+          }
+        }
+        callBackData(datas, [cellDatas]);
       } else if (types == KHealthDataType.BLOOD_OXYGEN) {
         List<BloodOxygenData> datas =
             await BloodOxygenData.queryUserAll(userid, create, nextTime);
-        return datas;
+
+        List<KChartCellData> cellDatas = [];
+        if (reportType == KReportType.day) {
+          final results = generateDay(
+            createTime: datas.tryFirst?.createTime ?? "",
+            data: datas.tryFirst?.bloodArray ?? "",
+            type: types,
+            reportType: reportType,
+          );
+          cellDatas.addAll(results);
+        } else {
+          for (var i = 0; i < datas.length; i++) {
+            final e = datas[i];
+            final cell = KChartCellData(
+                x: e.createTime,
+                y: (e.min ?? 0),
+                z: e.max ?? 0,
+                a: e.averageHeartRate ?? 0,
+                color: types.getTypeMainColor());
+            cellDatas.add(cell);
+          }
+        }
+        callBackData(datas, [cellDatas]);
       } else if (types == KHealthDataType.STEPS ||
           types == KHealthDataType.LiCheng ||
           types == KHealthDataType.CALORIES_BURNED) {
         List<StepData> datas =
             await StepData.queryUserAll(userid, create, nextTime);
-        return datas;
+
+        List<KChartCellData> cellDatas = [];
+        if (reportType == KReportType.day) {
+          final results = generateDay(
+            createTime: datas.tryFirst?.createTime ?? "",
+            data: datas.tryFirst?.dataArrs ?? "",
+            type: types,
+            reportType: reportType,
+          );
+          cellDatas.addAll(results);
+        } else {
+          for (var i = 0; i < datas.length; i++) {
+            final e = datas[i];
+
+            final cell = KChartCellData(
+                x: e.createTime,
+                y: (types == KHealthDataType.STEPS)
+                    ? (e.steps ?? 0)
+                    : types == KHealthDataType.LiCheng
+                        ? (e.distance ?? 0)
+                        : (e.calorie ?? 0),
+                color: types.getTypeMainColor());
+            cellDatas.add(cell);
+          }
+        }
+        callBackData(datas, [cellDatas]);
       } else if (types == KHealthDataType.BODY_TEMPERATURE) {
         List<TempData> datas =
             await TempData.queryUserAll(userid, create, nextTime);
-        return datas;
+
+        List<KChartCellData> cellDatas = [];
+        if (reportType == KReportType.day) {
+          final results = generateDay(
+            createTime: datas.tryFirst?.createTime ?? "",
+            data: datas.tryFirst?.dataArray ?? "",
+            type: types,
+            reportType: reportType,
+          );
+          cellDatas.addAll(results);
+        } else {
+          for (var i = 0; i < datas.length; i++) {
+            final e = datas[i];
+            final cell = KChartCellData(
+                x: e.createTime,
+                y: (e.min ?? 0),
+                z: e.max ?? 0,
+                a: e.average ?? 0,
+                color: types.getTypeMainColor());
+            cellDatas.add(cell);
+          }
+        }
+        callBackData(datas, [cellDatas]);
       } else if (types == KHealthDataType.EMOTION) {
-        return [];
-      } else if (types == KHealthDataType.STRESS) {
-        return [];
-      }
+      } else if (types == KHealthDataType.STRESS) {}
     } catch (e) {
       // HWToast.showErrText(text: "读取失败 ${e}");
     }
-    return [];
   }
 
   static void insertHealthBleData(
@@ -539,6 +652,7 @@ class HealthDataUtils {
       required KHealthDataType type}) {
     try {
       int userid = SPManager.getGlobalUser()!.id!;
+      isContainTime = true;
       String mac = "";
       if (type == KHealthDataType.BLOOD_OXYGEN) {
         _insertBloodOxygen(userid,
@@ -771,8 +885,9 @@ class HealthDataUtils {
     TempData.insertTokens([temp]);
   }
 
-  static List<KChartCellData> generateCellData(
-      {required String createTime,
+  static List<KChartCellData> generateDay(
+      {required KReportType reportType,
+      required String createTime,
       required String data,
       required KHealthDataType type}) {
     List<KChartCellData> cellDatas = [];
@@ -797,13 +912,27 @@ class HealthDataUtils {
           ),
         );
       }
-    } else if (type == KHealthDataType.STEPS) {
+    } else if (type == KHealthDataType.STEPS ||
+        type == KHealthDataType.LiCheng ||
+        type == KHealthDataType.CALORIES_BURNED) {
       for (int i = 0; i < dataArr.length; i += 4) {
         DateTime? dur;
         dur = time?.add(Duration(hours: i ~/ 4));
         int end = (i + 4 > dataArr.length) ? dataArr.length : i + 4;
         final e = dataArr.sublist(i, end);
         int num = (e[3] << 24) | (e[2] << 16) | (e[1] << 8) | e[0];
+        UserInfoModel? user = SPManager.getGlobalUser();
+
+        int? hight = user?.calMetricHeight();
+        int? weight = user?.calMetricWeight();
+        if (type == KHealthDataType.LiCheng) {
+          num = calculate_distance_steps(num, hight!).toInt();
+        }
+
+        if (type == KHealthDataType.CALORIES_BURNED) {
+          num = calculate_kcal_steps(num, weight!, hight!).toInt();
+        }
+
         cellDatas.add(
           KChartCellData(
             x: DateUtil.formatDate(dur, format: DateFormats.h_m),

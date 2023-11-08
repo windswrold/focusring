@@ -86,7 +86,7 @@ class ChartUtils {
         type == KHealthDataType.STRESS) {
       return [
         ColumnSeries<KChartCellData, String>(
-          dataSource: datas.first,
+          dataSource: datas.tryFirst ?? [],
           isTrackVisible: true,
           trackColor: ColorUtils.fromHex("#FF212526"),
           trackBorderWidth: 0,
@@ -102,7 +102,7 @@ class ChartUtils {
     } else if (type == KHealthDataType.HEART_RATE) {
       return [
         SplineAreaSeries<KChartCellData, String>(
-          dataSource: datas.first,
+          dataSource: datas.tryFirst ?? [],
           gradient: const LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -117,7 +117,7 @@ class ChartUtils {
         type == KHealthDataType.BODY_TEMPERATURE) {
       return [
         ColumnSeries<KChartCellData, String>(
-          dataSource: List.generate(datas.first.length,
+          dataSource: List.generate((datas.tryFirst ?? []).length,
               (index) => KChartCellData(x: index.toString(), y: 0.toDouble())),
           isTrackVisible: true,
           trackColor: ColorUtils.fromHex("#212621"),
@@ -130,7 +130,7 @@ class ChartUtils {
           ),
         ),
         ScatterSeries<KChartCellData, String>(
-          dataSource: datas.first,
+          dataSource: datas.tryFirst ?? [],
           xValueMapper: (KChartCellData sales, _) => sales.x,
           yValueMapper: (KChartCellData sales, _) => sales.y,
           markerSettings: const MarkerSettings(
@@ -214,7 +214,7 @@ class ChartUtils {
         type == KHealthDataType.STRESS) {
       return [
         ColumnSeries<KChartCellData, String>(
-          dataSource: datas.first,
+          dataSource: datas.tryFirst ?? [],
           isTrackVisible: false,
           borderRadius: BorderRadius.circular(3),
           xValueMapper: (KChartCellData sales, _) => sales.x,
@@ -284,7 +284,7 @@ class ChartUtils {
       if (reportType == KReportType.day) {
         return [
           SplineAreaSeries<KChartCellData, String>(
-            dataSource: datas.first,
+            dataSource: datas.tryFirst ?? [],
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
@@ -301,13 +301,13 @@ class ChartUtils {
       }
       return [
         RangeColumnSeries<KChartCellData, String>(
-          dataSource: datas.first,
+          dataSource: datas.tryFirst ?? [],
           xValueMapper: (KChartCellData sales, _) => sales.x,
           highValueMapper: (KChartCellData sales, _) => sales.z,
           lowValueMapper: (KChartCellData sales, _) => sales.y,
           pointColorMapper: (datum, index) => datum.color,
           onCreateRenderer: (ChartSeries<dynamic, dynamic> series) {
-            return CustomRangeColumnRenderer(datas.first);
+            return CustomRangeColumnRenderer(datas.tryFirst ?? []);
           },
         ),
       ];
@@ -316,7 +316,7 @@ class ChartUtils {
       if (reportType == KReportType.day) {
         return [
           ScatterSeries<KChartCellData, String>(
-            dataSource: datas.first,
+            dataSource: datas.tryFirst ?? [],
             xValueMapper: (KChartCellData sales, _) => sales.x,
             yValueMapper: (KChartCellData sales, _) => sales.y,
             markerSettings: const MarkerSettings(
@@ -330,13 +330,13 @@ class ChartUtils {
 
       return [
         RangeColumnSeries<KChartCellData, String>(
-          dataSource: datas.first,
+          dataSource: datas.tryFirst ?? [],
           xValueMapper: (KChartCellData sales, _) => sales.x,
           highValueMapper: (KChartCellData sales, _) => sales.z,
           lowValueMapper: (KChartCellData sales, _) => sales.y,
           pointColorMapper: (datum, index) => datum.color,
           onCreateRenderer: (ChartSeries<dynamic, dynamic> series) {
-            return CustomRangeColumnRenderer(datas.first);
+            return CustomRangeColumnRenderer(datas.tryFirst ?? []);
           },
         ),
       ];

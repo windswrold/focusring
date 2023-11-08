@@ -125,11 +125,11 @@ class KBLEManager {
     });
   }
 
-  Future disconnectedAllBle() async {
+  static Future disconnectedAllBle() async {
     List<BluetoothDevice> devices =
         await FlutterBluePlus.connectedSystemDevices;
-    devices.forEach((element) {
-      element.disconnect();
+    devices.forEach((element) async {
+      await element.disconnect();
     });
   }
 
@@ -213,14 +213,6 @@ class KBLEManager {
         }
       }
     } else {}
-  }
-
-  static void disAllConnect() async {
-    List<BluetoothDevice> datas = await FlutterBluePlus.connectedSystemDevices;
-
-    for (var element in datas) {
-      element.disconnect();
-    }
   }
 
   static BluetoothDevice getDevice({

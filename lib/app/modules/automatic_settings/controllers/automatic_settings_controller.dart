@@ -71,7 +71,7 @@ class AutomaticSettingsController extends GetxController {
           int hour1 = result[3];
           int min1 = result[4];
           endTimeOxygen.value = "$hour1:$min1";
-          bloodOxygenAutoTestInterval.value = result[5];
+          bloodOxygenAutoTestInterval.value = result[5].toString() ;
         } else if (event.type == 0x01) {
           //心率设置成功
           //发送血氧变更
