@@ -1,12 +1,14 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:beering/app/data/health_data.dart';
+import 'package:beering/app/data/health_data_utils.dart';
 import 'package:beering/app/data/steps_card_model.dart';
 import 'package:beering/public.dart';
 import 'package:beering/views/charts/home_card/model/home_card_x.dart';
 import 'package:beering/views/tra_led_button.dart';
 import 'package:get/get.dart';
+
+import '../../../../const/event_bus_class.dart';
 
 class ReportInfoStepsController extends GetxController
     with GetSingleTickerProviderStateMixin {
@@ -25,7 +27,16 @@ class ReportInfoStepsController extends GetxController
 
   late RxString chartTipValue = "".obs;
 
-  late RxList<List<KChartCellData>> dataSource = [<KChartCellData>[]].obs;
+  //计步数据
+  late RxList<StepData> reportSteps = RxList();
+  late RxList<SleepData> reportSleep = RxList();
+  late RxList<BloodOxygenData> reportblood = RxList();
+  late RxList<HeartRateData> reportHeart = RxList();
+  late RxList<TempData> reportTemp = RxList();
+
+  late RxList<List<KChartCellData>> chartLists = RxList();
+
+  StreamSubscription? queryTimeSub;
 
   @override
   void onInit() {
@@ -44,6 +55,13 @@ class ReportInfoStepsController extends GetxController
       ),
     ];
     tabController = TabController(vsync: this, length: myTabbas.length);
+
+    queryTimeSub = GlobalValues.globalEventBus
+        .on<KReportQueryTimeUpdate>()
+        .listen((event) {
+      _queryDataSource();
+    });
+
     configCardData();
   }
 
@@ -55,6 +73,7 @@ class ReportInfoStepsController extends GetxController
 
   @override
   void onClose() {
+    queryTimeSub?.cancel();
     super.onClose();
   }
 
@@ -156,8 +175,32 @@ class ReportInfoStepsController extends GetxController
   }
 
   void _queryDataSource() async {
+    final currentTime = Get.find<TraLedButtonController>().currentTime;
+    List<dynamic> datas = await HealthDataUtils.queryHealthData(
+        types: currentType,
+        reportType: reportType.value,
+        currentTime: currentTime);
     if (currentType == KHealthDataType.SLEEP) {
-      dataSource.value = [
+      reportSteps.value = datas as List<StepData>;
+    }
+    if (currentType == KHealthDataType.HEART_RATE) {
+      reportSteps.value = datas as List<StepData>;
+    }
+    if (currentType == KHealthDataType.BLOOD_OXYGEN) {
+      reportSteps.value = datas as List<StepData>;
+    }
+    if (currentType == KHealthDataType.LiCheng) {
+      reportSteps.value = datas as List<StepData>;
+    }
+    if (currentType == KHealthDataType.CALORIES_BURNED) {
+      reportSteps.value = datas as List<StepData>;
+    }
+    if (currentType == KHealthDataType.BODY_TEMPERATURE) {
+      reportSteps.value = datas as List<StepData>;
+    }
+
+    if (currentType == KHealthDataType.SLEEP) {
+      chartLists.value = [
         List.generate(
           30,
           (index) => KChartCellData(
@@ -208,7 +251,7 @@ class ReportInfoStepsController extends GetxController
       );
       // }
 
-      dataSource.value = [datas];
+      chartLists.value = [datas];
     }
 
     update([id_data_souce_update]);
@@ -219,10 +262,10 @@ class ReportInfoStepsController extends GetxController
       return;
     }
 
-    String text = HealthData.getOnTrackballTitle(
+    String text = HealthDataUtils.getOnTrackballTitle(
       type: reportType.value,
       currentType: currentType,
-      dataSource: dataSource,
+      dataSource: chartLists,
       index: index,
     );
     chartTipValue.value = text;

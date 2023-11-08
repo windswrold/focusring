@@ -228,7 +228,7 @@ class SleepTimeReportChart extends StatelessWidget {
                     a.onTrackballPositionChanging(index);
                   },
                   series: ChartUtils.getChartReportServices(
-                      type: KHealthDataType.SLEEP, datas: a.dataSource),
+                      type: KHealthDataType.SLEEP, datas: a.chartLists),
                 ));
               })
         ],

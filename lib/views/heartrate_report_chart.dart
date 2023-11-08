@@ -56,7 +56,7 @@ class HeartChartReportChart extends StatelessWidget {
                         trackballArgs.chartPointInfo.dataPointIndex);
                   },
                   series: ChartUtils.getChartReportServices(
-                      datas: a.dataSource,
+                      datas: a.chartLists,
                       type: KHealthDataType.HEART_RATE,
                       reportType: pageType),
                 ),

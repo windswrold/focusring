@@ -1,4 +1,4 @@
-import 'package:beering/app/data/health_data.dart';
+import 'package:beering/app/data/health_data_utils.dart';
 
 import '../../../../public.dart';
 
@@ -33,7 +33,7 @@ class KChartCellData {
     return "x $x y $y z $z a $a";
   }
 
-  static KChartCellData generateChartCellData(HealthData data) {
+  static KChartCellData generateChartCellData(HealthDataUtils data) {
     return KChartCellData();
   }
 }

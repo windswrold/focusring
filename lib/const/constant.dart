@@ -6,6 +6,7 @@ import 'dart:ui';
 
 import 'package:beering/utils/date_util.dart';
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:event_bus/event_bus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:beering/app/data/user_info.dart';
@@ -17,6 +18,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../public.dart';
+import '../views/charts/home_card/model/home_card_x.dart';
 
 const bool inProduction = kReleaseMode;
 final bool isAndroid = Platform.isAndroid;
@@ -214,10 +216,15 @@ String getZeroDateTime({DateTime? now}) {
       format: DateFormats.full);
 }
 
+typedef ReportChartDataType = List<List<KChartCellData>>;
+
+
 class GlobalValues {
   static PackageInfo? appInfo;
   static AndroidDeviceInfo? androidDeviceInfo;
   static IosDeviceInfo? iosDeviceInfo;
+
+  static EventBus globalEventBus = EventBus();
 
   static Future<void> init() async {
     if (Platform.isAndroid) {

@@ -56,7 +56,7 @@ class BloodOxygenReportChart extends StatelessWidget {
                         trackballArgs.chartPointInfo.dataPointIndex);
                   },
                   series: ChartUtils.getChartReportServices(
-                      datas: a.dataSource,
+                      datas: a.chartLists,
                       type: KHealthDataType.BLOOD_OXYGEN,
                       reportType: pageType),
                 ),

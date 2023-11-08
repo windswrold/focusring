@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:beering/utils/date_util.dart';
 
+import '../const/event_bus_class.dart';
 import '../public.dart';
 
 class TraLedButtonController extends GetxController {
@@ -72,6 +73,7 @@ class TraLedButtonController extends GetxController {
     } else {
       disPlayTime.value = DateUtil.formatDate(currentTime, format: "yyyy/MM");
     }
+    GlobalValues.globalEventBus.fire(KReportQueryTimeUpdate(currentTime));
   }
 }
 

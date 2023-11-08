@@ -109,8 +109,7 @@ class DeviceInfoView extends GetView<DeviceInfoController> {
                   ),
                   NextButton(
                     onPressed: () {
-                      HWToast.showSucText(text: "no_v".tr);
-                      // controller.changeButtonState(KState.loading);
+                      controller.startDFU();
                     },
                     height: 44.w,
                     width: 350.w,
@@ -119,7 +118,8 @@ class DeviceInfoView extends GetView<DeviceInfoController> {
                     border: controller.buttonState.value == KStateType.loading
                         ? Border.all(color: ColorUtils.fromHex("#FF05E6E7"))
                         : null,
-                    gradient: (controller.buttonState.value == KStateType.idle ||
+                    gradient: (controller.buttonState.value ==
+                                KStateType.idle ||
                             controller.buttonState.value == KStateType.success)
                         ? LinearGradient(
                             colors: [
