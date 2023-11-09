@@ -103,7 +103,7 @@ class FindDevicesController extends GetxController {
   }
 
   void startScan() async {
-    final state = await KBLEManager.checkBle();
+    final state = await KBLEManager.isAvailableBLE();
     if (state == false) {
       return;
     }

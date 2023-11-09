@@ -74,7 +74,7 @@ class KBLEManager {
 
   static void startScan(
       {Duration timeout = const Duration(seconds: 30)}) async {
-    if ((await checkBle()) == false) {
+    if ((await isAvailableBLE()) == false) {
       return;
     }
 
@@ -93,7 +93,7 @@ class KBLEManager {
       {required RingDeviceModel device,
       BluetoothDevice? ble,
       Duration timeout = const Duration(seconds: 20)}) async {
-    if ((await checkBle()) == false) {
+    if ((await isAvailableBLE()) == false) {
       return null;
     }
 
@@ -222,7 +222,7 @@ class KBLEManager {
     return bleDevice;
   }
 
-  static Future<bool> checkBle() async {
+  static Future<bool> isAvailableBLE() async {
     while ((await FlutterBluePlus.isAvailable) == false) {
       vmPrint("a");
       await Future.delayed(const Duration(seconds: 2));

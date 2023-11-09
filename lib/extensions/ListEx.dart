@@ -194,6 +194,13 @@ extension ListEx<E> on List<E> {
     return value;
   }
 
+  static stepsValue(List e) {
+    return ((e[0] & 0xff) |
+        ((e[1] & 0xff) << 8) |
+        ((e[2] & 0xff) << 16) |
+        ((e[3] & 0xff) << 24));
+  }
+
   static List<String> getFiveMinuteIntervals() {
     final DateTime startDate = DateTime(2023, 9, 21, 0, 0); // 开始时间00:00
     final DateTime endDate = DateTime(2023, 9, 22, 0, 0); // 结束时间00:00
