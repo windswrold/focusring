@@ -12,6 +12,8 @@ import 'package:beering/views/charts/home_card/model/home_card_x.dart';
 import 'package:decimal/decimal.dart';
 import 'package:floor/floor.dart';
 
+import '../../const/event_bus_class.dart';
+
 const String tableName = 'bloodOxygenData';
 
 @Entity(tableName: tableName, primaryKeys: ["appUserId", "createTime"])
@@ -63,10 +65,9 @@ class BloodOxygenData {
     return datas ?? [];
   }
 
-  static void insertTokens(List<BloodOxygenData> models) async {
+  static Future<void> insertTokens(List<BloodOxygenData> models) async {
     final db = await DataBaseConfig.openDataBase();
-    final datas = await db?.bloodDao.insertTokens(models);
-    return;
+    return await db?.bloodDao.insertTokens(models);
   }
 }
 
@@ -124,10 +125,9 @@ class HeartRateData {
     return datas;
   }
 
-  static void insertTokens(List<HeartRateData> models) async {
+  static Future<void> insertTokens(List<HeartRateData> models) async {
     final db = await DataBaseConfig.openDataBase();
-    final datas = await db?.heartDao.insertTokens(models);
-    return;
+    return await db?.heartDao.insertTokens(models);
   }
 //
 // static List<KChartCellData> generateCellData({required List<HeartRateData> datas,required KReportType reportType}){
@@ -218,10 +218,9 @@ class StepData {
     return datas ?? [];
   }
 
-  static void insertTokens(List<StepData> models) async {
+  static Future<void> insertTokens(List<StepData> models) async {
     final db = await DataBaseConfig.openDataBase();
-    final datas = await db?.stepDao.insertTokens(models);
-    return;
+    return await db?.stepDao.insertTokens(models);
   }
 }
 
@@ -274,10 +273,9 @@ class TempData {
     return datas ?? [];
   }
 
-  static void insertTokens(List<TempData> models) async {
+  static Future insertTokens(List<TempData> models) async {
     final db = await DataBaseConfig.openDataBase();
-    final datas = await db?.tempDap.insertTokens(models);
-    return;
+    return await db?.tempDap.insertTokens(models);
   }
 }
 
@@ -660,33 +658,34 @@ class HealthDataUtils {
   static void insertHealthBleData(
       {required List<int> datas,
       required bool isContainTime,
-      required KHealthDataType type}) {
+      required KHealthDataType type}) async {
     try {
       int userid = SPManager.getGlobalUser()!.id!;
       isContainTime = true;
       String mac = "";
       if (type == KHealthDataType.BLOOD_OXYGEN) {
-        _insertBloodOxygen(userid,
+        await _insertBloodOxygen(userid,
             mac: mac, isContainTime: isContainTime, datas: datas);
       } else if (type == KHealthDataType.HEART_RATE) {
-        _insertHEARTRATE(userid,
+        await _insertHEARTRATE(userid,
             mac: mac, isContainTime: isContainTime, datas: datas);
       } else if (type == KHealthDataType.STEPS) {
-        _insertSteps(userid,
+        await _insertSteps(userid,
             mac: mac, isContainTime: isContainTime, datas: datas);
       } else if (type == KHealthDataType.SLEEP) {
-        _insertSleep(userid,
+        await _insertSleep(userid,
             mac: mac, isContainTime: isContainTime, datas: datas);
       }
 
       HWToast.showSucText(text: "构造成功，已存数据库");
+      GlobalValues.globalEventBus.fire(KReportQueryDataUpdate());
     } catch (e) {
       HWToast.showErrText(text: "构造失败，${e.toString()}");
       vmPrint(e);
     }
   }
 
-  static void _insertBloodOxygen(
+  static Future _insertBloodOxygen(
     int userid, {
     required String mac,
     required bool isContainTime,
@@ -714,10 +713,10 @@ class HealthDataUtils {
     vmPrint(
         "插入的血氧数据${JsonUtil.encodeObj(model.toJson())}", KBLEManager.logevel);
 
-    BloodOxygenData.insertTokens([model]);
+    return BloodOxygenData.insertTokens([model]);
   }
 
-  static void _insertHEARTRATE(
+  static Future _insertHEARTRATE(
     int userid, {
     required String mac,
     required bool isContainTime,
@@ -746,10 +745,10 @@ class HealthDataUtils {
     vmPrint(
         "插入的心率数据${JsonUtil.encodeObj(model.toJson())}", KBLEManager.logevel);
 
-    HeartRateData.insertTokens([model]);
+    return HeartRateData.insertTokens([model]);
   }
 
-  static void _insertSleep(
+  static Future _insertSleep(
     int userid, {
     required String mac,
     required bool isContainTime,
@@ -840,10 +839,12 @@ class HealthDataUtils {
     int sleepType = byteData.getUint8(offset++);
 
     vmPrint("sleepType $sleepType", KBLEManager.logevel);
+
+    return Future.value();
   }
 
   ///顺便计算里程跟能量消耗
-  static void _insertSteps(
+  static Future _insertSteps(
     int userid, {
     required String mac,
     required bool isContainTime,
@@ -894,7 +895,7 @@ class HealthDataUtils {
     temp.min = ListEx.minVal(tempsVal).toDouble();
     vmPrint(
         "插入的温度数据${JsonUtil.encodeObj(model.toJson())}", KBLEManager.logevel);
-    TempData.insertTokens([temp]);
+    return TempData.insertTokens([temp]);
   }
 
   static List<KChartCellData> generateDay(
@@ -932,17 +933,19 @@ class HealthDataUtils {
         dur = time?.add(Duration(hours: i ~/ 4));
         int end = (i + 4 > dataArr.length) ? dataArr.length : i + 4;
         final e = dataArr.sublist(i, end);
-        int num = (e[3] << 24) | (e[2] << 16) | (e[1] << 8) | e[0];
+        var num = (e[3] << 24) | (e[2] << 16) | (e[1] << 8) | e[0];
         UserInfoModel? user = SPManager.getGlobalUser();
 
         int? hight = user?.calMetricHeight();
         int? weight = user?.calMetricWeight();
         if (type == KHealthDataType.LiCheng) {
-          num = calculate_distance_steps(num, hight!).toInt();
+          num = calculate_distance_steps(num, hight!);
+          vmPrint("LiCheng  $num");
         }
 
         if (type == KHealthDataType.CALORIES_BURNED) {
-          num = calculate_kcal_steps(num, weight!, hight!).toInt();
+          num = calculate_kcal_steps(num, weight!, hight!);
+          vmPrint("CALORIES_BURNED  $num");
         }
 
         cellDatas.add(
@@ -1005,7 +1008,7 @@ class HealthDataUtils {
     return (Decimal.fromInt(hight) *
             Decimal.fromInt(41) *
             Decimal.fromInt(steps) *
-            Decimal.parse("0.0001"))
+            Decimal.parse("0.0000001"))
         .toDouble();
     // return (hight * 41.0f * steps * 0.0001f);
   }

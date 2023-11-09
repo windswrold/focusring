@@ -21,6 +21,7 @@ import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
+import '../../../../const/event_bus_class.dart';
 import '../../../data/ring_device.dart';
 
 class HomeStateController extends GetxController {
@@ -51,7 +52,12 @@ class HomeStateController extends GetxController {
     //   }
     // });
 
-    initData();
+    receiveDataStream = GlobalValues.globalEventBus
+        .on<KReportQueryDataUpdate>()
+        .listen((event) {
+      initData();
+    });
+    // initData();
   }
 
   void onRefresh() {
@@ -129,16 +135,6 @@ class HomeStateController extends GetxController {
           reportType: KReportType.day,
           currentTime: null,
           callBackData: (a, b) {
-            var data = List.generate(
-              30,
-              (index) => KChartCellData(
-                x: index.toString(),
-                y: 0,
-                state: KSleepStatusType.values[Random.secure().nextInt(3)],
-                color: element.type.getTypeMainColor(),
-              ),
-            );
-
             KHomeCardModel card = KHomeCardModel(
               type: element.type,
               date: date,
@@ -146,7 +142,7 @@ class HomeStateController extends GetxController {
               resultDesc: "",
               startDesc: "",
               endDesc: "",
-              datas: [data, data, data],
+              datas: b,
             );
             dataArr.add(card);
             dataTypes.value = dataArr;

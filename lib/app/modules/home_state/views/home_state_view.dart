@@ -62,16 +62,18 @@ class HomeStateView extends GetView<HomeStateController> {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Text(data.value.title!.tr, style: Get.textTheme.displayMedium),
+        Text((data.value.title ?? "").tr, style: Get.textTheme.displayMedium),
         Container(
           margin: EdgeInsets.only(bottom: 11.42.w, top: 11.42.w),
           child: Row(
             children: [
-              LoadAssetsImage(
-                data.value.icon!,
-                width: 20,
-                height: 21,
-              ),
+              data.value.icon == null
+                  ? Container()
+                  : LoadAssetsImage(
+                      data.value.icon!,
+                      width: 20,
+                      height: 21,
+                    ),
               Container(
                 margin: EdgeInsets.only(left: 5),
                 child: Text(

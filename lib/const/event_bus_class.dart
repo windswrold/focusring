@@ -3,3 +3,9 @@ class KReportQueryTimeUpdate {
 
   KReportQueryTimeUpdate(this.time);
 }
+
+
+//数据完成
+class KReportQueryDataUpdate {
+  KReportQueryDataUpdate();
+}

@@ -54,12 +54,17 @@ class HomeMineController extends GetxController {
         "b": "perferseting",
         "r": Routes.PERMISS_SETTING,
       },
-      {
-        "a": "icons/mine_icon_about",
-        "b": "test",
-        "r": Routes.TESTDFU,
-      },
     ].obs;
+
+    if (inProduction == false) {
+      my_defaultList.add(
+        {
+          "a": "icons/mine_icon_about",
+          "b": "test",
+          "r": Routes.TESTDFU,
+        },
+      );
+    }
   }
 
   @override

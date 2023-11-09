@@ -190,10 +190,13 @@ class HomeCardView extends StatelessWidget {
     return Container(
       height: 85.w,
       child: ListView.builder(
-        itemCount: model.datas!.first.length,
+        itemCount: model.datas?.tryFirst?.length,
         scrollDirection: Axis.horizontal,
         itemBuilder: (BuildContext context, int index) {
-          final item = model.datas!.first[index];
+          final item = model.datas?.tryFirst?[index];
+          if (item == null) {
+            return Container();
+          }
           return _buildSleepItem(item: item);
         },
       ),
