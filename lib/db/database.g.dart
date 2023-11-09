@@ -79,7 +79,7 @@ class _$FlutterDatabase extends FlutterDatabase {
     Callback? callback,
   ]) async {
     final databaseOptions = sqflite.OpenDatabaseOptions(
-      version: 1,
+      version: 2,
       onConfigure: (database) async {
         await database.execute('PRAGMA foreign_keys = ON');
         await callback?.onConfigure?.call(database);
@@ -99,13 +99,13 @@ class _$FlutterDatabase extends FlutterDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `ring_device_table` (`appUserId` TEXT, `remoteId` TEXT, `localName` TEXT, `macAddress` TEXT, `isSelect` INTEGER, PRIMARY KEY (`appUserId`, `remoteId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `bloodOxygenData` (`appUserId` INTEGER, `mac` TEXT, `createTime` TEXT, `averageHeartRate` INTEGER, `max` INTEGER, `min` INTEGER, `bloodArray` TEXT, PRIMARY KEY (`appUserId`, `createTime`))');
+            'CREATE TABLE IF NOT EXISTS `bloodOxygenData_v2` (`appUserId` INTEGER, `mac` TEXT, `createTime` TEXT, `averageHeartRate` INTEGER, `max` INTEGER, `min` INTEGER, `bloodArray` TEXT, PRIMARY KEY (`appUserId`, `createTime`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `heartRateData` (`appUserId` INTEGER, `mac` TEXT, `createTime` TEXT, `averageHeartRate` INTEGER, `max` INTEGER, `min` INTEGER, `heartArray` TEXT, PRIMARY KEY (`appUserId`, `createTime`))');
+            'CREATE TABLE IF NOT EXISTS `heartRateData_v2` (`appUserId` INTEGER, `mac` TEXT, `createTime` TEXT, `averageHeartRate` INTEGER, `max` INTEGER, `min` INTEGER, `heartArray` TEXT, PRIMARY KEY (`appUserId`, `createTime`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `stepData` (`appUserId` INTEGER, `mac` TEXT, `createTime` TEXT, `steps` INTEGER, `distance` INTEGER, `calorie` INTEGER, `dataArrs` TEXT, PRIMARY KEY (`appUserId`, `createTime`))');
+            'CREATE TABLE IF NOT EXISTS `stepData_v2` (`appUserId` INTEGER, `mac` TEXT, `createTime` TEXT, `steps` TEXT, `distance` TEXT, `calorie` TEXT, `dataArrs` TEXT, PRIMARY KEY (`appUserId`, `createTime`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `TempData` (`appUserId` INTEGER, `mac` TEXT, `createTime` TEXT, `temperature` INTEGER, `average` REAL, `max` REAL, `min` REAL, `dataArray` TEXT, PRIMARY KEY (`appUserId`, `createTime`))');
+            'CREATE TABLE IF NOT EXISTS `TempData_v2` (`appUserId` INTEGER, `mac` TEXT, `createTime` TEXT, `temperature` INTEGER, `average` TEXT, `max` TEXT, `min` TEXT, `dataArray` TEXT, PRIMARY KEY (`appUserId`, `createTime`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -332,7 +332,7 @@ class _$BloodOxygenDataDao extends BloodOxygenDataDao {
   )   : _queryAdapter = QueryAdapter(database),
         _bloodOxygenDataInsertionAdapter = InsertionAdapter(
             database,
-            'bloodOxygenData',
+            'bloodOxygenData_v2',
             (BloodOxygenData item) => <String, Object?>{
                   'appUserId': item.appUserId,
                   'mac': item.mac,
@@ -358,7 +358,7 @@ class _$BloodOxygenDataDao extends BloodOxygenDataDao {
     String nextTime,
   ) async {
     return _queryAdapter.queryList(
-        'SELECT * FROM bloodOxygenData WHERE appUserId = ?1 and createTime >= ?2 AND createTime < ?3',
+        'SELECT * FROM bloodOxygenData_v2 WHERE appUserId = ?1 and createTime >= ?2 AND createTime < ?3',
         mapper: (Map<String, Object?> row) => BloodOxygenData(appUserId: row['appUserId'] as int?, mac: row['mac'] as String?, createTime: row['createTime'] as String?, bloodArray: row['bloodArray'] as String?, averageHeartRate: row['averageHeartRate'] as int?, max: row['max'] as int?, min: row['min'] as int?),
         arguments: [appUserId, createTime, nextTime]);
   }
@@ -377,7 +377,7 @@ class _$HeartRateDataDao extends HeartRateDataDao {
   )   : _queryAdapter = QueryAdapter(database),
         _heartRateDataInsertionAdapter = InsertionAdapter(
             database,
-            'heartRateData',
+            'heartRateData_v2',
             (HeartRateData item) => <String, Object?>{
                   'appUserId': item.appUserId,
                   'mac': item.mac,
@@ -403,7 +403,7 @@ class _$HeartRateDataDao extends HeartRateDataDao {
     String nextTime,
   ) async {
     return _queryAdapter.queryList(
-        'SELECT * FROM heartRateData WHERE appUserId = ?1 and createTime >= ?2 AND createTime < ?3',
+        'SELECT * FROM heartRateData_v2 WHERE appUserId = ?1 and createTime >= ?2 AND createTime < ?3',
         mapper: (Map<String, Object?> row) => HeartRateData(appUserId: row['appUserId'] as int?, mac: row['mac'] as String?, createTime: row['createTime'] as String?, averageHeartRate: row['averageHeartRate'] as int?, heartArray: row['heartArray'] as String?, max: row['max'] as int?, min: row['min'] as int?),
         arguments: [appUserId, createTime, nextTime]);
   }
@@ -422,7 +422,7 @@ class _$StepDataDao extends StepDataDao {
   )   : _queryAdapter = QueryAdapter(database),
         _stepDataInsertionAdapter = InsertionAdapter(
             database,
-            'stepData',
+            'stepData_v2',
             (StepData item) => <String, Object?>{
                   'appUserId': item.appUserId,
                   'mac': item.mac,
@@ -448,8 +448,8 @@ class _$StepDataDao extends StepDataDao {
     String nextTime,
   ) async {
     return _queryAdapter.queryList(
-        'SELECT * FROM stepData WHERE appUserId = ?1 and createTime >= ?2 AND createTime < ?3',
-        mapper: (Map<String, Object?> row) => StepData(appUserId: row['appUserId'] as int?, mac: row['mac'] as String?, createTime: row['createTime'] as String?, steps: row['steps'] as int?, distance: row['distance'] as int?, calorie: row['calorie'] as int?, dataArrs: row['dataArrs'] as String?),
+        'SELECT * FROM stepData_v2 WHERE appUserId = ?1 and createTime >= ?2 AND createTime < ?3',
+        mapper: (Map<String, Object?> row) => StepData(appUserId: row['appUserId'] as int?, mac: row['mac'] as String?, createTime: row['createTime'] as String?, steps: row['steps'] as String?, distance: row['distance'] as String?, calorie: row['calorie'] as String?, dataArrs: row['dataArrs'] as String?),
         arguments: [appUserId, createTime, nextTime]);
   }
 
@@ -467,7 +467,7 @@ class _$TempDataDao extends TempDataDao {
   )   : _queryAdapter = QueryAdapter(database),
         _tempDataInsertionAdapter = InsertionAdapter(
             database,
-            'TempData',
+            'TempData_v2',
             (TempData item) => <String, Object?>{
                   'appUserId': item.appUserId,
                   'mac': item.mac,
@@ -494,8 +494,8 @@ class _$TempDataDao extends TempDataDao {
     String nextTime,
   ) async {
     return _queryAdapter.queryList(
-        'SELECT * FROM TempData WHERE appUserId = ?1 and createTime >= ?2 AND createTime < ?3',
-        mapper: (Map<String, Object?> row) => TempData(appUserId: row['appUserId'] as int?, mac: row['mac'] as String?, createTime: row['createTime'] as String?, temperature: row['temperature'] as int?, average: row['average'] as double?, dataArray: row['dataArray'] as String?, max: row['max'] as double?, min: row['min'] as double?),
+        'SELECT * FROM TempData_v2 WHERE appUserId = ?1 and createTime >= ?2 AND createTime < ?3',
+        mapper: (Map<String, Object?> row) => TempData(appUserId: row['appUserId'] as int?, mac: row['mac'] as String?, createTime: row['createTime'] as String?, temperature: row['temperature'] as int?, average: row['average'] as String?, dataArray: row['dataArray'] as String?, max: row['max'] as String?, min: row['min'] as String?),
         arguments: [appUserId, createTime, nextTime]);
   }
 

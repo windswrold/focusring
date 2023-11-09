@@ -137,7 +137,7 @@ class HomeStateController extends GetxController {
           callBackData: (a, b) {
             KHomeCardModel card = KHomeCardModel(
               type: element.type,
-              date: date,
+              date: b == null ? "empty_data".tr : date,
               result: "",
               resultDesc: "",
               startDesc: "",
@@ -147,7 +147,6 @@ class HomeStateController extends GetxController {
             dataArr.add(card);
             dataTypes.value = dataArr;
             update(["dataTypes"]);
-
             vmPrint("dataTypesdataTypesdataTypes${dataTypes.length}");
           });
     }

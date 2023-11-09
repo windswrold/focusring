@@ -68,7 +68,6 @@ class ReportInfoStepsController extends GetxController
   @override
   void onReady() {
     super.onReady();
-    _queryDataSource();
   }
 
   @override
@@ -181,7 +180,7 @@ class ReportInfoStepsController extends GetxController
         reportType: reportType.value,
         currentTime: currentTime,
         callBackData: (a, b) {
-          chartLists.value = b;
+          chartLists.value = b ?? [];
           if (currentType == KHealthDataType.HEART_RATE) {
             reportHeart.value = a as List<HeartRateData>;
           }

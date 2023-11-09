@@ -6,6 +6,7 @@ import 'database.dart';
 class DataBaseConfig {
   static FlutterDatabase? fbase;
   static const fileName = 'database.db';
+
   static Future<FlutterDatabase?> openDataBase() async {
     if (fbase != null) {
       return fbase;
@@ -21,9 +22,21 @@ class DataBaseConfig {
           vmPrint("database create succeeded version $version" + database.path);
         },
       );
-
+      final migration1to2 = Migration(1, 2, (migdatabase) async {
+        await migdatabase.execute(
+            'CREATE TABLE IF NOT EXISTS `bloodOxygenData_v2` (`appUserId` INTEGER, `mac` TEXT, `createTime` TEXT, `averageHeartRate` INTEGER, `max` INTEGER, `min` INTEGER, `bloodArray` TEXT, PRIMARY KEY (`appUserId`, `createTime`))');
+        await migdatabase.execute(
+            'CREATE TABLE IF NOT EXISTS `heartRateData_v2` (`appUserId` INTEGER, `mac` TEXT, `createTime` TEXT, `averageHeartRate` INTEGER, `max` INTEGER, `min` INTEGER, `heartArray` TEXT, PRIMARY KEY (`appUserId`, `createTime`))');
+        await migdatabase.execute(
+            'CREATE TABLE IF NOT EXISTS `stepData_v2` (`appUserId` INTEGER, `mac` TEXT, `createTime` TEXT, `steps` TEXT, `distance` TEXT, `calorie` TEXT, `dataArrs` TEXT, PRIMARY KEY (`appUserId`, `createTime`))');
+        await migdatabase.execute(
+            'CREATE TABLE IF NOT EXISTS `TempData_v2` (`appUserId` INTEGER, `mac` TEXT, `createTime` TEXT, `temperature` INTEGER, `average` TEXT, `max` TEXT, `min` TEXT, `dataArray` TEXT, PRIMARY KEY (`appUserId`, `createTime`))');
+      });
       fbase = await $FloorFlutterDatabase
           .databaseBuilder(fileName)
+          .addMigrations([
+            migration1to2,
+          ])
           .addCallback(callback)
           .build();
 

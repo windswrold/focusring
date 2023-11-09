@@ -14,7 +14,7 @@ import 'package:floor/floor.dart';
 
 import '../../const/event_bus_class.dart';
 
-const String tableName = 'bloodOxygenData';
+const String tableName = 'bloodOxygenData_v2';
 
 @Entity(tableName: tableName, primaryKeys: ["appUserId", "createTime"])
 class BloodOxygenData {
@@ -71,7 +71,7 @@ class BloodOxygenData {
   }
 }
 
-const String tableName2 = 'heartRateData';
+const String tableName2 = 'heartRateData_v2';
 
 @Entity(tableName: tableName2, primaryKeys: ["appUserId", "createTime"])
 class HeartRateData {
@@ -129,49 +129,22 @@ class HeartRateData {
     final db = await DataBaseConfig.openDataBase();
     return await db?.heartDao.insertTokens(models);
   }
-//
-// static List<KChartCellData> generateCellData({required List<HeartRateData> datas,required KReportType reportType}){
-//
-//   if (reportType == KReportType.day) {
-//     final results = generateCellData(
-//       createTime: datas.first.createTime ?? "",
-//       data: datas.first.heartArray ?? "",
-//       type: types,
-//     );
-//     cellDatas.addAll(results);
-//   } else {
-//     for (var i = 0; i < datas.length; i++) {
-//       final e = datas[i];
-//       cellDatas.add(
-//         KChartCellData(
-//           x: e.createTime,
-//           y: (e.min ?? 0),
-//           z: e.max ?? 0,
-//           a: e.averageHeartRate ?? 0,
-//           color: types.getTypeMainColor(),
-//         ),
-//       );
-//     }
-//   }
-//
-//
-// }
 }
 
-const String tableName3 = 'stepData';
+const String tableName3 = 'stepData_v2';
 
 @Entity(tableName: tableName3, primaryKeys: ["appUserId", "createTime"])
 class StepData {
   int? appUserId;
   String? mac;
   String? createTime;
-  int? steps;
+  String? steps;
 
   ///总步数
-  int? distance;
+  String? distance;
 
   ///总里程
-  int? calorie;
+  String? calorie;
 
   ///总消耗
   // String? dataForHour;
@@ -224,7 +197,7 @@ class StepData {
   }
 }
 
-const String tableName4 = 'TempData';
+const String tableName4 = 'TempData_v2';
 
 @Entity(tableName: tableName4, primaryKeys: ["appUserId", "createTime"])
 class TempData {
@@ -232,9 +205,9 @@ class TempData {
   String? mac;
   String? createTime;
   int? temperature;
-  double? average; //自己计算这一天的平均值
-  double? max; //自己计算当天最高
-  double? min; //自己计算当天最低
+  String? average; //自己计算这一天的平均值
+  String? max; //自己计算当天最高
+  String? min; //自己计算当天最低
   String? dataArray;
 
   TempData({
@@ -501,7 +474,7 @@ class HealthDataUtils {
     required KHealthDataType types,
     required KReportType reportType,
     required DateTime? currentTime,
-    required void Function(List datas, List<List<KChartCellData>> cellDttas)
+    required void Function(List datas, List<List<KChartCellData>>? cellDttas)
         callBackData,
   }) async {
     currentTime ??= DateTime.now();
@@ -553,7 +526,8 @@ class HealthDataUtils {
             cellDatas.add(cell);
           }
         }
-        callBackData(datas, [cellDatas]);
+
+        callBackData(datas, datas.isEmpty ? null : [cellDatas]);
       } else if (types == KHealthDataType.BLOOD_OXYGEN) {
         List<BloodOxygenData> datas =
             await BloodOxygenData.queryUserAll(userid, create, nextTime);
@@ -579,7 +553,7 @@ class HealthDataUtils {
             cellDatas.add(cell);
           }
         }
-        callBackData(datas, [cellDatas]);
+        callBackData(datas, datas.isEmpty ? null : [cellDatas]);
       } else if (types == KHealthDataType.STEPS ||
           types == KHealthDataType.LiCheng ||
           types == KHealthDataType.CALORIES_BURNED) {
@@ -599,18 +573,20 @@ class HealthDataUtils {
           for (var i = 0; i < datas.length; i++) {
             final e = datas[i];
 
+            String value = (types == KHealthDataType.STEPS)
+                ? (e.steps ?? "0")
+                : types == KHealthDataType.LiCheng
+                    ? (e.distance ?? "0")
+                    : (e.calorie ?? "0");
+            Decimal num = Decimal.tryParse(value) ?? Decimal.zero;
             final cell = KChartCellData(
                 x: e.createTime,
-                y: (types == KHealthDataType.STEPS)
-                    ? (e.steps ?? 0)
-                    : types == KHealthDataType.LiCheng
-                        ? (e.distance ?? 0)
-                        : (e.calorie ?? 0),
+                y: num.toDouble(),
                 color: types.getTypeMainColor());
             cellDatas.add(cell);
           }
         }
-        callBackData(datas, [cellDatas]);
+        callBackData(datas, datas.isEmpty ? null : [cellDatas]);
       } else if (types == KHealthDataType.BODY_TEMPERATURE) {
         List<TempData> datas =
             await TempData.queryUserAll(userid, create, nextTime);
@@ -629,14 +605,15 @@ class HealthDataUtils {
             final e = datas[i];
             final cell = KChartCellData(
                 x: e.createTime,
-                y: (e.min ?? 0),
-                z: e.max ?? 0,
-                a: e.average ?? 0,
+                y: (Decimal.tryParse(e.min ?? "0") ?? Decimal.zero).toDouble(),
+                z: (Decimal.tryParse(e.max ?? "0") ?? Decimal.zero).toDouble(),
+                a: (Decimal.tryParse(e.average ?? "0") ?? Decimal.zero)
+                    .toDouble(),
                 color: types.getTypeMainColor());
             cellDatas.add(cell);
           }
         }
-        callBackData(datas, [cellDatas]);
+        callBackData(datas, datas.isEmpty ? null : [cellDatas]);
       } else {
         var data = List.generate(
           30,
@@ -648,7 +625,7 @@ class HealthDataUtils {
           ),
         );
         await Future.delayed(Duration(seconds: 1));
-        callBackData([], [data, data, data]);
+        callBackData([], null);
       }
     } catch (e) {
       // HWToast.showErrText(text: "读取失败 ${e}");
@@ -873,9 +850,14 @@ class HealthDataUtils {
     }
     final hight = user.calMetricHeight();
     final weight = user.calMetricWeight();
-    model.steps = ListEx.sumVal(results).toBigInt().toInt();
-    model.distance = calculate_distance_steps(model.steps!, hight).toInt();
-    model.calorie = calculate_kcal_steps(model.steps!, weight, hight).toInt();
+    Decimal allSteps = ListEx.sumVal(results);
+    model.steps = allSteps.toStringAsFixed(2);
+    model.distance =
+        calculate_distance_steps(allSteps.toBigInt().toInt(), hight)
+            .toStringAsFixed(2);
+    model.calorie =
+        calculate_kcal_steps(allSteps.toBigInt().toInt(), weight, hight)
+            .toStringAsFixed(2);
     model.dataArrs = JsonUtil.encodeObj(results);
     StepData.insertTokens([model]);
     vmPrint(
@@ -890,9 +872,9 @@ class HealthDataUtils {
     List<double> tempsVal =
         List.generate(24, (index) => calculate_Temp()).toList();
     temp.dataArray = JsonUtil.encodeObj(tempsVal);
-    temp.average = ListEx.averageNum(tempsVal);
-    temp.max = ListEx.maxVal(tempsVal).toDouble();
-    temp.min = ListEx.minVal(tempsVal).toDouble();
+    temp.average = ListEx.averageNum(tempsVal).toStringAsFixed(2);
+    temp.max = ListEx.maxVal(tempsVal).toStringAsFixed(2);
+    temp.min = ListEx.minVal(tempsVal).toStringAsFixed(2);
     vmPrint(
         "插入的温度数据${JsonUtil.encodeObj(model.toJson())}", KBLEManager.logevel);
     return TempData.insertTokens([temp]);
@@ -933,9 +915,10 @@ class HealthDataUtils {
         dur = time?.add(Duration(hours: i ~/ 4));
         int end = (i + 4 > dataArr.length) ? dataArr.length : i + 4;
         final e = dataArr.sublist(i, end);
-        var num = (e[3] << 24) | (e[2] << 16) | (e[1] << 8) | e[0];
+        List<int> e = dataArr.sublist(i, end);
+      
+        var num = (bytes[3] << 24) | (bytes[2] << 16) | (bytes[1] << 8) | bytes[0];
         UserInfoModel? user = SPManager.getGlobalUser();
-
         int? hight = user?.calMetricHeight();
         int? weight = user?.calMetricWeight();
         if (type == KHealthDataType.LiCheng) {
