@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:beering/app/modules/app_view/controllers/app_view_controller.dart';
 import 'package:beering/utils/hex_util.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:beering/app/data/ring_device.dart';
@@ -7,8 +8,10 @@ import 'package:beering/ble/ble_config.dart';
 import 'package:beering/ble/ble_manager.dart';
 import 'package:get/get.dart';
 import 'package:hex/hex.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../../../public.dart';
+import '../../../../utils/json_util.dart';
 import '../../home_devices/controllers/home_devices_controller.dart';
 
 class TestdfuController extends GetxController {
@@ -32,8 +35,6 @@ class TestdfuController extends GetxController {
       sen,
       receiveDataStream;
 
-  RxList<String> receDatas = RxList();
-
   @override
   void onInit() {
     super.onInit();
@@ -50,15 +51,14 @@ class TestdfuController extends GetxController {
     onDfuComplete = KBLEManager.onDfuComplete.listen((event) {
       HWToast.showSucText(text: "onDfuComplete");
     });
+  }
 
-    receiveDataStream = KBLEManager.receiveDataStream.listen((event) {
-      // HWToast.showSucText(text: "收到的数据 $event");
-      receDatas.add(event.toString());
-    });
+  void shareLog() async {
+    final ds = Get.find<AppViewController>().receDatas;
+    final a = await saveFileData(
+        content: JsonUtil.encodeObj(ds) ?? "", pathType: "txt");
 
-    sen = KBLEManager.logController.stream.listen((event) {
-      receDatas.add(event);
-    });
+    Share.shareFiles([a.path]);
   }
 
   @override

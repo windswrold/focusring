@@ -56,15 +56,15 @@ class HomeMineController extends GetxController {
       },
     ].obs;
 
-    if (inProduction == false) {
-      my_defaultList.add(
-        {
-          "a": "icons/mine_icon_about",
-          "b": "test",
-          "r": Routes.TESTDFU,
-        },
-      );
-    }
+    // if (inProduction == false) {
+    my_defaultList.add(
+      {
+        "a": "icons/mine_icon_about",
+        "b": "test",
+        "r": Routes.TESTDFU,
+      },
+    );
+    // }
   }
 
   @override

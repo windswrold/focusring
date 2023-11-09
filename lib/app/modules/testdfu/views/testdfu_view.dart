@@ -1,3 +1,4 @@
+import 'package:beering/app/modules/app_view/controllers/app_view_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:beering/ble/ble_config.dart';
 import 'package:beering/ble/ble_manager.dart';
@@ -100,8 +101,6 @@ class TestdfuView extends GetView<TestdfuController> {
           ),
           TextButton(
             onPressed: () {
-                
-
               BLESendData send = BLESendData(
                   cmd: null,
                   cmdStr: controller.copy3.text,
@@ -113,15 +112,27 @@ class TestdfuView extends GetView<TestdfuController> {
             child: Text("发送构造命令"),
           ),
           const Text("收到的数据"),
-          Obx(() => Expanded(
+          TextButton(
+            onPressed: () {
+              controller.shareLog();
+            },
+            child: Text("导出Log"),
+          ),
+          GetBuilder<AppViewController>(
+            tag: AppViewController.tag,
+            id: "logController",
+            builder: (a) {
+              return Expanded(
                 child: ListView.builder(
-                  itemCount: controller.receDatas.length,
+                  itemCount: a.receDatas.length,
                   itemBuilder: (BuildContext context, int index) {
-                    final value = controller.receDatas[index];
+                    final value = a.receDatas[index];
                     return Text(value);
                   },
                 ),
-              ))
+              );
+            },
+          ),
         ],
       ),
     );

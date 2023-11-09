@@ -12,6 +12,8 @@ import 'package:beering/utils/permission.dart';
 import 'package:beering/utils/sp_manager.dart';
 import 'package:get/get.dart';
 
+import '../../../../ble/ble_manager.dart';
+
 class AppViewController extends GetxController {
   //TODO: Implement AppViewController
 
@@ -21,9 +23,19 @@ class AppViewController extends GetxController {
 
   Rx<UserInfoModel?> user = null.obs;
 
+  RxList<String> receDatas = RxList();
+
+  StreamSubscription? receiveDataStream;
+
   @override
   void onInit() {
     super.onInit();
+
+    receiveDataStream = KBLEManager.logController.stream.listen((event) {
+      // HWToast.showSucText(text: "收到的数据 $event");
+      receDatas.add(event.toString());
+      update(["logController"]);
+    });
   }
 
   @override
