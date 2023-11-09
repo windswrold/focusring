@@ -238,12 +238,7 @@ class KBLEManager {
     if (a == true) {
       return true;
     }
-    final b = await PermissionUtils.showBleDialog();
-    if (b == false) {
-      HWToast.showErrText(text: "permission_err".tr);
-      exit(0);
-      return false;
-    }
+
     bool isok = await PermissionUtils.requestBle();
     await Future.delayed(Duration(milliseconds: 500));
     return await PermissionUtils.checkBle();

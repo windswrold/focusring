@@ -850,7 +850,13 @@ class HealthDataUtils {
     }
     final hight = user.calMetricHeight();
     final weight = user.calMetricWeight();
-    Decimal allSteps = ListEx.sumVal(results);
+
+    Decimal allSteps = Decimal.zero;
+    for (int i = 0; i < results.length; i += 4) {
+      int end = (i + 4 > results.length) ? results.length : i + 4;
+      List e = results.sublist(i, end);
+      allSteps += Decimal.parse(ListEx.stepsValue(e).toString());
+    }
     model.steps = allSteps.toStringAsFixed(2);
     model.distance =
         calculate_distance_steps(allSteps.toBigInt().toInt(), hight)
