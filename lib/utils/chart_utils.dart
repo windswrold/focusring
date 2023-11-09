@@ -13,6 +13,7 @@ class ChartUtils {
       minorGridLines: const MinorGridLines(width: 0),
       majorTickLines: const MajorTickLines(width: 0),
       minorTickLines: const MinorTickLines(width: 0),
+
       axisLine: AxisLine(
         color: ColorUtils.fromHex("#FF2C2F2F"),
       ),
@@ -32,6 +33,7 @@ class ChartUtils {
       axisLine: AxisLine(
         width: 0,
       ),
+
       labelStyle: Get.textTheme.displaySmall,
     );
   }
@@ -116,19 +118,22 @@ class ChartUtils {
     } else if (type == KHealthDataType.BLOOD_OXYGEN ||
         type == KHealthDataType.BODY_TEMPERATURE) {
       return [
-        ColumnSeries<KChartCellData, String>(
-          dataSource: List.generate((datas.tryFirst ?? []).length,
-              (index) => KChartCellData(x: index.toString(), y: 0.toDouble())),
-          isTrackVisible: true,
-          trackColor: ColorUtils.fromHex("#212621"),
-          borderRadius: BorderRadius.circular(3),
-          trackBorderWidth: 0,
-          xValueMapper: (KChartCellData sales, _) => sales.x,
-          yValueMapper: (KChartCellData sales, _) => sales.y,
-          dataLabelSettings: const DataLabelSettings(
-            isVisible: false,
-          ),
-        ),
+        // ColumnSeries<KChartCellData, String>(
+        //   // dataSource: List.generate((datas.tryFirst ?? []).length,
+        //   //     (index) => KChartCellData(x: index.toString(), y: 0.toDouble())),
+        //   dataSource: List.generate(30,
+        //       (index) => KChartCellData(x: index.toString(), y: 0.toDouble())),
+        //   isTrackVisible: true,
+        //   trackColor: ColorUtils.fromHex("#212621"),
+        //   borderRadius: BorderRadius.circular(3),
+        //   tr
+        //   trackBorderWidth: 0,
+        //   xValueMapper: (KChartCellData sales, _) => sales.x,
+        //   yValueMapper: (KChartCellData sales, _) => 0,
+        //   dataLabelSettings: const DataLabelSettings(
+        //     isVisible: false,
+        //   ),
+        // ),
         ScatterSeries<KChartCellData, String>(
           dataSource: datas.tryFirst ?? [],
           xValueMapper: (KChartCellData sales, _) => sales.x,
