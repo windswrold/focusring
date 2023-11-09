@@ -11,6 +11,7 @@ import 'package:beering/ble/bledata_serialization.dart';
 import 'package:beering/net/app_api.dart';
 import 'package:beering/public.dart';
 import 'package:beering/utils/console_logger.dart';
+import 'package:beering/utils/date_util.dart';
 import 'package:beering/utils/json_util.dart';
 import 'package:beering/views/charts/home_card/model/home_card_type.dart';
 import 'package:beering/views/charts/home_card/model/home_card_x.dart';
@@ -19,6 +20,8 @@ import 'package:beering/views/tra_led_button.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
+
+import '../../../data/ring_device.dart';
 
 class HomeStateController extends GetxController {
   //TODO: Implement HomeStateController
@@ -39,24 +42,34 @@ class HomeStateController extends GetxController {
   void onInit() {
     super.onInit();
 
-    receiveDataStream = KBLEManager.receiveDataStream.listen((event) {
-      if (event.command == KBLECommandType.system) {
-        // if (event.type == 0x00) {
-        //时间设置成功
-        initData(showHeartrate: true);
-        // }
-      }
-    });
+    // receiveDataStream = KBLEManager.receiveDataStream.listen((event) {
+    //   if (event.command == KBLECommandType.system) {
+    //     // if (event.type == 0x00) {
+    //     //时间设置成功
+    //     initData(showHeartrate: true);
+    //     // }
+    //   }
+    // });
 
     initData();
   }
 
-  void onRefresh() {}
+  void onRefresh() {
+    initData();
+    Future.delayed(Duration(seconds: 3)).then((value) => {
+          refreshController.refreshCompleted(),
+        });
+  }
 
   void initData({bool showHeartrate = false}) async {
     final us =
         (Get.find<AppViewController>(tag: AppViewController.tag)).user.value;
 
+    final device = await RingDeviceModel.queryUserAllWithSelect(
+        (us?.id ?? 0).toString(), true);
+    if (device != null) {
+      showHeartrate = true;
+    }
     var currentDistance = Random.secure().nextInt(100);
     var currentSteps = Random.secure().nextInt(100);
     var currentCalorie = Random.secure().nextInt(100);
@@ -97,17 +110,10 @@ class HomeStateController extends GetxController {
     final appUserId = await SPManager.getPhoneID();
     List<KBaseHealthType> datas =
         await KBaseHealthType.queryAllWithState(appUserId, true);
-    for (var element in datas) {
-      var data = List.generate(
-        30,
-        (index) => KChartCellData(
-          x: index.toString(),
-          y: 0,
-          state: KSleepStatusType.values[Random.secure().nextInt(3)],
-          color: element.type.getTypeMainColor(),
-        ),
-      );
 
+    String date =
+        DateUtil.formatDate(DateTime.now(), format: DateFormats.y_mo_d);
+    for (var element in datas) {
       if (showHeartrate == false) {
         if (element.type == KHealthDataType.BLOOD_OXYGEN ||
             element.type == KHealthDataType.HEART_RATE ||
@@ -118,18 +124,37 @@ class HomeStateController extends GetxController {
         }
       }
 
-      KHomeCardModel card = KHomeCardModel(
-        type: element.type,
-        date: "empty_data".tr,
-        result: "",
-        resultDesc: "",
-        startDesc: "",
-        endDesc: "",
-      );
-      dataArr.add(card);
-    }
+      HealthDataUtils.queryHealthData(
+          types: element.type,
+          reportType: KReportType.day,
+          currentTime: null,
+          callBackData: (a, b) {
+            var data = List.generate(
+              30,
+              (index) => KChartCellData(
+                x: index.toString(),
+                y: 0,
+                state: KSleepStatusType.values[Random.secure().nextInt(3)],
+                color: element.type.getTypeMainColor(),
+              ),
+            );
 
-    dataTypes.value = dataArr;
+            KHomeCardModel card = KHomeCardModel(
+              type: element.type,
+              date: date,
+              result: "",
+              resultDesc: "",
+              startDesc: "",
+              endDesc: "",
+              datas: [data, data, data],
+            );
+            dataArr.add(card);
+            dataTypes.value = dataArr;
+            update(["dataTypes"]);
+
+            vmPrint("dataTypesdataTypesdataTypes${dataTypes.length}");
+          });
+    }
 
     // AppApi.queryAppData(startTime: startTime, endTime: endTime);
   }

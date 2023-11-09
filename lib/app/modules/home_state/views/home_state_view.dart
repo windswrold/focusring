@@ -16,6 +16,7 @@ import '../controllers/home_state_controller.dart';
 
 class HomeStateView extends GetView<HomeStateController> {
   const HomeStateView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return KBasePageView(
@@ -32,12 +33,14 @@ class HomeStateView extends GetView<HomeStateController> {
           child: Column(
             children: [
               _buildHeader(),
-              Obx(
-                () => Column(
-                    children: controller.dataTypes
-                        .map((e) => _buildCard(e))
-                        .toList()),
-              ),
+              GetBuilder<HomeStateController>(
+                  id: "dataTypes",
+                  builder: (a) {
+                    return Column(
+                        children: controller.dataTypes
+                            .map((e) => _buildCard(e))
+                            .toList());
+                  }),
               NextButton(
                 onPressed: () {
                   controller.onTapEditCard();

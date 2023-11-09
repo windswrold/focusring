@@ -639,8 +639,19 @@ class HealthDataUtils {
           }
         }
         callBackData(datas, [cellDatas]);
-      } else if (types == KHealthDataType.EMOTION) {
-      } else if (types == KHealthDataType.STRESS) {}
+      } else {
+        var data = List.generate(
+          30,
+          (index) => KChartCellData(
+            x: index.toString(),
+            y: 0,
+            state: KSleepStatusType.values[Random.secure().nextInt(3)],
+            color: types.getTypeMainColor(),
+          ),
+        );
+        await Future.delayed(Duration(seconds: 1));
+        callBackData([], [data, data, data]);
+      }
     } catch (e) {
       // HWToast.showErrText(text: "读取失败 ${e}");
     }
@@ -671,6 +682,7 @@ class HealthDataUtils {
       HWToast.showSucText(text: "构造成功，已存数据库");
     } catch (e) {
       HWToast.showErrText(text: "构造失败，${e.toString()}");
+      vmPrint(e);
     }
   }
 
