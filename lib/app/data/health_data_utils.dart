@@ -915,9 +915,11 @@ class HealthDataUtils {
         dur = time?.add(Duration(hours: i ~/ 4));
         int end = (i + 4 > dataArr.length) ? dataArr.length : i + 4;
         final e = dataArr.sublist(i, end);
-        List<int> e = dataArr.sublist(i, end);
-      
-        var num = (bytes[3] << 24) | (bytes[2] << 16) | (bytes[1] << 8) | bytes[0];
+        var num = ((e[0] & 0xff) |
+            ((e[1] & 0xff) << 8) |
+            ((e[2] & 0xff) << 16) |
+            ((e[3] & 0xff) << 24));
+        //卡路里
         UserInfoModel? user = SPManager.getGlobalUser();
         int? hight = user?.calMetricHeight();
         int? weight = user?.calMetricWeight();
