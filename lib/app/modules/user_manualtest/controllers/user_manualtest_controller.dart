@@ -40,7 +40,7 @@ class UserManualtestController extends GetxController
     kState.value = KStateType.loading;
     _setTime();
     _timerUtil.setOnTimerTickCallback((millisUntilFinished) {
-      vmPrint(millisUntilFinished);
+      vmPrint(millisUntilFinished, KBLEManager.logevel);
       countDownNum.value = (millisUntilFinished ?? 0) ~/ 1000;
       if (countDownNum.value <= 0) {
         pauseAnimation();

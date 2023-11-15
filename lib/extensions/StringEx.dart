@@ -97,4 +97,18 @@ extension StringEx on String {
     final RegExp regex = RegExp(r'^1[3-9]\d{9}$');
     return regex.hasMatch(this);
   }
+
+  String formatHexStringAsMac() {
+    StringBuffer formattedMac = StringBuffer();
+
+    for (int i = 0; i < this.length; i += 2) {
+      formattedMac.write(this.substring(i, i + 2));
+
+      if (i < this.length - 2) {
+        formattedMac.write(':');
+      }
+    }
+
+    return formattedMac.toString().toUpperCase();
+  }
 }

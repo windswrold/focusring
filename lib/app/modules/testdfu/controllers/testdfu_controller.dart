@@ -54,7 +54,8 @@ class TestdfuController extends GetxController {
   }
 
   void shareLog() async {
-    final ds = Get.find<AppViewController>().receDatas;
+    final ds =
+        Get.find<AppViewController>(tag: AppViewController.tag).receDatas;
     final a = await saveFileData(
         content: JsonUtil.encodeObj(ds) ?? "", pathType: "txt");
 

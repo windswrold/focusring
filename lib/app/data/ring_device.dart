@@ -1,6 +1,11 @@
+import 'package:beering/extensions/StringEx.dart';
+import 'package:beering/public.dart';
+import 'package:beering/utils/hex_util.dart';
 import 'package:floor/floor.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:beering/db/database_config.dart';
+
+import '../../const/constant.dart';
 
 const String tableName = 'ring_device_table';
 
@@ -21,10 +26,23 @@ class RingDeviceModel {
   });
 
   factory RingDeviceModel.fromResult(ScanResult result) {
+    Map serviceData = result.advertisementData.serviceData;
+    List<int> data = [];
+    String mac = result.device.remoteId.str;
+    if (isIOS == true) {
+      data = serviceData.listFor("CBEA") ?? [];
+      if (data.length > 6) {
+        String newMac = HEXUtil.encode(data.sublist(0, 4));
+        mac = "EA:CB:" + newMac.formatHexStringAsMac();
+      }
+    }
+
+    vmPrint("advertisementDataadvertisementData ${HEXUtil.encode(data)}");
+
     return RingDeviceModel(
       remoteId: result.device.remoteId.str,
       localName: result.device.localName,
-      macAddress: result.device.remoteId.str,
+      macAddress: mac,
     );
   }
 

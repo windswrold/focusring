@@ -185,7 +185,14 @@ class KBLEManager {
 //   return;
 // }
     vmPrint("发送数据 ${HEX.encode(datas)}", logevel);
-    await _writeCharacteristic?.write(datas, withoutResponse: true);
+    try {
+      await _writeCharacteristic?.write(datas, withoutResponse: true);
+    } catch (e) {
+      vmPrint("发送数据e $e", logevel);
+      if (e.toString().contains("device is disconnected")) {
+        _deviceStateSC.sink.add(BluetoothConnectionState.disconnected);
+      }
+    }
   }
 
   static void onValueReceived(List<int> values) {
@@ -223,6 +230,10 @@ class KBLEManager {
   }
 
   static Future<bool> isAvailableBLE() async {
+    FlutterBluePlus.setLogLevel(LogLevel.debug);
+
+    await Future.delayed(Duration(seconds: 1));
+
     while ((await FlutterBluePlus.isAvailable) == false) {
       vmPrint("a");
       await Future.delayed(const Duration(seconds: 2));
