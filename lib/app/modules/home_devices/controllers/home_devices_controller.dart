@@ -7,6 +7,7 @@ import 'package:beering/public.dart';
 import 'package:beering/utils/hex_util.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:get/get.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 class HomeDevicesController extends GetxController {
   //TODO: Implement HomeDevicesController
@@ -25,6 +26,8 @@ class HomeDevicesController extends GetxController {
   int _maxScanCount = 10;
   bool _isScan = false;
   ScanResult? _cacheDevices;
+
+  late RefreshController refreshController = RefreshController();
 
   @override
   void onInit() {
@@ -51,8 +54,9 @@ class HomeDevicesController extends GetxController {
         _maxScanCount = 10;
       } else {
         isConnect.value = false;
-        _autoScanConnect();
+        autoScanConnect();
       }
+      refreshController.refreshCompleted();
     });
 
     receiveDataStream = KBLEManager.receiveDataStream.listen((event) {
@@ -77,9 +81,7 @@ class HomeDevicesController extends GetxController {
           isConnect.value == false &&
           connectDevice.value != null &&
           _cacheDevices == null) {
-        _maxScanCount -= 1;
-        vmPrint("扫描超时了还没连接上继续扫描 还剩$_maxScanCount 次", KBLEManager.logevel);
-        _autoScanConnect();
+        autoScanConnect();
       }
     });
 
@@ -108,17 +110,26 @@ class HomeDevicesController extends GetxController {
         SPManager.getGlobalUser()!.id.toString(), true);
     if (a != null) {
       connectDevice.value = a;
-      _autoScanConnect();
+      autoScanConnect();
     }
   }
 
-  void _autoScanConnect() {
+  void autoScanConnect() {
     if (_maxScanCount <= 0) {
       return;
     }
-    if (connectDevice.value == null) {
+
+    if (isConnect.value == true) {
+      refreshController.refreshCompleted();
       return;
     }
+    if (connectDevice.value == null) {
+      refreshController.refreshFailed();
+      return;
+    }
+    _maxScanCount -= 1;
+    vmPrint("_autoScanConnect $_maxScanCount 次", KBLEManager.logevel);
+    refreshController.requestRefresh();
     if (_cacheDevices == null) {
       KBLEManager.startScan();
     } else {

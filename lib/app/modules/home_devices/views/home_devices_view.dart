@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:beering/app/data/ring_device.dart';
 import 'package:beering/app/modules/app_view/controllers/app_view_controller.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 import '../../../../public.dart';
 import '../controllers/home_devices_controller.dart';
@@ -326,13 +327,24 @@ class HomeDevicesView extends GetView<HomeDevicesController> {
       titleStr: "tabbar_devices".tr,
       centerTitle: false,
       hiddenLeading: true,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            _getDevicesCard(),
-            _getManual_test(),
-            _getList(),
-          ],
+      body: SmartRefresher(
+        controller: controller.refreshController,
+        header: ClassicHeader(
+          refreshingText: "正在连接中",
+        ),
+        enablePullUp: false,
+        onRefresh: () {
+
+          controller.autoScanConnect();
+        },
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              _getDevicesCard(),
+              _getManual_test(),
+              _getList(),
+            ],
+          ),
         ),
       ),
     );

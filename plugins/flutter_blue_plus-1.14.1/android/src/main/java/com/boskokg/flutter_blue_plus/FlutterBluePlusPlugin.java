@@ -2075,6 +2075,7 @@ public class FlutterBluePlusPlugin implements
     private void invokeMethodUIThread(final String method, HashMap<String, Object> data) {
         new Handler(Looper.getMainLooper()).post(() -> {
             //Could already be teared down at this moment
+            Log.w(TAG, "invokeMethodUIThread:  " + method +" HashMap "+ data);
             if (methodChannel != null) {
                 methodChannel.invokeMethod(method, data);
             } else {

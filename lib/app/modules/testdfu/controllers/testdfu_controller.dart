@@ -19,14 +19,14 @@ class TestdfuController extends GetxController {
 
   RxString currentFile = "".obs;
 
-  TextEditingController copy1 = TextEditingController();
+  TextEditingController copy1 = TextEditingController(text: "1070000");
   TextEditingController copy2 = TextEditingController();
   TextEditingController copy3 = TextEditingController();
   TextEditingController copy4 = TextEditingController();
   TextEditingController copy5 = TextEditingController();
 
   RxBool isExtFlash = false.obs;
-  RxBool isfastMode = false.obs;
+  RxBool isfastMode = true.obs;
 
   StreamSubscription? onDfuStart,
       onDfuError,

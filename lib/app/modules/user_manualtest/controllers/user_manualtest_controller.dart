@@ -114,7 +114,7 @@ class UserManualtestController extends GetxController
       // KBLEManager.onValueReceived(HEXUtil.decode("EEEE000403000400"));
       // KBLEManager.onValueReceived(HEXUtil.decode("EEEE0004030006aa"));
 
-      KBLEManager.onValueReceived(HEXUtil.decode("EEEE0004030506aa"));
+      // KBLEManager.onValueReceived(HEXUtil.decode("EEEE0004030506aa"));
 
       return;
     }

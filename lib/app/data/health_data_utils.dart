@@ -902,7 +902,7 @@ class HealthDataUtils {
         if (type == KHealthDataType.BLOOD_OXYGEN ||
             type == KHealthDataType.HEART_RATE) {
           dur = time?.add(Duration(
-              minutes: i * (type == KHealthDataType.HEART_RATE ? 5 : 30)));
+              minutes: i * (type == KHealthDataType.HEART_RATE ? 5 : 5)));
         }
         final e = dataArr[i];
         cellDatas.add(
