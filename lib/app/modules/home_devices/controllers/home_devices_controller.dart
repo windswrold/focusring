@@ -23,7 +23,8 @@ class HomeDevicesController extends GetxController {
       receiveDataStream,
       isScanning,
       scanResults;
-  int _maxScanCount = 10;
+
+  // int _maxScanCount = 10;
   bool _isScan = false;
   ScanResult? _cacheDevices;
 
@@ -51,7 +52,7 @@ class HomeDevicesController extends GetxController {
       vmPrint("deviceStateStream $event");
       if (event == BluetoothConnectionState.connected) {
         isConnect.value = true;
-        _maxScanCount = 10;
+        // _maxScanCount = 10;
       } else {
         isConnect.value = false;
         autoScanConnect();
@@ -115,9 +116,9 @@ class HomeDevicesController extends GetxController {
   }
 
   void autoScanConnect() {
-    if (_maxScanCount <= 0) {
-      return;
-    }
+    // if (_maxScanCount <= 0) {
+    //   return;
+    // }
 
     if (isConnect.value == true) {
       refreshController.refreshCompleted();
@@ -127,15 +128,15 @@ class HomeDevicesController extends GetxController {
       refreshController.refreshFailed();
       return;
     }
-    _maxScanCount -= 1;
-    vmPrint("_autoScanConnect $_maxScanCount 次", KBLEManager.logevel);
+    // _maxScanCount -= 1;
+    vmPrint("_autoScanConnect  次", KBLEManager.logevel);
     refreshController.requestRefresh();
-    if (_cacheDevices == null) {
-      KBLEManager.startScan();
-    } else {
-      KBLEManager.connect(
-          device: connectDevice.value!, ble: _cacheDevices!.device);
-    }
+    // if (_cacheDevices == null) {
+    KBLEManager.startScan();
+    // } else {
+    //   KBLEManager.connect(
+    //       device: connectDevice.value!, ble: _cacheDevices!.device);
+    // }
   }
 
   void onTapList(int indx) {
