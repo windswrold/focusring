@@ -12,12 +12,11 @@ import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 class HomeDevicesController extends GetxController {
   //TODO: Implement HomeDevicesController
 
-  Rx<RingDeviceModel?> connectDevice = Rx(null);
+  Rx<RingDeviceModel?> dbDevice = Rx(null);
 
-  RxBool isConnect = false.obs;
-
-  RxInt batNum = RxInt(0);
-  RxBool isCharging = RxBool(false);
+  Rx<KBleState> connectType = Rx(KBleState.disconnect); //是否连接
+  RxInt batNum = RxInt(0); //电池信息
+  RxBool isCharging = RxBool(false); //是否充电
 
   StreamSubscription? deviceStateStream,
       receiveDataStream,
@@ -26,7 +25,6 @@ class HomeDevicesController extends GetxController {
 
   // int _maxScanCount = 10;
   bool _isScan = false;
-  ScanResult? _cacheDevices;
 
   late RefreshController refreshController = RefreshController();
 
@@ -51,13 +49,14 @@ class HomeDevicesController extends GetxController {
     deviceStateStream = KBLEManager.deviceStateStream.listen((event) {
       vmPrint("deviceStateStream $event");
       if (event == BluetoothConnectionState.connected) {
-        isConnect.value = true;
-        // _maxScanCount = 10;
+        connectType.value = KBleState.connected;
+        refreshController.refreshCompleted();
       } else {
-        isConnect.value = false;
+        connectType.value = KBleState.disconnect;
+        isCharging.value = false;
         autoScanConnect();
       }
-      refreshController.refreshCompleted();
+      update(["connectType"]);
     });
 
     receiveDataStream = KBLEManager.receiveDataStream.listen((event) {
@@ -76,25 +75,19 @@ class HomeDevicesController extends GetxController {
 
     isScanning = KBLEManager.isScanning.listen((event) {
       _isScan = event;
-      vmPrint("_isScan $_isScan isConnect $isConnect $_cacheDevices",
-          KBLEManager.logevel);
-      if (_isScan == false &&
-          isConnect.value == false &&
-          connectDevice.value != null &&
-          _cacheDevices == null) {
-        autoScanConnect();
-      }
+      vmPrint("_isScan $_isScan isConnect $connectType ", KBLEManager.logevel);
+      autoScanConnect();
     });
 
     scanResults = KBLEManager.scanResults.listen((results) {
       for (ScanResult d in results) {
-        vmPrint(
-            "scanResults ${d.toString()}  ${connectDevice.value?.remoteId}");
-        if (d.device.remoteId.str == (connectDevice.value?.remoteId ?? "") &&
-            _cacheDevices == null) {
-          _cacheDevices = d;
-          KBLEManager.stopScan();
-          KBLEManager.connect(device: connectDevice.value!, ble: d.device);
+        if (d.device.remoteId.str == (dbDevice.value?.remoteId ?? "")) {
+          if (connectType.value == KBleState.disconnect) {
+            KBLEManager.stopScan();
+            KBLEManager.connect(device: dbDevice.value!, ble: d.device);
+            vmPrint("触发链接");
+          }
+          connectType.value = KBleState.connecting;
         }
       }
     });
@@ -110,7 +103,7 @@ class HomeDevicesController extends GetxController {
     final a = await RingDeviceModel.queryUserAllWithSelect(
         SPManager.getGlobalUser()!.id.toString(), true);
     if (a != null) {
-      connectDevice.value = a;
+      dbDevice.value = a;
       autoScanConnect();
     }
   }
@@ -120,23 +113,24 @@ class HomeDevicesController extends GetxController {
     //   return;
     // }
 
-    if (isConnect.value == true) {
-      refreshController.refreshCompleted();
-      return;
-    }
-    if (connectDevice.value == null) {
+    if (dbDevice.value == null) {
       refreshController.refreshFailed();
       return;
     }
-    // _maxScanCount -= 1;
-    vmPrint("_autoScanConnect  次", KBLEManager.logevel);
+
+    if (connectType.value == KBleState.connected) {
+      refreshController.refreshCompleted();
+      return;
+    }
+    if (connectType.value == KBleState.connecting) {
+      return;
+    }
+    if (_isScan == true) {
+      return;
+    }
+    vmPrint("_autoScanConnect", KBLEManager.logevel);
     refreshController.requestRefresh();
-    // if (_cacheDevices == null) {
     KBLEManager.startScan();
-    // } else {
-    //   KBLEManager.connect(
-    //       device: connectDevice.value!, ble: _cacheDevices!.device);
-    // }
   }
 
   void onTapList(int indx) {
@@ -145,7 +139,7 @@ class HomeDevicesController extends GetxController {
     } else if (indx == 1) {
       Get.toNamed(Routes.AUTOMATIC_SETTINGS);
     } else if (indx == 2) {
-      if (isConnect.value == false) {
+      if (connectType.value == false) {
         DialogUtils.defaultDialog(
           title: "empty_unbind".tr,
           content: "empty_unbindtip".tr,
@@ -153,7 +147,7 @@ class HomeDevicesController extends GetxController {
         );
         return;
       }
-      Get.toNamed(Routes.DEVICE_INFO, arguments: connectDevice.value);
+      Get.toNamed(Routes.DEVICE_INFO, arguments: dbDevice.value);
     } else if (indx == 3) {
       // if (isConnect.value == false) {
       //   DialogUtils.defaultDialog(
@@ -171,22 +165,21 @@ class HomeDevicesController extends GetxController {
           vmPrint("断开连接", KBLEManager.logevel);
           KBLEManager.disconnectedAllBle();
           RingDeviceModel.delTokens();
-          connectDevice.value = null;
+          dbDevice.value = null;
         },
       );
     }
   }
 
   void onTapAddDevices() async {
-    if (isConnect.value == true) {
+    if (connectType.value == KBleState.connected) {
       // DialogUtils.defaultDialog(title: "当前正在连接中，确定断开连接?",onConfirm: (){
       //
       //
       // });
       return;
     }
-    if (connectDevice.value != null) {
-      _cacheDevices = null;
+    if (dbDevice.value != null) {
       KBLEManager.startScan();
       return;
     }
@@ -197,12 +190,12 @@ class HomeDevicesController extends GetxController {
         return;
       }
       // await RingDeviceModel.insertTokens(d);
-      connectDevice.value = d;
+      dbDevice.value = d;
     } catch (a) {}
   }
 
   void onTapManualHeartrate() {
-    if (connectDevice.value == null) {
+    if (dbDevice.value == null) {
       DialogUtils.defaultDialog(
         title: "empty_unbind".tr,
         content: "empty_unbindtip".tr,
@@ -215,7 +208,7 @@ class HomeDevicesController extends GetxController {
   }
 
   void onTapBloodOxygen() {
-    if (connectDevice.value == null) {
+    if (dbDevice.value == null) {
       DialogUtils.defaultDialog(
         title: "empty_unbind".tr,
         content: "empty_unbindtip".tr,

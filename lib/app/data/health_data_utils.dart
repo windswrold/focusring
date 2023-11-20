@@ -655,7 +655,6 @@ class HealthDataUtils {
       }
 
       HWToast.showSucText(text: "构造成功，已存数据库");
-      GlobalValues.globalEventBus.fire(KReportQueryDataUpdate());
     } catch (e) {
       HWToast.showErrText(text: "构造失败，${e.toString()}");
       vmPrint(e);
@@ -934,7 +933,6 @@ class HealthDataUtils {
 
         if (type == KHealthDataType.CALORIES_BURNED) {
           num = calculate_kcal_steps(num, weight!, hight!);
-          vmPrint("CALORIES_BURNED  $num");
         }
 
         cellDatas.add(

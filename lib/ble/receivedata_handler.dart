@@ -5,6 +5,7 @@ import 'package:beering/ble/bledata_serialization.dart';
 import 'package:beering/net/app_api.dart';
 import 'package:beering/utils/hex_util.dart';
 
+import '../const/event_bus_class.dart';
 import '../public.dart';
 
 class ReceiveDataModel {
@@ -227,10 +228,6 @@ class ReceiveDataHandler {
         KBLEManager.sendData(
             sendData: KBLESerialization.getHistoryDataWithType(
                 type: KHealthDataType.SLEEP, index: _currentDay));
-
-        ///流程结束转为监听
-        KBLEManager.listenerType = KBLECommandListenerType.listen;
-        vmPrint("KBLECommandListenerType.listen ", KBLEManager.logevel);
       } else if (valueData[0] == 0xbb) {
         _parseDataHistoryData(KHealthDataType.SLEEP, valueData);
       }
@@ -334,6 +331,12 @@ class ReceiveDataHandler {
           KBLEManager.sendData(
               sendData: KBLESerialization.getDayNumWithType(
                   type: KHealthDataType.SLEEP));
+        } else {
+          ///流程结束转为监听
+          KBLEManager.listenerType = KBLECommandListenerType.listen;
+          GlobalValues.globalEventBus.fire(KReportQueryDataUpdate());
+          vmPrint("发出更新数据命令", KBLEManager.logevel);
+          vmPrint("KBLECommandListenerType.listen ", KBLEManager.logevel);
         }
       } else if (_maxDay >= 1) {
         //请求昨天的数据

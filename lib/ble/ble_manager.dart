@@ -109,7 +109,7 @@ class KBLEManager {
       // onValueReceived(HEXUtil.decode("EEEE0003020000"));
       // return;
     }
-
+    clean();
     var bleDevice = ble ?? getDevice(device: device);
     bleDevice.connect(timeout: timeout);
     await Future.delayed(Duration(seconds: 1));

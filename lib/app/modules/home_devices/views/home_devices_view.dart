@@ -70,7 +70,7 @@ class HomeDevicesView extends GetView<HomeDevicesController> {
         borderRadius: BorderRadius.circular(14),
       ),
       child: Obx(
-        () => controller.isConnect.value == false
+        () => controller.connectType.value == KBleState.disconnect
             ? Column(
                 children: [
                   _getListItem(
@@ -163,7 +163,7 @@ class HomeDevicesView extends GetView<HomeDevicesController> {
       );
     }
 
-    return Obx(() => controller.isConnect.value == false
+    return Obx(() => controller.connectType.value == KBleState.disconnect
         ? Container()
         : Container(
             margin: EdgeInsets.only(left: 12.w, top: 12.w, right: 12.w),
@@ -249,13 +249,11 @@ class HomeDevicesView extends GetView<HomeDevicesController> {
                             ),
                           ),
                           3.columnWidget,
-                          Obx(
-                            () => Text(
-                              controller.isConnect.value == true
-                                  ? "Linked"
-                                  : "UnLink",
-                              style: Get.textTheme.titleSmall,
-                            ),
+                          Text(
+                            controller.connectType.value == KBleState.connected
+                                ? "Linked"
+                                : "UnLink",
+                            style: Get.textTheme.titleSmall,
                           ),
                           7.columnWidget,
                           Row(
@@ -334,7 +332,6 @@ class HomeDevicesView extends GetView<HomeDevicesController> {
         ),
         enablePullUp: false,
         onRefresh: () {
-
           controller.autoScanConnect();
         },
         child: SingleChildScrollView(
