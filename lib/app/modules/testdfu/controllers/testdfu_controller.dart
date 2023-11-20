@@ -132,7 +132,7 @@ class TestdfuController extends GetxController {
       return;
     }
 
-    RingDeviceModel de = Get.find<HomeDevicesController>().connectDevice.value!;
+    RingDeviceModel de = Get.find<HomeDevicesController>().dbDevice.value!;
 
     try {
       await KBLEManager.getDevice(device: de).startCopyDfu(

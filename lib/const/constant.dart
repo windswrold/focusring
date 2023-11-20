@@ -132,6 +132,12 @@ enum KBLECommandListenerType {
   listen, //监听流程  不会自动发送下一个
 }
 
+enum KBleState {
+  disconnect,
+  connecting,
+  connected,
+}
+
 Size getCalculateTextSize(
   String value,
   double fontSize,

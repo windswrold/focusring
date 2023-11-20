@@ -214,7 +214,7 @@ class HomeDevicesView extends GetView<HomeDevicesController> {
 
   Widget _getDevicesCard() {
     return Obx(
-      () => controller.connectDevice.value != null
+      () => controller.dbDevice.value != null
           ? Container(
               height: 138.w,
               margin: EdgeInsets.only(left: 12.w, right: 12.w),
@@ -237,14 +237,14 @@ class HomeDevicesView extends GetView<HomeDevicesController> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            controller.connectDevice.value?.localName ?? "",
+                            controller.dbDevice.value?.localName ?? "",
                             style: Get.textTheme.bodySmall,
                           ),
                           4.columnWidget,
                           Container(
                             width: 150.w,
                             child: Text(
-                              controller.connectDevice.value?.macAddress ?? "",
+                              controller.dbDevice.value?.macAddress ?? "",
                               style: Get.textTheme.displaySmall,
                             ),
                           ),
