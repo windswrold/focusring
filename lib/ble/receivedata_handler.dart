@@ -223,9 +223,14 @@ class ReceiveDataHandler {
         vmPrint("回答天数 $value", KBLEManager.logevel);
         _maxDay = value;
         _currentDay = 0;
+
         KBLEManager.sendData(
             sendData: KBLESerialization.getHistoryDataWithType(
                 type: KHealthDataType.SLEEP, index: _currentDay));
+
+        ///流程结束转为监听
+        KBLEManager.listenerType = KBLECommandListenerType.listen;
+        vmPrint("KBLECommandListenerType.listen ", KBLEManager.logevel);
       } else if (valueData[0] == 0xbb) {
         _parseDataHistoryData(KHealthDataType.SLEEP, valueData);
       }
@@ -240,7 +245,12 @@ class ReceiveDataHandler {
     bool status = true;
     dynamic value = valueData[0];
     String tip = "";
-    KBLEManager.sendData(sendData: KBLESerialization.getCharger());
+    if (KBLEManager.listenerType == KBLECommandListenerType.connect) {
+      vmPrint("连接流程 ", KBLEManager.logevel);
+      KBLEManager.sendData(sendData: KBLESerialization.getCharger());
+    } else {
+      vmPrint("监听流程 ", KBLEManager.logevel);
+    }
     return ReceiveDataModel(
         status: status, tip: tip, command: com, value: value);
   }
@@ -262,10 +272,14 @@ class ReceiveDataHandler {
       status = true;
       tip = "充满";
     }
-
-    KBLEManager.sendData(
-        sendData: KBLESerialization.getDayNumWithType(
-            type: KHealthDataType.HEART_RATE));
+    if (KBLEManager.listenerType == KBLECommandListenerType.connect) {
+      vmPrint("连接流程 ", KBLEManager.logevel);
+      KBLEManager.sendData(
+          sendData: KBLESerialization.getDayNumWithType(
+              type: KHealthDataType.HEART_RATE));
+    } else {
+      vmPrint("监听流程 ", KBLEManager.logevel);
+    }
 
     return ReceiveDataModel(
         status: status, tip: tip, command: com, value: value);

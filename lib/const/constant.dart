@@ -127,6 +127,11 @@ enum KBLECommandType {
   debug
 }
 
+enum KBLECommandListenerType {
+  connect, //连接流程 走一遍所有流程
+  listen, //监听流程  不会自动发送下一个
+}
+
 Size getCalculateTextSize(
   String value,
   double fontSize,
@@ -217,7 +222,6 @@ String getZeroDateTime({DateTime? now}) {
 }
 
 typedef ReportChartDataType = List<List<KChartCellData>>;
-
 
 class GlobalValues {
   static PackageInfo? appInfo;

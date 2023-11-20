@@ -53,7 +53,7 @@ class FindDevicesController extends GetxController {
     super.onReady();
 
     scanStream = KBLEManager.scanResults.listen((event) {
-      vmPrint("scanResults ${event.length}");
+      // vmPrint("scanResults ${event.length}");
       scanResults.value = event
           .where((element) => isIOS
               ? element.advertisementData.serviceData.containsKey("CBEA")

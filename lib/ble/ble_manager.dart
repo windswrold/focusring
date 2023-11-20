@@ -28,16 +28,21 @@ class KBLEManager {
       StreamController<BluetoothConnectionState>.broadcast();
 
   static final logController = StreamController<String>.broadcast();
+  static KBLECommandListenerType listenerType = KBLECommandListenerType.connect;
 
   static clean() {
     _allValues.clear();
     _notifySubscription?.cancel();
+    _notifySubscription = null;
     _mtuSubscripation?.cancel();
+    _mtuSubscripation = null;
     _notifyCharacteristic = null;
     _writeCharacteristic = null;
     currentDevices = null;
     _connectSubscription?.cancel();
+    _connectSubscription = null;
     _cacheSendData.clear();
+    listenerType = KBLECommandListenerType.connect;
   }
 
   static Stream<List<ScanResult>> get scanResults {
