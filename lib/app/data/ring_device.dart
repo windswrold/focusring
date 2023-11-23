@@ -27,17 +27,18 @@ class RingDeviceModel {
 
   factory RingDeviceModel.fromResult(ScanResult result) {
     Map serviceData = result.advertisementData.serviceData;
-    List<int> data = [];
+    vmPrint("serviceData $serviceData");
     String mac = result.device.remoteId.str;
     if (isIOS == true) {
-      data = serviceData.listFor("CBEA") ?? [];
+      List<int> data = serviceData.values.toList().tryFirst;
+      String keys = serviceData.keys.toList().tryFirst;
       if (data.length > 6) {
         String newMac = HEXUtil.encode(data.sublist(0, 4));
-        mac = "EA:CB:" + newMac.formatHexStringAsMac();
+        final start =keys.reversePairs();
+        mac =
+            "${start.formatHexStringAsMac()}:${newMac.formatHexStringAsMac()}";
       }
     }
-
-    vmPrint("advertisementDataadvertisementData ${HEXUtil.encode(data)}");
 
     return RingDeviceModel(
       remoteId: result.device.remoteId.str,

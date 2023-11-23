@@ -111,4 +111,16 @@ extension StringEx on String {
 
     return formattedMac.toString().toUpperCase();
   }
+
+  String reversePairs() {
+    List<String> pairs = [];
+    for (int i = 0; i < length; i += 2) {
+      if (i + 1 < length) {
+        pairs.add(substring(i, i + 2));
+      } else {
+        pairs.add(substring(i));
+      }
+    }
+    return pairs.reversed.join('');
+  }
 }
