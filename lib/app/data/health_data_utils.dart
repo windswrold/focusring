@@ -246,6 +246,14 @@ class TempData {
     return datas ?? [];
   }
 
+  static Future<bool> esistData(int appUserId, String createTime) async {
+    final db = await DataBaseConfig.openDataBase();
+    final List<Map<String, Object?>> datas = await db?.database.rawQuery(
+            "select * from $tableName4  appUserId= $appUserId and createTime = '$createTime' ") ??
+        [];
+    return datas.isEmpty ? false : true;
+  }
+
   static Future insertTokens(List<TempData> models) async {
     final db = await DataBaseConfig.openDataBase();
     return await db?.tempDap.insertTokens(models);
@@ -654,10 +662,10 @@ class HealthDataUtils {
             mac: mac, isContainTime: isContainTime, datas: datas);
       }
 
-      HWToast.showSucText(text: "构造成功，已存数据库");
+      // HWToast.showSucText(text: "构造成功，已存数据库");
     } catch (e) {
-      HWToast.showErrText(text: "构造失败，${e.toString()}");
-      vmPrint(e);
+      // HWToast.showErrText(text: "构造失败，${e.toString()}");
+      vmPrint(e, KBLEManager.logevel);
     }
   }
 
@@ -872,6 +880,12 @@ class HealthDataUtils {
       mac: mac,
     );
     temp.createTime = model.createTime;
+
+    bool isOk = await TempData.esistData(userid, model.createTime ?? "");
+    if (isOk == true) {
+      vmPrint("已经随机生成了${model.createTime}的温度数据", KBLEManager.logevel);
+      return;
+    }
 
     //24个点
     List<double> tempsVal =
