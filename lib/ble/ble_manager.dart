@@ -78,7 +78,7 @@ class KBLEManager {
   }
 
   static void startScan(
-      {Duration timeout = const Duration(seconds: 30)}) async {
+      {Duration timeout = const Duration(seconds: 10)}) async {
     if ((await isAvailableBLE()) == false) {
       return;
     }
@@ -97,7 +97,7 @@ class KBLEManager {
   static void connect(
       {required RingDeviceModel device,
       BluetoothDevice? ble,
-      Duration timeout = const Duration(seconds: 20)}) async {
+      Duration timeout = const Duration(seconds: 8)}) async {
     if ((await isAvailableBLE()) == false) {
       return null;
     }

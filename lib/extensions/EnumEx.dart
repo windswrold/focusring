@@ -659,3 +659,9 @@ extension KBLECommandEX on KBLECommandType {
     return values;
   }
 }
+
+extension KBleStateEX on KBleState {
+  String getRawString() {
+    return ["Unconnect", "Connecting", "Connected"][index];
+  }
+}

@@ -62,7 +62,6 @@ class AppViewController extends GetxController {
       // user.value = value;
       user = value.obs;
       update([userinfoID]);
-
       final vc = Get.find<HomeStateController>();
       vc.initData();
     }).onError((r) {

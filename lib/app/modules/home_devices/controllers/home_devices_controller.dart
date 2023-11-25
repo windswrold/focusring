@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:beering/app/data/ring_device.dart';
 import 'package:beering/ble/ble_manager.dart';
 import 'package:beering/ble/bledata_serialization.dart';
+import 'package:beering/net/app_api.dart';
 import 'package:beering/public.dart';
 import 'package:beering/utils/hex_util.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
@@ -42,21 +43,24 @@ class HomeDevicesController extends GetxController {
     super.onClose();
   }
 
+  void _updateState(KBleState state) {
+    connectType.value = state;
+    update(["connectType"]);
+  }
+
   @override
   void onReady() {
     super.onReady();
 
     deviceStateStream = KBLEManager.deviceStateStream.listen((event) {
-      vmPrint("deviceStateStream $event");
       if (event == BluetoothConnectionState.connected) {
-        connectType.value = KBleState.connected;
-        refreshController.refreshCompleted();
+        _updateState(KBleState.connected);
       } else {
-        connectType.value = KBleState.disconnect;
+        _updateState(KBleState.disconnect);
         isCharging.value = false;
         autoScanConnect();
       }
-      update(["connectType"]);
+      vmPrint("deviceStateStream $event connectType $connectType");
     });
 
     receiveDataStream = KBLEManager.receiveDataStream.listen((event) {
@@ -81,13 +85,15 @@ class HomeDevicesController extends GetxController {
 
     scanResults = KBLEManager.scanResults.listen((results) {
       for (ScanResult d in results) {
-        if (d.device.remoteId.str == (dbDevice.value?.remoteId ?? "")) {
+        RingDeviceModel model = RingDeviceModel.fromResult(d);
+        if (compareUUID(
+            model.macAddress ?? "", dbDevice.value?.macAddress ?? "")) {
           if (connectType.value == KBleState.disconnect) {
             KBLEManager.stopScan();
             KBLEManager.connect(device: dbDevice.value!, ble: d.device);
-            vmPrint("触发链接");
+            vmPrint("触发链接", KBLEManager.logevel);
+            _updateState(KBleState.connecting);
           }
-          connectType.value = KBleState.connecting;
         }
       }
     });
@@ -105,58 +111,41 @@ class HomeDevicesController extends GetxController {
     if (a != null) {
       dbDevice.value = a;
       autoScanConnect();
+    } else {
+      dbDevice.value = null;
     }
   }
 
   void autoScanConnect() {
-    // if (_maxScanCount <= 0) {
-    //   return;
-    // }
-
     if (dbDevice.value == null) {
-      refreshController.refreshFailed();
       return;
     }
-
     if (connectType.value == KBleState.connected) {
-      refreshController.refreshCompleted();
       return;
     }
     if (connectType.value == KBleState.connecting) {
       return;
     }
-    if (_isScan == true) {
-      return;
-    }
     vmPrint("_autoScanConnect", KBLEManager.logevel);
-    refreshController.requestRefresh();
     KBLEManager.startScan();
   }
 
   void onTapList(int indx) {
+    if (connectType.value != KBleState.connected) {
+      return;
+    }
+    String mac = dbDevice.value?.macAddress ?? "";
+    if (mac.isEmpty) {
+      return;
+    }
+
     if (indx == 0) {
       Get.toNamed(Routes.HEARTRATE_ALERT);
     } else if (indx == 1) {
       Get.toNamed(Routes.AUTOMATIC_SETTINGS);
     } else if (indx == 2) {
-      if (connectType.value == false) {
-        DialogUtils.defaultDialog(
-          title: "empty_unbind".tr,
-          content: "empty_unbindtip".tr,
-          alignment: Alignment.center,
-        );
-        return;
-      }
       Get.toNamed(Routes.DEVICE_INFO, arguments: dbDevice.value);
     } else if (indx == 3) {
-      // if (isConnect.value == false) {
-      //   DialogUtils.defaultDialog(
-      //     title: "empty_unbind".tr,
-      //     content: "empty_unbindtip".tr,
-      //     alignment: Alignment.center,
-      //   );
-      //   return;
-      // }
       DialogUtils.dialogResetDevices(
         onConfirm: () async {
           vmPrint("确定恢复", KBLEManager.logevel);
@@ -168,6 +157,22 @@ class HomeDevicesController extends GetxController {
           dbDevice.value = null;
         },
       );
+    } else if (indx == 4) {
+      //解绑 是否解绑 y 调用接口
+      //y 清除本地的 断开蓝牙
+
+      DialogUtils.defaultDialog(
+          title: "un_bind_sure".tr,
+          onConfirm: () {
+            AppApi.unBindDeviceStream(mac: mac).onSuccess((value) {
+              HWToast.showSucText(text: "解绑成功");
+              RingDeviceModel.delTokens();
+              _initData();
+              KBLEManager.disconnectedAllBle();
+            }).onError((r) {
+              HWToast.showErrText(text: r.error ?? "");
+            });
+          });
     }
   }
 
@@ -195,12 +200,7 @@ class HomeDevicesController extends GetxController {
   }
 
   void onTapManualHeartrate() {
-    if (dbDevice.value == null) {
-      DialogUtils.defaultDialog(
-        title: "empty_unbind".tr,
-        content: "empty_unbindtip".tr,
-        alignment: Alignment.center,
-      );
+    if (connectType.value != KBleState.connected) {
       return;
     }
 
@@ -208,12 +208,7 @@ class HomeDevicesController extends GetxController {
   }
 
   void onTapBloodOxygen() {
-    if (dbDevice.value == null) {
-      DialogUtils.defaultDialog(
-        title: "empty_unbind".tr,
-        content: "empty_unbindtip".tr,
-        alignment: Alignment.center,
-      );
+    if (connectType.value != KBleState.connected) {
       return;
     }
 

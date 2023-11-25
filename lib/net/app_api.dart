@@ -14,6 +14,8 @@ import 'api_stream/header.dart';
 
 class AppApi {
   static VMApi get _api => VMApi(
+      //https://bee-ring.hlcrazy.com/api
+      //http://119.23.24.144/hlcrazy-ring/
       network: const VMNetwork(
           prefix: 'https://bee-ring.hlcrazy.com/api', printLevel: 1),
       customAnalysis: (
@@ -77,9 +79,7 @@ class AppApi {
       re: VMRequest()
         ..vmMethod = VMMethod.POST
         ..needAccessToken = true
-        ..httpBody = {
-          "unbindDeviceDto": {"mac": mac}..recursivelyRemoveNullItems()
-        }
+        ..httpBody = {"mac": mac}
         ..path = "/app/device/unbind",
     );
   }

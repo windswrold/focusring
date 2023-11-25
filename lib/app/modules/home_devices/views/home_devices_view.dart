@@ -63,7 +63,7 @@ class HomeDevicesView extends GetView<HomeDevicesController> {
     }
 
     return Container(
-      margin: EdgeInsets.only(left: 12.w, top: 12.w, right: 12.w),
+      margin: EdgeInsets.only(left: 12.w, top: 12.w, right: 12.w, bottom: 12.w),
       padding: EdgeInsets.only(top: 16.w),
       decoration: BoxDecoration(
         color: ColorUtils.fromHex("#FF000000"),
@@ -110,6 +110,8 @@ class HomeDevicesView extends GetView<HomeDevicesController> {
                       index: 3,
                       icon: "icons/device_icon_reset",
                       title: "restore_settings"),
+                  _getListItem(
+                      index: 4, icon: "icons/un_bind", title: "un_bind"),
                 ],
               ),
       ),
@@ -249,12 +251,14 @@ class HomeDevicesView extends GetView<HomeDevicesController> {
                             ),
                           ),
                           3.columnWidget,
-                          Text(
-                            controller.connectType.value == KBleState.connected
-                                ? "Linked"
-                                : "UnLink",
-                            style: Get.textTheme.titleSmall,
-                          ),
+                          GetBuilder<HomeDevicesController>(
+                              id: "connectType",
+                              builder: (a) {
+                                return Text(
+                                  a.connectType.value.getRawString(),
+                                  style: Get.textTheme.titleSmall,
+                                );
+                              }),
                           7.columnWidget,
                           Row(
                             children: [

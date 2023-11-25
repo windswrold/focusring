@@ -28,6 +28,7 @@ class UserInfoModel {
   int? heartRateAutoTestInterval; //心率自动测试间隔时间
   bool? bloodOxygenAutoTestSwitch; //血氧自动测试开关
   int? bloodOxygenAutoTestInterval; //血氧自动测试间隔时间
+  String? currentDeviceMac;
 
   UserInfoModel({
     this.accessToken,
@@ -57,6 +58,7 @@ class UserInfoModel {
     this.heartRateAutoTestInterval,
     this.maxHeartRate,
     this.minHeartRate,
+    this.currentDeviceMac,
   });
 
   UserInfoModel.fromJson(Map json) {
@@ -88,6 +90,7 @@ class UserInfoModel {
     heartRateAutoTestInterval = json["heartRateAutoTestInterval"] ?? 5;
     bloodOxygenAutoTestSwitch = json["bloodOxygenAutoTestSwitch"] ?? false;
     bloodOxygenAutoTestInterval = json["bloodOxygenAutoTestInterval"] ?? 5;
+    currentDeviceMac = json.stringFor("currentDeviceMac") ?? "";
   }
 
   Map<String, dynamic> toJson() {
@@ -120,7 +123,7 @@ class UserInfoModel {
     data['heartRateAutoTestInterval'] = this.heartRateAutoTestInterval;
     data['bloodOxygenAutoTestSwitch'] = this.bloodOxygenAutoTestSwitch;
     data['bloodOxygenAutoTestInterval'] = this.bloodOxygenAutoTestInterval;
-
+    data["currentDeviceMac"] = this.currentDeviceMac;
     return data;
   }
 

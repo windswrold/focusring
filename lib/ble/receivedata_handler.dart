@@ -80,8 +80,6 @@ class ReceiveDataHandler {
     } else {
       status = true;
       tip = "成功绑定";
-
-      KBLEManager.sendData(sendData: KBLESerialization.timeSetting());
       bindDeviceStream();
     }
     vmPrint(tip, KBLEManager.logevel);
@@ -289,6 +287,9 @@ class ReceiveDataHandler {
     }
     AppApi.bindDeviceStream(mac: a).onSuccess((value) {
       SPManager.setBindDevice();
+      KBLEManager.sendData(sendData: KBLESerialization.timeSetting());
+    }).onError((r) {
+      HWToast.showErrText(text: r.error ?? "");
     });
   }
 

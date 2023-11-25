@@ -241,5 +241,8 @@
   "get_location_02": "According to the regulations of the Android platform, when scanning a device with low-power Bluetooth, you need to obtain the location information of the mobile phone, otherwise it cannot be used.",
   "unauth_ed": "Authorized",
   "unauth": "Unauthorized",
-  "request_auth": "Request authorization"
+  "request_auth": "Request authorization",
+  "un_bind": "Device unbind",
+  "un_bind_sure": "Are you sure to unbind?"
+
 }

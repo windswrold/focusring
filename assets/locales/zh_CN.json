@@ -241,5 +241,7 @@
   "get_location_02": "根据Android平台的规定，低功耗蓝牙扫描设备时，需要获取手机位置信息，否则无法使用",
   "unauth_ed": "已授权",
   "unauth": "未授权",
-  "request_auth": "请求授权"
+  "request_auth": "请求授权",
+  "un_bind": "设备解绑",
+  "un_bind_sure": "是否确定解绑?"
 }

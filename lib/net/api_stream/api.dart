@@ -30,6 +30,7 @@ class VMApi {
 
   final VMNetwork network;
   final CustomResponseAnalysis? customAnalysis;
+
   VMApi({this.network = const VMNetwork(), this.customAnalysis});
 
   static Dio makeDio({
@@ -41,11 +42,14 @@ class VMApi {
       BaseInterceptor(dio),
       LogsInterceptors(printLevel),
     ]);
-    if (EnableUserProxy) {
-      _setProxy(dio, proxy ?? 'DIRECT');
-    } else {
-      _setProxy(dio, 'DIRECT');
+    if (inProduction == false) {
+      if (EnableUserProxy) {
+        _setProxy(dio, proxy ?? 'DIRECT');
+      } else {
+        _setProxy(dio, 'DIRECT');
+      }
     }
+
     return dio;
   }
 
@@ -54,25 +58,19 @@ class VMApi {
         'ee5ce1dfa7a53657c545c62b65802e4272878dabd65c0aadcf85783ebb0b4d5c';
 
     dio.httpClientAdapter = IOHttpClientAdapter(
-        // createHttpClient: () {
-        //   // Don't trust any certificate just because their root cert is trusted.
-        //   final HttpClient client =
-        //       HttpClient(context: SecurityContext(withTrustedRoots: false));
-        //   // You can test the intermediate / root cert here. We just ignore it.
-        //   client.badCertificateCallback = (cert, host, port) => true;
-        //   return client;
-        // },
-        // validateCertificate: (cert, host, port) {
-        //   // Check that the cert fingerprint matches the one we expect.
-        //   // We definitely require _some_ certificate.
-        //   if (cert == null) {
-        //     return false;
-        //   }
-        //   // Validate it any way you want. Here we only check that
-        //   // the fingerprint matches the OpenSSL SHA256.
-        //   return fingerprint == sha256.convert(cert.der).toString();
-        // },
-        );
+      createHttpClient: () {
+        // Don't trust any certificate just because their root cert is trusted.
+        final HttpClient client =
+            HttpClient(context: SecurityContext(withTrustedRoots: false));
+        // You can test the intermediate / root cert here. We just ignore it.
+        client.badCertificateCallback = (cert, host, port) => true;
+        client.findProxy = (Uri url) => "PROXY 192.168.0.104:8888";
+        return client;
+      },
+      validateCertificate: (cert, host, port) {
+        return true;
+      },
+    );
   }
 
   Future<VMResult> _request(
@@ -114,6 +112,7 @@ class VMApi {
     String proxy = 'DIRECT';
     Dio? dio;
     /** The timeout mechanism of dio[3.0.10] is invalid, mentioned in the github issue */
+
     ///Timeout mechanism [dio's timeout mechanism is invalid in some versions, so deploy manually]
     final s = request.sendTimeoutInterval + request.receiveTimeoutInterval;
     final timeoutDuration = Duration(milliseconds: s);
