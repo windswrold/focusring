@@ -3,20 +3,20 @@ import 'package:beering/const/constant.dart';
 import 'home_card_x.dart';
 
 class KHomeCardModel {
-  final KHealthDataType? type;
-  final String? date;
-  final String? result;
-  final String? resultDesc;
+  KHealthDataType? type;
+  String? date;
+  String? result;
+  String? resultDesc;
 
-  final String? startDesc;
-  final String? endDesc;
+  String? startDesc;
+  String? endDesc;
 
-  final int? index;
-  final bool? state;
+  int? index;
+  bool? state;
 
-  final List<List<KChartCellData>>? datas;
+  List<List<KChartCellData>>? datas;
 
-  final double? maximum;
+  double? maximum;
 
   KHomeCardModel({
     this.maximum,
