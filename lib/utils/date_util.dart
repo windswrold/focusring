@@ -274,7 +274,8 @@ class DateUtil {
   }
 
   static bool dayIsEqual(DateTime dateTime, DateTime locDateTime) {
-    return dateTime.day == locDateTime.day;
+    return dateTime.day == locDateTime.day &&
+        dateTime.month == locDateTime.month;
   }
 
   /// year is equal.
