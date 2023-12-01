@@ -27,8 +27,8 @@ class CustomRangeColumnSegment extends RangeColumnSegment {
     final cellData = dataSource[currentSegmentIndex!];
     final height = segmentRect.height;
     final avge = cellData.averageNum;
-    final low = cellData.y;
-    final high = cellData.z;
+    final low = cellData.yor_low;
+    final high = cellData.high;
     final offset = height / (low.abs() + high.abs());
     final avgeHeight = ((avge - low).abs()) * offset + segmentRect.top;
     final Paint paint = Paint()

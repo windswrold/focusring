@@ -94,7 +94,7 @@ class ChartUtils {
           trackBorderWidth: 0,
           borderRadius: BorderRadius.circular(3),
           xValueMapper: (KChartCellData sales, _) => sales.x,
-          yValueMapper: (KChartCellData sales, _) => sales.y,
+          yValueMapper: (KChartCellData sales, _) => sales.yor_low,
           pointColorMapper: (datum, index) => datum.color,
           dataLabelSettings: const DataLabelSettings(
             isVisible: false,
@@ -112,7 +112,7 @@ class ChartUtils {
           ),
           borderWidth: 2,
           xValueMapper: (KChartCellData sales, _) => sales.x,
-          yValueMapper: (KChartCellData sales, _) => sales.y,
+          yValueMapper: (KChartCellData sales, _) => sales.yor_low,
         ),
       ];
     } else if (type == KHealthDataType.BLOOD_OXYGEN ||
@@ -137,7 +137,7 @@ class ChartUtils {
         ScatterSeries<KChartCellData, String>(
           dataSource: datas.tryFirst ?? [],
           xValueMapper: (KChartCellData sales, _) => sales.x,
-          yValueMapper: (KChartCellData sales, _) => sales.y,
+          yValueMapper: (KChartCellData sales, _) => sales.yor_low,
           markerSettings: const MarkerSettings(
             height: 3,
             width: 3,
@@ -158,7 +158,7 @@ class ChartUtils {
             bottomLeft: Radius.circular(3),
           ),
           xValueMapper: (KChartCellData sales, _) => sales.x,
-          yValueMapper: (KChartCellData sales, _) => sales.y,
+          yValueMapper: (KChartCellData sales, _) => sales.yor_low,
           pointColorMapper: (datum, index) =>
               KEMOTIONStatusType.positive.getStatusColor(),
           dataLabelSettings: const DataLabelSettings(
@@ -174,7 +174,7 @@ class ChartUtils {
           spacing: 0,
           borderRadius: BorderRadius.zero,
           xValueMapper: (KChartCellData sales, _) => sales.x,
-          yValueMapper: (KChartCellData sales, _) => sales.y,
+          yValueMapper: (KChartCellData sales, _) => sales.yor_low,
           pointColorMapper: (datum, index) =>
               KEMOTIONStatusType.neutral.getStatusColor(),
           dataLabelSettings: const DataLabelSettings(
@@ -193,7 +193,7 @@ class ChartUtils {
             topRight: Radius.circular(3),
           ),
           xValueMapper: (KChartCellData sales, _) => sales.x,
-          yValueMapper: (KChartCellData sales, _) => sales.y,
+          yValueMapper: (KChartCellData sales, _) => sales.yor_low,
           pointColorMapper: (datum, index) =>
               KEMOTIONStatusType.negative.getStatusColor(),
           dataLabelSettings: const DataLabelSettings(
@@ -223,7 +223,7 @@ class ChartUtils {
           isTrackVisible: false,
           borderRadius: BorderRadius.circular(3),
           xValueMapper: (KChartCellData sales, _) => sales.x,
-          yValueMapper: (KChartCellData sales, _) => sales.y,
+          yValueMapper: (KChartCellData sales, _) => sales.yor_low,
           pointColorMapper: (datum, index) => datum.color,
           dataLabelSettings: const DataLabelSettings(
             isVisible: false,
@@ -242,7 +242,7 @@ class ChartUtils {
             bottomLeft: Radius.circular(3),
           ),
           xValueMapper: (KChartCellData sales, _) => sales.x,
-          yValueMapper: (KChartCellData sales, _) => sales.y,
+          yValueMapper: (KChartCellData sales, _) => sales.yor_low,
           pointColorMapper: (datum, index) => datum.color,
           dataLabelSettings: const DataLabelSettings(
             isVisible: false,
@@ -257,7 +257,7 @@ class ChartUtils {
           spacing: 0,
           borderRadius: BorderRadius.zero,
           xValueMapper: (KChartCellData sales, _) => sales.x,
-          yValueMapper: (KChartCellData sales, _) => sales.y,
+          yValueMapper: (KChartCellData sales, _) => sales.yor_low,
           pointColorMapper: (datum, index) => datum.color,
           dataLabelSettings: const DataLabelSettings(
             isVisible: false,
@@ -275,7 +275,7 @@ class ChartUtils {
             topRight: Radius.circular(3),
           ),
           xValueMapper: (KChartCellData sales, _) => sales.x,
-          yValueMapper: (KChartCellData sales, _) => sales.y,
+          yValueMapper: (KChartCellData sales, _) => sales.yor_low,
           pointColorMapper: (datum, index) => datum.color,
           dataLabelSettings: const DataLabelSettings(
             isVisible: false,
@@ -300,7 +300,7 @@ class ChartUtils {
             ),
             borderWidth: 2,
             xValueMapper: (KChartCellData sales, _) => sales.x,
-            yValueMapper: (KChartCellData sales, _) => sales.y,
+            yValueMapper: (KChartCellData sales, _) => sales.yor_low,
           ),
         ];
       }
@@ -308,8 +308,8 @@ class ChartUtils {
         RangeColumnSeries<KChartCellData, String>(
           dataSource: datas.tryFirst ?? [],
           xValueMapper: (KChartCellData sales, _) => sales.x,
-          highValueMapper: (KChartCellData sales, _) => sales.z,
-          lowValueMapper: (KChartCellData sales, _) => sales.y,
+          highValueMapper: (KChartCellData sales, _) => sales.high,
+          lowValueMapper: (KChartCellData sales, _) => sales.yor_low,
           pointColorMapper: (datum, index) => datum.color,
           onCreateRenderer: (ChartSeries<dynamic, dynamic> series) {
             return CustomRangeColumnRenderer(datas.tryFirst ?? []);
@@ -323,7 +323,7 @@ class ChartUtils {
           ScatterSeries<KChartCellData, String>(
             dataSource: datas.tryFirst ?? [],
             xValueMapper: (KChartCellData sales, _) => sales.x,
-            yValueMapper: (KChartCellData sales, _) => sales.y,
+            yValueMapper: (KChartCellData sales, _) => sales.yor_low,
             markerSettings: const MarkerSettings(
               height: 3,
               width: 3,
@@ -337,8 +337,8 @@ class ChartUtils {
         RangeColumnSeries<KChartCellData, String>(
           dataSource: datas.tryFirst ?? [],
           xValueMapper: (KChartCellData sales, _) => sales.x,
-          highValueMapper: (KChartCellData sales, _) => sales.z,
-          lowValueMapper: (KChartCellData sales, _) => sales.y,
+          highValueMapper: (KChartCellData sales, _) => sales.high,
+          lowValueMapper: (KChartCellData sales, _) => sales.yor_low,
           pointColorMapper: (datum, index) => datum.color,
           onCreateRenderer: (ChartSeries<dynamic, dynamic> series) {
             return CustomRangeColumnRenderer(datas.tryFirst ?? []);
