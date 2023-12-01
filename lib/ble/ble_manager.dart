@@ -163,8 +163,9 @@ class KBLEManager {
                   characteristic.uuid.toString(), BLEConfig.WRITEUUID) ==
               true) {
             _writeCharacteristic = characteristic;
-            final isBind = SPManager.isBindDevice();
-            if (isBind == true) {
+            String currentDeviceMac =
+                SPManager.getGlobalUser()?.currentDeviceMac ?? "";
+            if (currentDeviceMac.isNotEmpty) {
               KBLEManager.sendData(sendData: KBLESerialization.timeSetting());
             } else {
               KBLEManager.sendData(

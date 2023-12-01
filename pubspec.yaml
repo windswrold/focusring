@@ -79,6 +79,7 @@ dependencies:
   app_settings: ^5.1.1
   share_plus: 4.0.4
   event_bus: ^2.0.0
+  auto_size_text_plus: ^3.0.1
 
  
   

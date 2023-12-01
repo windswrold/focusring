@@ -227,7 +227,44 @@ String getZeroDateTime({DateTime? now}) {
       format: DateFormats.full);
 }
 
+String getLastDateTime({DateTime? now}) {
+  now ??= DateTime.now();
+  return DateUtil.formatDate(DateTime(now.year, now.month, now.day, 23, 59, 59),
+      format: DateFormats.full);
+}
+
+List<DateTime> getQueryStrings(
+    {required KReportType reportType, DateTime? now}) {
+  now ??= DateTime.now();
+  if (reportType == KReportType.day) {
+    return [now];
+  } else if (reportType == KReportType.week) {
+    List<DateTime> results =
+        List.generate(7, (index) => now!.subtract(Duration(days: index)))
+            .toList();
+    return results.reversed.toList();
+  } else {
+    // DateTime one = DateTime(now.year, now.month, 1);
+    DateTime last =
+        DateTime(now.year, now.month + 1, 1).subtract(const Duration(days: 1));
+    List<DateTime> results = List.generate(
+            last.day, (index) => DateTime(last.year, last.month, index + 1))
+        .toList();
+    return results;
+  }
+}
+
 typedef ReportChartDataType = List<List<KChartCellData>>;
+
+double getPercent({required double? current, required double? all}) {
+  try {
+    double a = (current ?? 0) / (all ?? 0);
+    a = a.isNaN ? 0 : a;
+    return min(1, a);
+  } catch (e) {
+    return 0;
+  }
+}
 
 class GlobalValues {
   static PackageInfo? appInfo;

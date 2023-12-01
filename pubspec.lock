@@ -49,6 +49,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.1.16"
+  auto_size_text_plus:
+    dependency: "direct main"
+    description:
+      name: auto_size_text_plus
+      sha256: d8838f5227a5d0bb1e21d06a7616877c07ffa67ff7c59f6ed62456198d0a8922
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "3.0.1"
   boolean_selector:
     dependency: transitive
     description:

@@ -210,13 +210,17 @@ class AppApi {
   ///App游客登录
   /////手机唯一标识
   ///系统类型，android：安卓，ios：苹果
-  static VMApiStream<UserInfoModel> visitorLoginStream(
-      {required String phoneId, required int systemType}) {
-    return _api
+  static void visitorLoginStream({
+    required void Function(UserInfoModel) onSuccess,
+    required void Function(VMResult) onError,
+  }) async {
+    final id = await SPManager.getPhoneID();
+    int type = getSystemType();
+    _api
         .request(
             re: VMRequest()
               ..path = "/app/user/visitorLogin"
-              ..httpBody = {"phoneId": phoneId, "systemType": systemType}
+              ..httpBody = {"phoneId": id, "systemType": type}
               ..vmMethod = VMMethod.POST)
         .convert((r) {
       var accessToken = r.mapResult?.stringFor("accessToken");
@@ -225,6 +229,10 @@ class AppApi {
       user.accessToken = accessToken;
       SPManager.setGlobalUser(user);
       return user;
+    }).onSuccess((value) {
+      onSuccess(value);
+    }).onError((r) {
+      onError(r);
     });
   }
 }

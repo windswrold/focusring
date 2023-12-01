@@ -286,7 +286,6 @@ class ReceiveDataHandler {
       return;
     }
     AppApi.bindDeviceStream(mac: a).onSuccess((value) {
-      SPManager.setBindDevice();
       KBLEManager.sendData(sendData: KBLESerialization.timeSetting());
     }).onError((r) {
       HWToast.showErrText(text: r.error ?? "");
