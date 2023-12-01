@@ -243,6 +243,7 @@
   "request_auth": "Request authorization",
   "unauth": "Unauthorized",
   "un_bind": "Device unbind",
-  "un_bind_sure": "Are you sure to unbind?"
+  "un_bind_sure": "Are you sure to unbind?",
+  "average_bodytemp": "Average temperature"
 
 }
