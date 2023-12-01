@@ -69,7 +69,7 @@ class TraLedButtonController extends GetxController {
           DateUtil.formatDate(currentTime, format: "yyyy/MM/dd");
     } else if (_type == KReportType.week) {
       disPlayTime.value =
-          "${DateUtil.formatDate(currentTime.subtract(const Duration(days: 7)), format: "yyyy/MM/dd")}-${DateUtil.formatDate(currentTime, format: "yyyy/MM/dd")}";
+          "${DateUtil.formatDate(currentTime.subtract(const Duration(days: 6)), format: "yyyy/MM/dd")}-${DateUtil.formatDate(currentTime, format: "yyyy/MM/dd")}";
     } else {
       disPlayTime.value = DateUtil.formatDate(currentTime, format: "yyyy/MM");
     }

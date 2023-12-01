@@ -13,7 +13,7 @@ class KChartCellData {
   num z;
 
   ///平均值
-  num a;
+  num averageNum;
 
   Color? color;
   KSleepStatusType? state;
@@ -24,13 +24,13 @@ class KChartCellData {
     this.z = 0,
     this.color,
     this.state,
-    this.a = 0,
+    this.averageNum = 0,
   });
 
   @override
   String toString() {
     // TODO: implement toString
-    return "x $x y $y z $z a $a";
+    return "x $x y $y z $z a $averageNum";
   }
 
   static KChartCellData generateChartCellData(HealthDataUtils data) {
