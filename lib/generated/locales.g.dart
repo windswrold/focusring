@@ -268,6 +268,7 @@ class LocaleKeys {
   static const unauth = 'unauth';
   static const un_bind = 'un_bind';
   static const un_bind_sure = 'un_bind_sure';
+  static const average_bodytemp = 'average_bodytemp';
   static const emotion_report = 'emotion_report';
   static const about_activitytip = 'about_activitytip';
   static const about_activitytip01 = 'about_activitytip01';
@@ -543,6 +544,7 @@ class Locales {
     'unauth': 'Unauthorized',
     'un_bind': 'Device unbind',
     'un_bind_sure': 'Are you sure to unbind?',
+    'average_bodytemp': 'Average temperature',
   };
   static const es_ES = {
     'tabbar_status': 'Estado',
@@ -809,6 +811,7 @@ class Locales {
     'unauth': 'Unauthorized',
     'un_bind': 'Device unbind',
     'un_bind_sure': 'Are you sure to unbind?',
+    'average_bodytemp': 'Average temperature',
   };
   static const ja_JP = {
     'tabbar_status': 'ステータス',
@@ -1069,6 +1072,7 @@ class Locales {
     'unauth': 'Unauthorized',
     'un_bind': 'Device unbind',
     'un_bind_sure': 'Are you sure to unbind?',
+    'average_bodytemp': 'Average temperature',
   };
   static const zh_CN = {
     'tabbar_status': '状态',
@@ -1324,6 +1328,7 @@ class Locales {
     'request_auth': '请求授权',
     'un_bind': '设备解绑',
     'un_bind_sure': '是否确定解绑?',
+    'average_bodytemp': '平均体温',
   };
   static const it_IT = {
     'tabbar_status': 'Stato',
@@ -1591,6 +1596,7 @@ class Locales {
     'unauth': 'Unauthorized',
     'un_bind': 'Device unbind',
     'un_bind_sure': 'Are you sure to unbind?',
+    'average_bodytemp': 'Average temperature',
   };
   static const en_US = {
     'tabbar_status': 'Status',
@@ -1855,6 +1861,7 @@ class Locales {
     'unauth': 'Unauthorized',
     'un_bind': 'Device unbind',
     'un_bind_sure': 'Are you sure to unbind?',
+    'average_bodytemp': 'Average temperature',
   };
   static const nl_NL = {
     'tabbar_status': 'status',
@@ -2120,6 +2127,7 @@ class Locales {
     'unauth': 'Unauthorized',
     'un_bind': 'Device unbind',
     'un_bind_sure': 'Are you sure to unbind?',
+    'average_bodytemp': 'Average temperature',
   };
   static const da_DK = {
     'tabbar_status': 'status',
@@ -2382,6 +2390,7 @@ class Locales {
     'unauth': 'Unauthorized',
     'un_bind': 'Device unbind',
     'un_bind_sure': 'Are you sure to unbind?',
+    'average_bodytemp': 'Average temperature',
   };
   static const de_DE = {
     'tabbar_status': 'Status',
@@ -2650,6 +2659,7 @@ class Locales {
     'unauth': 'Unauthorized',
     'un_bind': 'Device unbind',
     'un_bind_sure': 'Are you sure to unbind?',
+    'average_bodytemp': 'Average temperature',
   };
   static const pt_BR = {
     'tabbar_status': 'Status',
@@ -2917,6 +2927,7 @@ class Locales {
     'unauth': 'Unauthorized',
     'un_bind': 'Device unbind',
     'un_bind_sure': 'Are you sure to unbind?',
+    'average_bodytemp': 'Average temperature',
   };
   static const fr_FR = {
     'tabbar_status': 'Statut',
@@ -3185,6 +3196,7 @@ class Locales {
     'unauth': 'Unauthorized',
     'un_bind': 'Device unbind',
     'un_bind_sure': 'Are you sure to unbind?',
+    'average_bodytemp': 'Average temperature',
   };
   static const cs_CZ = {
     'tabbar_status': 'Stav',
@@ -3448,6 +3460,7 @@ class Locales {
     'request_auth': 'Request authorization',
     'un_bind': 'Device unbind',
     'un_bind_sure': 'Are you sure to unbind?',
+    'average_bodytemp': 'Average temperature',
   };
   static const ro_RO = {
     'tabbar_status': 'Statut',
@@ -3716,6 +3729,7 @@ class Locales {
     'unauth': 'Unauthorized',
     'un_bind': 'Device unbind',
     'un_bind_sure': 'Are you sure to unbind?',
+    'average_bodytemp': 'Average temperature',
   };
   static const pl_PL = {
     'tabbar_status': 'Status',
@@ -3980,5 +3994,6 @@ class Locales {
     'unauth': 'Unauthorized',
     'un_bind': 'Device unbind',
     'un_bind_sure': 'Are you sure to unbind?',
+    'average_bodytemp': 'Average temperature',
   };
 }
