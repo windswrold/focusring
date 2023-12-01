@@ -9,6 +9,7 @@ import 'package:beering/views/report_footer.dart';
 import 'package:beering/views/target_completion_rate.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
+import '../app/data/user_info.dart';
 import '../public.dart';
 
 class StepsLiChengReportChart extends StatelessWidget {
@@ -22,6 +23,8 @@ class StepsLiChengReportChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    UserInfoModel? user = SPManager.getGlobalUser();
+    final value = user?.getPlanNum(type);
     return Column(
       children: [
         Container(
@@ -78,29 +81,40 @@ class StepsLiChengReportChart extends StatelessWidget {
             ],
           ),
         ),
-        GetBuilder<AppViewController>(
-            id: AppViewController.userinfoID,
-            tag: AppViewController.tag,
-            builder: (a) {
-              final value = type == KHealthDataType.STEPS
-                  ? a.user.value?.stepsPlan
-                  : type == KHealthDataType.LiCheng
-                      ? a.user.value?.distancePlan
-                      : a.user.value?.caloriePlan;
+        GetX<ReportInfoStepsController>(builder: (a) {
+          return TargetCompletionRateView(
+            pageType: pageType,
+            type: type,
+            targetNum: (value ?? 0).toString(),
+            complationNum: a.complationData.value,
+            datas: a.targetWeekData.value,
+          );
+        }),
 
-              return TargetCompletionRateView(
-                pageType: pageType,
-                type: type,
-                targetNum: (value ?? 0).toString(),
-                complationNum: 0,
-                datas: KTheme.weekColors
-                    .map(
-                      (e) => TargetWeekCompletionRateModel(
-                          color: e, dayNum: "0", complationNum: 0),
-                    )
-                    .toList(),
-              );
-            }),
+        // GetBuilder<AppViewController>(
+        //     id: AppViewController.userinfoID,
+        //     tag: AppViewController.tag,
+        //     builder: (a) {
+        //       final value = type == KHealthDataType.STEPS
+        //           ? a.user.value?.stepsPlan
+        //           : type == KHealthDataType.LiCheng
+        //               ? a.user.value?.distancePlan
+        //               : a.user.value?.caloriePlan;
+        //
+        //       return
+        //         TargetCompletionRateView(
+        //         pageType: pageType,
+        //         type: type,
+        //         targetNum: (value ?? 0).toString(),
+        //         complationNum: 0,
+        //         datas: KTheme.weekColors
+        //             .map(
+        //               (e) => TargetWeekCompletionRateModel(
+        //                   color: e, dayNum: "0", complationNum: 0),
+        //             )
+        //             .toList(),
+        //       );
+        //     }),
         Container(
           margin: EdgeInsets.only(left: 12.w, right: 12.w, top: 12.w),
           child: GetX<ReportInfoStepsController>(builder: (a) {
@@ -181,11 +195,13 @@ class StepsLiChengReportChart extends StatelessWidget {
           21.columnWidget,
           Text(
             model.type,
+            overflow: TextOverflow.ellipsis,
             style: Get.textTheme.displayLarge,
           ),
           4.columnWidget,
           Text(
             model.value,
+            overflow: TextOverflow.ellipsis,
             style: Get.textTheme.labelMedium,
           ),
         ],

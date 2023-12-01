@@ -5,6 +5,7 @@ import 'package:beering/views/report_footer.dart';
 import 'package:beering/views/today_overview.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import '../public.dart';
+import 'charts/radio_gauge_chart/model/radio_gauge_chart_model.dart';
 
 class HeartChartReportChart extends StatelessWidget {
   const HeartChartReportChart({Key? key, required this.pageType})
@@ -75,14 +76,12 @@ class HeartChartReportChart extends StatelessWidget {
         _buildChart(),
         Container(
           margin: EdgeInsets.only(left: 12.w, right: 12.w),
-          child: TodayOverView(
-            datas: [
-              TodayOverViewModel(title: "resting_heartrate".tr, content: "-"),
-              TodayOverViewModel(title: "max_heartrate".tr, content: "-"),
-              TodayOverViewModel(title: "min_heartrate".tr, content: "-"),
-            ],
-            type: pageType,
-          ),
+          child: GetX<ReportInfoStepsController>(builder: (a) {
+            return TodayOverView(
+              datas: a.todaysModel.value,
+              type: pageType,
+            );
+          }),
         ),
         pageType == KReportType.day ? _getDay() : Container(),
         const ReportFooterView(
@@ -109,97 +108,79 @@ class HeartChartReportChart extends StatelessWidget {
     );
   }
 
-  Widget _getDay() {
-    Widget _builditem(KHeartRateStatusType status, String value) {
-      return Container(
-        margin: EdgeInsets.only(bottom: 11.w),
-        child: Row(
-          children: [
-            Container(
-              width: 15.w,
-              height: 15.w,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(4),
-                color: status.getStatusColor(),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 12.w),
-              child: Text(
-                status.getStatusDesc() + status.getStateCondition(status),
-                style: Get.textTheme.displayLarge,
-              ),
-            ),
-            Expanded(child: Container()),
-            Container(
-              child: Text(
-                value,
-                style: Get.textTheme.displayLarge,
-              ),
-            ),
-          ],
-        ),
-      );
-    }
-
+  Widget _builditem(RadioGaugeChartData status) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 12.w),
-      margin: EdgeInsets.only(top: 12.w, left: 12.w, right: 12.w),
-      decoration: BoxDecoration(
-        color: ColorUtils.fromHex("#FF000000"),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
+      margin: EdgeInsets.only(bottom: 11.w),
+      child: Row(
         children: [
-          _getTitle(),
           Container(
-            height: 170.w,
-            width: 170.w,
-            child: SfCircularChart(
-              series: [
-                DoughnutSeries<KChartCellData, String>(
-                  radius: '100%',
-                  selectionBehavior: SelectionBehavior(enable: false),
-                  dataSource: <KChartCellData>[
-                    KChartCellData(
-                      x: 'Chlorine',
-                      y: 55,
-                    ),
-                    KChartCellData(
-                      x: 'Sodium',
-                      y: 31,
-                    ),
-                    KChartCellData(x: 'Magnesium', y: 7.7),
-                    KChartCellData(
-                      x: 'Sulfur',
-                      y: 3.7,
-                    ),
-                    KChartCellData(
-                      x: 'Calcium',
-                      y: 1.2,
-                    ),
-                    KChartCellData(
-                      x: 'Others',
-                      y: 1.4,
-                    ),
-                  ],
-                  xValueMapper: (KChartCellData data, _) => data.x as String,
-                  yValueMapper: (KChartCellData data, _) => data.y,
-                  dataLabelSettings: const DataLabelSettings(isVisible: false),
-                ),
-              ],
+            width: 15.w,
+            height: 15.w,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(4),
+              color: status.color,
             ),
           ),
           Container(
-            margin: EdgeInsets.only(top: 25.w, left: 12.w, right: 12.w),
-            child: Column(
-              children: KHeartRateStatusType.values
-                  .map((e) => _builditem(e, "-"))
-                  .toList(),
+            margin: EdgeInsets.only(left: 12.w),
+            child: Text(
+              status.title ?? "",
+              style: Get.textTheme.displayLarge,
+            ),
+          ),
+          Expanded(child: Container()),
+          Container(
+            child: Text(
+              "${(getPercent(current: status.current, all: status.all) * 100).toStringAsFixed(2)}%",
+              style: Get.textTheme.displayLarge,
             ),
           ),
         ],
       ),
     );
+  }
+
+  Widget _getDay() {
+    return Container(
+        padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 12.w),
+        margin: EdgeInsets.only(top: 12.w, left: 12.w, right: 12.w),
+        decoration: BoxDecoration(
+          color: ColorUtils.fromHex("#FF000000"),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: GetX<ReportInfoStepsController>(builder: (a) {
+          return Column(
+            children: [
+              _getTitle(),
+              Container(
+                height: 170.w,
+                width: 170.w,
+                child: SfCircularChart(
+                  series: [
+                    DoughnutSeries<RadioGaugeChartData, String>(
+                      radius: '100%',
+                      selectionBehavior: SelectionBehavior(enable: false),
+                      dataSource: a.heartGaugeDatas.value,
+                      xValueMapper: (RadioGaugeChartData data, _) => "",
+                      yValueMapper: (RadioGaugeChartData data, _) =>
+                          getPercent(current: data.current, all: data.all),
+                      pointColorMapper:  (RadioGaugeChartData data, _) => data.color,
+                      dataLabelSettings:
+                          const DataLabelSettings(isVisible: false),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 25.w, left: 12.w, right: 12.w),
+                child: Column(
+                  children: a.heartGaugeDatas.value
+                      .map((e) => _builditem(e))
+                      .toList(),
+                ),
+              ),
+            ],
+          );
+        }));
   }
 }

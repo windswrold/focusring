@@ -1,3 +1,4 @@
+import 'package:auto_size_text_plus/auto_size_text.dart';
 import 'package:floor/floor.dart';
 import 'package:flutter/material.dart';
 import 'package:beering/app/modules/app_view/controllers/app_view_controller.dart';
@@ -75,18 +76,24 @@ class HomeStateView extends GetView<HomeStateController> {
                       height: 21,
                     ),
               Container(
-                margin: EdgeInsets.only(left: 5),
+                margin: const EdgeInsets.only(left: 5),
                 child: Text(
-                  (data.value.current ?? 0).toString(),
+                  (data.value.current ?? 0).toStringAsFixed(2),
                   style: Get.textTheme.displayMedium?.copyWith(
                     color: data.value.color,
                   ),
                 ),
               ),
-              Container(
-                margin: EdgeInsets.only(left: 5),
-                child: Text("/ ${data.value.all}${data.value.symbol}",
-                    style: Get.textTheme.displaySmall),
+              Expanded(
+                child: Container(
+                  margin: const EdgeInsets.only(left: 5),
+                  child: AutoSizeText(
+                    "/${data.value.all ?? 0}${data.value.symbol ?? ""}",
+                    style: Get.textTheme.displaySmall,
+                    minFontSize: 5,
+                    maxLines: 1,
+                  ),
+                ),
               ),
             ],
           ),
@@ -105,7 +112,7 @@ class HomeStateView extends GetView<HomeStateController> {
           children: [
             Obx(
               () => Container(
-                width: Get.size.width / 2 - 40.w,
+                width: Get.size.width / 2 - 20.w,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -128,26 +135,28 @@ class HomeStateView extends GetView<HomeStateController> {
                   key: GlobalKey(),
                   series: [
                     RadialBarSeries<RadioGaugeChartData, String>(
-                        cornerStyle: CornerStyle.bothCurve,
-                        gap: '10%',
-                        radius: '90%',
-                        dataSource: [
-                          controller.licheng.value,
-                          controller.steps.value,
-                          controller.calorie.value
-                        ].reversed.toList(),
-                        xValueMapper: (RadioGaugeChartData data, _) =>
-                            data.title ?? "",
-                        yValueMapper: (RadioGaugeChartData data, _) =>
-                            data.current,
-                        trackOpacity: 0.38,
-                        trackColor: Colors.white38,
-                        pointColorMapper: (RadioGaugeChartData data, _) =>
-                            data.color,
-                        pointRadiusMapper: (RadioGaugeChartData data, _) =>
-                            "100%",
-                        dataLabelSettings:
-                            const DataLabelSettings(isVisible: false))
+                      cornerStyle: CornerStyle.bothCurve,
+                      gap: '10%',
+                      radius: '90%',
+                      dataSource: [
+                        controller.licheng.value,
+                        controller.steps.value,
+                        controller.calorie.value
+                      ].reversed.toList(),
+                      xValueMapper: (RadioGaugeChartData data, _) =>
+                          data.title ?? "",
+                      yValueMapper: (RadioGaugeChartData data, _) =>
+                          getPercent(current: data.current, all: data.all),
+                      maximumValue: 1,
+                      trackOpacity: 0.38,
+                      trackColor: Colors.white38,
+                      pointColorMapper: (RadioGaugeChartData data, _) =>
+                          data.color,
+                      pointRadiusMapper: (RadioGaugeChartData data, _) =>
+                          "100%",
+                      dataLabelSettings:
+                          const DataLabelSettings(isVisible: false),
+                    ),
                   ],
                 ),
               ),

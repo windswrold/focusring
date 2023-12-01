@@ -21,6 +21,7 @@ import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class ReportInfoStepsView extends GetView<ReportInfoStepsController> {
   const ReportInfoStepsView({Key? key}) : super(key: key);
+
   Widget _getAppBar() {
     return controller.currentType == KHealthDataType.CALORIES_BURNED
         ? Obx(() => getAppBar(controller.reportType.value.getCaloriesTitle()))

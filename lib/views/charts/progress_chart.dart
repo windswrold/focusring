@@ -33,7 +33,7 @@ class ProgressChart extends StatelessWidget {
             ),
             pointers: <GaugePointer>[
               RangePointer(
-                value: progressValue,
+                value: progressValue * 100,
                 width: 0.2,
                 sizeUnit: GaugeSizeUnit.factor,
                 enableAnimation: true,
@@ -46,7 +46,7 @@ class ProgressChart extends StatelessWidget {
               GaugeAnnotation(
                 positionFactor: 0.1,
                 widget: Text(
-                  '${progressValue.toStringAsFixed(0)}%',
+                  '${(progressValue * 100).toStringAsFixed(0)}%',
                   style: TextStyle(
                     fontSize: 12.sp,
                     color: textColor,

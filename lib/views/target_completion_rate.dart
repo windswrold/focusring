@@ -1,4 +1,10 @@
+import 'package:beering/app/data/health_data_utils.dart';
+import 'package:beering/utils/date_util.dart';
+import 'package:decimal/decimal.dart';
+
+import '../app/data/user_info.dart';
 import '../public.dart';
+import '../theme/theme.dart';
 import 'charts/progress_chart.dart';
 
 class TargetWeekCompletionRateModel {
@@ -6,10 +12,64 @@ class TargetWeekCompletionRateModel {
 
   final String dayNum;
 
-  final double complationNum;
+  double complationNum;
 
   TargetWeekCompletionRateModel(
       {required this.color, required this.dayNum, required this.complationNum});
+
+  static List<TargetWeekCompletionRateModel> getWeekModel({
+    required List<DateTime> weeksTimes,
+    required List a,
+    required KHealthDataType dataType,
+    required Function(double) backData,
+  }) {
+    UserInfoModel? user = SPManager.getGlobalUser();
+    int all = user?.getPlanNum(dataType) ?? 0;
+    List<TargetWeekCompletionRateModel> models = [];
+    double allPercent = 0; //总共一周下来完成的百分比 过滤没有值的
+    double count = 0;
+    try {
+      for (int i = 0; i < weeksTimes.length; i++) {
+        Color e = Colors.transparent;
+        try {
+          e = KTheme.weekColors[i];
+        } catch (e) {}
+        final d = weeksTimes[i];
+        String time = DateUtil.formatDate(d, format: DateFormats.mo_d);
+        TargetWeekCompletionRateModel model = TargetWeekCompletionRateModel(
+            color: e, dayNum: time, complationNum: 0);
+
+        for (int i = 0; i < a.length; i++) {
+          final item = a[i];
+          DateTime createTime =
+              DateTime.parse((item as StepData).createTime ?? "");
+          String current = "";
+          if (dataType == KHealthDataType.STEPS) {
+            current = item.steps ?? "0";
+          } else if (dataType == KHealthDataType.LiCheng) {
+            current = item.distance ?? "0";
+          } else if (dataType == KHealthDataType.CALORIES_BURNED) {
+            current = item.calorie ?? "0";
+          }
+          double percent = getPercent(
+              current: Decimal.parse(current).toDouble(),
+              all: Decimal.fromInt(all).toDouble());
+
+          if (DateUtil.dayIsEqual(createTime, d)) {
+            model.complationNum = percent;
+            if (percent > 0) {
+              count += 1;
+              allPercent += percent;
+            }
+          }
+        }
+        models.add(model);
+      }
+    } catch (e) {}
+    vmPrint("allPercent $allPercent,  count $count");
+    backData(getPercent(current: allPercent, all: count));
+    return models;
+  }
 }
 
 class TargetCompletionRateView extends StatelessWidget {
@@ -77,7 +137,7 @@ class TargetCompletionRateView extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  "$complationNum%",
+                  "${(complationNum * 100).toStringAsFixed(2)}%",
                   style: Get.textTheme.displayLarge,
                 ),
                 17.rowWidget,
@@ -115,7 +175,7 @@ class TargetCompletionRateView extends StatelessWidget {
         Row(
           children: [
             Text(
-              "$complationNum%",
+              "${(complationNum * 100).toStringAsFixed(2)}%",
               style: Get.textTheme.displayLarge,
             ),
             17.rowWidget,

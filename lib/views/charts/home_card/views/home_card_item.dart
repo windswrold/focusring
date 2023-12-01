@@ -206,7 +206,7 @@ class HomeCardView extends StatelessWidget {
   Widget _buildSleepItem({required KChartCellData item}) {
     return Container(
       height: 85.w,
-      width: item.y.toDouble(),
+      width: item.yor_low.toDouble(),
       child: Column(
         children: [
           Expanded(

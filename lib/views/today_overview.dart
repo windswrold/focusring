@@ -6,6 +6,33 @@ class TodayOverViewModel {
   final String content;
 
   TodayOverViewModel({required this.title, required this.content});
+
+ static List<TodayOverViewModel> getViewModel({
+    required KHealthDataType type,
+    required String one,
+    required String two,
+    required String three,
+  }) {
+    if (type == KHealthDataType.BODY_TEMPERATURE) {
+      return [
+        TodayOverViewModel(title: "max_temp".tr, content: one),
+        TodayOverViewModel(title: "low_temp".tr, content: two),
+        TodayOverViewModel(title: "err_temp".tr, content: three),
+      ];
+    }
+    if (type == KHealthDataType.BLOOD_OXYGEN) {
+      return [
+        TodayOverViewModel(title: "max_bloodoxygen".tr, content: one),
+        TodayOverViewModel(title: "mininum_bloodoxygen".tr, content: two),
+        TodayOverViewModel(title: "exception_number".tr, content: three),
+      ];
+    }
+    return [
+      TodayOverViewModel(title: "resting_heartrate".tr, content: one),
+      TodayOverViewModel(title: "max_heartrate".tr, content: two),
+      TodayOverViewModel(title: "min_heartrate".tr, content: three),
+    ];
+  }
 }
 
 class TodayOverView extends StatelessWidget {

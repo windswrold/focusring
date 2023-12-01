@@ -52,10 +52,23 @@ class UserManualtestController extends GetxController
         if (event.status == false) {
           HWToast.showErrText(text: event.tip);
         } else {
-          pauseAnimation();
-          HWToast.showSucText(text: event.tip);
-          dynamic result = event.value;
-          testResult.value = result.toString();
+          if (countDownNum.value >= 0) {
+            if (event.type == 0x00 &&
+                type.value == KHealthDataType.HEART_RATE) {
+              //心率
+              dynamic result = event.value;
+              testResult.value = result.toString();
+              HWToast.showSucText(text: event.tip);
+              pauseAnimation();
+            } else if (event.type == 0x05 &&
+                type.value == KHealthDataType.BLOOD_OXYGEN) {
+              //血氧
+              dynamic result = event.value;
+              testResult.value = result.toString();
+              HWToast.showSucText(text: event.tip);
+              pauseAnimation();
+            }
+          }
         }
       }
     });

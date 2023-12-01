@@ -84,15 +84,17 @@ class HomeDevicesController extends GetxController {
     });
 
     scanResults = KBLEManager.scanResults.listen((results) {
-      for (ScanResult d in results) {
-        RingDeviceModel model = RingDeviceModel.fromResult(d);
-        if (compareUUID(
-            model.macAddress ?? "", dbDevice.value?.macAddress ?? "")) {
-          if (connectType.value == KBleState.disconnect) {
-            KBLEManager.stopScan();
-            KBLEManager.connect(device: dbDevice.value!, ble: d.device);
-            vmPrint("触发链接", KBLEManager.logevel);
-            _updateState(KBleState.connecting);
+      if (dbDevice.value != null) {
+        for (ScanResult d in results) {
+          RingDeviceModel model = RingDeviceModel.fromResult(d);
+          if (compareUUID(
+              model.macAddress ?? "", dbDevice.value?.macAddress ?? "")) {
+            if (connectType.value == KBleState.disconnect) {
+              KBLEManager.stopScan();
+              KBLEManager.connect(device: dbDevice.value!, ble: d.device);
+              vmPrint("触发链接", KBLEManager.logevel);
+              _updateState(KBleState.connecting);
+            }
           }
         }
       }

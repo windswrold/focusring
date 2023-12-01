@@ -75,14 +75,12 @@ class BodyTemperatureReportChart extends StatelessWidget {
         _buildChart(),
         Container(
           margin: EdgeInsets.only(left: 12.w, right: 12.w),
-          child: TodayOverView(
-            datas: [
-              TodayOverViewModel(title: "max_temp".tr, content: "-"),
-              TodayOverViewModel(title: "low_temp".tr, content: "-"),
-              TodayOverViewModel(title: "err_temp".tr, content: "-"),
-            ],
-            type: pageType,
-          ),
+          child: GetX<ReportInfoStepsController>(builder: (a) {
+            return TodayOverView(
+              datas: a.todaysModel.value,
+              type: pageType,
+            );
+          }),
         ),
         const ReportFooterView(
           type: KHealthDataType.BODY_TEMPERATURE,

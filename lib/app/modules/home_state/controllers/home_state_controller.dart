@@ -17,6 +17,7 @@ import 'package:beering/views/charts/home_card/model/home_card_type.dart';
 import 'package:beering/views/charts/home_card/model/home_card_x.dart';
 import 'package:beering/views/charts/radio_gauge_chart/model/radio_gauge_chart_model.dart';
 import 'package:beering/views/tra_led_button.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
@@ -43,21 +44,11 @@ class HomeStateController extends GetxController {
   void onInit() {
     super.onInit();
 
-    // receiveDataStream = KBLEManager.receiveDataStream.listen((event) {
-    //   if (event.command == KBLECommandType.system) {
-    //     // if (event.type == 0x00) {
-    //     //时间设置成功
-    //     initData(showHeartrate: true);
-    //     // }
-    //   }
-    // });
-
     receiveDataStream = GlobalValues.globalEventBus
         .on<KReportQueryDataUpdate>()
         .listen((event) {
       initData();
     });
-    // initData();
   }
 
   void onRefresh() {
@@ -76,40 +67,6 @@ class HomeStateController extends GetxController {
     if (device != null) {
       showHeartrate = true;
     }
-    var currentDistance = Random.secure().nextInt(100);
-    var currentSteps = Random.secure().nextInt(100);
-    var currentCalorie = Random.secure().nextInt(100);
-
-    currentDistance = 0;
-    currentSteps = 0;
-    currentCalorie = 0;
-
-    licheng.value = RadioGaugeChartData(
-      title: "mileage",
-      color: KHealthDataType.LiCheng.getTypeMainColor(),
-      all: us?.distancePlan,
-      current: currentDistance,
-      icon: "icons/status_target_distance",
-      symbol: KHealthDataType.LiCheng.getSymbol(),
-    );
-
-    steps.value = RadioGaugeChartData(
-      title: "pedometer",
-      color: KHealthDataType.STEPS.getTypeMainColor(),
-      all: us?.stepsPlan,
-      current: currentSteps,
-      icon: "icons/status_target_steps",
-      symbol: KHealthDataType.STEPS.getSymbol(),
-    );
-
-    calorie.value = RadioGaugeChartData(
-      title: "exercise",
-      color: KHealthDataType.CALORIES_BURNED.getTypeMainColor(),
-      all: us?.caloriePlan,
-      current: currentCalorie,
-      icon: "icons/status_target_steps",
-      symbol: KHealthDataType.CALORIES_BURNED.getSymbol(),
-    );
 
     List<KHomeCardModel> dataArr = [];
 
@@ -135,23 +92,99 @@ class HomeStateController extends GetxController {
           reportType: KReportType.day,
           currentTime: null,
           callBackData: (a, b) {
-            KHomeCardModel card = KHomeCardModel(
-              type: element.type,
-              date: b == null ? "empty_data".tr : date,
-              result: "",
-              resultDesc: "",
-              startDesc: "",
-              endDesc: "",
-              datas: b,
-            );
+            vmPrint("dataTypesdataTypesdataTypes${dataTypes.length}");
+            KHomeCardModel card = KHomeCardModel();
+            card.type = element.type;
+            card.date = b == null ? "empty_data".tr : date;
+            card.datas = b;
+            card.startDesc = "00:00";
+            card.endDesc = "23:59";
+            card.resultDesc = "";
+            if (element.type == KHealthDataType.STEPS ||
+                element.type == KHealthDataType.CALORIES_BURNED ||
+                element.type == KHealthDataType.LiCheng) {
+              List<StepData> datas = a as List<StepData>;
+              StepData? step = datas.tryFirst;
+              if (element.type == KHealthDataType.STEPS) {
+                card.result = step?.steps;
+                _calSteps(
+                    currentDistance: step?.distance,
+                    currentSteps: step?.steps,
+                    currentCalorie: step?.calorie);
+              } else if (element.type == KHealthDataType.CALORIES_BURNED) {
+                card.result = step?.calorie;
+              } else {
+                card.result = step?.distance;
+              }
+            } else if (element.type == KHealthDataType.HEART_RATE) {
+              //心率
+              List<HeartRateData> datas = a as List<HeartRateData>;
+              HeartRateData? data = datas.tryFirst;
+              card.result = data?.averageHeartRate.toString();
+            } else if (element.type == KHealthDataType.BLOOD_OXYGEN) {
+              //血氧
+              List<BloodOxygenData> datas = a as List<BloodOxygenData>;
+              BloodOxygenData? data = datas.tryFirst;
+              card.result = data?.averageHeartRate.toString();
+            } else if (element.type == KHealthDataType.BODY_TEMPERATURE) {
+              //体温
+              List<TempData> datas = a as List<TempData>;
+              TempData? data = datas.tryFirst;
+              card.result = data?.average.toString();
+            }
             dataArr.add(card);
             dataTypes.value = dataArr;
             update(["dataTypes"]);
-            vmPrint("dataTypesdataTypesdataTypes${dataTypes.length}");
           });
     }
 
     // AppApi.queryAppData(startTime: startTime, endTime: endTime);
+  }
+
+  void _calSteps(
+      {required String? currentDistance,
+      required String? currentSteps,
+      required String? currentCalorie}) {
+    double disNum = 0;
+    double stepsNum = 0;
+    double caloriNum = 0;
+    try {
+      disNum =
+          (Decimal.tryParse(currentDistance ?? "0") ?? Decimal.zero).toDouble();
+      stepsNum =
+          (Decimal.tryParse(currentSteps ?? "0") ?? Decimal.zero).toDouble();
+      caloriNum =
+          (Decimal.tryParse(currentCalorie ?? "0") ?? Decimal.zero).toDouble();
+    } catch (e) {}
+
+    final us =
+        (Get.find<AppViewController>(tag: AppViewController.tag)).user.value;
+    licheng.value = RadioGaugeChartData(
+      title: "mileage",
+      color: KHealthDataType.LiCheng.getTypeMainColor(),
+      all: us?.distancePlan?.toDouble(),
+      current: disNum,
+      icon: "icons/status_target_distance",
+      symbol: KHealthDataType.LiCheng.getSymbol(),
+    );
+
+    steps.value = RadioGaugeChartData(
+      title: "pedometer",
+      color: KHealthDataType.STEPS.getTypeMainColor(),
+      all: us?.stepsPlan?.toDouble(),
+      current: stepsNum,
+      icon: "icons/status_target_steps",
+      symbol: KHealthDataType.STEPS.getSymbol(),
+    );
+
+    calorie.value = RadioGaugeChartData(
+      title: "exercise",
+      color: KHealthDataType.CALORIES_BURNED.getTypeMainColor(),
+      all: us?.caloriePlan?.toDouble(),
+      current: caloriNum,
+      icon: "icons/status_target_steps",
+      symbol: KHealthDataType.CALORIES_BURNED.getSymbol(),
+    );
   }
 
   @override
@@ -167,44 +200,6 @@ class HomeStateController extends GetxController {
   }
 
   void onTapEditCard() async {
-    // final now = DateTime.now();
-    // final time = getZeroDateTime(now: now);
-    // //
-    // // final nextTime = getZeroDateTime(now: now.add(Duration(days: 1)));
-    // int userid = SPManager.getGlobalUser()!.id!;
-    // //
-    // final a = ListEx.generateArray<int>(0, 95, 1);
-    // //
-    // // final item = HeartRateData(
-    // //   appUserId: userid,
-    // //   createTime: time,
-    // //   heartArray: JsonUtil.encodeObj(a),
-    // // );
-    // // HeartRateData.insertTokens([item]);
-    // //
-    // final ccc = StepData(
-    //   appUserId: userid,
-    //   createTime: time,
-    //   dataArrs: JsonUtil.encodeObj(a),
-    // );
-    // StepData.insertTokens([ccc]);
-
-    // await Future.delayed(Duration(seconds: 4));
-
-    // try {
-    //   final a = await StepData.queryUserAll(userid, time, nextTime);
-    //
-    //   vmPrint("aaaaa " + a.jsonString);
-    //
-    //   final b = await HealthData.queryHealthData(
-    //       reportType: KReportType.day, types: KHealthDataType.STEPS);
-    //
-    //   vmPrint("bbbb " + b.jsonString);
-    // } catch (e) {
-    //   vmPrint("eeee " + e.toString());
-    //   HWToast.showErrText(text: "e $e");
-    // }
-
     Get.toNamed(Routes.HOME_EDIT_CARD);
   }
 
@@ -220,10 +215,6 @@ class HomeStateController extends GetxController {
           sendData: KBLESerialization.getTodayData(
               type: type.type ?? KHealthDataType.STEPS));
     } catch (e) {}
-
-    // Get.toNamed(Routes.REPORT_INFO_STEPS, arguments: type.type);
-
-    // return;
 
     if (type.type == KHealthDataType.FEMALE_HEALTH) {
       Get.toNamed(Routes.REPORT_INFO_FEMMALEHEALTH);

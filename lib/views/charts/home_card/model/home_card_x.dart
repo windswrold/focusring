@@ -7,10 +7,10 @@ class KChartCellData {
   dynamic x;
 
   ///y轴数据 低
-  num y;
+  num yor_low;
 
   ///高
-  num z;
+  num high;
 
   ///平均值
   num averageNum;
@@ -20,8 +20,8 @@ class KChartCellData {
 
   KChartCellData({
     this.x,
-    this.y = 0,
-    this.z = 0,
+    this.yor_low = 0,
+    this.high = 0,
     this.color,
     this.state,
     this.averageNum = 0,
@@ -30,7 +30,7 @@ class KChartCellData {
   @override
   String toString() {
     // TODO: implement toString
-    return "x $x y $y z $z a $averageNum";
+    return "x $x y $yor_low z $high a $averageNum";
   }
 
   static KChartCellData generateChartCellData(HealthDataUtils data) {
