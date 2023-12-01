@@ -108,6 +108,9 @@ extension KHealthDataEX on KHealthDataType {
         if (isReport == true) {
           return "temperature_report".tr;
         }
+        if (isReportSmallTotal == true) {
+          return "average_bodytemp".tr;
+        }
         return "BODY_TEMPERATURE".tr;
 
       case KHealthDataType.FEMALE_HEALTH:
@@ -431,8 +434,8 @@ extension KHeartRateStatusEX on KHeartRateStatusType {
     }
   }
 
-  String getStateCondition(KHeartRateStatusType status) {
-    switch (status) {
+  String getStateCondition() {
+    switch (this) {
       case KHeartRateStatusType.extreme:
         return '(>=181)';
       case KHeartRateStatusType.anaerobic:
