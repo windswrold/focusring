@@ -162,4 +162,12 @@ class UserInfoModel {
 
     return weightBritish! ~/ 0.453592;
   }
+
+  int getPlanNum(KHealthDataType type) {
+    return type == KHealthDataType.STEPS
+        ? stepsPlan ?? 0
+        : type == KHealthDataType.LiCheng
+            ? distancePlan ?? 0
+            : caloriePlan ?? 0;
+  }
 }

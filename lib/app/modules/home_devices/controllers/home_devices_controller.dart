@@ -116,6 +116,28 @@ class HomeDevicesController extends GetxController {
     }
   }
 
+  /// 已连接 获取历史数据
+  /// 连接中 提示连接中
+  /// 未连接 已绑定则回连 未绑定 则提示未绑定
+  void onRefresh() async {
+    if (connectType.value == KBleState.connected) {
+      KBLEManager.sendData(
+          sendData: KBLESerialization.getDayNumWithType(
+              type: KHealthDataType.HEART_RATE));
+      HWToast.showSucText(text: "获取历史数据中");
+    } else if (connectType.value == KBleState.connecting) {
+      HWToast.showSucText(text: "正在连接中");
+    } else {
+      if (dbDevice.value == null) {
+        HWToast.showErrText(text: "未绑定设备");
+      } else {
+        HWToast.showErrText(text: "正在回连中");
+      }
+    }
+    await Future.delayed(Duration(seconds: 3));
+    refreshController.refreshCompleted();
+  }
+
   void autoScanConnect() {
     if (dbDevice.value == null) {
       return;

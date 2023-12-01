@@ -53,18 +53,12 @@ class AppViewController extends GetxController {
       KBaseHealthType.insertTokens(KBaseHealthType.defaultList(id));
     }
 
-    AppApi.visitorLoginStream(
-      phoneId: id,
-      systemType: getSystemType(),
-    ).onError((r) {
-      HWToast.showErrText(text: r.error ?? "a");
-    }).onSuccess((value) {
-      // user.value = value;
+    AppApi.visitorLoginStream(onSuccess: (value) {
       user = value.obs;
       update([userinfoID]);
       final vc = Get.find<HomeStateController>();
       vc.initData();
-    }).onError((r) {
+    }, onError: (r) {
       HWToast.showErrText(text: r.error ?? "");
       Get.offNamed(Routes.LOGIN_VIEW);
     });

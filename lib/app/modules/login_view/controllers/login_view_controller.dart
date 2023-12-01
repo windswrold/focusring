@@ -4,10 +4,13 @@ import 'package:beering/public.dart';
 import 'package:beering/utils/sp_manager.dart';
 import 'package:get/get.dart';
 
+import '../../app_view/controllers/app_view_controller.dart';
+
 class LoginViewController extends GetxController {
   //TODO: Implement LoginViewController
 
   final count = 0.obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -24,15 +27,16 @@ class LoginViewController extends GetxController {
   }
 
   void onTapLogin() async {
-    final id = await SPManager.getPhoneID();
-    AppApi.visitorLoginStream(
-      phoneId: id,
-      systemType: getSystemType(),
-    ).onError((r) {
-      HWToast.showErrText(text: r.error ?? "a");
-    }).onSuccess((value) {
+    AppApi.visitorLoginStream(onSuccess: (value) {
+      final app = Get.find<AppViewController>(tag: AppViewController.tag);
+      app.user = value.obs;
+      app.update([AppViewController.userinfoID]);
       Get.offNamed(Routes.HOME_TABBAR);
-    }).onError((r) {
+
+      final vc = Get.find<HomeStateController>();
+      vc.initData();
+
+    }, onError: (r) {
       HWToast.showErrText(text: r.error ?? "");
     });
   }

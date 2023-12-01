@@ -331,12 +331,9 @@ class HomeDevicesView extends GetView<HomeDevicesController> {
       hiddenLeading: true,
       body: SmartRefresher(
         controller: controller.refreshController,
-        header: ClassicHeader(
-          refreshingText: "正在连接中",
-        ),
         enablePullUp: false,
         onRefresh: () {
-          controller.autoScanConnect();
+          controller.onRefresh();
         },
         child: SingleChildScrollView(
           child: Column(

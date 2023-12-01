@@ -7,6 +7,7 @@ import 'package:beering/ble/ble_manager.dart';
 import 'package:beering/db/database_config.dart';
 import 'package:beering/public.dart';
 import 'package:beering/utils/date_util.dart';
+import 'package:beering/utils/hex_util.dart';
 import 'package:beering/utils/json_util.dart';
 import 'package:beering/views/charts/home_card/model/home_card_x.dart';
 import 'package:decimal/decimal.dart';
@@ -249,7 +250,8 @@ class TempData {
   static Future<bool> esistData(int appUserId, String createTime) async {
     final db = await DataBaseConfig.openDataBase();
     final List<Map<String, Object?>> datas = await db?.database.rawQuery(
-            "select * from $tableName4  appUserId= $appUserId and createTime = '$createTime' ") ??
+            "select * from $tableName4  where appUserId= ? and createTime = ? ",
+            [appUserId, createTime]) ??
         [];
     return datas.isEmpty ? false : true;
   }
@@ -492,17 +494,15 @@ class HealthDataUtils {
       String nextTime = create;
       if (reportType == KReportType.day) {
         create = getZeroDateTime(now: currentTime);
-        nextTime =
-            getZeroDateTime(now: currentTime.add(const Duration(days: 1)));
+        nextTime = getLastDateTime(now: currentTime);
       } else if (reportType == KReportType.week) {
         create =
             getZeroDateTime(now: currentTime.subtract(const Duration(days: 6)));
-        nextTime =
-            getZeroDateTime(now: currentTime.add(const Duration(days: 1)));
+        nextTime = getLastDateTime(now: currentTime);
       } else if (reportType == KReportType.moneth) {
         create = getZeroDateTime(
             now: DateTime(currentTime.year, currentTime.month, 1));
-        nextTime = getZeroDateTime(
+        nextTime = getLastDateTime(
             now: DateTime(currentTime.year, currentTime.month + 1, 1)
                 .subtract(const Duration(days: 1)));
       }
@@ -514,6 +514,7 @@ class HealthDataUtils {
         List<HeartRateData> datas =
             await HeartRateData.queryUserAll(userid, create, nextTime);
         List<KChartCellData> cellDatas = [];
+
         if (reportType == KReportType.day) {
           final results = generateDay(
             createTime: datas.tryFirst?.createTime ?? "",
@@ -526,10 +527,10 @@ class HealthDataUtils {
           for (var i = 0; i < datas.length; i++) {
             final e = datas[i];
             final cell = KChartCellData(
-                x: e.createTime,
+                x: _getFormatX(e.createTime),
                 y: (e.min ?? 0),
                 z: e.max ?? 0,
-                a: e.averageHeartRate ?? 0,
+                averageNum: e.averageHeartRate ?? 0,
                 color: types.getTypeMainColor());
             cellDatas.add(cell);
           }
@@ -553,10 +554,10 @@ class HealthDataUtils {
           for (var i = 0; i < datas.length; i++) {
             final e = datas[i];
             final cell = KChartCellData(
-                x: e.createTime,
+                x: _getFormatX(e.createTime),
                 y: (e.min ?? 0),
                 z: e.max ?? 0,
-                a: e.averageHeartRate ?? 0,
+                averageNum: e.averageHeartRate ?? 0,
                 color: types.getTypeMainColor());
             cellDatas.add(cell);
           }
@@ -588,7 +589,7 @@ class HealthDataUtils {
                     : (e.calorie ?? "0");
             Decimal num = Decimal.tryParse(value) ?? Decimal.zero;
             final cell = KChartCellData(
-                x: e.createTime,
+                x: _getFormatX(e.createTime),
                 y: num.toDouble(),
                 color: types.getTypeMainColor());
             cellDatas.add(cell);
@@ -612,10 +613,10 @@ class HealthDataUtils {
           for (var i = 0; i < datas.length; i++) {
             final e = datas[i];
             final cell = KChartCellData(
-                x: e.createTime,
+                x: _getFormatX(e.createTime),
                 y: (Decimal.tryParse(e.min ?? "0") ?? Decimal.zero).toDouble(),
                 z: (Decimal.tryParse(e.max ?? "0") ?? Decimal.zero).toDouble(),
-                a: (Decimal.tryParse(e.average ?? "0") ?? Decimal.zero)
+                averageNum: (Decimal.tryParse(e.average ?? "0") ?? Decimal.zero)
                     .toDouble(),
                 color: types.getTypeMainColor());
             cellDatas.add(cell);
@@ -738,18 +739,32 @@ class HealthDataUtils {
     required bool isContainTime,
     required List<int> datas,
   }) {
-    var buffer = Uint8List.fromList(datas).buffer;
-    var byteData = ByteData.sublistView(buffer.asByteData());
+    List<int> results = [];
+
+    if (isContainTime == true) {
+      int year = (datas[1] << 8) + datas[0];
+      int month = datas[2];
+      int day = datas[3];
+      results = datas.sublist(4);
+    } else {
+      results = datas;
+    }
+
+    String data = HEXUtil.encode(results);
+    List<int> aaa = HEXUtil.decode(data);
+
+    var buffer = Uint8List.fromList(aaa);
+    var byteData = ByteData.sublistView(buffer);
     int offset = 0;
     int year = byteData.getUint16(offset, Endian.little);
     offset += 2;
     int month = byteData.getUint8(offset++);
     int day = byteData.getUint8(offset++);
-    int hour = byteData.getUint8(offset++);
-    int minute = byteData.getUint8(offset++);
-    int second = byteData.getUint8(offset++);
+    // int hour = byteData.getUint8(offset++);
+    // int minute = byteData.getUint8(offset++);
+    // int second = byteData.getUint8(offset++);
 
-    final time = DateTime(year, month, day, hour, minute, second);
+    final time = DateTime(year, month, day);
 
     vmPrint("时间 $time", KBLEManager.logevel);
 
@@ -799,24 +814,29 @@ class HealthDataUtils {
         KBLEManager.logevel);
 
     vmPrint(
-        "deepSleepTimePercentage $deepSleepTimePercentage  rapidEyeMovementTime $rapidEyeMovementTime rapidEyeMovementTimePercentage $rapidEyeMovementTimePercentage",
+        "offset $offset deepSleepTimePercentage $deepSleepTimePercentage  rapidEyeMovementTime $rapidEyeMovementTime rapidEyeMovementTimePercentage $rapidEyeMovementTimePercentage",
         KBLEManager.logevel);
 
-    int sleepDistributionDataListCount = byteData.getUint8(offset++);
-    vmPrint("sleepDistributionDataListCount $sleepDistributionDataListCount",
+    offset = 40 - 4;
+    int sleepDistributionDataListCount = byteData.getUint8(offset);
+    vmPrint(
+        "sleepDistributionDataListCount $offset $sleepDistributionDataListCount",
         KBLEManager.logevel);
-
-    for (int i = 0; i < 120; i++) {
+    offset += 4;
+    for (int i = 0; i < sleepDistributionDataListCount; i++) {
+      //秒时间 处理的
       int startTimestamp = byteData.getUint32(offset, Endian.little);
       offset += 4;
 
       int sleepDuration = byteData.getUint16(offset, Endian.little);
       offset += 2;
 
-      int type = byteData.getUint8(offset++);
+      int type = byteData.getUint8(offset);
+
+      offset += 2;
 
       vmPrint(
-          "startTimestamp $startTimestamp sleepDuration $sleepDuration type $type",
+          "${DateTime.fromMillisecondsSinceEpoch(startTimestamp)} offset $offset startTimestamp $startTimestamp sleepDuration $sleepDuration type $type",
           KBLEManager.logevel);
     }
 
@@ -881,9 +901,9 @@ class HealthDataUtils {
     );
     temp.createTime = model.createTime;
 
-    bool isOk = await TempData.esistData(userid, model.createTime ?? "");
+    bool isOk = await TempData.esistData(userid, temp.createTime ?? "");
     if (isOk == true) {
-      vmPrint("已经随机生成了${model.createTime}的温度数据", KBLEManager.logevel);
+      vmPrint("已经随机生成了${temp.createTime}的温度数据", KBLEManager.logevel);
       return;
     }
 
@@ -986,8 +1006,24 @@ class HealthDataUtils {
       // chartTipValue.value = "${item.x}:${item.y} steps";
       text = "-";
     } else {
-      final item = dataSource.first[index];
-      text = "${item.x} ${item.y}${currentType.getSymbol()}";
+      KChartCellData? item = dataSource.tryFirst?[index];
+      if (item == null) {
+        return "";
+      }
+      if (type == KReportType.day) {
+        text = "${item.x} ${item.y}${currentType.getSymbol()}";
+      } else {
+        if (currentType == KHealthDataType.HEART_RATE) {
+          //平均数
+          text =
+              "${item.x} ${currentType.getDisplayName(isReportSmallTotal: true).replaceAll("(Bpm)", "")} ${item.averageNum}${currentType.getSymbol()}";
+        } else if (currentType == KHealthDataType.STEPS ||
+            currentType == KHealthDataType.LiCheng ||
+            currentType == KHealthDataType.CALORIES_BURNED) {
+          //总和
+          text = "${item.x} ${item.y}${currentType.getSymbol()}";
+        }
+      }
     }
 
     return text;
@@ -1018,5 +1054,14 @@ class HealthDataUtils {
     Random random = Random();
     double fraction = random.nextDouble() * 0.9 + 36.1;
     return Decimal.parse(fraction.toStringAsFixed(1)).toDouble();
+  }
+
+  static String _getFormatX(String? create) {
+    try {
+      DateTime? date = DateTime.tryParse(create ?? "");
+      return DateUtil.formatDate(date, format: DateFormats.mo_d);
+    } catch (e) {
+      return create ?? "";
+    }
   }
 }
