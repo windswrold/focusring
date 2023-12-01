@@ -14,6 +14,7 @@ import 'package:decimal/decimal.dart';
 import 'package:floor/floor.dart';
 
 import '../../const/event_bus_class.dart';
+import '../../views/charts/radio_gauge_chart/model/radio_gauge_chart_model.dart';
 
 const String tableName = 'bloodOxygenData_v2';
 
@@ -130,6 +131,35 @@ class HeartRateData {
     final db = await DataBaseConfig.openDataBase();
     return await db?.heartDao.insertTokens(models);
   }
+
+  List<RadioGaugeChartData> calPercent() {
+    List datas = JsonUtil.getObj(heartArray) ?? [];
+    if (datas.isEmpty) {
+      return RadioGaugeChartData.getDefaultHeartGaugeData();
+    }
+    int all = datas.length;
+    Map<KHeartRateStatusType, double> intervalCounts = {};
+    for (var element in datas) {
+      KHeartRateStatusType type = KHeartRateStatusEX.getExerciseState(element);
+      double count = (intervalCounts[type] ?? 0);
+      count += 1;
+      intervalCounts[type] = count;
+    }
+    List<RadioGaugeChartData> charts = [];
+    for (var e in KHeartRateStatusType.values) {
+      RadioGaugeChartData a = RadioGaugeChartData(
+        title: e.getStatusDesc() + e.getStateCondition(),
+        color: e.getStatusColor(),
+        all: all.toDouble(),
+        current: (intervalCounts[e] ?? 0),
+      );
+      charts.add(a);
+    }
+
+    vmPrint("intervalCounts $all  $intervalCounts");
+
+    return charts;
+  }
 }
 
 const String tableName3 = 'stepData_v2';
@@ -234,6 +264,9 @@ class TempData {
         "mac": mac,
         "createTime": createTime,
         "temperature": temperature,
+        "average": average,
+        "min": min,
+        "max": max,
       };
 
   static Future<List<TempData>> queryUserAll(
@@ -528,8 +561,8 @@ class HealthDataUtils {
             final e = datas[i];
             final cell = KChartCellData(
                 x: _getFormatX(e.createTime),
-                y: (e.min ?? 0),
-                z: e.max ?? 0,
+                yor_low: (e.min ?? 0),
+                high: e.max ?? 0,
                 averageNum: e.averageHeartRate ?? 0,
                 color: types.getTypeMainColor());
             cellDatas.add(cell);
@@ -555,8 +588,8 @@ class HealthDataUtils {
             final e = datas[i];
             final cell = KChartCellData(
                 x: _getFormatX(e.createTime),
-                y: (e.min ?? 0),
-                z: e.max ?? 0,
+                yor_low: (e.min ?? 0),
+                high: e.max ?? 0,
                 averageNum: e.averageHeartRate ?? 0,
                 color: types.getTypeMainColor());
             cellDatas.add(cell);
@@ -590,7 +623,7 @@ class HealthDataUtils {
             Decimal num = Decimal.tryParse(value) ?? Decimal.zero;
             final cell = KChartCellData(
                 x: _getFormatX(e.createTime),
-                y: num.toDouble(),
+                yor_low: num.toDouble(),
                 color: types.getTypeMainColor());
             cellDatas.add(cell);
           }
@@ -614,8 +647,10 @@ class HealthDataUtils {
             final e = datas[i];
             final cell = KChartCellData(
                 x: _getFormatX(e.createTime),
-                y: (Decimal.tryParse(e.min ?? "0") ?? Decimal.zero).toDouble(),
-                z: (Decimal.tryParse(e.max ?? "0") ?? Decimal.zero).toDouble(),
+                yor_low:
+                    (Decimal.tryParse(e.min ?? "0") ?? Decimal.zero).toDouble(),
+                high:
+                    (Decimal.tryParse(e.max ?? "0") ?? Decimal.zero).toDouble(),
                 averageNum: (Decimal.tryParse(e.average ?? "0") ?? Decimal.zero)
                     .toDouble(),
                 color: types.getTypeMainColor());
@@ -628,7 +663,7 @@ class HealthDataUtils {
           30,
           (index) => KChartCellData(
             x: index.toString(),
-            y: 0,
+            yor_low: 0,
             state: KSleepStatusType.values[Random.secure().nextInt(3)],
             color: types.getTypeMainColor(),
           ),
@@ -695,8 +730,8 @@ class HealthDataUtils {
     model.max = ListEx.maxVal(results).toInt();
     model.min = ListEx.minVal(results).toInt();
 
-    vmPrint(
-        "插入的血氧数据${JsonUtil.encodeObj(model.toJson())}", KBLEManager.logevel);
+    vmPrint("插入的血氧数据 ${results.length} ${JsonUtil.encodeObj(model.toJson())}",
+        KBLEManager.logevel);
 
     return BloodOxygenData.insertTokens([model]);
   }
@@ -914,8 +949,7 @@ class HealthDataUtils {
     temp.average = ListEx.averageNum(tempsVal).toStringAsFixed(2);
     temp.max = ListEx.maxVal(tempsVal).toStringAsFixed(2);
     temp.min = ListEx.minVal(tempsVal).toStringAsFixed(2);
-    vmPrint(
-        "插入的温度数据${JsonUtil.encodeObj(model.toJson())}", KBLEManager.logevel);
+    vmPrint("插入的温度数据${JsonUtil.encodeObj(temp.toJson())}", KBLEManager.logevel);
     return TempData.insertTokens([temp]);
   }
 
@@ -941,7 +975,7 @@ class HealthDataUtils {
         cellDatas.add(
           KChartCellData(
             x: DateUtil.formatDate(dur, format: DateFormats.h_m),
-            y: e,
+            yor_low: e,
             color: type.getTypeMainColor(),
           ),
         );
@@ -972,7 +1006,7 @@ class HealthDataUtils {
         cellDatas.add(
           KChartCellData(
             x: DateUtil.formatDate(dur, format: DateFormats.h_m),
-            y: num,
+            yor_low: num,
             color: type.getTypeMainColor(),
           ),
         );
@@ -985,7 +1019,7 @@ class HealthDataUtils {
         cellDatas.add(
           KChartCellData(
             x: DateUtil.formatDate(dur, format: DateFormats.h_m),
-            y: e,
+            yor_low: e,
             color: type.getTypeMainColor(),
           ),
         );
@@ -1011,9 +1045,14 @@ class HealthDataUtils {
         return "";
       }
       if (type == KReportType.day) {
-        text = "${item.x} ${item.y}${currentType.getSymbol()}";
+        text = "${item.x} ${item.yor_low}${currentType.getSymbol()}";
       } else {
         if (currentType == KHealthDataType.HEART_RATE) {
+          //平均数
+          text =
+              "${item.x} ${currentType.getDisplayName(isReportSmallTotal: true).replaceAll("(Bpm)", "")} ${item.averageNum}${currentType.getSymbol()}";
+        }
+        if (currentType == KHealthDataType.BODY_TEMPERATURE) {
           //平均数
           text =
               "${item.x} ${currentType.getDisplayName(isReportSmallTotal: true).replaceAll("(Bpm)", "")} ${item.averageNum}${currentType.getSymbol()}";
@@ -1021,7 +1060,7 @@ class HealthDataUtils {
             currentType == KHealthDataType.LiCheng ||
             currentType == KHealthDataType.CALORIES_BURNED) {
           //总和
-          text = "${item.x} ${item.y}${currentType.getSymbol()}";
+          text = "${item.x} ${item.yor_low}${currentType.getSymbol()}";
         }
       }
     }
