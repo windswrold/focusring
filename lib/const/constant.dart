@@ -256,11 +256,12 @@ List<DateTime> getQueryStrings(
 
 typedef ReportChartDataType = List<List<KChartCellData>>;
 
-double getPercent({required double? current, required double? all}) {
+double getPercent(
+    {required double? current, required double? all, bool isHaveMin = true}) {
   try {
     double a = (current ?? 0) / (all ?? 0);
     a = a.isNaN ? 0 : a;
-    return min(1, a);
+    return isHaveMin ? min(1, a) : a;
   } catch (e) {
     return 0;
   }
