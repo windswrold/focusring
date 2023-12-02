@@ -299,22 +299,16 @@ class SleepData {
   int? appUserId;
   String? mac;
   String? createTime;
-  int? deepTime;
-  int? lightTime;
-  String? dataForHour;
 
   String? start_Sleep; //开始
   String? end_Sleep; //结束
-  int? sleepDuration; //睡眠时长
-  int? sleep_score; //睡眠评分
-  int? awake_time; //清醒时间
-  int? awake_time_percentage; //清醒时间百分比
-  int? light_sleep_time; //浅睡时间
-  int? light_sleep_time_percentage; //浅睡时间百分比
-  int? deep_sleep_time; //深睡时间
-  int? deep_sleep_time_percentage; //深睡时间百分比
-  int? rapid_eye_movement_time; //快速眼动时间
-  int? rapid_eye_movement_time_percentage; //快速眼动时间百分比
+  String? sleepDuration; //睡眠时长
+  String? sleep_score; //睡眠评分
+
+  String? awake_time; //清醒时间
+  String? light_sleep_time; //浅睡时间
+  String? deep_sleep_time; //深睡时间
+
   int? sleep_distribution_data_list_count; //睡眠段数
   String? sleep_distribution_data_list; //睡眠分布
 
@@ -322,21 +316,13 @@ class SleepData {
     this.appUserId,
     this.mac,
     this.createTime,
-    this.deepTime,
-    this.lightTime,
-    this.dataForHour,
     this.start_Sleep,
     this.end_Sleep,
     this.sleepDuration,
     this.sleep_score,
     this.awake_time,
-    this.awake_time_percentage,
     this.light_sleep_time,
-    this.light_sleep_time_percentage,
     this.deep_sleep_time,
-    this.deep_sleep_time_percentage,
-    this.rapid_eye_movement_time,
-    this.rapid_eye_movement_time_percentage,
     this.sleep_distribution_data_list_count,
     this.sleep_distribution_data_list,
   });
@@ -345,18 +331,12 @@ class SleepData {
         appUserId: json["appUserId"],
         mac: json["mac"],
         createTime: json["createTime"],
-        deepTime: json["deepTime"],
-        lightTime: json["lightTime"],
-        dataForHour: json["dataForHour"],
       );
 
   Map<String, dynamic> toJson() => {
         "appUserId": appUserId,
         "mac": mac,
         "createTime": createTime,
-        "deepTime": deepTime,
-        "lightTime": lightTime,
-        "dataForHour": dataForHour,
       };
 }
 

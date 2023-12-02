@@ -1,3 +1,4 @@
+import 'package:beering/ble/ble_manager.dart';
 import 'package:beering/extensions/StringEx.dart';
 import 'package:beering/public.dart';
 import 'package:beering/utils/hex_util.dart';
@@ -27,14 +28,14 @@ class RingDeviceModel {
 
   factory RingDeviceModel.fromResult(ScanResult result) {
     Map serviceData = result.advertisementData.serviceData;
-    vmPrint("serviceData $serviceData");
     String mac = result.device.remoteId.str;
     if (isIOS == true) {
-      List<int> data = serviceData.values.toList().tryFirst;
-      String keys = serviceData.keys.toList().tryFirst;
+      List<int> data = serviceData.values.toList().tryFirst ?? [];
+      String keys = serviceData.keys.toList().tryFirst ?? "";
       if (data.length > 6) {
+        vmPrint("serviceData ${HEXUtil.encode(data)}", KBLEManager.logevel);
         String newMac = HEXUtil.encode(data.sublist(0, 4));
-        final start =keys.reversePairs();
+        final start = keys.reversePairs();
         mac =
             "${start.formatHexStringAsMac()}:${newMac.formatHexStringAsMac()}";
       }
