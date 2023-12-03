@@ -271,6 +271,12 @@ double getPercent(
   }
 }
 
+String calDateMs(num time) {
+  int hours = time ~/ 60;
+  int minutes = (time % 60).toInt();
+  return "${hours}h${minutes}min";
+}
+
 class GlobalValues {
   static PackageInfo? appInfo;
   static AndroidDeviceInfo? androidDeviceInfo;

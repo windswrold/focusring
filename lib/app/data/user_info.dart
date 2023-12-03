@@ -164,6 +164,10 @@ class UserInfoModel {
   }
 
   int getPlanNum(KHealthDataType type) {
+    if (type == KHealthDataType.SLEEP) {
+      return sleepPlan ?? 0;
+    }
+
     return type == KHealthDataType.STEPS
         ? stepsPlan ?? 0
         : type == KHealthDataType.LiCheng

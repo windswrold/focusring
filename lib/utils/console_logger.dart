@@ -18,9 +18,5 @@ void _printLog(Object object) {
   if (inProduction == true) {
     return;
   }
-  if (Platform.isAndroid) {
-    GlobalValues.logger?.d(da);
-  } else {
-    GlobalValues.logger?.i(da);
-  }
+  print(da);
 }

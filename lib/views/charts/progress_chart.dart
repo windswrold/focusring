@@ -48,7 +48,7 @@ class ProgressChart extends StatelessWidget {
                 widget: Text(
                   '${(progressValue * 100).toStringAsFixed(0)}%',
                   style: TextStyle(
-                    fontSize: 12.sp,
+                    fontSize: 10.sp,
                     color: textColor,
                     fontWeight: FontWeight.w400,
                   ),

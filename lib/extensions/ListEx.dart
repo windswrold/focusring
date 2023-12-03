@@ -142,6 +142,14 @@ extension ListEx<E> on List<E> {
     }
   }
 
+  E? get tryLast {
+    try {
+      return last;
+    } catch (e) {
+      return null;
+    }
+  }
+
   static List<String> generateHeightArr(KUnitsType unit) {
     if (unit == KUnitsType.metric) {
       return generateArray<String>(50, 228, 1);

@@ -1,4 +1,5 @@
 import 'package:beering/app/data/health_data_model.dart';
+import 'package:beering/ble/ble_manager.dart';
 import 'package:beering/utils/date_util.dart';
 import 'package:decimal/decimal.dart';
 
@@ -41,21 +42,27 @@ class TargetWeekCompletionRateModel {
 
         for (int i = 0; i < a.length; i++) {
           final item = a[i];
-          DateTime createTime =
-              DateTime.parse((item as StepData).createTime ?? "");
+          DateTime? createTime;
+
           String current = "";
           if (dataType == KHealthDataType.STEPS) {
+            createTime = DateTime.parse((item as StepData).createTime ?? "");
             current = item.steps ?? "0";
           } else if (dataType == KHealthDataType.LiCheng) {
+            createTime = DateTime.parse((item as StepData).createTime ?? "");
             current = item.distance ?? "0";
           } else if (dataType == KHealthDataType.CALORIES_BURNED) {
+            createTime = DateTime.parse((item as StepData).createTime ?? "");
             current = item.calorie ?? "0";
+          } else if (dataType == KHealthDataType.SLEEP) {
+            createTime = DateTime.parse((item as SleepData).createTime ?? "");
+            current = item.getSleepTime() ?? "0";
           }
           double percent = getPercent(
               current: Decimal.parse(current).toDouble(),
               all: Decimal.fromInt(all).toDouble());
 
-          if (DateUtil.dayIsEqual(createTime, d)) {
+          if (DateUtil.dayIsEqual(createTime ?? DateTime.now(), d)) {
             model.complationNum = percent;
             if (percent > 0) {
               count += 1;
@@ -65,7 +72,9 @@ class TargetWeekCompletionRateModel {
         }
         models.add(model);
       }
-    } catch (e) {}
+    } catch (e) {
+      vmPrint("getWeekModel $e", KBLEManager.logevel);
+    }
     vmPrint("allPercent $allPercent,  count $count");
     backData(getPercent(current: allPercent, all: count));
     return models;

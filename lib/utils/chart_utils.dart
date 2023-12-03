@@ -1,5 +1,6 @@
 import 'package:beering/utils/custom_segment_render.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 import '../public.dart';
 import '../views/charts/home_card/model/home_card_x.dart';
@@ -232,59 +233,61 @@ class ChartUtils {
       ];
     } else if (type == KHealthDataType.SLEEP ||
         type == KHealthDataType.EMOTION) {
-      return [
-        StackedColumnSeries<KChartCellData, String>(
-          dataSource: datas[0],
-          isTrackVisible: false,
-          spacing: 0,
-          borderRadius: const BorderRadius.only(
-            bottomRight: Radius.circular(3),
-            bottomLeft: Radius.circular(3),
-          ),
-          xValueMapper: (KChartCellData sales, _) => sales.x,
-          yValueMapper: (KChartCellData sales, _) => sales.yor_low,
-          pointColorMapper: (datum, index) => datum.color,
-          dataLabelSettings: const DataLabelSettings(
-            isVisible: false,
-          ),
-          onPointTap: (pointInteractionDetails) {
-            vmPrint(pointInteractionDetails.seriesIndex);
-          },
-        ),
-        StackedColumnSeries<KChartCellData, String>(
-          dataSource: datas[1],
-          isTrackVisible: false,
-          spacing: 0,
-          borderRadius: BorderRadius.zero,
-          xValueMapper: (KChartCellData sales, _) => sales.x,
-          yValueMapper: (KChartCellData sales, _) => sales.yor_low,
-          pointColorMapper: (datum, index) => datum.color,
-          dataLabelSettings: const DataLabelSettings(
-            isVisible: false,
-          ),
-          onPointTap: (pointInteractionDetails) {
-            vmPrint(pointInteractionDetails.seriesIndex);
-          },
-        ),
-        StackedColumnSeries<KChartCellData, String>(
-          dataSource: datas[2],
-          isTrackVisible: false,
-          spacing: 0,
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(3),
-            topRight: Radius.circular(3),
-          ),
-          xValueMapper: (KChartCellData sales, _) => sales.x,
-          yValueMapper: (KChartCellData sales, _) => sales.yor_low,
-          pointColorMapper: (datum, index) => datum.color,
-          dataLabelSettings: const DataLabelSettings(
-            isVisible: false,
-          ),
-          onPointTap: (pointInteractionDetails) {
-            vmPrint(pointInteractionDetails.seriesIndex);
-          },
-        ),
-      ];
+      return datas.length != 3
+          ? []
+          : [
+              StackedColumnSeries<KChartCellData, String>(
+                dataSource: datas[0],
+                isTrackVisible: false,
+                spacing: 0,
+                borderRadius: const BorderRadius.only(
+                  bottomRight: Radius.circular(3),
+                  bottomLeft: Radius.circular(3),
+                ),
+                xValueMapper: (KChartCellData sales, _) => sales.x,
+                yValueMapper: (KChartCellData sales, _) => sales.yor_low,
+                pointColorMapper: (datum, index) => datum.color,
+                dataLabelSettings: const DataLabelSettings(
+                  isVisible: false,
+                ),
+                onPointTap: (pointInteractionDetails) {
+                  vmPrint(pointInteractionDetails.seriesIndex);
+                },
+              ),
+              StackedColumnSeries<KChartCellData, String>(
+                dataSource: datas[1],
+                isTrackVisible: false,
+                spacing: 0,
+                borderRadius: BorderRadius.zero,
+                xValueMapper: (KChartCellData sales, _) => sales.x,
+                yValueMapper: (KChartCellData sales, _) => sales.yor_low,
+                pointColorMapper: (datum, index) => datum.color,
+                dataLabelSettings: const DataLabelSettings(
+                  isVisible: false,
+                ),
+                onPointTap: (pointInteractionDetails) {
+                  vmPrint(pointInteractionDetails.seriesIndex);
+                },
+              ),
+              StackedColumnSeries<KChartCellData, String>(
+                dataSource: datas[2],
+                isTrackVisible: false,
+                spacing: 0,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(3),
+                  topRight: Radius.circular(3),
+                ),
+                xValueMapper: (KChartCellData sales, _) => sales.x,
+                yValueMapper: (KChartCellData sales, _) => sales.yor_low,
+                pointColorMapper: (datum, index) => datum.color,
+                dataLabelSettings: const DataLabelSettings(
+                  isVisible: false,
+                ),
+                onPointTap: (pointInteractionDetails) {
+                  vmPrint(pointInteractionDetails.seriesIndex);
+                },
+              ),
+            ];
     } else if (type == KHealthDataType.HEART_RATE) {
       if (reportType == KReportType.day) {
         return [

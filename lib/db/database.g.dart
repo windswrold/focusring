@@ -109,7 +109,7 @@ class _$FlutterDatabase extends FlutterDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `TempData_v2` (`appUserId` INTEGER, `mac` TEXT, `createTime` TEXT, `temperature` INTEGER, `average` TEXT, `max` TEXT, `min` TEXT, `dataArray` TEXT, PRIMARY KEY (`appUserId`, `createTime`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `SleepData_V2` (`appUserId` INTEGER, `mac` TEXT, `createTime` TEXT, `start_Sleep` TEXT, `end_Sleep` TEXT, `sleepDuration` TEXT, `sleep_score` TEXT, `awake_time` TEXT, `light_sleep_time` TEXT, `deep_sleep_time` TEXT, `sleep_distribution_data_list_count` INTEGER, `sleep_distribution_data_list` TEXT, PRIMARY KEY (`appUserId`, `createTime`))');
+            'CREATE TABLE IF NOT EXISTS `SleepData_V2` (`appUserId` INTEGER, `mac` TEXT, `createTime` TEXT, `start_Sleep` INTEGER, `end_Sleep` INTEGER, `awake_time` INTEGER, `light_sleep_time` INTEGER, `deep_sleep_time` INTEGER, `dataArray` TEXT, PRIMARY KEY (`appUserId`, `createTime`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -529,15 +529,10 @@ class _$SleepDataDao extends SleepDataDao {
                   'createTime': item.createTime,
                   'start_Sleep': item.start_Sleep,
                   'end_Sleep': item.end_Sleep,
-                  'sleepDuration': item.sleepDuration,
-                  'sleep_score': item.sleep_score,
                   'awake_time': item.awake_time,
                   'light_sleep_time': item.light_sleep_time,
                   'deep_sleep_time': item.deep_sleep_time,
-                  'sleep_distribution_data_list_count':
-                      item.sleep_distribution_data_list_count,
-                  'sleep_distribution_data_list':
-                      item.sleep_distribution_data_list
+                  'dataArray': item.dataArray
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -556,7 +551,7 @@ class _$SleepDataDao extends SleepDataDao {
   ) async {
     return _queryAdapter.queryList(
         'SELECT * FROM SleepData_V2 WHERE appUserId = ?1 and createTime >= ?2 AND createTime <= ?3',
-        mapper: (Map<String, Object?> row) => SleepData(appUserId: row['appUserId'] as int?, mac: row['mac'] as String?, createTime: row['createTime'] as String?, start_Sleep: row['start_Sleep'] as String?, end_Sleep: row['end_Sleep'] as String?, sleepDuration: row['sleepDuration'] as String?, sleep_score: row['sleep_score'] as String?, awake_time: row['awake_time'] as String?, light_sleep_time: row['light_sleep_time'] as String?, deep_sleep_time: row['deep_sleep_time'] as String?, sleep_distribution_data_list_count: row['sleep_distribution_data_list_count'] as int?, sleep_distribution_data_list: row['sleep_distribution_data_list'] as String?),
+        mapper: (Map<String, Object?> row) => SleepData(appUserId: row['appUserId'] as int?, mac: row['mac'] as String?, createTime: row['createTime'] as String?, start_Sleep: row['start_Sleep'] as int?, end_Sleep: row['end_Sleep'] as int?, awake_time: row['awake_time'] as int?, light_sleep_time: row['light_sleep_time'] as int?, deep_sleep_time: row['deep_sleep_time'] as int?, dataArray: row['dataArray'] as String?),
         arguments: [appUserId, createTime, nextTime]);
   }
 

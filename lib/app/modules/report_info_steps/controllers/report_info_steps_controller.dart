@@ -5,6 +5,7 @@ import 'package:beering/app/data/health_data_model.dart';
 import 'package:beering/app/data/steps_card_model.dart';
 import 'package:beering/ble/ble_manager.dart';
 import 'package:beering/public.dart';
+import 'package:beering/utils/date_util.dart';
 import 'package:beering/views/charts/home_card/model/home_card_x.dart';
 import 'package:beering/views/tra_led_button.dart';
 import 'package:decimal/decimal.dart';
@@ -55,6 +56,10 @@ class ReportInfoStepsController extends GetxController
   late RxDouble complationData = RxDouble(0);
 
   late Rx<List<TodayOverViewModel>> todaysModel = Rx([]);
+
+  late Rx<Duration?> sleep_time = Rx(null);
+  late Rx<DateTime?> sleep_start = Rx(null);
+  late Rx<DateTime?> sleep_end = Rx(null);
 
   @override
   void onInit() {
@@ -132,6 +137,8 @@ class ReportInfoStepsController extends GetxController
   //计算总数
   //计算完成率
   void updateViewData(List<dynamic> a, DateTime currentTime) {
+    UserInfoModel? user = SPManager.getGlobalUser();
+    int planNum = user?.getPlanNum(currentType) ?? 0;
     if (currentType == KHealthDataType.HEART_RATE) {
       List<HeartRateData> datas = a as List<HeartRateData>;
       //平均
@@ -182,8 +189,6 @@ class ReportInfoStepsController extends GetxController
     } else if (currentType == KHealthDataType.STEPS ||
         currentType == KHealthDataType.CALORIES_BURNED ||
         currentType == KHealthDataType.LiCheng) {
-      UserInfoModel? user = SPManager.getGlobalUser();
-      int planNum = user?.getPlanNum(currentType) ?? 0;
       //总和
       List<StepData> datas = a as List<StepData>;
       String xiaohao = ListEx.sumVal(datas.map((e) => e.calorie).toList())
@@ -264,6 +269,62 @@ class ReportInfoStepsController extends GetxController
       }
 
       stepsCards.value = newCards;
+    } else if (currentType == KHealthDataType.SLEEP) {
+      List<SleepData> datas = a as List<SleepData>;
+
+      if (reportType.value == KReportType.day) {
+        SleepData? data = datas.tryFirst;
+        Decimal allNum =
+            Decimal.tryParse(data?.getSleepTime() ?? "0") ?? Decimal.zero;
+        Decimal planDeci = Decimal.fromInt(planNum);
+        String deep_sleep_time = calDateMs(data?.deep_sleep_time ?? 0) ?? "";
+        String light_sleep_time = calDateMs(data?.light_sleep_time ?? 0) ?? "";
+        String awake_time = calDateMs(data?.awake_time ?? 0) ?? "";
+
+        sleep_time.value = data?.getSleepDuration() ?? Duration.zero;
+        sleep_start.value = DateTime.fromMillisecondsSinceEpoch(
+            (data?.start_Sleep ?? 0) * 1000);
+        sleep_end.value =
+            DateTime.fromMillisecondsSinceEpoch((data?.end_Sleep ?? 0) * 1000);
+        //完成目标
+        complationData.value =
+            getPercent(current: allNum.toDouble(), all: planDeci.toDouble());
+        todaysModel.value = TodayOverViewModel.getViewModel(
+            type: currentType,
+            reportType: reportType.value,
+            one: deep_sleep_time,
+            two: light_sleep_time,
+            three: awake_time);
+      } else {
+        List<DateTime> weeksTimes =
+            getQueryStrings(reportType: reportType.value, now: currentTime);
+
+        double deep_sleep_time =
+            ListEx.averageNum(datas.map((e) => e.deep_sleep_time).toList());
+        double light_sleep_time =
+            ListEx.averageNum(datas.map((e) => e.light_sleep_time).toList());
+        double awake_time =
+            ListEx.averageNum(datas.map((e) => e.awake_time).toList());
+        String deep_sleep_timeStr = calDateMs(deep_sleep_time);
+        String light_sleep_timeStr = calDateMs(light_sleep_time);
+        String awake_timeStr = calDateMs(awake_time);
+
+        todaysModel.value = TodayOverViewModel.getViewModel(
+            type: currentType,
+            reportType: reportType.value,
+            one: deep_sleep_timeStr,
+            two: light_sleep_timeStr,
+            three: awake_timeStr);
+
+        final rates = TargetWeekCompletionRateModel.getWeekModel(
+            weeksTimes: weeksTimes,
+            a: a,
+            dataType: currentType,
+            backData: (a) {
+              complationData.value = a;
+            });
+        targetWeekData.value = rates;
+      }
     }
   }
 }

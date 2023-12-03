@@ -5,13 +5,16 @@ class TodayOverViewModel {
 
   final String content;
 
-  TodayOverViewModel({required this.title, required this.content});
+  final Color? color;
 
- static List<TodayOverViewModel> getViewModel({
+  TodayOverViewModel({required this.title, required this.content, this.color});
+
+  static List<TodayOverViewModel> getViewModel({
     required KHealthDataType type,
     required String one,
     required String two,
     required String three,
+    KReportType? reportType,
   }) {
     if (type == KHealthDataType.BODY_TEMPERATURE) {
       return [
@@ -26,6 +29,30 @@ class TodayOverViewModel {
         TodayOverViewModel(title: "mininum_bloodoxygen".tr, content: two),
         TodayOverViewModel(title: "exception_number".tr, content: three),
       ];
+    }
+    if (type == KHealthDataType.SLEEP) {
+      return reportType == KReportType.day
+          ? [
+              TodayOverViewModel(
+                  title: KSleepStatusType.deepSleep.getStatusDesc(),
+                  color: KSleepStatusType.deepSleep.getStatusColor(),
+                  content: one),
+              TodayOverViewModel(
+                  title: KSleepStatusType.lightSleep.getStatusDesc(),
+                  color: KSleepStatusType.lightSleep.getStatusColor(),
+                  content: two),
+              TodayOverViewModel(
+                  title: KSleepStatusType.awake.getStatusDesc(),
+                  color: KSleepStatusType.lightSleep.getStatusColor(),
+                  content: three),
+            ]
+          : [
+              TodayOverViewModel(title: "average_sleeptime".tr, content: one),
+              TodayOverViewModel(
+                  title: "average_deepsleeptime".tr, content: two),
+              TodayOverViewModel(
+                  title: "average_lighrsleeptime".tr, content: three),
+            ];
     }
     return [
       TodayOverViewModel(title: "resting_heartrate".tr, content: one),

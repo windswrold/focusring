@@ -132,6 +132,17 @@ class HomeStateController extends GetxController {
               List<TempData> datas = a as List<TempData>;
               TempData? data = datas.tryFirst;
               card.result = data?.average.toString();
+            } else if (element.type == KHealthDataType.SLEEP) {
+              //睡眠
+              List<SleepData> datas = a as List<SleepData>;
+              SleepData? data = datas.tryFirst;
+              card.startDesc = data?.start_Sleep == null
+                  ? "00:00"
+                  : data?.formatDateMs(data.start_Sleep ?? 0);
+              card.endDesc = data?.end_Sleep == null
+                  ? "00:00"
+                  : data?.formatDateMs(data.end_Sleep ?? 0);
+              card.result = data?.getSleepTime();
             }
             dataArr.add(card);
             dataTypes.value = dataArr;

@@ -303,17 +303,13 @@ class SleepData {
   String? mac;
   String? createTime;
 
-  String? start_Sleep; //开始
-  String? end_Sleep; //结束
-  String? sleepDuration; //睡眠时长
-  String? sleep_score; //睡眠评分
+  int? start_Sleep; //入睡时间
+  int? end_Sleep; //起床时间
 
-  String? awake_time; //清醒时间
-  String? light_sleep_time; //浅睡时间
-  String? deep_sleep_time; //深睡时间
-
-  int? sleep_distribution_data_list_count; //睡眠段数
-  String? sleep_distribution_data_list; //睡眠分布
+  int? awake_time; //计算每一天的清醒时间
+  int? light_sleep_time; //计算某一天的浅睡时间
+  int? deep_sleep_time; //计算深睡时间
+  String? dataArray; //睡眠分布
 
   SleepData({
     this.appUserId,
@@ -321,13 +317,10 @@ class SleepData {
     this.createTime,
     this.start_Sleep,
     this.end_Sleep,
-    this.sleepDuration,
-    this.sleep_score,
     this.awake_time,
     this.light_sleep_time,
     this.deep_sleep_time,
-    this.sleep_distribution_data_list_count,
-    this.sleep_distribution_data_list,
+    this.dataArray,
   });
 
   factory SleepData.fromJson(Map<String, dynamic> json) => SleepData(
@@ -340,7 +333,47 @@ class SleepData {
         "appUserId": appUserId,
         "mac": mac,
         "createTime": createTime,
+        "dataArray": dataArray,
+        "start_Sleep": start_Sleep,
+        "end_Sleep": end_Sleep,
+        "awake_time": awake_time,
+        "light_sleep_time": light_sleep_time,
+        "deep_sleep_time": deep_sleep_time,
+        "awake_time": awake_time,
       };
+
+  String formatDateMs(int time) {
+    return DateUtil.formatDateMs(time * 1000, format: DateFormats.h_m);
+  }
+
+
+
+  String getSleepTime() {
+    try {
+      Duration difference = getSleepDuration();
+      int hours = difference.inHours;
+      int minutes = difference.inMinutes.remainder(60);
+      double decimalHours = hours + (minutes / 60);
+      return decimalHours.toStringAsFixed(1);
+    } catch (e) {
+      vmPrint("getSleepTime $e", KBLEManager.logevel);
+      return "0";
+    }
+  }
+
+  Duration getSleepDuration() {
+    try {
+      DateTime dateTime1 =
+          DateTime.fromMillisecondsSinceEpoch((start_Sleep ?? 0) * 1000);
+      DateTime dateTime2 =
+          DateTime.fromMillisecondsSinceEpoch((end_Sleep ?? 0) * 1000);
+      Duration difference = dateTime2.difference(dateTime1);
+      return difference;
+    } catch (e) {
+      vmPrint("getSleepTime $e", KBLEManager.logevel);
+      return Duration.zero;
+    }
+  }
 
   static Future<List<SleepData>> queryUserAll(
     int appUserId,
@@ -357,6 +390,38 @@ class SleepData {
     final db = await DataBaseConfig.openDataBase();
     return await db?.sleepDao.insertTokens(models);
   }
+
+  List<SleepDataGenterData> getSleepGenterData() {
+    List params = JsonUtil.getObj(dataArray) ?? [];
+    return params.map((e) => SleepDataGenterData.fromJson(e)).toList();
+  }
+}
+
+class SleepDataGenterData {
+  int startTimestamp;
+  int sleepDuration;
+  KSleepStatusType type;
+  double percent;
+
+  SleepDataGenterData({
+    required this.startTimestamp,
+    required this.sleepDuration,
+    required this.type,
+    required this.percent,
+  });
+
+  factory SleepDataGenterData.fromJson(Map json) => SleepDataGenterData(
+      startTimestamp: json["startTimestamp"],
+      sleepDuration: json["sleepDuration"],
+      type: KSleepStatusType.values[json["type"]],
+      percent: json["percent"]);
+
+  Map<String, dynamic> toJson() => {
+        "startTimestamp": startTimestamp,
+        "sleepDuration": sleepDuration,
+        "type": type.index,
+        "percent": percent,
+      };
 }
 
 class FemalePeriodData {
@@ -451,4 +516,3 @@ class PressureData {
         "dataForHour": dataForHour,
       };
 }
-

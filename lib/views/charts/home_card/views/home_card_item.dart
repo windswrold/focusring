@@ -16,7 +16,7 @@ class HomeCardView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: 351.w,
+        width: 350.w,
         height: model.datas == null ? 72.w : 200.w,
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -206,7 +206,7 @@ class HomeCardView extends StatelessWidget {
   Widget _buildSleepItem({required KChartCellData item}) {
     return Container(
       height: 85.w,
-      width: item.yor_low.toDouble(),
+      width: (item.yor_low.toDouble() * 330.w),
       child: Column(
         children: [
           Expanded(

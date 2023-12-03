@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:beering/app/data/user_info.dart';
 import 'package:beering/extensions/EnumEx.dart';
 import 'package:beering/extensions/ListEx.dart';
+import 'package:beering/public.dart';
 import 'package:decimal/decimal.dart';
 
 import '../../ble/ble_manager.dart';
@@ -222,6 +223,48 @@ class HealthDataUtils {
           }
         }
         callBackData(datas, datas.isEmpty ? null : [cellDatas]);
+      } else if (types == KHealthDataType.SLEEP) {
+        List<SleepData> datas =
+            await SleepData.queryUserAll(userid, create, nextTime);
+
+        List<List<KChartCellData>> cellDatas = [];
+        if (reportType == KReportType.day) {
+          final results = generateDay(
+            createTime: datas.tryFirst?.createTime ?? "",
+            data: datas.tryFirst?.dataArray ?? "",
+            type: types,
+            reportType: reportType,
+          );
+          cellDatas = [results];
+        } else {
+          List<KChartCellData> awake = [];
+          List<KChartCellData> deep = [];
+          List<KChartCellData> light = [];
+          for (var i = 0; i < datas.length; i++) {
+            SleepData e = datas[i];
+            final awakeCell = KChartCellData(
+                x: _getFormatX(e.createTime),
+                yor_low: e.awake_time ?? 0,
+                averageNum: Decimal.parse(e.getSleepTime()).toDouble(),
+                color: KSleepStatusType.awake.getStatusColor());
+            final deepCell = KChartCellData(
+                x: _getFormatX(e.createTime),
+                yor_low: e.deep_sleep_time ?? 0,
+                averageNum: Decimal.parse(e.getSleepTime()).toDouble(),
+                color: KSleepStatusType.deepSleep.getStatusColor());
+            final light_cell = KChartCellData(
+                x: _getFormatX(e.createTime),
+                yor_low: e.light_sleep_time ?? 0,
+                averageNum: Decimal.parse(e.getSleepTime()).toDouble(),
+                color: KSleepStatusType.lightSleep.getStatusColor());
+
+            awake.add(awakeCell);
+            deep.add(deepCell);
+            light.add(light_cell);
+          }
+          cellDatas = [deep, light, awake];
+        }
+        callBackData(datas, datas.isEmpty ? null : cellDatas);
       } else {
         var data = List.generate(
           30,
@@ -236,6 +279,7 @@ class HealthDataUtils {
         callBackData([], null);
       }
     } catch (e) {
+      vmPrint("读取失败 $e", KBLEManager.logevel);
       // HWToast.showErrText(text: "读取失败 ${e}");
     }
   }
@@ -339,11 +383,16 @@ class HealthDataUtils {
     required List<int> datas,
   }) {
     List<int> results = [];
-
+    final model = SleepData(
+      appUserId: userid,
+      mac: mac,
+    );
     if (isContainTime == true) {
       int year = (datas[1] << 8) + datas[0];
       int month = datas[2];
       int day = datas[3];
+      model.createTime = DateUtil.formatDate(DateTime(year, month, day),
+          format: DateFormats.full);
       results = datas.sublist(4);
     } else {
       results = datas;
@@ -359,69 +408,72 @@ class HealthDataUtils {
     offset += 2;
     int month = byteData.getUint8(offset++);
     int day = byteData.getUint8(offset++);
-    // int hour = byteData.getUint8(offset++);
-    // int minute = byteData.getUint8(offset++);
-    // int second = byteData.getUint8(offset++);
+    int hour = byteData.getUint8(offset++);
+    int minute = byteData.getUint8(offset++);
+    int second = byteData.getUint8(offset++);
 
-    final time = DateTime(year, month, day);
-
-    vmPrint("时间 $time", KBLEManager.logevel);
-
-    int startSleepTimestamp = byteData.getUint32(offset, Endian.little);
-    offset += 4;
-
-    int endSleepTimestamp = byteData.getUint32(offset, Endian.little);
-    offset += 4;
-
-    int sleepDuration = byteData.getUint16(offset, Endian.little);
-    offset += 2;
-
-    vmPrint(
-        "startSleepTimestamp $startSleepTimestamp endSleepTimestamp $endSleepTimestamp sleepDuration $sleepDuration",
-        KBLEManager.logevel);
-
-    int sleepScore = byteData.getUint8(offset++);
-    int awakeTime = byteData.getUint16(offset, Endian.little);
-    offset += 2;
-
-    int awakeTimePercentage = byteData.getUint8(offset++);
-    int lightSleepTime = byteData.getUint16(offset, Endian.little);
-    offset += 2;
-
-    int lightSleepTimePercentage = byteData.getUint16(offset, Endian.little);
-    offset += 2;
-
-    int deepSleepTime = byteData.getUint16(offset, Endian.little);
-    offset += 2;
-
-    int deepSleepTimePercentage = byteData.getUint16(offset, Endian.little);
-    offset += 2;
-
-    int rapidEyeMovementTime = byteData.getUint16(offset, Endian.little);
-    offset += 2;
-
-    int rapidEyeMovementTimePercentage =
-        byteData.getUint16(offset, Endian.little);
-    offset += 2;
-
-    vmPrint(
-        "sleepScore $sleepScore , awakeTime $awakeTime awakeTimePercentage awakeTimePercentage $awakeTimePercentage lightSleepTime $lightSleepTime",
-        KBLEManager.logevel);
-
-    vmPrint(
-        "lightSleepTimePercentage $lightSleepTimePercentage  deepSleepTime $deepSleepTime",
-        KBLEManager.logevel);
-
-    vmPrint(
-        "offset $offset deepSleepTimePercentage $deepSleepTimePercentage  rapidEyeMovementTime $rapidEyeMovementTime rapidEyeMovementTimePercentage $rapidEyeMovementTimePercentage",
-        KBLEManager.logevel);
+    // final time = DateTime(year, month, day, hour, minute, second);
+    // vmPrint("时间 $time ${model.toJson()}", KBLEManager.logevel);
+    //
+    // int startSleepTimestamp = byteData.getUint32(offset, Endian.little);
+    // offset += 4;
+    //
+    // int endSleepTimestamp = byteData.getUint32(offset, Endian.little);
+    // offset += 4;
+    //
+    // int sleepDuration = byteData.getUint16(offset, Endian.little);
+    // offset += 2;
+    //
+    // vmPrint(
+    //     "startSleepTimestamp $startSleepTimestamp  ${DateUtil.formatDateMs(startSleepTimestamp * 1000)}" +
+    //         "endSleepTimestamp $endSleepTimestamp ${DateUtil.formatDateMs(endSleepTimestamp * 1000)} sleepDuration $sleepDuration $sleepDuration}",
+    //     KBLEManager.logevel);
+    //
+    // int sleepScore = byteData.getUint8(offset++);
+    // int awakeTime = byteData.getUint16(offset, Endian.little);
+    // offset += 2;
+    //
+    // int awakeTimePercentage = byteData.getUint8(offset++);
+    // int lightSleepTime = byteData.getUint16(offset, Endian.little);
+    // offset += 2;
+    //
+    // int lightSleepTimePercentage = byteData.getUint16(offset, Endian.little);
+    // offset += 2;
+    //
+    // int deepSleepTime = byteData.getUint16(offset, Endian.little);
+    // offset += 2;
+    //
+    // int deepSleepTimePercentage = byteData.getUint16(offset, Endian.little);
+    // offset += 2;
+    //
+    // int rapidEyeMovementTime = byteData.getUint16(offset, Endian.little);
+    // offset += 2;
+    //
+    // int rapidEyeMovementTimePercentage =
+    //     byteData.getUint16(offset, Endian.little);
+    // offset += 2;
+    //
+    // vmPrint(
+    //     "sleepScore $sleepScore , awakeTime $awakeTime awakeTimePercentage awakeTimePercentage $awakeTimePercentage lightSleepTime $lightSleepTime",
+    //     KBLEManager.logevel);
+    //
+    // vmPrint(
+    //     "lightSleepTimePercentage $lightSleepTimePercentage  deepSleepTime $deepSleepTime",
+    //     KBLEManager.logevel);
+    //
+    // vmPrint(
+    //     "offset $offset deepSleepTimePercentage $deepSleepTimePercentage  rapidEyeMovementTime $rapidEyeMovementTime rapidEyeMovementTimePercentage $rapidEyeMovementTimePercentage",
+    //     KBLEManager.logevel);
 
     offset = 40 - 4;
+
+    List<Map> sleepCounts = [];
     int sleepDistributionDataListCount = byteData.getUint8(offset);
     vmPrint(
         "sleepDistributionDataListCount $offset $sleepDistributionDataListCount",
         KBLEManager.logevel);
     offset += 4;
+    Map<int, int> timeParams = {};
     for (int i = 0; i < sleepDistributionDataListCount; i++) {
       //秒时间 处理的
       int startTimestamp = byteData.getUint32(offset, Endian.little);
@@ -434,16 +486,37 @@ class HealthDataUtils {
 
       offset += 2;
 
-      vmPrint(
-          "${DateTime.fromMillisecondsSinceEpoch(startTimestamp)} offset $offset startTimestamp $startTimestamp sleepDuration $sleepDuration type $type",
-          KBLEManager.logevel);
+      Map params = {
+        "startTimestamp": startTimestamp,
+        "sleepDuration": sleepDuration,
+        "type": type,
+        "percent": 0,
+      };
+      sleepCounts.add(params);
+      int length = timeParams[type] ?? 0;
+      length += sleepDuration;
+      timeParams[type] = length;
     }
+    Decimal alltime = ListEx.sumVal(timeParams.values.toList());
+    for (var e in sleepCounts) {
+      int current = e["sleepDuration"];
+      e["percent"] =
+          getPercent(current: current.toDouble(), all: alltime.toDouble());
+    }
+    vmPrint("sleepCounts $sleepCounts  timeParams $timeParams",
+        KBLEManager.logevel);
 
-    int sleepType = byteData.getUint8(offset++);
+    model.dataArray = JsonUtil.encodeObj(sleepCounts);
+    model.start_Sleep = sleepCounts.tryFirst?.intFor("startTimestamp") ?? 0;
+    model.end_Sleep = sleepCounts.tryLast?.intFor("startTimestamp") ?? 0;
+    model.awake_time = timeParams[KSleepStatusType.awake.index];
+    model.light_sleep_time = timeParams[KSleepStatusType.lightSleep.index];
+    model.deep_sleep_time = timeParams[KSleepStatusType.deepSleep.index];
 
-    vmPrint("sleepType $sleepType", KBLEManager.logevel);
+    vmPrint(
+        "插入的睡眠数据${JsonUtil.encodeObj(model.toJson())}", KBLEManager.logevel);
 
-    return Future.value();
+    return SleepData.insertTokens([model]);
   }
 
   ///顺便计算里程跟能量消耗
@@ -588,6 +661,22 @@ class HealthDataUtils {
           ),
         );
       }
+    } else if (type == KHealthDataType.SLEEP) {
+      //日 计算宽度
+      for (var i = 0; i < dataArr.length; i++) {
+        Map e = dataArr[i];
+        SleepDataGenterData genterData = SleepDataGenterData.fromJson(e);
+        final x = DateUtil.formatDateMs(genterData.startTimestamp * 1000,
+            format: DateFormats.h_m);
+        cellDatas.add(
+          KChartCellData(
+            x: x,
+            yor_low: genterData.percent,
+            state: genterData.type,
+            color: genterData.type.getStatusColor(),
+          ),
+        );
+      }
     }
 
     return cellDatas;
@@ -600,32 +689,29 @@ class HealthDataUtils {
       required int index}) {
     String text = "-";
 
-    if (currentType == KHealthDataType.SLEEP) {
-      // chartTipValue.value = "${item.x}:${item.y} steps";
-      text = "-";
+    KChartCellData? item = dataSource.tryFirst?[index];
+    if (item == null) {
+      return "";
+    }
+    if (type == KReportType.day) {
+      text = "${item.x} ${item.yor_low}${currentType.getSymbol()}";
     } else {
-      KChartCellData? item = dataSource.tryFirst?[index];
-      if (item == null) {
-        return "";
+      if (currentType == KHealthDataType.HEART_RATE) {
+        //平均数
+        text =
+            "${item.x} ${currentType.getDisplayName(isReportSmallTotal: true).replaceAll("(Bpm)", "")} ${item.averageNum}${currentType.getSymbol()}";
       }
-      if (type == KReportType.day) {
+      if (currentType == KHealthDataType.BODY_TEMPERATURE) {
+        //平均数
+        text =
+            "${item.x} ${currentType.getDisplayName(isReportSmallTotal: true).replaceAll("(Bpm)", "")} ${item.averageNum}${currentType.getSymbol()}";
+      } else if (currentType == KHealthDataType.STEPS ||
+          currentType == KHealthDataType.LiCheng ||
+          currentType == KHealthDataType.CALORIES_BURNED) {
+        //总和
         text = "${item.x} ${item.yor_low}${currentType.getSymbol()}";
-      } else {
-        if (currentType == KHealthDataType.HEART_RATE) {
-          //平均数
-          text =
-              "${item.x} ${currentType.getDisplayName(isReportSmallTotal: true).replaceAll("(Bpm)", "")} ${item.averageNum}${currentType.getSymbol()}";
-        }
-        if (currentType == KHealthDataType.BODY_TEMPERATURE) {
-          //平均数
-          text =
-              "${item.x} ${currentType.getDisplayName(isReportSmallTotal: true).replaceAll("(Bpm)", "")} ${item.averageNum}${currentType.getSymbol()}";
-        } else if (currentType == KHealthDataType.STEPS ||
-            currentType == KHealthDataType.LiCheng ||
-            currentType == KHealthDataType.CALORIES_BURNED) {
-          //总和
-          text = "${item.x} ${item.yor_low}${currentType.getSymbol()}";
-        }
+      } else if (currentType == KHealthDataType.SLEEP) {
+        text = "${item.x} ${item.averageNum}${currentType.getSymbol()}";
       }
     }
 
@@ -640,17 +726,17 @@ class HealthDataUtils {
                 Decimal.fromInt(steps) *
                 Decimal.parse("0.00001")))
         .toDouble();
-    // return (uint32_t)(weight * 1.036f * (hight * 0.41f * steps * 0.00001f));
+// return (uint32_t)(weight * 1.036f * (hight * 0.41f * steps * 0.00001f));
   }
 
-  // kcal和m
+// kcal和m
   static double calculate_distance_steps(int steps, int hight) {
     return (Decimal.fromInt(hight) *
             Decimal.fromInt(41) *
             Decimal.fromInt(steps) *
             Decimal.parse("0.0000001"))
         .toDouble();
-    // return (hight * 41.0f * steps * 0.0001f);
+// return (hight * 41.0f * steps * 0.0001f);
   }
 
   static double calculate_Temp() {
