@@ -1,4 +1,4 @@
-import 'package:beering/app/data/health_data_utils.dart';
+import 'package:beering/app/data/health_data_model.dart';
 import 'package:floor/floor.dart';
 
 @dao
@@ -43,4 +43,15 @@ abstract class TempDataDao {
 
   @Insert(onConflict: OnConflictStrategy.replace)
   Future<void> insertTokens(List<TempData> models);
+}
+
+@dao
+abstract class SleepDataDao {
+  @Query(
+      'SELECT * FROM $tableName5 WHERE appUserId = :appUserId and createTime >= :createTime AND createTime <= :nextTime')
+  Future<List<SleepData>> queryUserAll(
+      int appUserId, String createTime, String nextTime);
+
+  @Insert(onConflict: OnConflictStrategy.replace)
+  Future<void> insertTokens(List<SleepData> models);
 }

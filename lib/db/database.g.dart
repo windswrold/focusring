@@ -73,13 +73,15 @@ class _$FlutterDatabase extends FlutterDatabase {
 
   TempDataDao? _tempDapInstance;
 
+  SleepDataDao? _sleepDaoInstance;
+
   Future<sqflite.Database> open(
     String path,
     List<Migration> migrations, [
     Callback? callback,
   ]) async {
     final databaseOptions = sqflite.OpenDatabaseOptions(
-      version: 2,
+      version: 3,
       onConfigure: (database) async {
         await database.execute('PRAGMA foreign_keys = ON');
         await callback?.onConfigure?.call(database);
@@ -106,6 +108,8 @@ class _$FlutterDatabase extends FlutterDatabase {
             'CREATE TABLE IF NOT EXISTS `stepData_v2` (`appUserId` INTEGER, `mac` TEXT, `createTime` TEXT, `steps` TEXT, `distance` TEXT, `calorie` TEXT, `dataArrs` TEXT, PRIMARY KEY (`appUserId`, `createTime`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `TempData_v2` (`appUserId` INTEGER, `mac` TEXT, `createTime` TEXT, `temperature` INTEGER, `average` TEXT, `max` TEXT, `min` TEXT, `dataArray` TEXT, PRIMARY KEY (`appUserId`, `createTime`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `SleepData_V2` (`appUserId` INTEGER, `mac` TEXT, `createTime` TEXT, `start_Sleep` TEXT, `end_Sleep` TEXT, `sleepDuration` TEXT, `sleep_score` TEXT, `awake_time` TEXT, `light_sleep_time` TEXT, `deep_sleep_time` TEXT, `sleep_distribution_data_list_count` INTEGER, `sleep_distribution_data_list` TEXT, PRIMARY KEY (`appUserId`, `createTime`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -142,6 +146,11 @@ class _$FlutterDatabase extends FlutterDatabase {
   @override
   TempDataDao get tempDap {
     return _tempDapInstance ??= _$TempDataDao(database, changeListener);
+  }
+
+  @override
+  SleepDataDao get sleepDao {
+    return _sleepDaoInstance ??= _$SleepDataDao(database, changeListener);
   }
 }
 
@@ -502,6 +511,58 @@ class _$TempDataDao extends TempDataDao {
   @override
   Future<void> insertTokens(List<TempData> models) async {
     await _tempDataInsertionAdapter.insertList(
+        models, OnConflictStrategy.replace);
+  }
+}
+
+class _$SleepDataDao extends SleepDataDao {
+  _$SleepDataDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database),
+        _sleepDataInsertionAdapter = InsertionAdapter(
+            database,
+            'SleepData_V2',
+            (SleepData item) => <String, Object?>{
+                  'appUserId': item.appUserId,
+                  'mac': item.mac,
+                  'createTime': item.createTime,
+                  'start_Sleep': item.start_Sleep,
+                  'end_Sleep': item.end_Sleep,
+                  'sleepDuration': item.sleepDuration,
+                  'sleep_score': item.sleep_score,
+                  'awake_time': item.awake_time,
+                  'light_sleep_time': item.light_sleep_time,
+                  'deep_sleep_time': item.deep_sleep_time,
+                  'sleep_distribution_data_list_count':
+                      item.sleep_distribution_data_list_count,
+                  'sleep_distribution_data_list':
+                      item.sleep_distribution_data_list
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<SleepData> _sleepDataInsertionAdapter;
+
+  @override
+  Future<List<SleepData>> queryUserAll(
+    int appUserId,
+    String createTime,
+    String nextTime,
+  ) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM SleepData_V2 WHERE appUserId = ?1 and createTime >= ?2 AND createTime <= ?3',
+        mapper: (Map<String, Object?> row) => SleepData(appUserId: row['appUserId'] as int?, mac: row['mac'] as String?, createTime: row['createTime'] as String?, start_Sleep: row['start_Sleep'] as String?, end_Sleep: row['end_Sleep'] as String?, sleepDuration: row['sleepDuration'] as String?, sleep_score: row['sleep_score'] as String?, awake_time: row['awake_time'] as String?, light_sleep_time: row['light_sleep_time'] as String?, deep_sleep_time: row['deep_sleep_time'] as String?, sleep_distribution_data_list_count: row['sleep_distribution_data_list_count'] as int?, sleep_distribution_data_list: row['sleep_distribution_data_list'] as String?),
+        arguments: [appUserId, createTime, nextTime]);
+  }
+
+  @override
+  Future<void> insertTokens(List<SleepData> models) async {
+    await _sleepDataInsertionAdapter.insertList(
         models, OnConflictStrategy.replace);
   }
 }

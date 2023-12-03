@@ -1,10 +1,11 @@
-import 'package:beering/app/data/health_data_utils.dart';
+import 'package:beering/app/data/health_data_model.dart';
 import 'package:beering/ble/ble_config.dart';
 import 'package:beering/ble/ble_manager.dart';
 import 'package:beering/ble/bledata_serialization.dart';
 import 'package:beering/net/app_api.dart';
 import 'package:beering/utils/hex_util.dart';
 
+import '../app/data/health_data_utils.dart';
 import '../const/event_bus_class.dart';
 import '../public.dart';
 

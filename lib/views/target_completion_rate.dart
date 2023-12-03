@@ -1,4 +1,4 @@
-import 'package:beering/app/data/health_data_utils.dart';
+import 'package:beering/app/data/health_data_model.dart';
 import 'package:beering/utils/date_util.dart';
 import 'package:decimal/decimal.dart';
 

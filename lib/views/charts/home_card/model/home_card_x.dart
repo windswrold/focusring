@@ -1,5 +1,6 @@
-import 'package:beering/app/data/health_data_utils.dart';
+import 'package:beering/app/data/health_data_model.dart';
 
+import '../../../../app/data/health_data_utils.dart';
 import '../../../../public.dart';
 
 class KChartCellData {

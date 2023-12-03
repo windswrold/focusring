@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:beering/app/data/health_data_utils.dart';
+import 'package:beering/app/data/health_data_model.dart';
 import 'package:beering/app/data/steps_card_model.dart';
 import 'package:beering/ble/ble_manager.dart';
 import 'package:beering/public.dart';
@@ -15,6 +15,7 @@ import '../../../../theme/theme.dart';
 import '../../../../views/charts/radio_gauge_chart/model/radio_gauge_chart_model.dart';
 import '../../../../views/target_completion_rate.dart';
 import '../../../../views/today_overview.dart';
+import '../../../data/health_data_utils.dart';
 import '../../../data/user_info.dart';
 
 class ReportInfoStepsController extends GetxController
