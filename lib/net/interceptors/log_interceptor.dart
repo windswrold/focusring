@@ -1,12 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:logger/logger.dart';
+import '../../const/constant.dart';
 import '../../extensions/ListEx.dart';
 import '../../extensions/MapEx.dart';
 import '../../utils/console_logger.dart';
 
 class LogsInterceptors extends InterceptorsWrapper {
   int? printLevel;
+
   LogsInterceptors(this.printLevel);
 
   @override
@@ -65,8 +66,8 @@ class LogsInterceptors extends InterceptorsWrapper {
   @override
   onError(DioException err, ErrorInterceptorHandler handler) async {
     if (kDebugMode) {
-      Logger().wtf(err.requestOptions.uri);
-      Logger().wtf('Request exception: ${err.toString()}');
+      GlobalValues.logger?.d(err.requestOptions.uri);
+      GlobalValues.logger?.d('Request exception: ${err.toString()}');
     }
     handler.next(err); // continue;
   }

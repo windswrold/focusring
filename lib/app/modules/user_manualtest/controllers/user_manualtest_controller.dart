@@ -31,7 +31,7 @@ class UserManualtestController extends GetxController
   void onInit() {
     gifController = GifController(vsync: this);
     type.value = Get.arguments;
-    vmPrint(type);
+    vmPrint("UserManualtestController $type", KBLEManager.logevel);
     super.onInit();
   }
 
@@ -40,8 +40,8 @@ class UserManualtestController extends GetxController
     kState.value = KStateType.loading;
     _setTime();
     _timerUtil.setOnTimerTickCallback((millisUntilFinished) {
-      vmPrint("setOnTimerTickCallback $millisUntilFinished",
-          KBLEManager.logevel);
+      vmPrint(
+          "setOnTimerTickCallback $millisUntilFinished", KBLEManager.logevel);
       countDownNum.value = (millisUntilFinished ?? 0) ~/ 1000;
       if (countDownNum.value <= 0) {
         pauseAnimation();

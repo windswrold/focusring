@@ -156,7 +156,7 @@ class HeartRateData {
       charts.add(a);
     }
 
-    vmPrint("intervalCounts $all  $intervalCounts");
+    vmPrint("intervalCounts $all  $intervalCounts", KBLEManager.logevel);
 
     return charts;
   }
@@ -520,7 +520,8 @@ class HealthDataUtils {
                 .subtract(const Duration(days: 1)));
       }
 
-      vmPrint("create $create  nextTime $nextTime reportType $reportType");
+      vmPrint("create $create  nextTime $nextTime reportType $reportType",
+          KBLEManager.logevel);
 
       ///如果多天数据，则取每一天的平均值进行画点拆分
       if (types == KHealthDataType.HEART_RATE) {
@@ -681,7 +682,7 @@ class HealthDataUtils {
       // HWToast.showSucText(text: "构造成功，已存数据库");
     } catch (e) {
       // HWToast.showErrText(text: "构造失败，${e.toString()}");
-      vmPrint(e, KBLEManager.logevel);
+      vmPrint("insertHealthBleData $e", KBLEManager.logevel);
     }
   }
 

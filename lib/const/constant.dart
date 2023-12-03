@@ -5,6 +5,7 @@ import 'dart:ui' as ui;
 import 'dart:ui';
 
 import 'package:beering/utils/date_util.dart';
+import 'package:beering/utils/permission.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:flutter/foundation.dart';
@@ -12,10 +13,13 @@ import 'package:flutter/material.dart';
 import 'package:beering/app/data/user_info.dart';
 import 'package:beering/utils/console_logger.dart';
 import 'package:beering/utils/sp_manager.dart';
-import 'package:beering/views/base/base_pageview.dart';
+import 'package:logger/logger.dart';
+
+// import 'package:beering/views/base/base_pageview.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:path/path.dart' as p;
 
 import '../public.dart';
 import '../views/charts/home_card/model/home_card_x.dart';
@@ -274,6 +278,8 @@ class GlobalValues {
 
   static EventBus globalEventBus = EventBus();
 
+  static Logger? logger;
+
   static Future<void> init() async {
     if (Platform.isAndroid) {
       final AndroidDeviceInfo and = await DeviceInfoPlugin().androidInfo;
@@ -289,9 +295,74 @@ class GlobalValues {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     SPManager.spInit(prefs);
     vmPrint("pack " + info.toString());
+
+    final file = await getLogFile();
+    logger = Logger(
+        printer: SimplePrinter(
+          colors: false,
+          printTime: true,
+        ),
+        output: FileSizeOutput(file: File(file)));
+  }
+
+  static Future<String> getLogFile() async {
+    Directory path = await getTemporaryDirectory();
+    final directory = (await getTemporaryDirectory()).path;
+    return Directory('$directory/applog.txt').path;
   }
 
   static int? androidApiVersion() {
     return androidDeviceInfo?.version.sdkInt;
+  }
+}
+
+class FileSizeOutput extends LogOutput {
+  final File file;
+  final bool overrideExisting;
+  final Encoding encoding;
+  IOSink? _sink;
+
+  FileSizeOutput({
+    required this.file,
+    this.overrideExisting = false,
+    this.encoding = utf8,
+  });
+
+  final maxSize = 20 * 1024 * 1024;
+  final defaultSize = 15 * 1024 * 1024;
+
+  @override
+  Future<void> init() async {
+    try {
+      int size = file.lengthSync();
+      print("size $size");
+      if (size > maxSize) {
+        truncateFile(file, defaultSize);
+      }
+    } catch (e) {
+      print("$e");
+    }
+    _sink = file.openWrite(
+      mode: overrideExisting ? FileMode.writeOnly : FileMode.writeOnlyAppend,
+      encoding: encoding,
+    );
+  }
+
+  void truncateFile(File file, int newSize) {
+    RandomAccessFile randomAccessFile = file.openSync(mode: FileMode.write);
+    randomAccessFile.truncateSync(newSize);
+    randomAccessFile.closeSync();
+  }
+
+  @override
+  void output(OutputEvent event) {
+    _sink?.writeAll(event.lines, '\n');
+    _sink?.writeln();
+  }
+
+  @override
+  Future<void> destroy() async {
+    await _sink?.flush();
+    await _sink?.close();
   }
 }

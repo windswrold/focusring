@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:beering/ble/ble_manager.dart';
+import 'package:beering/public.dart';
 
 int _maxLen = 4000;
 
@@ -8,14 +9,18 @@ void vmPrint(final dynamic message, [int? level]) {
   _printLog(message);
   if (level == KBLEManager.logevel) {
     KBLEManager.logController.add(message.toString());
+    GlobalValues.logger?.d(message);
   }
 }
 
 void _printLog(Object object) {
   String da = object.toString();
+  if (inProduction == true) {
+    return;
+  }
   if (Platform.isAndroid) {
-    print(da);
+    GlobalValues.logger?.d(da);
   } else {
-    print(da);
+    GlobalValues.logger?.i(da);
   }
 }
