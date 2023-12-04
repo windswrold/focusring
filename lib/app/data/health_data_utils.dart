@@ -227,26 +227,40 @@ class HealthDataUtils {
     }
   }
 
-  static void insertHealthBleData(
-      {required List<int> datas,
-      required bool isContainTime,
-      required KHealthDataType type}) async {
+  static void insertHealthBleData({
+    required List<int> datas,
+    required bool isContainTime,
+    required KHealthDataType type,
+    bool? isHourData,
+  }) async {
     try {
       int userid = SPManager.getGlobalUser()!.id!;
       isContainTime = true;
       String mac = "";
       if (type == KHealthDataType.BLOOD_OXYGEN) {
         await _insertBloodOxygen(userid,
-            mac: mac, isContainTime: isContainTime, datas: datas);
+            mac: mac,
+            isContainTime: isContainTime,
+            datas: datas,
+            isHourData: isHourData);
       } else if (type == KHealthDataType.HEART_RATE) {
         await _insertHEARTRATE(userid,
-            mac: mac, isContainTime: isContainTime, datas: datas);
+            mac: mac,
+            isContainTime: isContainTime,
+            datas: datas,
+            isHourData: isHourData);
       } else if (type == KHealthDataType.STEPS) {
         await _insertSteps(userid,
-            mac: mac, isContainTime: isContainTime, datas: datas);
+            mac: mac,
+            isContainTime: isContainTime,
+            datas: datas,
+            isHourData: isHourData);
       } else if (type == KHealthDataType.SLEEP) {
         await _insertSleep(userid,
-            mac: mac, isContainTime: isContainTime, datas: datas);
+            mac: mac,
+            isContainTime: isContainTime,
+            datas: datas,
+            isHourData: isHourData);
       }
 
       // HWToast.showSucText(text: "构造成功，已存数据库");
@@ -261,20 +275,52 @@ class HealthDataUtils {
     required String mac,
     required bool isContainTime,
     required List<int> datas,
-  }) {
-    final model = BloodOxygenData(appUserId: userid, mac: mac);
-
+    bool? isHourData,
+  }) async {
+    BloodOxygenData? model;
     List<int> results = [];
-    if (isContainTime == true) {
-      int year = (datas[1] << 8) + datas[0];
-      int month = datas[2];
-      int day = datas[3];
-      model.createTime = DateUtil.formatDate(DateTime(year, month, day, 0, 0),
-          format: DateFormats.full);
-      results = datas.sublist(4);
+    if (isHourData == true) {
+      final time = DateTime.now();
+      String cr = getZeroDateTime(now: time);
+      String nt = getLastDateTime(now: time);
+      List<BloodOxygenData> dbSteps =
+          (await BloodOxygenData.queryUserAll(userid, cr, nt)) ?? [];
+      if (dbSteps.isEmpty) {
+        return;
+      }
+      model = dbSteps.tryFirst;
+      List<int> steps = JsonUtil.getObj(model?.bloodArray ?? "") ?? [];
+      int currentHour = time.hour * 12 + time.minute ~/ 5;
+      if (datas.length == 1 && currentHour >= 0 && currentHour < 288) {
+        int start = currentHour;
+        int end = start + 1;
+        vmPrint(
+            "开始替换旧数据：currentHour $currentHour start $start end $end  $steps",
+            KBLEManager.logevel);
+        steps.replaceRange(start, end, datas);
+        results = steps;
+        vmPrint("替换完成的：$results", KBLEManager.logevel);
+      }
     } else {
-      model.createTime = getZeroDateTime();
-      results = datas;
+      model = BloodOxygenData(
+        appUserId: userid,
+        mac: mac,
+      );
+      if (isContainTime == true) {
+        int year = (datas[1] << 8) + datas[0];
+        int month = datas[2];
+        int day = datas[3];
+        model.createTime = DateUtil.formatDate(DateTime(year, month, day),
+            format: DateFormats.full);
+        results = datas.sublist(4);
+      } else {
+        model.createTime = getZeroDateTime();
+        results = datas;
+      }
+    }
+
+    if (model == null) {
+      return;
     }
     model.bloodArray = JsonUtil.encodeObj(results);
     model.averageHeartRate = ListEx.averageNum(results).toInt();
@@ -292,23 +338,54 @@ class HealthDataUtils {
     required String mac,
     required bool isContainTime,
     required List<int> datas,
-  }) {
+    bool? isHourData,
+  }) async {
+    HeartRateData? model;
     List<int> results = [];
-    final model = HeartRateData(
-      appUserId: userid,
-      mac: mac,
-    );
-    if (isContainTime == true) {
-      int year = (datas[1] << 8) + datas[0];
-      int month = datas[2];
-      int day = datas[3];
-      model.createTime = DateUtil.formatDate(DateTime(year, month, day, 0, 0),
-          format: DateFormats.full);
-      results = datas.sublist(4);
+    if (isHourData == true) {
+      final time = DateTime.now();
+      String cr = getZeroDateTime(now: time);
+      String nt = getLastDateTime(now: time);
+      List<HeartRateData> dbSteps =
+          (await HeartRateData.queryUserAll(userid, cr, nt)) ?? [];
+      if (dbSteps.isEmpty) {
+        return;
+      }
+      model = dbSteps.tryFirst;
+      List<int> steps = JsonUtil.getObj(model?.heartArray ?? "") ?? [];
+      int currentHour = time.hour * 12 + time.minute ~/ 5;
+      if (datas.length == 1 && currentHour >= 0 && currentHour < 288) {
+        int start = currentHour;
+        int end = start + 1;
+        vmPrint(
+            "开始替换旧数据：currentHour $currentHour start $start end $end  $steps",
+            KBLEManager.logevel);
+        steps.replaceRange(start, end, datas);
+        results = steps;
+        vmPrint("替换完成的：$results", KBLEManager.logevel);
+      }
     } else {
-      model.createTime = getZeroDateTime();
-      results = datas;
+      model = HeartRateData(
+        appUserId: userid,
+        mac: mac,
+      );
+      if (isContainTime == true) {
+        int year = (datas[1] << 8) + datas[0];
+        int month = datas[2];
+        int day = datas[3];
+        model.createTime = DateUtil.formatDate(DateTime(year, month, day),
+            format: DateFormats.full);
+        results = datas.sublist(4);
+      } else {
+        model.createTime = getZeroDateTime();
+        results = datas;
+      }
     }
+
+    if (model == null) {
+      return;
+    }
+
     model.heartArray = JsonUtil.encodeObj(results);
     model.averageHeartRate = ListEx.averageNum(results).toInt();
     model.max = ListEx.maxVal(results).toInt();
@@ -324,6 +401,7 @@ class HealthDataUtils {
     required String mac,
     required bool isContainTime,
     required List<int> datas,
+    bool? isHourData,
   }) {
     List<int> results = [];
     final model = SleepData(
@@ -463,27 +541,58 @@ class HealthDataUtils {
   }
 
   ///顺便计算里程跟能量消耗
+  ///如果是当前小时数据 查出当天时间 取出当前小时对应的index 替换当前小时的数据
   static Future _insertSteps(
     int userid, {
     required String mac,
     required bool isContainTime,
     required List<int> datas,
+    bool? isHourData,
   }) async {
+    StepData? model;
     List<int> results = [];
-    final model = StepData(
-      appUserId: userid,
-      mac: mac,
-    );
-    if (isContainTime == true) {
-      int year = (datas[1] << 8) + datas[0];
-      int month = datas[2];
-      int day = datas[3];
-      model.createTime = DateUtil.formatDate(DateTime(year, month, day),
-          format: DateFormats.full);
-      results = datas.sublist(4);
+    if (isHourData == true) {
+      final time = DateTime.now();
+      String cr = getZeroDateTime(now: time);
+      String nt = getLastDateTime(now: time);
+      List<StepData> dbSteps =
+          (await StepData.queryUserAll(userid, cr, nt)) ?? [];
+      if (dbSteps.isEmpty) {
+        return;
+      }
+      model = dbSteps.tryFirst;
+      List<int> steps = JsonUtil.getObj(model?.dataArrs ?? "") ?? [];
+      int currentHour = time.hour;
+      if (datas.length == 4 && currentHour >= 0 && currentHour < 24) {
+        int start = currentHour * 4;
+        int end = start + 4;
+        vmPrint(
+            "开始替换旧数据：currentHour $currentHour start $start end $end  $steps",
+            KBLEManager.logevel);
+        steps.replaceRange(start, end, datas);
+        results = steps;
+        vmPrint("替换完成的：$results", KBLEManager.logevel);
+      }
     } else {
-      model.createTime = getZeroDateTime();
-      results = datas;
+      model = StepData(
+        appUserId: userid,
+        mac: mac,
+      );
+      if (isContainTime == true) {
+        int year = (datas[1] << 8) + datas[0];
+        int month = datas[2];
+        int day = datas[3];
+        model.createTime = DateUtil.formatDate(DateTime(year, month, day),
+            format: DateFormats.full);
+        results = datas.sublist(4);
+      } else {
+        model.createTime = getZeroDateTime();
+        results = datas;
+      }
+    }
+
+    if (model == null) {
+      return;
     }
 
     UserInfoModel? user = SPManager.getGlobalUser();
@@ -510,6 +619,7 @@ class HealthDataUtils {
     StepData.insertTokens([model]);
     vmPrint(
         "插入的步数数据${JsonUtil.encodeObj(model.toJson())}", KBLEManager.logevel);
+
     TempData temp = TempData(
       appUserId: userid,
       mac: mac,

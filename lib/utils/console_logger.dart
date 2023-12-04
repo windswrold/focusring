@@ -18,5 +18,17 @@ void _printLog(Object object) {
   if (inProduction == true) {
     return;
   }
-  print(da);
+  if (da.length <= _maxLen) {
+    debugPrint(da);
+    return;
+  }
+  while (da.isNotEmpty) {
+    if (da.length > _maxLen) {
+      debugPrint('${da.substring(0, _maxLen)}');
+      da = da.substring(_maxLen, da.length);
+    } else {
+      debugPrint(da);
+      da = '';
+    }
+  }
 }

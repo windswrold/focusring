@@ -155,6 +155,16 @@ class ReceiveDataHandler {
         status = true;
         tip = "获取成功";
         value = valueData[1];
+        //1.实时步数2.当前小时步数
+        final a = type == 0x00
+            ? KHealthDataType.HEART_RATE
+            : KHealthDataType.BLOOD_OXYGEN;
+        HealthDataUtils.insertHealthBleData(
+            datas: List.from(valueData),
+            isContainTime: true,
+            isHourData: true,
+            type: a);
+        GlobalValues.globalEventBus.fire(KReportQueryDataUpdate(refreType: a));
       }
     } else if (type == 0x01 || type == 0x06) {
       vmPrint("心率定时测量设置");
@@ -216,6 +226,16 @@ class ReceiveDataHandler {
     } else if (type == 0x02) {
       //当天步数
       _parseDataCurrentDayData(KHealthDataType.STEPS, valueData);
+    } else if (type == 0x00 || type == 0x01) {
+      //1.实时步数2.当前小时步数
+      HealthDataUtils.insertHealthBleData(
+          datas: List.from(valueData),
+          isContainTime: true,
+          isHourData: true,
+          type: KHealthDataType.STEPS);
+
+      GlobalValues.globalEventBus
+          .fire(KReportQueryDataUpdate(refreType: KHealthDataType.STEPS));
     }
     return ReceiveDataModel(status: status, tip: tip, command: com);
   }
