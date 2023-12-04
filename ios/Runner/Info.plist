@@ -57,5 +57,9 @@
 	<false/>
 	<key>NSFileProtection</key>
 	<string>NSFileProtectionComplete</string>
+	<key>NSBonjourServices</key>
+	<array>
+		<string>_dartobservatory._tcp</string>
+	</array>
 </dict>
 </plist>

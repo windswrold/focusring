@@ -5,6 +5,7 @@ import 'package:beering/net/app_api.dart';
 import 'package:beering/utils/timer_util.dart';
 import 'package:get/get.dart';
 
+import '../../../../net/api_stream/api.dart';
 import '../../../../public.dart';
 
 class DeviceInfoController extends GetxController {
@@ -14,6 +15,7 @@ class DeviceInfoController extends GetxController {
   RxDouble progress = 0.0.obs;
 
   late RingDeviceModel ringDevice;
+
   @override
   void onInit() {
     super.onInit();
@@ -36,9 +38,21 @@ class DeviceInfoController extends GetxController {
     HWToast.showLoading();
     AppApi.getLatestFirmwareStream().onSuccess((value) {
       HWToast.hiddenAllToast();
+
+
+
+
+
+
     }).onError((r) {
       HWToast.showErrText(text: r.error ?? "");
     });
+  }
+
+  downlOADING(){
+
+    // VMApi().dioUpload(url, filePath)
+
   }
 
   void changeButtonState(KStateType state) async {

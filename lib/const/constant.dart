@@ -304,10 +304,12 @@ class GlobalValues {
 
     final file = await getLogFile();
     logger = Logger(
+        filter: ProductionFilter(),
         printer: SimplePrinter(
           colors: false,
           printTime: true,
         ),
+        level: Level.debug,
         output: FileSizeOutput(file: File(file)));
   }
 

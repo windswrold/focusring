@@ -9,7 +9,7 @@ void vmPrint(final dynamic message, [int? level]) {
   _printLog(message);
   if (level == KBLEManager.logevel) {
     KBLEManager.logController.add(message.toString());
-    GlobalValues.logger?.d(message);
+    GlobalValues.logger?.i(message);
   }
 }
 
