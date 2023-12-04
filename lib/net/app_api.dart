@@ -68,7 +68,6 @@ class AppApi {
         ..path = "/app/device/getLatestFirmware",
     )
         .convert((r) {
-
       return r.mapResult == null
           ? null
           : FirmwareVersionModel.fromJson(r.mapResult!);

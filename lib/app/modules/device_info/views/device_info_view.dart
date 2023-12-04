@@ -53,10 +53,10 @@ class DeviceInfoView extends GetView<DeviceInfoController> {
             ),
             Container(
               margin: EdgeInsets.only(top: 15.w),
-              child: Text(
-                controller.ringDevice.localName ?? "",
-                style: Get.textTheme.bodyLarge,
-              ),
+              child: Obx(() => Text(
+                    controller.ringDevice.value?.localName ?? "",
+                    style: Get.textTheme.bodyLarge,
+                  )),
             ),
             Container(
               margin: EdgeInsets.only(left: 12.w, right: 12.w, top: 38.w),
@@ -66,11 +66,11 @@ class DeviceInfoView extends GetView<DeviceInfoController> {
               ),
               child: Column(
                 children: [
-                  _getListItem(
-                    index: 0,
-                    title: "current_v".tr,
-                    value: controller.ringDevice.version ?? "-",
-                  ),
+                  Obx(() => _getListItem(
+                        index: 0,
+                        title: "current_v".tr,
+                        value: controller.ringDevice.value?.version ?? "-",
+                      )),
                   Obx(
                     () => _getListItem(
                       index: 0,
@@ -89,10 +89,12 @@ class DeviceInfoView extends GetView<DeviceInfoController> {
               ),
               child: Column(
                 children: [
-                  _getListItem(
-                      index: 0,
-                      title: "mac_adds".tr,
-                      value: controller.ringDevice.macAddress ?? ""),
+                  Obx(
+                    () => _getListItem(
+                        index: 0,
+                        title: "mac_adds".tr,
+                        value: controller.ringDevice.value?.macAddress ?? ""),
+                  ),
                 ],
               ),
             ),
@@ -102,7 +104,9 @@ class DeviceInfoView extends GetView<DeviceInfoController> {
                 // alignment: Alignment.centerLeft,
                 children: [
                   Visibility(
-                    visible: controller.buttonState.value == KStateType.loading,
+                    visible: controller.buttonState.value ==
+                            KStateType.downloading ||
+                        controller.buttonState.value == KStateType.sending,
                     child: Container(
                       height: 44.w,
                       width: controller.progress * 350.w,
@@ -125,12 +129,14 @@ class DeviceInfoView extends GetView<DeviceInfoController> {
                     width: 350.w,
                     borderRadius: 22,
                     margin: EdgeInsets.only(bottom: 20.w),
-                    border: controller.buttonState.value == KStateType.loading
+                    border: controller.buttonState.value ==
+                                KStateType.downloading ||
+                            controller.buttonState.value == KStateType.sending
                         ? Border.all(color: ColorUtils.fromHex("#FF05E6E7"))
                         : null,
                     gradient: (controller.buttonState.value ==
                                 KStateType.idle ||
-                            controller.buttonState.value == KStateType.success)
+                            controller.buttonState.value == KStateType.update)
                         ? LinearGradient(
                             colors: [
                               ColorUtils.fromHex("#FF0E9FF5"),
@@ -141,11 +147,13 @@ class DeviceInfoView extends GetView<DeviceInfoController> {
                     activeColor: controller.buttonState.value == KStateType.fail
                         ? ColorUtils.fromHex("#FF4D5461")
                         : null,
-                    title: controller.buttonState.value == KStateType.success
+                    title: controller.buttonState.value == KStateType.update
                         ? "upgrade_v".tr
-                        : controller.buttonState.value == KStateType.loading
+                        : controller.buttonState.value == KStateType.downloading
                             ? "upgradeing_v".tr
-                            : "check_v".tr,
+                            : controller.buttonState.value == KStateType.sending
+                                ? "发送数据中"
+                                : "check_v".tr,
                     textStyle: Get.textTheme.displayLarge,
                   ),
                 ],

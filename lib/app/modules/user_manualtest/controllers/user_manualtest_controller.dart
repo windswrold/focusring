@@ -37,7 +37,7 @@ class UserManualtestController extends GetxController
 
   @override
   void onReady() {
-    kState.value = KStateType.loading;
+    kState.value = KStateType.downloading;
     _setTime();
     _timerUtil.setOnTimerTickCallback((millisUntilFinished) {
       vmPrint(
@@ -92,7 +92,7 @@ class UserManualtestController extends GetxController
   void pauseAnimation() {
     if (gifController.isAnimating) {
       gifController.stop();
-      kState.value = KStateType.success;
+      kState.value = KStateType.update;
       _timerUtil.cancel();
     }
   }
@@ -100,7 +100,7 @@ class UserManualtestController extends GetxController
   void resumeAnimation() {
     if (!gifController.isAnimating) {
       gifController.repeat();
-      kState.value = KStateType.loading;
+      kState.value = KStateType.downloading;
       _setTime();
       KBLEManager.sendData(
           sendData: KBLESerialization.ppg_heartOnceTest(

@@ -91,7 +91,7 @@ class HomeDevicesController extends GetxController {
               model.macAddress ?? "", dbDevice.value?.macAddress ?? "")) {
             if (connectType.value == KBleState.disconnect) {
               KBLEManager.stopScan();
-              KBLEManager.connect(device: dbDevice.value!, ble: d.device);
+              KBLEManager.connect(scanResult: d);
               vmPrint("触发链接", KBLEManager.logevel);
               _updateState(KBleState.connecting);
             }
@@ -168,9 +168,6 @@ class HomeDevicesController extends GetxController {
     } else if (indx == 1) {
       Get.toNamed(Routes.AUTOMATIC_SETTINGS);
     } else if (indx == 2) {
-      final a = await RingDeviceModel.queryUserAllWithSelect(
-          SPManager.getGlobalUser()!.id.toString(), true);
-      dbDevice.value = a;
       Get.toNamed(Routes.DEVICE_INFO, arguments: dbDevice.value);
     } else if (indx == 3) {
       DialogUtils.dialogResetDevices(

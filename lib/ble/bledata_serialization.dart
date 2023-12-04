@@ -11,25 +11,6 @@ import 'package:flutter/services.dart';
 import 'package:hex/hex.dart';
 
 class KBLESerialization {
-  ///更新
-  // static Future<List<List<int>>> update() async {
-  //   File file = await Constant.getBinFile();
-  //   if (file.existsSync() == false) {
-  //     LogUtil.v("文件为空");
-  //     return null;
-  //   }
-  //   List<int> list = file.readAsBytesSync().toList();
-  //   if (list.length > 0) {
-  //     List<List<int>> updates =
-  //         await _parseData(list, command.command_update.index, true);
-
-  //     return updates;
-  //   }
-  //   ByteData data = await rootBundle.load('assets/data/HolderWallet.bin');
-  //   list = List.from(data.buffer.asUint8List());
-  //   return Future.value(_parseData(list, command.command_update.index, false));
-  // }
-
   ///开始配对
   static BLESendData bindingsverify() {
     return BLESendData(
@@ -209,6 +190,16 @@ class KBLESerialization {
   static BLESendData getVersion() {
     return BLESendData(
         cmd: KBLECommandType.system, typeStr: "05", valueStr: "00");
+  }
+
+  static BLESendData requestOTA(String version) {
+    List<String> data = version.split(".");
+    if (data.length == 3) {
+      data.removeAt(0);
+    }
+    final result = HEXUtil.encode(data.map((e) => int.parse(e)).toList());
+    return BLESendData(
+        cmd: KBLECommandType.system, typeStr: "01", valueStr: "01$result");
   }
 }
 

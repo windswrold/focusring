@@ -46,7 +46,7 @@ enum KHealthDataType {
   FEMALE_HEALTH, //女性健康
 }
 
-enum KStateType { idle, loading, success, fail }
+enum KStateType { idle, update, downloading, sending, fail }
 
 enum KReportType { day, week, moneth }
 
@@ -276,6 +276,8 @@ String calDateMs(num time) {
   int minutes = (time % 60).toInt();
   return "${hours}h${minutes}min";
 }
+
+final int bleCopyAddress = int.parse("1070000", radix: 16);
 
 class GlobalValues {
   static PackageInfo? appInfo;

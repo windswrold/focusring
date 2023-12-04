@@ -114,7 +114,7 @@ class FindDevicesController extends GetxController {
     vmPrint(item.localName);
     try {
       _selectaItem = item;
-      KBLEManager.connect(device: item);
+      KBLEManager.connect(scanResult: item.result!);
       HWToast.showLoading();
     } catch (e) {
       HWToast.showErrText(text: e.toString());

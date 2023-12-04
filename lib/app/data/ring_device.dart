@@ -19,6 +19,9 @@ class RingDeviceModel {
   bool? isSelect;
   String? version;
 
+  @ignore
+  ScanResult? result;
+
   RingDeviceModel({
     this.appUserId,
     this.remoteId,
@@ -26,6 +29,7 @@ class RingDeviceModel {
     this.macAddress,
     this.isSelect,
     this.version,
+    this.result,
   });
 
   factory RingDeviceModel.fromResult(ScanResult result) {
@@ -47,6 +51,7 @@ class RingDeviceModel {
       remoteId: result.device.remoteId.str,
       localName: result.device.localName,
       macAddress: mac,
+      result: result,
     );
   }
 

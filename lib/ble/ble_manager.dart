@@ -20,7 +20,7 @@ class KBLEManager {
       _connectSubscription;
   static List<int> _allValues = []; //接收缓存数据
   static List<List<int>> _cacheSendData = []; //缓存发送的数据集合
-  static RingDeviceModel? currentDevices;
+  static ScanResult? scDevice;
 
   static final _receiveController =
       StreamController<ReceiveDataModel>.broadcast();
@@ -38,7 +38,7 @@ class KBLEManager {
     _mtuSubscripation = null;
     _notifyCharacteristic = null;
     _writeCharacteristic = null;
-    currentDevices = null;
+    scDevice = null;
     _connectSubscription?.cancel();
     _connectSubscription = null;
     _cacheSendData.clear();
@@ -95,32 +95,24 @@ class KBLEManager {
   }
 
   static void connect(
-      {required RingDeviceModel device,
-      BluetoothDevice? ble,
+      {required ScanResult scanResult,
       Duration timeout = const Duration(seconds: 8)}) async {
     if ((await isAvailableBLE()) == false) {
       return null;
     }
 
-    if (!inProduction) {
-      //绑定认证
-      // _onValueReceived(HEXUtil.decode("EEEE0003010000"));
-      // 时间绑定
-      // onValueReceived(HEXUtil.decode("EEEE0003020000"));
-      // return;
-    }
     clean();
-    var bleDevice = ble ?? getDevice(device: device);
-    bleDevice.connect(timeout: timeout);
+    scanResult.device.connect(timeout: timeout);
     await Future.delayed(Duration(seconds: 1));
     _connectSubscription?.cancel();
     _connectSubscription == null;
-    _connectSubscription = bleDevice.connectionState.listen((event) async {
+    _connectSubscription =
+        scanResult.device.connectionState.listen((event) async {
       vmPrint("connectionState $event");
       _deviceStateSC.sink.add(event);
       if (event == BluetoothConnectionState.connected) {
-        currentDevices = device;
-        findCharacteristics(bleDevice);
+        scDevice = scanResult;
+        findCharacteristics(scanResult.device);
         await Future.delayed(Duration(seconds: 1));
         stopScan();
       } else if (event == BluetoothConnectionState.disconnected) {

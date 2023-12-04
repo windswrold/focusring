@@ -250,10 +250,16 @@ class VMApi {
       {Map<String, String> headers = const {},
       Map<String, String> body = const {},
       Function? progressCallback}) async {
-    Dio dio = new Dio();
+    Dio dio = makeDio(proxy: null);
+    var options = Options();
+    var user = SPManager.getGlobalUser();
+    final token = user?.accessToken ?? "";
+    options.headers ??= {};
+    options.headers?.addAll({"accessToken": token});
     Response resp = await dio.download(
       url,
       savePath,
+      options: options,
       onReceiveProgress: (int count, int data) {
         vmPrint("onSendProgress $count $data");
         if (progressCallback != null) {

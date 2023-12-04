@@ -39,14 +39,14 @@ class UserManualtestView extends GetView<UserManualtestController> {
                       ),
                     ),
                     Visibility(
-                      visible: controller.kState.value == KStateType.loading,
+                      visible: controller.kState.value == KStateType.downloading,
                       child: Text(
                         controller.countDownNum.value.toString(),
                         style: Get.textTheme.headlineMedium,
                       ),
                     ),
                     Visibility(
-                      visible: controller.kState.value == KStateType.success,
+                      visible: controller.kState.value == KStateType.update,
                       child: NextButton(
                         onPressed: () {
                           controller.resumeAnimation();
@@ -60,14 +60,14 @@ class UserManualtestView extends GetView<UserManualtestController> {
                   ],
                 ),
                 Visibility(
-                  visible: controller.kState.value == KStateType.loading,
+                  visible: controller.kState.value == KStateType.downloading,
                   child: Text(
                     "begining_test".tr,
                     style: Get.textTheme.bodyLarge,
                   ),
                 ),
                 Visibility(
-                  visible: controller.kState.value == KStateType.loading,
+                  visible: controller.kState.value == KStateType.downloading,
                   child: Container(
                     margin: EdgeInsets.only(top: 15.w),
                     child: Text(
@@ -84,7 +84,7 @@ class UserManualtestView extends GetView<UserManualtestController> {
   Widget _buildHeaderrateResult() {
     return Obx(
       (() => Visibility(
-          visible: controller.kState.value == KStateType.success,
+          visible: controller.kState.value == KStateType.update,
           child: Container(
             margin: EdgeInsets.only(left: 12.w, right: 12.w, top: 25.w),
             padding: EdgeInsets.all(12.w),

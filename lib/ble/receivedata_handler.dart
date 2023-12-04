@@ -99,6 +99,22 @@ class ReceiveDataHandler {
       tip = "时间设置成功";
       KBLEManager.sendData(sendData: KBLESerialization.getBattery());
       vmPrint("时间设置成功", KBLEManager.logevel);
+    } else if (type == 0x01) {
+      if (valueData[0] == 0x00) {
+        status = true;
+        tip = "设备同意升级";
+      } else {
+        status = false;
+        if (valueData[0] == 0x01) {
+          tip = "设备拒绝升级，因为电量低于30%";
+        }
+        if (valueData[0] == 0x02) {
+          tip = "设备拒绝升级，因为将要升级的版本号小于等于备当前版本号";
+        }
+        if (valueData[0] == 0x01) {
+          tip = "设备拒绝升级，因为其它原因";
+        }
+      }
     } else if (type == 0x05) {
       status = true;
       tip = "版本获取成功";
@@ -109,7 +125,7 @@ class ReceiveDataHandler {
       }
       RingDeviceModel.updateVersion(verison);
     }
-    return ReceiveDataModel(status: status, tip: tip, command: com);
+    return ReceiveDataModel(status: status, tip: tip, command: com, type: type);
   }
 
   ///ppg 心率 血氧
@@ -160,10 +176,7 @@ class ReceiveDataHandler {
             ? KHealthDataType.HEART_RATE
             : KHealthDataType.BLOOD_OXYGEN;
         HealthDataUtils.insertHealthBleData(
-            datas: [value],
-            isContainTime: true,
-            isHourData: true,
-            type: a);
+            datas: [value], isContainTime: true, isHourData: true, type: a);
         GlobalValues.globalEventBus.fire(KReportQueryDataUpdate(refreType: a));
       }
     } else if (type == 0x01 || type == 0x06) {
@@ -312,7 +325,11 @@ class ReceiveDataHandler {
   }
 
   static void bindDeviceStream() {
-    String a = KBLEManager.currentDevices?.macAddress ?? "";
+    if (KBLEManager.scDevice == null) {
+      return;
+    }
+    String a =
+        RingDeviceModel.fromResult(KBLEManager.scDevice!).macAddress ?? "";
     if (a.isEmpty) {
       return;
     }
