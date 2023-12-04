@@ -81,6 +81,8 @@ class HomeDevicesView extends GetView<HomeDevicesController> {
                       index: 3,
                       icon: "icons/device_icon_reset",
                       title: "restore_settings"),
+                  _getListItem(
+                      index: 4, icon: "icons/un_bind", title: "un_bind"),
                 ],
               )
             : Column(
