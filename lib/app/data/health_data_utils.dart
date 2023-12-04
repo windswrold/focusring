@@ -639,9 +639,9 @@ class HealthDataUtils {
     model.dataArray = JsonUtil.encodeObj(sleepCounts);
     model.start_Sleep = sleepCounts.tryFirst?.intFor("startTimestamp") ?? 0;
     model.end_Sleep = sleepCounts.tryLast?.intFor("startTimestamp") ?? 0;
-    model.awake_time = timeParams[KSleepStatusType.awake.index];
-    model.light_sleep_time = timeParams[KSleepStatusType.lightSleep.index];
-    model.deep_sleep_time = timeParams[KSleepStatusType.deepSleep.index];
+    model.awake_time = timeParams[KSleepStatusType.awake.index] ?? 0;
+    model.light_sleep_time = timeParams[KSleepStatusType.lightSleep.index] ?? 0;
+    model.deep_sleep_time = timeParams[KSleepStatusType.deepSleep.index] ?? 0;
 
     vmPrint(
         "插入的睡眠数据${JsonUtil.encodeObj(model.toJson())}", KBLEManager.logevel);
