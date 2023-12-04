@@ -205,6 +205,11 @@ class KBLESerialization {
     return BLESendData(
         cmd: KBLECommandType.charger, typeStr: "00", valueStr: "00");
   }
+
+  static BLESendData getVersion() {
+    return BLESendData(
+        cmd: KBLECommandType.system, typeStr: "05", valueStr: "00");
+  }
 }
 
 extension DateTimeEX on DateTime {

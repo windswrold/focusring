@@ -17,6 +17,7 @@ class RingDeviceModel {
   final String? localName;
   final String? macAddress;
   bool? isSelect;
+  String? version;
 
   RingDeviceModel({
     this.appUserId,
@@ -24,6 +25,7 @@ class RingDeviceModel {
     this.localName,
     this.macAddress,
     this.isSelect,
+    this.version,
   });
 
   factory RingDeviceModel.fromResult(ScanResult result) {
@@ -99,10 +101,20 @@ class RingDeviceModel {
   }
 
   //插入时顺便移除
-  static Future<void> insertTokens(List<RingDeviceModel> models) async {
+  static Future<void> insertDevices(List<RingDeviceModel> models) async {
     final db = await DataBaseConfig.openDataBase();
     await db?.database?.execute("Delete FROM $tableName ");
     return db?.ringDao.insertTokens(models);
+  }
+
+  static Future<void> updateVersion(String version) async {
+    try {
+      final db = await DataBaseConfig.openDataBase();
+      await db?.database
+          .execute("UPDATE  $tableName SET version = ?", [version]);
+    } catch (e) {
+      vmPrint("updateVersion $e");
+    }
   }
 
   static Future<void> updateTokens(List<RingDeviceModel> model) async {

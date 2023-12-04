@@ -59,7 +59,7 @@ class AppApi {
   }
 
   ///获取最新版本的固件
-  static VMApiStream<FirmwareVersionModel> getLatestFirmwareStream() {
+  static VMApiStream<FirmwareVersionModel?> getLatestFirmwareStream() {
     return _api
         .request(
       re: VMRequest()
@@ -68,8 +68,10 @@ class AppApi {
         ..path = "/app/device/getLatestFirmware",
     )
         .convert((r) {
-      var info = r.mapResult ?? {};
-      return FirmwareVersionModel.fromJson(info);
+
+      return r.mapResult == null
+          ? null
+          : FirmwareVersionModel.fromJson(r.mapResult!);
     });
   }
 

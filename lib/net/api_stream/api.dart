@@ -220,7 +220,7 @@ class VMApi {
     return as;
   }
 
-  Future<Response> dioUpload(String url, String filePath,
+  Future<dynamic> dioUpload(String url, String filePath,
       {Map<String, String> headers = const {},
       Map<String, String> body = const {},
       Function? progressCallback}) async {
@@ -239,6 +239,29 @@ class VMApi {
         progressCallback(count, data, cancelToken);
       }
     });
+    if (resp.statusCode == 200) {
+      return resp.data;
+    } else {
+      throw new Exception("网络访问错误");
+    }
+  }
+
+  Future<dynamic> dioDownload(String url, String savePath,
+      {Map<String, String> headers = const {},
+      Map<String, String> body = const {},
+      Function? progressCallback}) async {
+    Dio dio = new Dio();
+    Response resp = await dio.download(
+      url,
+      savePath,
+      onReceiveProgress: (int count, int data) {
+        vmPrint("onSendProgress $count $data");
+        if (progressCallback != null) {
+          progressCallback(count, data);
+        }
+      },
+    );
+
     if (resp.statusCode == 200) {
       return resp.data;
     } else {

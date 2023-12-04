@@ -1,5 +1,8 @@
 import 'dart:convert';
+import 'dart:math';
 import 'dart:typed_data';
+
+import 'package:beering/public.dart';
 
 extension StringEx on String {
   List<T>? jsonList<T>() {
@@ -122,5 +125,32 @@ extension StringEx on String {
       }
     }
     return pairs.reversed.join('');
+  }
+
+  int compare(String str1, String str2) {
+    List<String> strInt1 = str1.trim().split(".");
+    List<String> strInt2 = str2.trim().split(".");
+    int maxLen = max(strInt1.length, strInt2.length);
+    for (var i = 0; i < maxLen; i++) {
+      int a = 0;
+      int b = 0;
+      if (i < strInt1.length) {
+        a = int.tryParse(strInt1[i])!;
+      }
+      if (i < strInt2.length) {
+        b = int.tryParse(strInt2[i])!;
+      }
+      if (a > b) {
+        vmPrint("比对结果  1");
+        return 1;
+      } else if (a == b) {
+        continue;
+      } else {
+        vmPrint("比对结果  -1");
+        return -1;
+      }
+    }
+    vmPrint("比对结果  0");
+    return 0;
   }
 }

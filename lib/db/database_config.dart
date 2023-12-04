@@ -36,6 +36,8 @@ class DataBaseConfig {
       final migration2to3 = Migration(2, 3, (migdatabase) async {
         await migdatabase.execute(
             'CREATE TABLE IF NOT EXISTS `SleepData_V2` (`appUserId` INTEGER, `mac` TEXT, `createTime` TEXT, `start_Sleep` INTEGER, `end_Sleep` INTEGER, `awake_time` INTEGER, `light_sleep_time` INTEGER, `deep_sleep_time` INTEGER, `dataArray` TEXT, PRIMARY KEY (`appUserId`, `createTime`))');
+        await migdatabase
+            .execute('ALTER TABLE ring_device_table  ADD COLUMN version text');
       });
       fbase = await $FloorFlutterDatabase
           .databaseBuilder(fileName)

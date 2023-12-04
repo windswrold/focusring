@@ -6,6 +6,7 @@ import 'package:beering/net/app_api.dart';
 import 'package:beering/utils/hex_util.dart';
 
 import '../app/data/health_data_utils.dart';
+import '../app/data/ring_device.dart';
 import '../const/event_bus_class.dart';
 import '../public.dart';
 
@@ -97,8 +98,17 @@ class ReceiveDataHandler {
       status = true;
       tip = "时间设置成功";
       KBLEManager.sendData(sendData: KBLESerialization.getBattery());
+      vmPrint("时间设置成功", KBLEManager.logevel);
+    } else if (type == 0x05) {
+      status = true;
+      tip = "版本获取成功";
+      String verison = "";
+      if (valueData.length == 2) {
+        verison = valueData[0].toString() + "." + verison[1].toString();
+        vmPrint("版本号获取成功 $verison", KBLEManager.logevel);
+      }
+      RingDeviceModel.updateVersion(verison);
     }
-    vmPrint("时间设置成功", KBLEManager.logevel);
     return ReceiveDataModel(status: status, tip: tip, command: com);
   }
 
@@ -338,6 +348,7 @@ class ReceiveDataHandler {
           GlobalValues.globalEventBus.fire(KReportQueryDataUpdate());
           vmPrint("发出更新数据命令", KBLEManager.logevel);
           vmPrint("KBLECommandListenerType.listen ", KBLEManager.logevel);
+          KBLEManager.sendData(sendData: KBLESerialization.getVersion());
         }
       } else if (_maxDay >= 1) {
         //请求昨天的数据

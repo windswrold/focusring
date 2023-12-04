@@ -91,7 +91,7 @@ class FindDevicesController extends GetxController {
           _selectaItem!.isSelect = true;
           //插入
           _selectaItem!.appUserId = SPManager.getGlobalUser()?.id.toString();
-          RingDeviceModel.insertTokens([_selectaItem!]);
+          RingDeviceModel.insertDevices([_selectaItem!]);
           Get.backDelay(result: _selectaItem);
         }
       }

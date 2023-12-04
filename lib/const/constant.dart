@@ -312,9 +312,9 @@ class GlobalValues {
   }
 
   static Future<String> getLogFile() async {
-    Directory path = await getTemporaryDirectory();
-    final directory = (await getTemporaryDirectory()).path;
-    return Directory('$directory/applog.txt').path;
+    File directory = await getAppFile();
+    File file = File('${directory.path}/app_log.txt');
+    return file.absolute.path;
   }
 
   static int? androidApiVersion() {
@@ -340,6 +340,9 @@ class FileSizeOutput extends LogOutput {
   @override
   Future<void> init() async {
     try {
+      if (await file.exists() == false) {
+        await file.create();
+      }
       int size = file.lengthSync();
       print("size $size");
       if (size > maxSize) {

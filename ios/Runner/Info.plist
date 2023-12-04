@@ -55,5 +55,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSFileProtection</key>
+	<string>NSFileProtectionComplete</string>
 </dict>
 </plist>
