@@ -336,8 +336,8 @@ class FileSizeOutput extends LogOutput {
     this.encoding = utf8,
   });
 
-  final maxSize = 20 * 1024 * 1024;
-  final defaultSize = 15 * 1024 * 1024;
+  final maxSize = 50 * 1024 * 1024;
+  final defaultSize = 40 * 1024 * 1024;
 
   @override
   Future<void> init() async {

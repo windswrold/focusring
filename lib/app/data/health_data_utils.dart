@@ -233,40 +233,33 @@ class HealthDataUtils {
     required KHealthDataType type,
     bool? isHourData,
   }) async {
-    try {
-      int userid = SPManager.getGlobalUser()!.id!;
-      isContainTime = true;
-      String mac = "";
-      if (type == KHealthDataType.BLOOD_OXYGEN) {
-        await _insertBloodOxygen(userid,
-            mac: mac,
-            isContainTime: isContainTime,
-            datas: datas,
-            isHourData: isHourData);
-      } else if (type == KHealthDataType.HEART_RATE) {
-        await _insertHEARTRATE(userid,
-            mac: mac,
-            isContainTime: isContainTime,
-            datas: datas,
-            isHourData: isHourData);
-      } else if (type == KHealthDataType.STEPS) {
-        await _insertSteps(userid,
-            mac: mac,
-            isContainTime: isContainTime,
-            datas: datas,
-            isHourData: isHourData);
-      } else if (type == KHealthDataType.SLEEP) {
-        await _insertSleep(userid,
-            mac: mac,
-            isContainTime: isContainTime,
-            datas: datas,
-            isHourData: isHourData);
-      }
-
-      // HWToast.showSucText(text: "构造成功，已存数据库");
-    } catch (e) {
-      // HWToast.showErrText(text: "构造失败，${e.toString()}");
-      vmPrint("insertHealthBleData $e", KBLEManager.logevel);
+    int userid = SPManager.getGlobalUser()!.id!;
+    isContainTime = true;
+    String mac = "";
+    if (type == KHealthDataType.BLOOD_OXYGEN) {
+      await _insertBloodOxygen(userid,
+          mac: mac,
+          isContainTime: isContainTime,
+          datas: datas,
+          isHourData: isHourData);
+    } else if (type == KHealthDataType.HEART_RATE) {
+      await _insertHEARTRATE(userid,
+          mac: mac,
+          isContainTime: isContainTime,
+          datas: datas,
+          isHourData: isHourData);
+    } else if (type == KHealthDataType.STEPS) {
+      await _insertSteps(userid,
+          mac: mac,
+          isContainTime: isContainTime,
+          datas: datas,
+          isHourData: isHourData);
+    } else if (type == KHealthDataType.SLEEP) {
+      await _insertSleep(userid,
+          mac: mac,
+          isContainTime: isContainTime,
+          datas: datas,
+          isHourData: isHourData);
     }
   }
 
@@ -277,60 +270,64 @@ class HealthDataUtils {
     required List<int> datas,
     bool? isHourData,
   }) async {
-    BloodOxygenData? model;
-    List<int> results = [];
-    if (isHourData == true) {
-      final time = DateTime.now();
-      String cr = getZeroDateTime(now: time);
-      String nt = getLastDateTime(now: time);
-      List<BloodOxygenData> dbSteps =
-          (await BloodOxygenData.queryUserAll(userid, cr, nt)) ?? [];
-      if (dbSteps.isEmpty) {
+    try {
+      BloodOxygenData? model;
+      List<int> results = [];
+      if (isHourData == true) {
+        final time = DateTime.now();
+        String cr = getZeroDateTime(now: time);
+        String nt = getLastDateTime(now: time);
+        List<BloodOxygenData> dbSteps =
+            (await BloodOxygenData.queryUserAll(userid, cr, nt)) ?? [];
+        if (dbSteps.isEmpty) {
+          return;
+        }
+        model = dbSteps.tryFirst;
+        List steps = JsonUtil.getObj(model?.bloodArray ?? "") ?? [];
+        int currentHour = time.hour * 12 + time.minute ~/ 5;
+        if (datas.length == 1 && currentHour >= 0 && currentHour < 288) {
+          int start = currentHour;
+          int end = start + 1;
+          vmPrint("开始替换旧数据：$time start $start end $end  $steps",
+              KBLEManager.logevel);
+          steps.replaceRange(start, end, datas);
+          results = steps.map((e) => e as int).toList();
+          vmPrint("替换完成的：$results", KBLEManager.logevel);
+        }
+      } else {
+        model = BloodOxygenData(
+          appUserId: userid,
+          mac: mac,
+        );
+        if (isContainTime == true) {
+          int year = (datas[1] << 8) + datas[0];
+          int month = datas[2];
+          int day = datas[3];
+          model.createTime = DateUtil.formatDate(DateTime(year, month, day),
+              format: DateFormats.full);
+          results = datas.sublist(4);
+        } else {
+          model.createTime = getZeroDateTime();
+          results = datas;
+        }
+      }
+
+      if (model == null) {
         return;
       }
-      model = dbSteps.tryFirst;
-      List<int> steps = JsonUtil.getObj(model?.bloodArray ?? "") ?? [];
-      int currentHour = time.hour * 12 + time.minute ~/ 5;
-      if (datas.length == 1 && currentHour >= 0 && currentHour < 288) {
-        int start = currentHour;
-        int end = start + 1;
-        vmPrint(
-            "开始替换旧数据：currentHour $currentHour start $start end $end  $steps",
-            KBLEManager.logevel);
-        steps.replaceRange(start, end, datas);
-        results = steps;
-        vmPrint("替换完成的：$results", KBLEManager.logevel);
-      }
-    } else {
-      model = BloodOxygenData(
-        appUserId: userid,
-        mac: mac,
-      );
-      if (isContainTime == true) {
-        int year = (datas[1] << 8) + datas[0];
-        int month = datas[2];
-        int day = datas[3];
-        model.createTime = DateUtil.formatDate(DateTime(year, month, day),
-            format: DateFormats.full);
-        results = datas.sublist(4);
-      } else {
-        model.createTime = getZeroDateTime();
-        results = datas;
-      }
-    }
+      model.bloodArray = JsonUtil.encodeObj(results);
+      model.averageHeartRate = ListEx.averageNum(results).toInt();
+      model.max = ListEx.maxVal(results).toInt();
+      model.min = ListEx.minVal(results).toInt();
 
-    if (model == null) {
+      vmPrint("插入的血氧数据 ${results.length} ${JsonUtil.encodeObj(model.toJson())}",
+          KBLEManager.logevel);
+
+      return BloodOxygenData.insertTokens([model]);
+    } catch (e) {
+      vmPrint("BloodOxygenData $e", KBLEManager.logevel);
       return;
     }
-    model.bloodArray = JsonUtil.encodeObj(results);
-    model.averageHeartRate = ListEx.averageNum(results).toInt();
-    model.max = ListEx.maxVal(results).toInt();
-    model.min = ListEx.minVal(results).toInt();
-
-    vmPrint("插入的血氧数据 ${results.length} ${JsonUtil.encodeObj(model.toJson())}",
-        KBLEManager.logevel);
-
-    return BloodOxygenData.insertTokens([model]);
   }
 
   static Future _insertHEARTRATE(
@@ -340,60 +337,172 @@ class HealthDataUtils {
     required List<int> datas,
     bool? isHourData,
   }) async {
-    HeartRateData? model;
-    List<int> results = [];
-    if (isHourData == true) {
-      final time = DateTime.now();
-      String cr = getZeroDateTime(now: time);
-      String nt = getLastDateTime(now: time);
-      List<HeartRateData> dbSteps =
-          (await HeartRateData.queryUserAll(userid, cr, nt)) ?? [];
-      if (dbSteps.isEmpty) {
+    try {
+      HeartRateData? model;
+      List<int> results = [];
+      if (isHourData == true) {
+        final time = DateTime.now();
+        String cr = getZeroDateTime(now: time);
+        String nt = getLastDateTime(now: time);
+        List<HeartRateData> dbSteps =
+            (await HeartRateData.queryUserAll(userid, cr, nt)) ?? [];
+        if (dbSteps.isEmpty) {
+          return;
+        }
+        model = dbSteps.tryFirst;
+        List steps = JsonUtil.getObj(model?.heartArray ?? "") ?? [];
+        int currentHour = time.hour * 12 + time.minute ~/ 5;
+        if (datas.length == 1 && currentHour >= 0 && currentHour < 288) {
+          int start = currentHour;
+          int end = start + 1;
+          vmPrint("开始替换旧数据：$time start $start end $end  $steps",
+              KBLEManager.logevel);
+          steps.replaceRange(start, end, datas);
+          results = steps.map((e) => e as int).toList();
+          vmPrint("替换完成的：$results", KBLEManager.logevel);
+        }
+      } else {
+        model = HeartRateData(
+          appUserId: userid,
+          mac: mac,
+        );
+        if (isContainTime == true) {
+          int year = (datas[1] << 8) + datas[0];
+          int month = datas[2];
+          int day = datas[3];
+          model.createTime = DateUtil.formatDate(DateTime(year, month, day),
+              format: DateFormats.full);
+          results = datas.sublist(4);
+        } else {
+          model.createTime = getZeroDateTime();
+          results = datas;
+        }
+      }
+
+      if (model == null) {
         return;
       }
-      model = dbSteps.tryFirst;
-      List<int> steps = JsonUtil.getObj(model?.heartArray ?? "") ?? [];
-      int currentHour = time.hour * 12 + time.minute ~/ 5;
-      if (datas.length == 1 && currentHour >= 0 && currentHour < 288) {
-        int start = currentHour;
-        int end = start + 1;
-        vmPrint(
-            "开始替换旧数据：currentHour $currentHour start $start end $end  $steps",
-            KBLEManager.logevel);
-        steps.replaceRange(start, end, datas);
-        results = steps;
-        vmPrint("替换完成的：$results", KBLEManager.logevel);
+
+      model.heartArray = JsonUtil.encodeObj(results);
+      model.averageHeartRate = ListEx.averageNum(results).toInt();
+      model.max = ListEx.maxVal(results).toInt();
+      model.min = ListEx.minVal(results).toInt();
+      vmPrint(
+          "插入的心率数据${JsonUtil.encodeObj(model.toJson())}", KBLEManager.logevel);
+
+      return HeartRateData.insertTokens([model]);
+    } catch (e) {
+      vmPrint("HeartRateData $e", KBLEManager.logevel);
+      return;
+    }
+  }
+
+  ///顺便计算里程跟能量消耗
+  ///如果是当前小时数据 查出当天时间 取出当前小时对应的index 替换当前小时的数据
+  static Future _insertSteps(
+    int userid, {
+    required String mac,
+    required bool isContainTime,
+    required List<int> datas,
+    bool? isHourData,
+  }) async {
+    try {
+      StepData? model;
+      List<int> results = [];
+      if (isHourData == true) {
+        final time = DateTime.now();
+        String cr = getZeroDateTime(now: time);
+        String nt = getLastDateTime(now: time);
+        List<StepData> dbSteps =
+            (await StepData.queryUserAll(userid, cr, nt)) ?? [];
+        if (dbSteps.isEmpty) {
+          return;
+        }
+        model = dbSteps.tryFirst;
+        List steps = JsonUtil.getObj(model?.dataArrs ?? "") ?? [];
+        int currentHour = time.hour;
+        if (datas.length == 4 && currentHour >= 0 && currentHour < 24) {
+          int start = currentHour * 4;
+          int end = start + 4;
+          vmPrint("开始替换旧数据：$time start $start end $end  $steps",
+              KBLEManager.logevel);
+          steps.replaceRange(start, end, datas);
+          results = steps.map((e) => e as int).toList();
+          vmPrint("替换完成的：$results", KBLEManager.logevel);
+        }
+      } else {
+        model = StepData(
+          appUserId: userid,
+          mac: mac,
+        );
+        if (isContainTime == true) {
+          int year = (datas[1] << 8) + datas[0];
+          int month = datas[2];
+          int day = datas[3];
+          model.createTime = DateUtil.formatDate(DateTime(year, month, day),
+              format: DateFormats.full);
+          results = datas.sublist(4);
+        } else {
+          model.createTime = getZeroDateTime();
+          results = datas;
+        }
       }
-    } else {
-      model = HeartRateData(
+
+      if (model == null) {
+        return;
+      }
+
+      UserInfoModel? user = SPManager.getGlobalUser();
+      if (user == null) {
+        return;
+      }
+      final hight = user.calMetricHeight();
+      final weight = user.calMetricWeight();
+
+      Decimal allSteps = Decimal.zero;
+      for (int i = 0; i < results.length; i += 4) {
+        int end = (i + 4 > results.length) ? results.length : i + 4;
+        List e = results.sublist(i, end);
+        allSteps += Decimal.parse(ListEx.stepsValue(e).toString());
+      }
+      model.steps = allSteps.toStringAsFixed(2);
+      model.distance =
+          calculate_distance_steps(allSteps.toBigInt().toInt(), hight)
+              .toStringAsFixed(2);
+      model.calorie =
+          calculate_kcal_steps(allSteps.toBigInt().toInt(), weight, hight)
+              .toStringAsFixed(2);
+      model.dataArrs = JsonUtil.encodeObj(results);
+      StepData.insertTokens([model]);
+      vmPrint(
+          "插入的步数数据${JsonUtil.encodeObj(model.toJson())}", KBLEManager.logevel);
+
+      TempData temp = TempData(
         appUserId: userid,
         mac: mac,
       );
-      if (isContainTime == true) {
-        int year = (datas[1] << 8) + datas[0];
-        int month = datas[2];
-        int day = datas[3];
-        model.createTime = DateUtil.formatDate(DateTime(year, month, day),
-            format: DateFormats.full);
-        results = datas.sublist(4);
-      } else {
-        model.createTime = getZeroDateTime();
-        results = datas;
-      }
-    }
+      temp.createTime = model.createTime;
 
-    if (model == null) {
+      bool isOk = await TempData.esistData(userid, temp.createTime ?? "");
+      if (isOk == true) {
+        vmPrint("已经随机生成了${temp.createTime}的温度数据", KBLEManager.logevel);
+        return;
+      }
+
+      //24个点
+      List<double> tempsVal =
+          List.generate(24, (index) => calculate_Temp()).toList();
+      temp.dataArray = JsonUtil.encodeObj(tempsVal);
+      temp.average = ListEx.averageNum(tempsVal).toStringAsFixed(2);
+      temp.max = ListEx.maxVal(tempsVal).toStringAsFixed(2);
+      temp.min = ListEx.minVal(tempsVal).toStringAsFixed(2);
+      vmPrint(
+          "插入的温度数据${JsonUtil.encodeObj(temp.toJson())}", KBLEManager.logevel);
+      return TempData.insertTokens([temp]);
+    } catch (e) {
+      vmPrint("StepData $e", KBLEManager.logevel);
       return;
     }
-
-    model.heartArray = JsonUtil.encodeObj(results);
-    model.averageHeartRate = ListEx.averageNum(results).toInt();
-    model.max = ListEx.maxVal(results).toInt();
-    model.min = ListEx.minVal(results).toInt();
-    vmPrint(
-        "插入的心率数据${JsonUtil.encodeObj(model.toJson())}", KBLEManager.logevel);
-
-    return HeartRateData.insertTokens([model]);
   }
 
   static Future _insertSleep(
@@ -538,109 +647,6 @@ class HealthDataUtils {
         "插入的睡眠数据${JsonUtil.encodeObj(model.toJson())}", KBLEManager.logevel);
 
     return SleepData.insertTokens([model]);
-  }
-
-  ///顺便计算里程跟能量消耗
-  ///如果是当前小时数据 查出当天时间 取出当前小时对应的index 替换当前小时的数据
-  static Future _insertSteps(
-    int userid, {
-    required String mac,
-    required bool isContainTime,
-    required List<int> datas,
-    bool? isHourData,
-  }) async {
-    StepData? model;
-    List<int> results = [];
-    if (isHourData == true) {
-      final time = DateTime.now();
-      String cr = getZeroDateTime(now: time);
-      String nt = getLastDateTime(now: time);
-      List<StepData> dbSteps =
-          (await StepData.queryUserAll(userid, cr, nt)) ?? [];
-      if (dbSteps.isEmpty) {
-        return;
-      }
-      model = dbSteps.tryFirst;
-      List<int> steps = JsonUtil.getObj(model?.dataArrs ?? "") ?? [];
-      int currentHour = time.hour;
-      if (datas.length == 4 && currentHour >= 0 && currentHour < 24) {
-        int start = currentHour * 4;
-        int end = start + 4;
-        vmPrint(
-            "开始替换旧数据：currentHour $currentHour start $start end $end  $steps",
-            KBLEManager.logevel);
-        steps.replaceRange(start, end, datas);
-        results = steps;
-        vmPrint("替换完成的：$results", KBLEManager.logevel);
-      }
-    } else {
-      model = StepData(
-        appUserId: userid,
-        mac: mac,
-      );
-      if (isContainTime == true) {
-        int year = (datas[1] << 8) + datas[0];
-        int month = datas[2];
-        int day = datas[3];
-        model.createTime = DateUtil.formatDate(DateTime(year, month, day),
-            format: DateFormats.full);
-        results = datas.sublist(4);
-      } else {
-        model.createTime = getZeroDateTime();
-        results = datas;
-      }
-    }
-
-    if (model == null) {
-      return;
-    }
-
-    UserInfoModel? user = SPManager.getGlobalUser();
-    if (user == null) {
-      return;
-    }
-    final hight = user.calMetricHeight();
-    final weight = user.calMetricWeight();
-
-    Decimal allSteps = Decimal.zero;
-    for (int i = 0; i < results.length; i += 4) {
-      int end = (i + 4 > results.length) ? results.length : i + 4;
-      List e = results.sublist(i, end);
-      allSteps += Decimal.parse(ListEx.stepsValue(e).toString());
-    }
-    model.steps = allSteps.toStringAsFixed(2);
-    model.distance =
-        calculate_distance_steps(allSteps.toBigInt().toInt(), hight)
-            .toStringAsFixed(2);
-    model.calorie =
-        calculate_kcal_steps(allSteps.toBigInt().toInt(), weight, hight)
-            .toStringAsFixed(2);
-    model.dataArrs = JsonUtil.encodeObj(results);
-    StepData.insertTokens([model]);
-    vmPrint(
-        "插入的步数数据${JsonUtil.encodeObj(model.toJson())}", KBLEManager.logevel);
-
-    TempData temp = TempData(
-      appUserId: userid,
-      mac: mac,
-    );
-    temp.createTime = model.createTime;
-
-    bool isOk = await TempData.esistData(userid, temp.createTime ?? "");
-    if (isOk == true) {
-      vmPrint("已经随机生成了${temp.createTime}的温度数据", KBLEManager.logevel);
-      return;
-    }
-
-    //24个点
-    List<double> tempsVal =
-        List.generate(24, (index) => calculate_Temp()).toList();
-    temp.dataArray = JsonUtil.encodeObj(tempsVal);
-    temp.average = ListEx.averageNum(tempsVal).toStringAsFixed(2);
-    temp.max = ListEx.maxVal(tempsVal).toStringAsFixed(2);
-    temp.min = ListEx.minVal(tempsVal).toStringAsFixed(2);
-    vmPrint("插入的温度数据${JsonUtil.encodeObj(temp.toJson())}", KBLEManager.logevel);
-    return TempData.insertTokens([temp]);
   }
 
   static List<KChartCellData> generateDay(

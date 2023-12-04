@@ -48,7 +48,7 @@ class HomeStateController extends GetxController {
     receiveDataStream = GlobalValues.globalEventBus
         .on<KReportQueryDataUpdate>()
         .listen((event) {
-      initData();
+      initData(refreshType: event.refreType);
     });
   }
 
@@ -59,10 +59,10 @@ class HomeStateController extends GetxController {
         });
   }
 
-  void initData({bool showHeartrate = false}) async {
+  void initData({KHealthDataType? refreshType}) async {
     final us =
         (Get.find<AppViewController>(tag: AppViewController.tag)).user.value;
-
+    bool showHeartrate = false;
     final device = await RingDeviceModel.queryUserAllWithSelect(
         (us?.id ?? 0).toString(), true);
     if (device != null) {
@@ -74,6 +74,9 @@ class HomeStateController extends GetxController {
     final appUserId = await SPManager.getPhoneID();
     List<KBaseHealthType> datas =
         await KBaseHealthType.queryAllWithState(appUserId, true);
+    // if (refreshType != null) {
+    //   datas = datas.where((element) => element.type == refreshType).toList();
+    // }
 
     String date =
         DateUtil.formatDate(DateTime.now(), format: DateFormats.y_mo_d);

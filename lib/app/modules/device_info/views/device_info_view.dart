@@ -66,8 +66,18 @@ class DeviceInfoView extends GetView<DeviceInfoController> {
               ),
               child: Column(
                 children: [
-                  _getListItem(index: 0, title: "current_v".tr, value: "1.0.0"),
-                  _getListItem(index: 0, title: "new_v".tr, value: "1.0.0"),
+                  _getListItem(
+                    index: 0,
+                    title: "current_v".tr,
+                    value: controller.ringDevice.version ?? "-",
+                  ),
+                  Obx(
+                    () => _getListItem(
+                      index: 0,
+                      title: "new_v".tr,
+                      value: controller.versionModel.value?.version ?? "-",
+                    ),
+                  ),
                 ],
               ),
             ),

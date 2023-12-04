@@ -160,7 +160,7 @@ class ReceiveDataHandler {
             ? KHealthDataType.HEART_RATE
             : KHealthDataType.BLOOD_OXYGEN;
         HealthDataUtils.insertHealthBleData(
-            datas: List.from(valueData),
+            datas: [value],
             isContainTime: true,
             isHourData: true,
             type: a);
