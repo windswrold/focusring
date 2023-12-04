@@ -299,12 +299,12 @@ class ReportInfoStepsController extends GetxController
         List<DateTime> weeksTimes =
             getQueryStrings(reportType: reportType.value, now: currentTime);
 
-        double deep_sleep_time =
-            ListEx.averageNum(datas.map((e) => e.deep_sleep_time).toList());
-        double light_sleep_time =
-            ListEx.averageNum(datas.map((e) => e.light_sleep_time).toList());
+        double deep_sleep_time = ListEx.averageNum(
+            datas.map((e) => e.deep_sleep_time ?? 0).toList());
+        double light_sleep_time = ListEx.averageNum(
+            datas.map((e) => e.light_sleep_time ?? 0).toList());
         double awake_time =
-            ListEx.averageNum(datas.map((e) => e.awake_time).toList());
+            ListEx.averageNum(datas.map((e) => e.awake_time ?? 0).toList());
         String deep_sleep_timeStr = calDateMs(deep_sleep_time);
         String light_sleep_timeStr = calDateMs(light_sleep_time);
         String awake_timeStr = calDateMs(awake_time);

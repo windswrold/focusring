@@ -155,19 +155,25 @@ class HomeDevicesController extends GetxController {
   }
 
   void onTapList(int indx) async {
-    if (connectType.value != KBleState.connected) {
-      return;
-    }
     String mac = dbDevice.value?.macAddress ?? "";
     if (mac.isEmpty) {
       return;
     }
 
     if (indx == 0) {
+      if (connectType.value != KBleState.connected) {
+        return;
+      }
       Get.toNamed(Routes.HEARTRATE_ALERT);
     } else if (indx == 1) {
+      if (connectType.value != KBleState.connected) {
+        return;
+      }
       Get.toNamed(Routes.AUTOMATIC_SETTINGS);
     } else if (indx == 2) {
+      if (connectType.value != KBleState.connected) {
+        return;
+      }
       Get.toNamed(Routes.DEVICE_INFO, arguments: dbDevice.value);
     } else if (indx == 3) {
       DialogUtils.dialogResetDevices(
