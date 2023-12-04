@@ -269,6 +269,7 @@ class LocaleKeys {
   static const un_bind = 'un_bind';
   static const un_bind_sure = 'un_bind_sure';
   static const average_bodytemp = 'average_bodytemp';
+  static const send_data = 'send_data';
   static const emotion_report = 'emotion_report';
   static const about_activitytip = 'about_activitytip';
   static const about_activitytip01 = 'about_activitytip01';
@@ -545,6 +546,7 @@ class Locales {
     'un_bind': 'Device unbind',
     'un_bind_sure': 'Are you sure to unbind?',
     'average_bodytemp': 'Average temperature',
+    'send_data': 'Sending data',
   };
   static const es_ES = {
     'tabbar_status': 'Estado',
@@ -812,6 +814,7 @@ class Locales {
     'un_bind': 'Device unbind',
     'un_bind_sure': 'Are you sure to unbind?',
     'average_bodytemp': 'Average temperature',
+    'send_data': 'Sending data',
   };
   static const ja_JP = {
     'tabbar_status': 'ステータス',
@@ -1073,6 +1076,7 @@ class Locales {
     'un_bind': 'Device unbind',
     'un_bind_sure': 'Are you sure to unbind?',
     'average_bodytemp': 'Average temperature',
+    'send_data': 'Sending data',
   };
   static const zh_CN = {
     'tabbar_status': '状态',
@@ -1329,6 +1333,7 @@ class Locales {
     'un_bind': '设备解绑',
     'un_bind_sure': '是否确定解绑?',
     'average_bodytemp': '平均体温',
+    'send_data': '发送数据中',
   };
   static const it_IT = {
     'tabbar_status': 'Stato',
@@ -1597,6 +1602,7 @@ class Locales {
     'un_bind': 'Device unbind',
     'un_bind_sure': 'Are you sure to unbind?',
     'average_bodytemp': 'Average temperature',
+    'send_data': 'Sending data',
   };
   static const en_US = {
     'tabbar_status': 'Status',
@@ -1862,6 +1868,7 @@ class Locales {
     'un_bind': 'Device unbind',
     'un_bind_sure': 'Are you sure to unbind?',
     'average_bodytemp': 'Average temperature',
+    'send_data': 'Sending data',
   };
   static const nl_NL = {
     'tabbar_status': 'status',
@@ -2128,6 +2135,7 @@ class Locales {
     'un_bind': 'Device unbind',
     'un_bind_sure': 'Are you sure to unbind?',
     'average_bodytemp': 'Average temperature',
+    'send_data': 'Sending data',
   };
   static const da_DK = {
     'tabbar_status': 'status',
@@ -2391,6 +2399,7 @@ class Locales {
     'un_bind': 'Device unbind',
     'un_bind_sure': 'Are you sure to unbind?',
     'average_bodytemp': 'Average temperature',
+    'send_data': 'Sending data',
   };
   static const de_DE = {
     'tabbar_status': 'Status',
@@ -2660,6 +2669,7 @@ class Locales {
     'un_bind': 'Device unbind',
     'un_bind_sure': 'Are you sure to unbind?',
     'average_bodytemp': 'Average temperature',
+    'send_data': 'Sending data',
   };
   static const pt_BR = {
     'tabbar_status': 'Status',
@@ -2928,6 +2938,7 @@ class Locales {
     'un_bind': 'Device unbind',
     'un_bind_sure': 'Are you sure to unbind?',
     'average_bodytemp': 'Average temperature',
+    'send_data': 'Sending data',
   };
   static const fr_FR = {
     'tabbar_status': 'Statut',
@@ -3197,6 +3208,7 @@ class Locales {
     'un_bind': 'Device unbind',
     'un_bind_sure': 'Are you sure to unbind?',
     'average_bodytemp': 'Average temperature',
+    'send_data': 'Sending data',
   };
   static const cs_CZ = {
     'tabbar_status': 'Stav',
@@ -3461,6 +3473,7 @@ class Locales {
     'un_bind': 'Device unbind',
     'un_bind_sure': 'Are you sure to unbind?',
     'average_bodytemp': 'Average temperature',
+    'send_data': 'Sending data',
   };
   static const ro_RO = {
     'tabbar_status': 'Statut',
@@ -3730,6 +3743,7 @@ class Locales {
     'un_bind': 'Device unbind',
     'un_bind_sure': 'Are you sure to unbind?',
     'average_bodytemp': 'Average temperature',
+    'send_data': 'Sending data',
   };
   static const pl_PL = {
     'tabbar_status': 'Status',
@@ -3995,5 +4009,6 @@ class Locales {
     'un_bind': 'Device unbind',
     'un_bind_sure': 'Are you sure to unbind?',
     'average_bodytemp': 'Average temperature',
+    'send_data': 'Sending data',
   };
 }

@@ -244,5 +244,6 @@
   "request_auth": "请求授权",
   "un_bind": "设备解绑",
   "un_bind_sure": "是否确定解绑?",
-  "average_bodytemp": "平均体温"
+  "average_bodytemp": "平均体温",
+  "send_data": "发送数据中"
 }

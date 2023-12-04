@@ -244,5 +244,5 @@
   "unauth": "Unauthorized",
   "un_bind": "Device unbind",
   "un_bind_sure": "Are you sure to unbind?",  "average_bodytemp": "Average temperature"
-
+  , "send_data": "Sending data"
 }

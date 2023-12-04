@@ -152,7 +152,7 @@ class DeviceInfoView extends GetView<DeviceInfoController> {
                         : controller.buttonState.value == KStateType.downloading
                             ? "upgradeing_v".tr
                             : controller.buttonState.value == KStateType.sending
-                                ? "发送数据中"
+                                ? "send_data".tr
                                 : "check_v".tr,
                     textStyle: Get.textTheme.displayLarge,
                   ),
