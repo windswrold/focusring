@@ -183,10 +183,11 @@ extension ListEx<E> on List<E> {
 
   static double averageNum(List data) {
     Decimal result = sumVal(data);
-    return getPercent(
+    double a = getPercent(
         current: result.toDouble(),
         all: data.length.toDouble(),
         isHaveMin: false);
+    return a;
   }
 
   static T maxVal<T extends num>(List<T> data) {
