@@ -58,9 +58,11 @@ class HomeDevicesController extends GetxController {
       } else {
         _updateState(KBleState.disconnect);
         isCharging.value = false;
+        batNum.value = 0;
         autoScanConnect();
       }
-      vmPrint("deviceStateStream $event connectType $connectType");
+      vmPrint("home deviceStateStream $event connectType $connectType",
+          KBLEManager.logevel);
     });
 
     receiveDataStream = KBLEManager.receiveDataStream.listen((event) {

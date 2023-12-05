@@ -108,7 +108,7 @@ class KBLEManager {
     _connectSubscription == null;
     _connectSubscription =
         scanResult.device.connectionState.listen((event) async {
-      vmPrint("connectionState $event");
+      vmPrint("connectionState $event", KBLEManager.logevel);
       _deviceStateSC.sink.add(event);
       if (event == BluetoothConnectionState.connected) {
         scDevice = scanResult;

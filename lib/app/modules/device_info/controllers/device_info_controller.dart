@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:beering/app/data/ring_device.dart';
+import 'package:beering/app/modules/home_devices/controllers/home_devices_controller.dart';
 import 'package:beering/ble/ble_manager.dart';
 import 'package:beering/ble/bledata_serialization.dart';
 import 'package:beering/extensions/StringEx.dart';
@@ -52,17 +53,21 @@ class DeviceInfoController extends GetxController {
 
     onDfuStart = KBLEManager.onDfuStart.listen((event) {
       HWToast.showSucText(text: "onDfuStart");
+      vmPrint("onDfuStart deinfo", KBLEManager.logevel);
     });
     onDfuError = KBLEManager.onDfuError.listen((event) {
       HWToast.showSucText(text: "onDfuError $event");
       buttonState.value = KStateType.fail;
+      vmPrint("onDfuError deinfo $event", KBLEManager.logevel);
     });
     onDfuProgress = KBLEManager.onDfuProgress.listen((event) {
       // HWToast.showSucText(text: "onDfuProgress $event");
       progress.value = double.parse(event) / 100;
+      vmPrint("onDfuProgress deinfo $event", KBLEManager.logevel);
     });
     onDfuComplete = KBLEManager.onDfuComplete.listen((event) {
       HWToast.showSucText(text: "升级成功");
+      vmPrint("onDfuComplete deinfo", KBLEManager.logevel);
       buttonState.value = KStateType.idle;
       _initData();
     });
@@ -97,6 +102,17 @@ class DeviceInfoController extends GetxController {
 
   void startDFU() {
     if (buttonState.value == KStateType.update) {
+      if (KBLEManager.scDevice == null) {
+        HWToast.showErrText(text: "设备已断开");
+        return;
+      }
+      //电量检测
+      int bat = Get.find<HomeDevicesController>().batNum.value;
+      if (bat <= 40) {
+        HWToast.showErrText(text: "电量不得低于40%");
+        return;
+      }
+
       //发送升级指令
       KBLEManager.sendData(
           sendData:
@@ -137,6 +153,9 @@ class DeviceInfoController extends GetxController {
       }
 
       try {
+        vmPrint(
+            "startCopyDfu fileNmae $fileNmae copyAdd $bleCopyAddress fastMode true",
+            KBLEManager.logevel);
         await KBLEManager.scDevice!.device.startCopyDfu(
             filePath: fileNmae, copyAdd: bleCopyAddress, fastMode: true);
         buttonState.value = KStateType.sending;
