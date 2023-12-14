@@ -120,7 +120,7 @@ class ReceiveDataHandler {
       tip = "版本获取成功";
       String verison = "";
       if (valueData.length == 2) {
-        verison = valueData[0].toString() + "." + verison[1].toString();
+        verison = "${valueData[0]}.${valueData[1]}";
         vmPrint("版本号获取成功 $verison", KBLEManager.logevel);
       }
       RingDeviceModel.updateVersion(verison);

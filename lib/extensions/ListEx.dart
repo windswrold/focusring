@@ -181,11 +181,13 @@ extension ListEx<E> on List<E> {
     return ["5", "30", "60"];
   }
 
+  //取出非0de
   static double averageNum(List data) {
     Decimal result = sumVal(data);
+    List zeroList = data.where((element) => element != 0).toList();
     double a = getPercent(
         current: result.toDouble(),
-        all: data.length.toDouble(),
+        all: zeroList.length.toDouble(),
         isHaveMin: false);
     return a;
   }

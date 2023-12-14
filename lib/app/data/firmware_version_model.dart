@@ -15,8 +15,12 @@ class FirmwareVersionModel {
       this.remark});
 
   FirmwareVersionModel.fromJson(Map json) {
+    List<String> a = json.stringFor("version")?.split(".") ?? [];
+    if (a.length == 3) {
+      a.removeAt(0);
+    }
     downloadUrl = json.stringFor("downloadUrl");
-    version = json.stringFor("version");
+    version = a.join(".");
     fileSize = json.intFor("fileSize");
     createTime = json.stringFor("createTime");
     remark = json.stringFor("remark");
