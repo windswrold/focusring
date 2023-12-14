@@ -78,7 +78,7 @@ class HomeStateView extends GetView<HomeStateController> {
               Container(
                 margin: const EdgeInsets.only(left: 5),
                 child: Text(
-                  (data.value.current ?? 0).toStringAsFixed(2),
+                  (data.value.currentStr ?? "0"),
                   style: Get.textTheme.displayMedium?.copyWith(
                     color: data.value.color,
                   ),
@@ -88,7 +88,7 @@ class HomeStateView extends GetView<HomeStateController> {
                 child: Container(
                   margin: const EdgeInsets.only(left: 5),
                   child: AutoSizeText(
-                    "/${data.value.all ?? 0}${data.value.symbol ?? ""}",
+                    "/${data.value.allStr ?? 0}${data.value.symbol ?? ""}",
                     style: Get.textTheme.displaySmall,
                     minFontSize: 5,
                     maxLines: 1,
@@ -145,8 +145,7 @@ class HomeStateView extends GetView<HomeStateController> {
                       ].reversed.toList(),
                       xValueMapper: (RadioGaugeChartData data, _) =>
                           data.title ?? "",
-                      yValueMapper: (RadioGaugeChartData data, _) =>
-                          getPercent(current: data.current, all: data.all),
+                      yValueMapper: (RadioGaugeChartData data, _) => data.calPercent(),
                       maximumValue: 1,
                       trackOpacity: 0.38,
                       trackColor: Colors.white38,

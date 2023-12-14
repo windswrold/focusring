@@ -150,8 +150,8 @@ class HeartRateData {
       RadioGaugeChartData a = RadioGaugeChartData(
         title: e.getStatusDesc() + e.getStateCondition(),
         color: e.getStatusColor(),
-        all: all.toDouble(),
-        current: (intervalCounts[e] ?? 0),
+        allStr: all.toString(),
+        currentStr: (intervalCounts[e] ?? 0).toString(),
       );
       charts.add(a);
     }
@@ -345,8 +345,6 @@ class SleepData {
   String formatDateMs(int time) {
     return DateUtil.formatDateMs(time * 1000, format: DateFormats.h_m);
   }
-
-
 
   String getSleepTime() {
     try {

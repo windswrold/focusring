@@ -131,7 +131,7 @@ class HeartChartReportChart extends StatelessWidget {
           Expanded(child: Container()),
           Container(
             child: Text(
-              "${(getPercent(current: status.current, all: status.all) * 100).toStringAsFixed(2)}%",
+              (status.calPercent() * 100).toStringAsFixed(2),
               style: Get.textTheme.displayLarge,
             ),
           ),
@@ -162,9 +162,9 @@ class HeartChartReportChart extends StatelessWidget {
                       selectionBehavior: SelectionBehavior(enable: false),
                       dataSource: a.heartGaugeDatas.value,
                       xValueMapper: (RadioGaugeChartData data, _) => "",
-                      yValueMapper: (RadioGaugeChartData data, _) =>
-                          getPercent(current: data.current, all: data.all),
-                      pointColorMapper:  (RadioGaugeChartData data, _) => data.color,
+                      yValueMapper: (RadioGaugeChartData data, _) => data.calPercent(),
+                      pointColorMapper: (RadioGaugeChartData data, _) =>
+                          data.color,
                       dataLabelSettings:
                           const DataLabelSettings(isVisible: false),
                     ),

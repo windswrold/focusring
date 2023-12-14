@@ -465,13 +465,13 @@ class HealthDataUtils {
         List e = results.sublist(i, end);
         allSteps += Decimal.parse(ListEx.stepsValue(e).toString());
       }
-      model.steps = allSteps.toStringAsFixed(2);
+      model.steps = allSteps.toStringAsFixed(0);
       model.distance =
           calculate_distance_steps(allSteps.toBigInt().toInt(), hight)
-              .toStringAsFixed(2);
+              .toStringAsFixed(1);
       model.calorie =
           calculate_kcal_steps(allSteps.toBigInt().toInt(), weight, hight)
-              .toStringAsFixed(2);
+              .toStringAsFixed(1);
       model.dataArrs = JsonUtil.encodeObj(results);
       StepData.insertTokens([model]);
       vmPrint(
@@ -493,9 +493,9 @@ class HealthDataUtils {
       List<double> tempsVal =
           List.generate(24, (index) => calculate_Temp()).toList();
       temp.dataArray = JsonUtil.encodeObj(tempsVal);
-      temp.average = ListEx.averageNum(tempsVal).toStringAsFixed(2);
-      temp.max = ListEx.maxVal(tempsVal).toStringAsFixed(2);
-      temp.min = ListEx.minVal(tempsVal).toStringAsFixed(2);
+      temp.average = ListEx.averageNum(tempsVal).toStringAsFixed(1);
+      temp.max = ListEx.maxVal(tempsVal).toStringAsFixed(1);
+      temp.min = ListEx.minVal(tempsVal).toStringAsFixed(1);
       vmPrint(
           "插入的温度数据${JsonUtil.encodeObj(temp.toJson())}", KBLEManager.logevel);
       return TempData.insertTokens([temp]);

@@ -168,6 +168,7 @@ class HomeStateController extends GetxController {
           (Decimal.tryParse(currentDistance ?? "0") ?? Decimal.zero).toDouble();
       stepsNum =
           (Decimal.tryParse(currentSteps ?? "0") ?? Decimal.zero).toDouble();
+
       caloriNum =
           (Decimal.tryParse(currentCalorie ?? "0") ?? Decimal.zero).toDouble();
     } catch (e) {}
@@ -177,8 +178,8 @@ class HomeStateController extends GetxController {
     licheng.value = RadioGaugeChartData(
       title: "mileage",
       color: KHealthDataType.LiCheng.getTypeMainColor(),
-      all: us?.distancePlan?.toDouble(),
-      current: disNum,
+      allStr: us?.distancePlan?.toStringAsFixed(0),
+      currentStr: disNum.toStringAsFixed(1),
       icon: "icons/status_target_distance",
       symbol: KHealthDataType.LiCheng.getSymbol(),
     );
@@ -186,8 +187,8 @@ class HomeStateController extends GetxController {
     steps.value = RadioGaugeChartData(
       title: "pedometer",
       color: KHealthDataType.STEPS.getTypeMainColor(),
-      all: us?.stepsPlan?.toDouble(),
-      current: stepsNum,
+      allStr: us?.stepsPlan?.toStringAsFixed(0),
+      currentStr: stepsNum.toStringAsFixed(0),
       icon: "icons/status_target_steps",
       symbol: KHealthDataType.STEPS.getSymbol(),
     );
@@ -195,8 +196,8 @@ class HomeStateController extends GetxController {
     calorie.value = RadioGaugeChartData(
       title: "exercise",
       color: KHealthDataType.CALORIES_BURNED.getTypeMainColor(),
-      all: us?.caloriePlan?.toDouble(),
-      current: caloriNum,
+      allStr: us?.caloriePlan?.toStringAsFixed(0),
+      currentStr: caloriNum.toStringAsFixed(1),
       icon: "icons/status_target_steps",
       symbol: KHealthDataType.CALORIES_BURNED.getSymbol(),
     );
