@@ -145,7 +145,8 @@ class HomeStateView extends GetView<HomeStateController> {
                       ].reversed.toList(),
                       xValueMapper: (RadioGaugeChartData data, _) =>
                           data.title ?? "",
-                      yValueMapper: (RadioGaugeChartData data, _) => data.calPercent(),
+                      yValueMapper: (RadioGaugeChartData data, _) =>
+                          data.calPercent(),
                       maximumValue: 1,
                       trackOpacity: 0.38,
                       trackColor: Colors.white38,
