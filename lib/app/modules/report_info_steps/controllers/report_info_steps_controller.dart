@@ -103,6 +103,7 @@ class ReportInfoStepsController extends GetxController
   @override
   void onClose() {
     queryTimeSub?.cancel();
+    receiveDataStream?.cancel();
     super.onClose();
   }
 
