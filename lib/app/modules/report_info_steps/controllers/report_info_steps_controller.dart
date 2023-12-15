@@ -39,7 +39,7 @@ class ReportInfoStepsController extends GetxController
 
   late RxList<List<KChartCellData>> chartLists = RxList();
 
-  StreamSubscription? queryTimeSub;
+  StreamSubscription? queryTimeSub, receiveDataStream;
 
   late Rx<List<RadioGaugeChartData>> heartGaugeDatas = Rx([]);
 
@@ -84,6 +84,12 @@ class ReportInfoStepsController extends GetxController
     heartGaugeDatas.value = RadioGaugeChartData.getDefaultHeartGaugeData();
     queryTimeSub = GlobalValues.globalEventBus
         .on<KReportQueryTimeUpdate>()
+        .listen((event) {
+      _queryDataSource();
+    });
+
+    receiveDataStream = GlobalValues.globalEventBus
+        .on<KReportQueryDataUpdate>()
         .listen((event) {
       _queryDataSource();
     });
