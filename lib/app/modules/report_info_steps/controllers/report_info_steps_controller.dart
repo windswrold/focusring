@@ -144,7 +144,7 @@ class ReportInfoStepsController extends GetxController
       //平均
       allResult.value =
           ListEx.averageNum(datas.map((e) => e.averageHeartRate).toList())
-              .toStringAsFixed(2);
+              .toStringAsFixed(0);
       String max =
           ListEx.maxVal(datas.map((e) => e.max ?? 0).toList()).toString();
       String min =
@@ -164,7 +164,7 @@ class ReportInfoStepsController extends GetxController
       //平均
       allResult.value =
           ListEx.averageNum(datas.map((e) => e.averageHeartRate).toList())
-              .toStringAsFixed(2);
+              .toStringAsFixed(1);
       String max =
           ListEx.maxVal(datas.map((e) => e.max ?? 0).toList()).toString();
       String min =

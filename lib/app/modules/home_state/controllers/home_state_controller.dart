@@ -104,37 +104,39 @@ class HomeStateController extends GetxController {
             card.startDesc = "00:00";
             card.endDesc = "23:59";
             card.resultDesc = "";
+
             if (element.type == KHealthDataType.STEPS ||
                 element.type == KHealthDataType.CALORIES_BURNED ||
                 element.type == KHealthDataType.LiCheng) {
               List<StepData> datas = a as List<StepData>;
               StepData? step = datas.tryFirst;
+              card.result = HealthDataUtils.getTheLatestData(
+                  arrs: step?.dataArrs, type: element.type);
+
               if (element.type == KHealthDataType.STEPS) {
-                card.result = step?.steps;
                 _calSteps(
                     currentDistance: step?.distance,
                     currentSteps: step?.steps,
                     currentCalorie: step?.calorie);
-              } else if (element.type == KHealthDataType.CALORIES_BURNED) {
-                card.result = step?.calorie;
-              } else {
-                card.result = step?.distance;
               }
             } else if (element.type == KHealthDataType.HEART_RATE) {
               //心率
               List<HeartRateData> datas = a as List<HeartRateData>;
               HeartRateData? data = datas.tryFirst;
-              card.result = data?.averageHeartRate.toString();
+              card.result = HealthDataUtils.getTheLatestData(
+                  arrs: data?.heartArray, type: element.type);
             } else if (element.type == KHealthDataType.BLOOD_OXYGEN) {
               //血氧
               List<BloodOxygenData> datas = a as List<BloodOxygenData>;
               BloodOxygenData? data = datas.tryFirst;
-              card.result = data?.averageHeartRate.toString();
+              card.result = HealthDataUtils.getTheLatestData(
+                  arrs: data?.bloodArray, type: element.type);
             } else if (element.type == KHealthDataType.BODY_TEMPERATURE) {
               //体温
               List<TempData> datas = a as List<TempData>;
               TempData? data = datas.tryFirst;
-              card.result = data?.average.toString();
+              card.result = HealthDataUtils.getTheLatestData(
+                  arrs: data?.dataArray, type: element.type);
             } else if (element.type == KHealthDataType.SLEEP) {
               //睡眠
               List<SleepData> datas = a as List<SleepData>;
@@ -179,7 +181,7 @@ class HomeStateController extends GetxController {
       title: "mileage",
       color: KHealthDataType.LiCheng.getTypeMainColor(),
       allStr: us?.distancePlan?.toStringAsFixed(0),
-      currentStr: disNum.toStringAsFixed(1),
+      currentStr: disNum.toStringAsFixed(2),
       icon: "icons/status_target_distance",
       symbol: KHealthDataType.LiCheng.getSymbol(),
     );

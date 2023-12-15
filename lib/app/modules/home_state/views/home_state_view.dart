@@ -168,7 +168,8 @@ class HomeStateView extends GetView<HomeStateController> {
   Widget _buildCard(KHomeCardModel a) {
     return Container(
       margin: EdgeInsets.only(bottom: 12.w),
-      child: InkWell(
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
         onTap: () {
           controller.onTapCardType(a);
         },

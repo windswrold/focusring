@@ -28,202 +28,197 @@ class HealthDataUtils {
         callBackData,
   }) async {
     currentTime ??= DateTime.now();
-    try {
-      int userid = SPManager.getGlobalUser()!.id!;
-      String create = "";
-      String nextTime = create;
+
+    int userid = SPManager.getGlobalUser()!.id!;
+    String create = "";
+    String nextTime = create;
+    if (reportType == KReportType.day) {
+      create = getZeroDateTime(now: currentTime);
+      nextTime = getLastDateTime(now: currentTime);
+    } else if (reportType == KReportType.week) {
+      create =
+          getZeroDateTime(now: currentTime.subtract(const Duration(days: 6)));
+      nextTime = getLastDateTime(now: currentTime);
+    } else if (reportType == KReportType.moneth) {
+      create = getZeroDateTime(
+          now: DateTime(currentTime.year, currentTime.month, 1));
+      nextTime = getLastDateTime(
+          now: DateTime(currentTime.year, currentTime.month + 1, 1)
+              .subtract(const Duration(days: 1)));
+    }
+
+    vmPrint("create $create  nextTime $nextTime reportType $reportType",
+        KBLEManager.logevel);
+
+    ///如果多天数据，则取每一天的平均值进行画点拆分
+    if (types == KHealthDataType.HEART_RATE) {
+      List<HeartRateData> datas =
+          await HeartRateData.queryUserAll(userid, create, nextTime);
+      List<KChartCellData> cellDatas = [];
+
       if (reportType == KReportType.day) {
-        create = getZeroDateTime(now: currentTime);
-        nextTime = getLastDateTime(now: currentTime);
-      } else if (reportType == KReportType.week) {
-        create =
-            getZeroDateTime(now: currentTime.subtract(const Duration(days: 6)));
-        nextTime = getLastDateTime(now: currentTime);
-      } else if (reportType == KReportType.moneth) {
-        create = getZeroDateTime(
-            now: DateTime(currentTime.year, currentTime.month, 1));
-        nextTime = getLastDateTime(
-            now: DateTime(currentTime.year, currentTime.month + 1, 1)
-                .subtract(const Duration(days: 1)));
-      }
-
-      vmPrint("create $create  nextTime $nextTime reportType $reportType",
-          KBLEManager.logevel);
-
-      ///如果多天数据，则取每一天的平均值进行画点拆分
-      if (types == KHealthDataType.HEART_RATE) {
-        List<HeartRateData> datas =
-            await HeartRateData.queryUserAll(userid, create, nextTime);
-        List<KChartCellData> cellDatas = [];
-
-        if (reportType == KReportType.day) {
-          final results = generateDay(
-            createTime: datas.tryFirst?.createTime ?? "",
-            data: datas.tryFirst?.heartArray ?? "",
-            type: types,
-            reportType: reportType,
-          );
-          cellDatas.addAll(results);
-        } else {
-          for (var i = 0; i < datas.length; i++) {
-            final e = datas[i];
-            final cell = KChartCellData(
-                x: _getFormatX(e.createTime),
-                yor_low: (e.min ?? 0),
-                high: e.max ?? 0,
-                averageNum: e.averageHeartRate ?? 0,
-                color: types.getTypeMainColor());
-            cellDatas.add(cell);
-          }
-        }
-
-        callBackData(datas, datas.isEmpty ? null : [cellDatas]);
-      } else if (types == KHealthDataType.BLOOD_OXYGEN) {
-        List<BloodOxygenData> datas =
-            await BloodOxygenData.queryUserAll(userid, create, nextTime);
-
-        List<KChartCellData> cellDatas = [];
-        if (reportType == KReportType.day) {
-          final results = generateDay(
-            createTime: datas.tryFirst?.createTime ?? "",
-            data: datas.tryFirst?.bloodArray ?? "",
-            type: types,
-            reportType: reportType,
-          );
-          cellDatas.addAll(results);
-        } else {
-          for (var i = 0; i < datas.length; i++) {
-            final e = datas[i];
-            final cell = KChartCellData(
-                x: _getFormatX(e.createTime),
-                yor_low: (e.min ?? 0),
-                high: e.max ?? 0,
-                averageNum: e.averageHeartRate ?? 0,
-                color: types.getTypeMainColor());
-            cellDatas.add(cell);
-          }
-        }
-        callBackData(datas, datas.isEmpty ? null : [cellDatas]);
-      } else if (types == KHealthDataType.STEPS ||
-          types == KHealthDataType.LiCheng ||
-          types == KHealthDataType.CALORIES_BURNED) {
-        List<StepData> datas =
-            await StepData.queryUserAll(userid, create, nextTime);
-
-        List<KChartCellData> cellDatas = [];
-        if (reportType == KReportType.day) {
-          final results = generateDay(
-            createTime: datas.tryFirst?.createTime ?? "",
-            data: datas.tryFirst?.dataArrs ?? "",
-            type: types,
-            reportType: reportType,
-          );
-          cellDatas.addAll(results);
-        } else {
-          for (var i = 0; i < datas.length; i++) {
-            final e = datas[i];
-
-            String value = (types == KHealthDataType.STEPS)
-                ? (e.steps ?? "0")
-                : types == KHealthDataType.LiCheng
-                    ? (e.distance ?? "0")
-                    : (e.calorie ?? "0");
-            Decimal num = Decimal.tryParse(value) ?? Decimal.zero;
-            final cell = KChartCellData(
-                x: _getFormatX(e.createTime),
-                yor_low: num.toDouble(),
-                color: types.getTypeMainColor());
-            cellDatas.add(cell);
-          }
-        }
-        callBackData(datas, datas.isEmpty ? null : [cellDatas]);
-      } else if (types == KHealthDataType.BODY_TEMPERATURE) {
-        List<TempData> datas =
-            await TempData.queryUserAll(userid, create, nextTime);
-
-        List<KChartCellData> cellDatas = [];
-        if (reportType == KReportType.day) {
-          final results = generateDay(
-            createTime: datas.tryFirst?.createTime ?? "",
-            data: datas.tryFirst?.dataArray ?? "",
-            type: types,
-            reportType: reportType,
-          );
-          cellDatas.addAll(results);
-        } else {
-          for (var i = 0; i < datas.length; i++) {
-            final e = datas[i];
-            final cell = KChartCellData(
-                x: _getFormatX(e.createTime),
-                yor_low:
-                    (Decimal.tryParse(e.min ?? "0") ?? Decimal.zero).toDouble(),
-                high:
-                    (Decimal.tryParse(e.max ?? "0") ?? Decimal.zero).toDouble(),
-                averageNum: (Decimal.tryParse(e.average ?? "0") ?? Decimal.zero)
-                    .toDouble(),
-                color: types.getTypeMainColor());
-            cellDatas.add(cell);
-          }
-        }
-        callBackData(datas, datas.isEmpty ? null : [cellDatas]);
-      } else if (types == KHealthDataType.SLEEP) {
-        List<SleepData> datas =
-            await SleepData.queryUserAll(userid, create, nextTime);
-
-        List<List<KChartCellData>> cellDatas = [];
-        if (reportType == KReportType.day) {
-          final results = generateDay(
-            createTime: datas.tryFirst?.createTime ?? "",
-            data: datas.tryFirst?.dataArray ?? "",
-            type: types,
-            reportType: reportType,
-          );
-          cellDatas = [results];
-        } else {
-          List<KChartCellData> awake = [];
-          List<KChartCellData> deep = [];
-          List<KChartCellData> light = [];
-          for (var i = 0; i < datas.length; i++) {
-            SleepData e = datas[i];
-            final awakeCell = KChartCellData(
-                x: _getFormatX(e.createTime),
-                yor_low: e.awake_time ?? 0,
-                averageNum: Decimal.parse(e.getSleepTime()).toDouble(),
-                color: KSleepStatusType.awake.getStatusColor());
-            final deepCell = KChartCellData(
-                x: _getFormatX(e.createTime),
-                yor_low: e.deep_sleep_time ?? 0,
-                averageNum: Decimal.parse(e.getSleepTime()).toDouble(),
-                color: KSleepStatusType.deepSleep.getStatusColor());
-            final light_cell = KChartCellData(
-                x: _getFormatX(e.createTime),
-                yor_low: e.light_sleep_time ?? 0,
-                averageNum: Decimal.parse(e.getSleepTime()).toDouble(),
-                color: KSleepStatusType.lightSleep.getStatusColor());
-
-            awake.add(awakeCell);
-            deep.add(deepCell);
-            light.add(light_cell);
-          }
-          cellDatas = [deep, light, awake];
-        }
-        callBackData(datas, datas.isEmpty ? null : cellDatas);
-      } else {
-        var data = List.generate(
-          30,
-          (index) => KChartCellData(
-            x: index.toString(),
-            yor_low: 0,
-            state: KSleepStatusType.values[Random.secure().nextInt(3)],
-            color: types.getTypeMainColor(),
-          ),
+        final results = generateDay(
+          createTime: datas.tryFirst?.createTime ?? "",
+          data: datas.tryFirst?.heartArray ?? "",
+          type: types,
+          reportType: reportType,
         );
-        await Future.delayed(Duration(seconds: 1));
-        callBackData([], null);
+        cellDatas.addAll(results);
+      } else {
+        for (var i = 0; i < datas.length; i++) {
+          final e = datas[i];
+          final cell = KChartCellData(
+              x: _getFormatX(e.createTime),
+              yor_low: (e.min ?? 0),
+              high: e.max ?? 0,
+              averageNum: e.averageHeartRate ?? 0,
+              color: types.getTypeMainColor());
+          cellDatas.add(cell);
+        }
       }
-    } catch (e) {
-      vmPrint("读取失败 $e", KBLEManager.logevel);
-      // HWToast.showErrText(text: "读取失败 ${e}");
+
+      callBackData(datas, datas.isEmpty ? null : [cellDatas]);
+    } else if (types == KHealthDataType.BLOOD_OXYGEN) {
+      List<BloodOxygenData> datas =
+          await BloodOxygenData.queryUserAll(userid, create, nextTime);
+
+      List<KChartCellData> cellDatas = [];
+      if (reportType == KReportType.day) {
+        final results = generateDay(
+          createTime: datas.tryFirst?.createTime ?? "",
+          data: datas.tryFirst?.bloodArray ?? "",
+          type: types,
+          reportType: reportType,
+        );
+        cellDatas.addAll(results);
+      } else {
+        for (var i = 0; i < datas.length; i++) {
+          final e = datas[i];
+          final cell = KChartCellData(
+              x: _getFormatX(e.createTime),
+              yor_low: (e.min ?? 0),
+              high: e.max ?? 0,
+              averageNum: e.averageHeartRate ?? 0,
+              color: types.getTypeMainColor());
+          cellDatas.add(cell);
+        }
+      }
+      callBackData(datas, datas.isEmpty ? null : [cellDatas]);
+    } else if (types == KHealthDataType.STEPS ||
+        types == KHealthDataType.LiCheng ||
+        types == KHealthDataType.CALORIES_BURNED) {
+      List<StepData> datas =
+          await StepData.queryUserAll(userid, create, nextTime);
+
+      List<KChartCellData> cellDatas = [];
+      if (reportType == KReportType.day) {
+        final results = generateDay(
+          createTime: datas.tryFirst?.createTime ?? "",
+          data: datas.tryFirst?.dataArrs ?? "",
+          type: types,
+          reportType: reportType,
+        );
+        cellDatas.addAll(results);
+      } else {
+        for (var i = 0; i < datas.length; i++) {
+          final e = datas[i];
+
+          String value = (types == KHealthDataType.STEPS)
+              ? (e.steps ?? "0")
+              : types == KHealthDataType.LiCheng
+                  ? (e.distance ?? "0")
+                  : (e.calorie ?? "0");
+          Decimal num = Decimal.tryParse(value) ?? Decimal.zero;
+          final cell = KChartCellData(
+              x: _getFormatX(e.createTime),
+              yor_low: num.toDouble(),
+              color: types.getTypeMainColor());
+          cellDatas.add(cell);
+        }
+      }
+      callBackData(datas, datas.isEmpty ? null : [cellDatas]);
+    } else if (types == KHealthDataType.BODY_TEMPERATURE) {
+      List<TempData> datas =
+          await TempData.queryUserAll(userid, create, nextTime);
+
+      List<KChartCellData> cellDatas = [];
+      if (reportType == KReportType.day) {
+        final results = generateDay(
+          createTime: datas.tryFirst?.createTime ?? "",
+          data: datas.tryFirst?.dataArray ?? "",
+          type: types,
+          reportType: reportType,
+        );
+        cellDatas.addAll(results);
+      } else {
+        for (var i = 0; i < datas.length; i++) {
+          final e = datas[i];
+          final cell = KChartCellData(
+              x: _getFormatX(e.createTime),
+              yor_low:
+                  (Decimal.tryParse(e.min ?? "0") ?? Decimal.zero).toDouble(),
+              high: (Decimal.tryParse(e.max ?? "0") ?? Decimal.zero).toDouble(),
+              averageNum: (Decimal.tryParse(e.average ?? "0") ?? Decimal.zero)
+                  .toDouble(),
+              color: types.getTypeMainColor());
+          cellDatas.add(cell);
+        }
+      }
+      callBackData(datas, datas.isEmpty ? null : [cellDatas]);
+    } else if (types == KHealthDataType.SLEEP) {
+      List<SleepData> datas =
+          await SleepData.queryUserAll(userid, create, nextTime);
+
+      List<List<KChartCellData>> cellDatas = [];
+      if (reportType == KReportType.day) {
+        final results = generateDay(
+          createTime: datas.tryFirst?.createTime ?? "",
+          data: datas.tryFirst?.dataArray ?? "",
+          type: types,
+          reportType: reportType,
+        );
+        cellDatas = [results];
+      } else {
+        List<KChartCellData> awake = [];
+        List<KChartCellData> deep = [];
+        List<KChartCellData> light = [];
+        for (var i = 0; i < datas.length; i++) {
+          SleepData e = datas[i];
+          final awakeCell = KChartCellData(
+              x: _getFormatX(e.createTime),
+              yor_low: e.awake_time ?? 0,
+              averageNum: Decimal.parse(e.getSleepTime()).toDouble(),
+              color: KSleepStatusType.awake.getStatusColor());
+          final deepCell = KChartCellData(
+              x: _getFormatX(e.createTime),
+              yor_low: e.deep_sleep_time ?? 0,
+              averageNum: Decimal.parse(e.getSleepTime()).toDouble(),
+              color: KSleepStatusType.deepSleep.getStatusColor());
+          final light_cell = KChartCellData(
+              x: _getFormatX(e.createTime),
+              yor_low: e.light_sleep_time ?? 0,
+              averageNum: Decimal.parse(e.getSleepTime()).toDouble(),
+              color: KSleepStatusType.lightSleep.getStatusColor());
+
+          awake.add(awakeCell);
+          deep.add(deepCell);
+          light.add(light_cell);
+        }
+        cellDatas = [deep, light, awake];
+      }
+      callBackData(datas, datas.isEmpty ? null : cellDatas);
+    } else {
+      var data = List.generate(
+        30,
+        (index) => KChartCellData(
+          x: index.toString(),
+          yor_low: 0,
+          state: KSleepStatusType.values[Random.secure().nextInt(3)],
+          color: types.getTypeMainColor(),
+        ),
+      );
+      await Future.delayed(Duration(seconds: 1));
+      callBackData([], null);
     }
   }
 
@@ -452,13 +447,6 @@ class HealthDataUtils {
         return;
       }
 
-      UserInfoModel? user = SPManager.getGlobalUser();
-      if (user == null) {
-        return;
-      }
-      final hight = user.calMetricHeight();
-      final weight = user.calMetricWeight();
-
       Decimal allSteps = Decimal.zero;
       for (int i = 0; i < results.length; i += 4) {
         int end = (i + 4 > results.length) ? results.length : i + 4;
@@ -466,12 +454,10 @@ class HealthDataUtils {
         allSteps += Decimal.parse(ListEx.stepsValue(e).toString());
       }
       model.steps = allSteps.toStringAsFixed(0);
-      model.distance =
-          calculate_distance_steps(allSteps.toBigInt().toInt(), hight)
-              .toStringAsFixed(1);
+      model.distance = calculate_distance_steps(allSteps.toBigInt().toInt())
+          .toStringAsFixed(2);
       model.calorie =
-          calculate_kcal_steps(allSteps.toBigInt().toInt(), weight, hight)
-              .toStringAsFixed(1);
+          calculate_kcal_steps(allSteps.toBigInt().toInt()).toStringAsFixed(1);
       model.dataArrs = JsonUtil.encodeObj(results);
       StepData.insertTokens([model]);
       vmPrint(
@@ -530,6 +516,7 @@ class HealthDataUtils {
 
     String data = HEXUtil.encode(results);
     List<int> aaa = HEXUtil.decode(data);
+    vmPrint(data);
 
     var buffer = Uint8List.fromList(aaa);
     var byteData = ByteData.sublistView(buffer);
@@ -687,16 +674,14 @@ class HealthDataUtils {
         var num = ListEx.stepsValue(e);
 
         //卡路里
-        UserInfoModel? user = SPManager.getGlobalUser();
-        int? hight = user?.calMetricHeight();
-        int? weight = user?.calMetricWeight();
+
         if (type == KHealthDataType.LiCheng) {
-          num = calculate_distance_steps(num, hight!);
+          num = calculate_distance_steps(num);
           vmPrint("LiCheng  $num");
         }
 
         if (type == KHealthDataType.CALORIES_BURNED) {
-          num = calculate_kcal_steps(num, weight!, hight!);
+          num = calculate_kcal_steps(num);
         }
 
         cellDatas.add(
@@ -777,10 +762,43 @@ class HealthDataUtils {
     return text;
   }
 
-  static double calculate_kcal_steps(int steps, int weight, int hight) {
-    return (Decimal.fromInt(weight) *
+  static String getTheLatestData(
+      {required String? arrs, required KHealthDataType type}) {
+    List datas = JsonUtil.getObj(arrs) ?? [];
+    // List<int> datas = arrsList.map((e) => e as int).toList();
+    if (type == KHealthDataType.STEPS ||
+        type == KHealthDataType.LiCheng ||
+        type == KHealthDataType.CALORIES_BURNED) {
+      //进行二次处理
+      List<int> steps = [];
+      for (int i = 0; i < datas.length; i += 4) {
+        int end = (i + 4 > datas.length) ? datas.length : i + 4;
+        List e = datas.sublist(i, end);
+        steps.add(ListEx.stepsValue(e));
+      }
+      datas = steps;
+    }
+
+    var a = datas.reversed
+        .toList()
+        .firstWhere((element) => element != 0, orElse: () => 0);
+    if (type == KHealthDataType.LiCheng) {
+      return calculate_distance_steps(a).toStringAsFixed(2);
+    }
+    if (type == KHealthDataType.CALORIES_BURNED) {
+      return calculate_kcal_steps(a).toStringAsFixed(1);
+    }
+    return a.toString();
+  }
+
+  static double calculate_kcal_steps(int steps) {
+    UserInfoModel? user = SPManager.getGlobalUser();
+    int? hight = user?.calMetricHeight();
+    int? weight = user?.calMetricWeight();
+
+    return (Decimal.fromInt(weight!) *
             Decimal.parse("1.036") *
-            (Decimal.fromInt(hight) *
+            (Decimal.fromInt(hight!) *
                 Decimal.parse("0.41") *
                 Decimal.fromInt(steps) *
                 Decimal.parse("0.00001")))
@@ -789,8 +807,11 @@ class HealthDataUtils {
   }
 
 // kcal和m
-  static double calculate_distance_steps(int steps, int hight) {
-    return (Decimal.fromInt(hight) *
+  static double calculate_distance_steps(int steps) {
+    UserInfoModel? user = SPManager.getGlobalUser();
+    int? hight = user?.calMetricHeight();
+
+    return (Decimal.fromInt(hight!) *
             Decimal.fromInt(41) *
             Decimal.fromInt(steps) *
             Decimal.parse("0.0000001"))

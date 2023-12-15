@@ -170,18 +170,33 @@ class HomeCardView extends StatelessWidget {
         },
       );
     } else {
-      return SfCartesianChart(
-        plotAreaBorderWidth: 0,
-        primaryXAxis: CategoryAxis(
-          isVisible: false,
+      return InkWell(
+        onTap: () {
+          vmPrint("InkWell");
+        },
+        child: SfCartesianChart(
+          plotAreaBorderWidth: 0,
+          primaryXAxis: CategoryAxis(
+            isVisible: false,
+          ),
+          primaryYAxis: NumericAxis(
+            isVisible: false,
+            maximum: model.maximum,
+          ),
+          margin: EdgeInsets.zero,
+          onLegendTapped: (e) {
+            vmPrint("onLegendTapped");
+          },
+          onDataLabelTapped: (e) {
+            vmPrint("onDataLabelTapped");
+          },
+          onAxisLabelTapped: (e) {
+            vmPrint("onAxisLabelTapped");
+          },
+
+          series: ChartUtils.getChartServices(
+              type: model.type!, datas: model.datas!),
         ),
-        primaryYAxis: NumericAxis(
-          isVisible: false,
-          maximum: model.maximum,
-        ),
-        margin: EdgeInsets.zero,
-        series:
-            ChartUtils.getChartServices(type: model.type!, datas: model.datas!),
       );
     }
   }
