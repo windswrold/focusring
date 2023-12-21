@@ -9,9 +9,12 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class HomeCardView extends StatelessWidget {
-  const HomeCardView({Key? key, required this.model}) : super(key: key);
+  const HomeCardView({Key? key, required this.model, required this.onTap})
+      : super(key: key);
 
   final KHomeCardModel model;
+
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -170,32 +173,31 @@ class HomeCardView extends StatelessWidget {
         },
       );
     } else {
-      return InkWell(
-        onTap: () {
-          vmPrint("InkWell");
-        },
-        child: SfCartesianChart(
-          plotAreaBorderWidth: 0,
-          primaryXAxis: CategoryAxis(
-            isVisible: false,
-          ),
-          primaryYAxis: NumericAxis(
-            isVisible: false,
-            maximum: model.maximum == null ? null : (model.maximum! * 1.1),
-          ),
-          margin: EdgeInsets.zero,
-          onLegendTapped: (e) {
-            vmPrint("onLegendTapped");
-          },
-          onDataLabelTapped: (e) {
-            vmPrint("onDataLabelTapped");
-          },
-          onAxisLabelTapped: (e) {
-            vmPrint("onAxisLabelTapped");
-          },
-          series: ChartUtils.getChartServices(
-              type: model.type!, datas: model.datas!),
+      return SfCartesianChart(
+        plotAreaBorderWidth: 0,
+        primaryXAxis: CategoryAxis(
+          isVisible: false,
         ),
+        primaryYAxis: NumericAxis(
+          isVisible: false,
+          maximum: model.maximum == null ? null : (model.maximum! * 1.1),
+        ),
+        margin: EdgeInsets.zero,
+        onLegendTapped: (e) {
+          vmPrint("onLegendTapped");
+        },
+        onDataLabelTapped: (e) {
+          vmPrint("onDataLabelTapped");
+        },
+        onAxisLabelTapped: (e) {
+          vmPrint("onAxisLabelTapped");
+        },
+        onChartTouchInteractionDown: (e) {
+          vmPrint("onChartTouchInteractionDown");
+          onTap();
+        },
+        series:
+            ChartUtils.getChartServices(type: model.type!, datas: model.datas!),
       );
     }
   }
