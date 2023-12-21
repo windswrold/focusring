@@ -81,6 +81,10 @@ class HomeStateController extends GetxController {
     String date =
         DateUtil.formatDate(DateTime.now(), format: DateFormats.y_mo_d);
     for (var element in datas) {
+      if (element.type == KHealthDataType.FEMALE_HEALTH) {
+        continue;
+      }
+
       if (showHeartrate == false) {
         if (element.type == KHealthDataType.BLOOD_OXYGEN ||
             element.type == KHealthDataType.HEART_RATE ||
