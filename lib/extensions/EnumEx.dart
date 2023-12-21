@@ -332,6 +332,33 @@ extension KHealthDataEX on KHealthDataType {
     }
     return "steps_info_tip1".tr;
   }
+
+  int getFormat() {
+    switch (this) {
+      case KHealthDataType.STEPS:
+        return 0;
+      case KHealthDataType.LiCheng:
+        return 2;
+      case KHealthDataType.CALORIES_BURNED:
+        return 1;
+      case KHealthDataType.SLEEP:
+        return 0;
+      case KHealthDataType.HEART_RATE:
+        return 0;
+      case KHealthDataType.BLOOD_OXYGEN:
+        return 0;
+      case KHealthDataType.EMOTION:
+        return 0;
+      case KHealthDataType.STRESS:
+        return 0;
+      case KHealthDataType.BODY_TEMPERATURE:
+        return 1;
+      case KHealthDataType.FEMALE_HEALTH:
+        return 0;
+      default:
+        throw "add new";
+    }
+  }
 }
 
 extension KReportTypeEX on KReportType {

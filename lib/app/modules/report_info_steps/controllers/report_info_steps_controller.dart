@@ -33,6 +33,8 @@ class ReportInfoStepsController extends GetxController
   //总步数 总和
   late RxString allResult = "-".obs;
 
+  late Rx<double?> maxValue = Rx(null);
+
   late RxList<StepsCardAssetsModel> stepsCards = <StepsCardAssetsModel>[].obs;
 
   late RxString chartTipValue = "".obs;
@@ -166,6 +168,7 @@ class ReportInfoStepsController extends GetxController
           heartGaugeDatas.value = model.calPercent();
         }
       }
+      maxValue.value = double.tryParse(max);
     } else if (currentType == KHealthDataType.BLOOD_OXYGEN) {
       List<BloodOxygenData> datas = a as List<BloodOxygenData>;
       //平均
@@ -179,6 +182,7 @@ class ReportInfoStepsController extends GetxController
       String err = "0";
       todaysModel.value = TodayOverViewModel.getViewModel(
           type: currentType, one: max, two: min, three: err);
+      maxValue.value = double.tryParse(max);
     } else if (currentType == KHealthDataType.BODY_TEMPERATURE) {
       List<TempData> datas = a as List<TempData>;
       //平均
@@ -193,6 +197,7 @@ class ReportInfoStepsController extends GetxController
       String err = "0";
       todaysModel.value = TodayOverViewModel.getViewModel(
           type: currentType, one: max, two: min, three: err);
+      maxValue.value = double.tryParse(max);
     } else if (currentType == KHealthDataType.STEPS ||
         currentType == KHealthDataType.CALORIES_BURNED ||
         currentType == KHealthDataType.LiCheng) {
@@ -211,6 +216,12 @@ class ReportInfoStepsController extends GetxController
       } else {
         allResult.value = licheng;
       }
+      final aaa = datas
+          .map((e) => double.parse(
+              HealthDataUtils.getMaxData(arrs: e.dataArrs, type: currentType)))
+          .toList();
+      double max = ListEx.maxVal<double>(aaa);
+      maxValue.value = max;
 
       List<StepsCardAssetsModel> newCards = [];
       KReportType pageType = reportType.value;

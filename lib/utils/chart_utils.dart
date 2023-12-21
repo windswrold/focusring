@@ -22,7 +22,7 @@ class ChartUtils {
     );
   }
 
-  static NumericAxis getNumericAxis() {
+  static NumericAxis getNumericAxis({double? max}) {
     return NumericAxis(
       // 设置主要网格线样式
       majorGridLines: MajorGridLines(
@@ -34,6 +34,7 @@ class ChartUtils {
       axisLine: AxisLine(
         width: 0,
       ),
+      maximum: max == null ? null : max * 1.1,
 
       labelStyle: Get.textTheme.displaySmall,
     );

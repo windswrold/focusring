@@ -738,7 +738,7 @@ class HealthDataUtils {
       return "";
     }
     if (type == KReportType.day) {
-      text = "${item.x} ${item.yor_low}${currentType.getSymbol()}";
+      text = "${item.x} ${item.yor_low.toStringAsFixed(currentType.getFormat())}${currentType.getSymbol()}";
     } else {
       if (currentType == KHealthDataType.HEART_RATE) {
         //平均数
@@ -810,10 +810,10 @@ class HealthDataUtils {
     var a = ListEx.maxVal(datas.map((e) => e as int).toList());
 
     if (type == KHealthDataType.LiCheng) {
-      return calculate_distance_steps(a).toStringAsFixed(2);
+      return calculate_distance_steps(a).toStringAsFixed(type.getFormat());
     }
     if (type == KHealthDataType.CALORIES_BURNED) {
-      return calculate_kcal_steps(a).toStringAsFixed(1);
+      return calculate_kcal_steps(a).toStringAsFixed(type.getFormat());
     }
     return a.toString();
   }

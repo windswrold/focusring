@@ -45,7 +45,7 @@ class BodyTemperatureReportChart extends StatelessWidget {
                   plotAreaBorderWidth: 0,
                   margin: const EdgeInsets.only(left: 5, right: 10),
                   primaryXAxis: ChartUtils.getCategoryAxis(),
-                  primaryYAxis: ChartUtils.getNumericAxis(),
+                  primaryYAxis: ChartUtils.getNumericAxis(max: a.maxValue.value),
                   trackballBehavior: ChartUtils.getTrackballBehavior(
                     color: KHealthDataType.BODY_TEMPERATURE.getTypeMainColor()!,
                   ),

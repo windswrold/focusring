@@ -181,7 +181,7 @@ class HomeCardView extends StatelessWidget {
           ),
           primaryYAxis: NumericAxis(
             isVisible: false,
-            maximum: model.maximum,
+            maximum: model.maximum == null ? null : (model.maximum! * 1.1),
           ),
           margin: EdgeInsets.zero,
           onLegendTapped: (e) {
@@ -193,7 +193,6 @@ class HomeCardView extends StatelessWidget {
           onAxisLabelTapped: (e) {
             vmPrint("onAxisLabelTapped");
           },
-
           series: ChartUtils.getChartServices(
               type: model.type!, datas: model.datas!),
         ),
