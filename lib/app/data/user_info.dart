@@ -174,4 +174,14 @@ class UserInfoModel {
             ? distancePlan ?? 0
             : caloriePlan ?? 0;
   }
+
+  bool femmalState() {
+    if (lastPeriodStartTime == null ||
+        periodDuration == null ||
+        periodStartInterval == null) {
+      return false;
+    }
+
+    return true;
+  }
 }

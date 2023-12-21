@@ -70,6 +70,7 @@ dependencies:
   syncfusion_flutter_charts: "22.1.39"
   syncfusion_flutter_gauges: "22.1.39"
   syncfusion_flutter_datepicker:
+
     path : plugins/syncfusion_flutter_datepicker-22.1.39
   syncfusion_flutter_core : "22.1.39"
   file_picker: ^5.3.3
