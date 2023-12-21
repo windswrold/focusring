@@ -116,6 +116,8 @@ class HomeStateController extends GetxController {
               StepData? step = datas.tryFirst;
               card.result = HealthDataUtils.getTheLatestData(
                   arrs: step?.dataArrs, type: element.type);
+              card.maximum = double.tryParse(HealthDataUtils.getMaxData(
+                  arrs: step?.dataArrs, type: element.type));
 
               if (element.type == KHealthDataType.STEPS) {
                 _calSteps(
@@ -129,18 +131,21 @@ class HomeStateController extends GetxController {
               HeartRateData? data = datas.tryFirst;
               card.result = HealthDataUtils.getTheLatestData(
                   arrs: data?.heartArray, type: element.type);
+              card.maximum = data?.max?.toDouble();
             } else if (element.type == KHealthDataType.BLOOD_OXYGEN) {
               //血氧
               List<BloodOxygenData> datas = a as List<BloodOxygenData>;
               BloodOxygenData? data = datas.tryFirst;
               card.result = HealthDataUtils.getTheLatestData(
                   arrs: data?.bloodArray, type: element.type);
+              card.maximum = data?.max?.toDouble();
             } else if (element.type == KHealthDataType.BODY_TEMPERATURE) {
               //体温
               List<TempData> datas = a as List<TempData>;
               TempData? data = datas.tryFirst;
               card.result = HealthDataUtils.getTheLatestData(
                   arrs: data?.dataArray, type: element.type);
+              card.maximum = double.tryParse(data?.max ?? "0.0");
             } else if (element.type == KHealthDataType.SLEEP) {
               //睡眠
               List<SleepData> datas = a as List<SleepData>;

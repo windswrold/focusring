@@ -791,6 +791,33 @@ class HealthDataUtils {
     return a.toString();
   }
 
+  static String getMaxData(
+      {required String? arrs, required KHealthDataType type}) {
+    List datas = JsonUtil.getObj(arrs) ?? [];
+    if (type == KHealthDataType.STEPS ||
+        type == KHealthDataType.LiCheng ||
+        type == KHealthDataType.CALORIES_BURNED) {
+      //进行二次处理
+      List<int> steps = [];
+      for (int i = 0; i < datas.length; i += 4) {
+        int end = (i + 4 > datas.length) ? datas.length : i + 4;
+        List e = datas.sublist(i, end);
+        steps.add(ListEx.stepsValue(e));
+      }
+      datas = steps;
+    }
+
+    var a = ListEx.maxVal(datas.map((e) => e as int).toList());
+
+    if (type == KHealthDataType.LiCheng) {
+      return calculate_distance_steps(a).toStringAsFixed(2);
+    }
+    if (type == KHealthDataType.CALORIES_BURNED) {
+      return calculate_kcal_steps(a).toStringAsFixed(1);
+    }
+    return a.toString();
+  }
+
   static double calculate_kcal_steps(int steps) {
     UserInfoModel? user = SPManager.getGlobalUser();
     int? hight = user?.calMetricHeight();
