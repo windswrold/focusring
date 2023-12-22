@@ -128,6 +128,8 @@ class KBLEManager {
     devices.forEach((element) async {
       await element.disconnect();
     });
+    //断开设备补发断开指令
+    _deviceStateSC.sink.add(BluetoothConnectionState.disconnected);
   }
 
   ///发现外设
