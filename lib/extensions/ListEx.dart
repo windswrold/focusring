@@ -193,10 +193,16 @@ extension ListEx<E> on List<E> {
   }
 
   static T maxVal<T extends num>(List<T> data) {
+    if (data.isEmpty) {
+      return 0 as T;
+    }
     return data.reduce((a, b) => a > b ? a : b);
   }
 
   static T minVal<T extends num>(List<T> data) {
+    if (data.isEmpty) {
+      return 0 as T;
+    }
     return data.reduce((a, b) => a < b ? a : b);
   }
 
