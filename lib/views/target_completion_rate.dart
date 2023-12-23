@@ -1,4 +1,5 @@
 import 'package:beering/app/data/health_data_model.dart';
+import 'package:beering/app/data/health_data_utils.dart';
 import 'package:beering/ble/ble_manager.dart';
 import 'package:beering/utils/date_util.dart';
 import 'package:decimal/decimal.dart';
@@ -45,15 +46,12 @@ class TargetWeekCompletionRateModel {
           DateTime? createTime;
 
           String current = "";
-          if (dataType == KHealthDataType.STEPS) {
+          if (dataType == KHealthDataType.STEPS ||
+              dataType == KHealthDataType.LiCheng ||
+              dataType == KHealthDataType.CALORIES_BURNED) {
             createTime = DateTime.parse((item as StepData).createTime ?? "");
-            current = item.steps ?? "0";
-          } else if (dataType == KHealthDataType.LiCheng) {
-            createTime = DateTime.parse((item as StepData).createTime ?? "");
-            current = item.distance ?? "0";
-          } else if (dataType == KHealthDataType.CALORIES_BURNED) {
-            createTime = DateTime.parse((item as StepData).createTime ?? "");
-            current = item.calorie ?? "0";
+            current = HealthDataUtils.getGsensorData(
+                steps: item.steps ?? "0", type: dataType);
           } else if (dataType == KHealthDataType.SLEEP) {
             createTime = DateTime.parse((item as SleepData).createTime ?? "");
             current = item.getSleepTime() ?? "0";

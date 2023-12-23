@@ -64,7 +64,7 @@ class VMApi {
             HttpClient(context: SecurityContext(withTrustedRoots: false));
         // You can test the intermediate / root cert here. We just ignore it.
         client.badCertificateCallback = (cert, host, port) => true;
-        client.findProxy = (Uri url) => "PROXY 192.168.0.104:8888";
+        client.findProxy = (Uri url) => "PROXY 192.168.0.103:8888";
         return client;
       },
       validateCertificate: (cert, host, port) {

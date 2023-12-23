@@ -203,12 +203,15 @@ class ReportInfoStepsController extends GetxController
         currentType == KHealthDataType.LiCheng) {
       //总和
       List<StepData> datas = a as List<StepData>;
-      String xiaohao = ListEx.sumVal(datas.map((e) => e.calorie).toList())
-          .toStringAsFixed(2);
-      String licheng = ListEx.sumVal(datas.map((e) => e.distance).toList())
-          .toStringAsFixed(2);
       String setps =
-          ListEx.sumVal(datas.map((e) => e.steps).toList()).toStringAsFixed(2);
+          ListEx.sumVal(datas.map((e) => e.steps).toList()).toString();
+      String xiaohao = HealthDataUtils.getGsensorData(
+          steps: setps, type: KHealthDataType.CALORIES_BURNED);
+      String licheng = HealthDataUtils.getGsensorData(
+          steps: setps, type: KHealthDataType.LiCheng);
+      String maxSteps =
+          ListEx.maxVal<int>(datas.map((e) => int.parse(e.max ?? "0")).toList())
+              .toString();
       if (currentType == KHealthDataType.STEPS) {
         allResult.value = setps;
       } else if (currentType == KHealthDataType.CALORIES_BURNED) {
@@ -216,13 +219,10 @@ class ReportInfoStepsController extends GetxController
       } else {
         allResult.value = licheng;
       }
-      final aaa = datas
-          .map((e) => double.parse(
-              HealthDataUtils.getMaxData(arrs: e.dataArrs, type: currentType)))
-          .toList();
-      double max = ListEx.maxVal<double>(aaa);
-      maxValue.value = max;
-
+      maxValue.value = double.tryParse(HealthDataUtils.getGsensorData(
+              steps: maxSteps, type: currentType)) ??
+          0;
+          
       List<StepsCardAssetsModel> newCards = [];
       KReportType pageType = reportType.value;
       if (pageType == KReportType.day) {

@@ -10,7 +10,7 @@ import 'package:sqflite/sqflite.dart' as sqflite;
 part 'database.g.dart';
 
 //flutter packages pub run build_runner build --delete-conflicting-outputs
-const int dbCurrentVersion = 3;
+const int dbCurrentVersion = 4;
 
 @Database(version: dbCurrentVersion, entities: [
   KBaseHealthType,

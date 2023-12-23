@@ -122,12 +122,7 @@ class HealthDataUtils {
       } else {
         for (var i = 0; i < datas.length; i++) {
           final e = datas[i];
-
-          String value = (types == KHealthDataType.STEPS)
-              ? (e.steps ?? "0")
-              : types == KHealthDataType.LiCheng
-                  ? (e.distance ?? "0")
-                  : (e.calorie ?? "0");
+          String value = getGsensorData(steps: e.steps ?? "0", type: types);
           Decimal num = Decimal.tryParse(value) ?? Decimal.zero;
           final cell = KChartCellData(
               x: _getFormatX(e.createTime),
@@ -394,6 +389,7 @@ class HealthDataUtils {
 
   ///顺便计算里程跟能量消耗
   ///如果是当前小时数据 查出当天时间 取出当前小时对应的index 替换当前小时的数据
+  ///步数数据是累计和 根据上个小时作差得到小时数据
   static Future _insertSteps(
     int userid, {
     required String mac,
@@ -447,18 +443,24 @@ class HealthDataUtils {
         return;
       }
 
-      Decimal allSteps = Decimal.zero;
+      int allSteps = 0;
+      List<int> newHoursData = [];
       for (int i = 0; i < results.length; i += 4) {
         int end = (i + 4 > results.length) ? results.length : i + 4;
-        List e = results.sublist(i, end);
-        allSteps += Decimal.parse(ListEx.stepsValue(e).toString());
+        List<int> e = results.sublist(i, end);
+        int all = ListEx.stepsValue(e);
+        if (all == 0) {
+          newHoursData.add(0);
+        } else {
+          int current = all - allSteps;
+          current = max(0, current);
+          newHoursData.add(current);
+          allSteps = all;
+        }
       }
-      model.steps = allSteps.toStringAsFixed(0);
-      model.distance = calculate_distance_steps(allSteps.toBigInt().toInt())
-          .toStringAsFixed(2);
-      model.calorie =
-          calculate_kcal_steps(allSteps.toBigInt().toInt()).toStringAsFixed(1);
-      model.dataArrs = JsonUtil.encodeObj(results);
+      model.steps = allSteps.toString();
+      model.max = ListEx.maxVal<int>(newHoursData).toString();
+      model.dataArrs = JsonUtil.encodeObj(newHoursData);
       StepData.insertTokens([model]);
       vmPrint(
           "插入的步数数据${JsonUtil.encodeObj(model.toJson())}", KBLEManager.logevel);
@@ -513,6 +515,9 @@ class HealthDataUtils {
     } else {
       results = datas;
     }
+    if (results.isEmpty) {
+      return Future(() => null);
+    }
 
     String data = HEXUtil.encode(results);
     List<int> aaa = HEXUtil.decode(data);
@@ -529,8 +534,9 @@ class HealthDataUtils {
     int minute = byteData.getUint8(offset++);
     int second = byteData.getUint8(offset++);
 
-    // final time = DateTime(year, month, day, hour, minute, second);
-    // vmPrint("时间 $time ${model.toJson()}", KBLEManager.logevel);
+    final time = DateTime(year, month, day, hour, minute, second);
+    model.createTime = DateUtil.formatDate(time, format: DateFormats.full);
+    vmPrint("时间 $time ${model.toJson()}", KBLEManager.logevel);
     //
     // int startSleepTimestamp = byteData.getUint32(offset, Endian.little);
     // offset += 4;
@@ -589,6 +595,9 @@ class HealthDataUtils {
     vmPrint(
         "sleepDistributionDataListCount $offset $sleepDistributionDataListCount",
         KBLEManager.logevel);
+    if (sleepDistributionDataListCount == 0) {
+      return Future(() => null);
+    }
     offset += 4;
     Map<int, int> timeParams = {};
     for (int i = 0; i < sleepDistributionDataListCount; i++) {
@@ -666,13 +675,10 @@ class HealthDataUtils {
     } else if (type == KHealthDataType.STEPS ||
         type == KHealthDataType.LiCheng ||
         type == KHealthDataType.CALORIES_BURNED) {
-      for (int i = 0; i < dataArr.length; i += 4) {
-        DateTime? dur;
-        dur = time?.add(Duration(hours: i ~/ 4));
-        int end = (i + 4 > dataArr.length) ? dataArr.length : i + 4;
-        List e = dataArr.sublist(i, end);
-        var num = ListEx.stepsValue(e);
+      for (int i = 0; i < dataArr.length; i++) {
+        DateTime? dur = time?.add(Duration(hours: i));
 
+        var num = dataArr[i];
         //卡路里
 
         if (type == KHealthDataType.LiCheng) {
@@ -738,7 +744,8 @@ class HealthDataUtils {
       return "";
     }
     if (type == KReportType.day) {
-      text = "${item.x} ${item.yor_low.toStringAsFixed(currentType.getFormat())}${currentType.getSymbol()}";
+      text =
+          "${item.x} ${item.yor_low.toStringAsFixed(currentType.getFormat())}${currentType.getSymbol()}";
     } else {
       if (currentType == KHealthDataType.HEART_RATE) {
         //平均数
@@ -765,49 +772,21 @@ class HealthDataUtils {
   static String getTheLatestData(
       {required String? arrs, required KHealthDataType type}) {
     List datas = JsonUtil.getObj(arrs) ?? [];
-    // List<int> datas = arrsList.map((e) => e as int).toList();
-    if (type == KHealthDataType.STEPS ||
-        type == KHealthDataType.LiCheng ||
-        type == KHealthDataType.CALORIES_BURNED) {
-      //进行二次处理
-      List<int> steps = [];
-      for (int i = 0; i < datas.length; i += 4) {
-        int end = (i + 4 > datas.length) ? datas.length : i + 4;
-        List e = datas.sublist(i, end);
-        steps.add(ListEx.stepsValue(e));
-      }
-      datas = steps;
-    }
-
     var a = datas.reversed
         .toList()
         .firstWhere((element) => element != 0, orElse: () => 0);
     if (type == KHealthDataType.LiCheng) {
-      return calculate_distance_steps(a).toStringAsFixed(2);
+      return calculate_distance_steps(a).toStringAsFixed(type.getFormat());
     }
     if (type == KHealthDataType.CALORIES_BURNED) {
-      return calculate_kcal_steps(a).toStringAsFixed(1);
+      return calculate_kcal_steps(a).toStringAsFixed(type.getFormat());
     }
     return a.toString();
   }
 
-  static String getMaxData(
-      {required String? arrs, required KHealthDataType type}) {
-    List datas = JsonUtil.getObj(arrs) ?? [];
-    if (type == KHealthDataType.STEPS ||
-        type == KHealthDataType.LiCheng ||
-        type == KHealthDataType.CALORIES_BURNED) {
-      //进行二次处理
-      List<int> steps = [];
-      for (int i = 0; i < datas.length; i += 4) {
-        int end = (i + 4 > datas.length) ? datas.length : i + 4;
-        List e = datas.sublist(i, end);
-        steps.add(ListEx.stepsValue(e));
-      }
-      datas = steps;
-    }
-
-    var a = ListEx.maxVal(datas.map((e) => e as int).toList());
+  static String getGsensorData(
+      {required String steps, required KHealthDataType type}) {
+    int a = int.tryParse(steps) ?? 0;
 
     if (type == KHealthDataType.LiCheng) {
       return calculate_distance_steps(a).toStringAsFixed(type.getFormat());

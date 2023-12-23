@@ -81,7 +81,7 @@ class _$FlutterDatabase extends FlutterDatabase {
     Callback? callback,
   ]) async {
     final databaseOptions = sqflite.OpenDatabaseOptions(
-      version: 3,
+      version: 4,
       onConfigure: (database) async {
         await database.execute('PRAGMA foreign_keys = ON');
         await callback?.onConfigure?.call(database);
@@ -105,7 +105,7 @@ class _$FlutterDatabase extends FlutterDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `heartRateData_v2` (`appUserId` INTEGER, `mac` TEXT, `createTime` TEXT, `averageHeartRate` INTEGER, `max` INTEGER, `min` INTEGER, `heartArray` TEXT, PRIMARY KEY (`appUserId`, `createTime`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `stepData_v2` (`appUserId` INTEGER, `mac` TEXT, `createTime` TEXT, `steps` TEXT, `distance` TEXT, `calorie` TEXT, `dataArrs` TEXT, PRIMARY KEY (`appUserId`, `createTime`))');
+            'CREATE TABLE IF NOT EXISTS `stepData_v3` (`appUserId` INTEGER, `mac` TEXT, `createTime` TEXT, `steps` TEXT, `dataArrs` TEXT, `max` TEXT, PRIMARY KEY (`appUserId`, `createTime`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `TempData_v2` (`appUserId` INTEGER, `mac` TEXT, `createTime` TEXT, `temperature` INTEGER, `average` TEXT, `max` TEXT, `min` TEXT, `dataArray` TEXT, PRIMARY KEY (`appUserId`, `createTime`))');
         await database.execute(
@@ -435,15 +435,14 @@ class _$StepDataDao extends StepDataDao {
   )   : _queryAdapter = QueryAdapter(database),
         _stepDataInsertionAdapter = InsertionAdapter(
             database,
-            'stepData_v2',
+            'stepData_v3',
             (StepData item) => <String, Object?>{
                   'appUserId': item.appUserId,
                   'mac': item.mac,
                   'createTime': item.createTime,
                   'steps': item.steps,
-                  'distance': item.distance,
-                  'calorie': item.calorie,
-                  'dataArrs': item.dataArrs
+                  'dataArrs': item.dataArrs,
+                  'max': item.max
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -461,8 +460,8 @@ class _$StepDataDao extends StepDataDao {
     String nextTime,
   ) async {
     return _queryAdapter.queryList(
-        'SELECT * FROM stepData_v2 WHERE appUserId = ?1 and createTime >= ?2 AND createTime <= ?3',
-        mapper: (Map<String, Object?> row) => StepData(appUserId: row['appUserId'] as int?, mac: row['mac'] as String?, createTime: row['createTime'] as String?, steps: row['steps'] as String?, distance: row['distance'] as String?, calorie: row['calorie'] as String?, dataArrs: row['dataArrs'] as String?),
+        'SELECT * FROM stepData_v3 WHERE appUserId = ?1 and createTime >= ?2 AND createTime <= ?3',
+        mapper: (Map<String, Object?> row) => StepData(appUserId: row['appUserId'] as int?, mac: row['mac'] as String?, createTime: row['createTime'] as String?, steps: row['steps'] as String?, dataArrs: row['dataArrs'] as String?),
         arguments: [appUserId, createTime, nextTime]);
   }
 

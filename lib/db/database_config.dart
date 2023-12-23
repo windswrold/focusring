@@ -39,9 +39,13 @@ class DataBaseConfig {
         await migdatabase
             .execute('ALTER TABLE ring_device_table  ADD COLUMN version text');
       });
+      final migration3to4 = Migration(3, 4, (migdatabase) async {
+        await migdatabase.execute(
+            'CREATE TABLE IF NOT EXISTS `stepData_v3` (`appUserId` INTEGER, `mac` TEXT, `createTime` TEXT, `steps` TEXT, `dataArrs` TEXT, `max` TEXT, PRIMARY KEY (`appUserId`, `createTime`))');
+      });
       fbase = await $FloorFlutterDatabase
           .databaseBuilder(fileName)
-          .addMigrations([migration1to2, migration2to3])
+          .addMigrations([migration1to2, migration2to3, migration3to4])
           .addCallback(callback)
           .build();
 

@@ -214,7 +214,7 @@ extension ListEx<E> on List<E> {
     return value;
   }
 
-  static stepsValue(List e) {
+  static int stepsValue(List<int> e) {
     return ((e[0] & 0xff) |
         ((e[1] & 0xff) << 8) |
         ((e[2] & 0xff) << 16) |

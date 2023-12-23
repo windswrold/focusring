@@ -162,32 +162,26 @@ class HeartRateData {
   }
 }
 
-const String tableName3 = 'stepData_v2';
+const String tableName3 = 'stepData_v3';
 
 @Entity(tableName: tableName3, primaryKeys: ["appUserId", "createTime"])
 class StepData {
   int? appUserId;
   String? mac;
   String? createTime;
-  String? steps;
+  String? steps; //总步数
 
-  ///总步数
-  String? distance;
-
-  ///总里程
-  String? calorie;
-
-  ///总消耗
-  // String? dataForHour;
   String? dataArrs; //步数的数据源
+
+  String? max; //当天最大步数
 
   StepData(
       {this.appUserId,
       this.mac,
       this.createTime,
       this.steps,
-      this.distance,
-      this.calorie,
+      // this.distance,
+      // this.calorie,
       // this.dataForHour,
       this.dataArrs});
 
@@ -196,8 +190,8 @@ class StepData {
       mac: json["mac"],
       createTime: json["createTime"],
       steps: json["steps"],
-      distance: json["distance"],
-      calorie: json["calorie"],
+      // distance: json["distance"],
+      // calorie: json["calorie"],
       // dataForHour: json["dataForHour"],
       dataArrs: json["dataForHour"]);
 
@@ -206,8 +200,8 @@ class StepData {
         "mac": mac,
         "createTime": createTime,
         "steps": steps,
-        "distance": distance,
-        "calorie": calorie,
+        // "distance": distance,
+        // "calorie": calorie,
         "dataForHour": dataArrs,
       };
 

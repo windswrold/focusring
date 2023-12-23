@@ -116,14 +116,11 @@ class HomeStateController extends GetxController {
               StepData? step = datas.tryFirst;
               card.result = HealthDataUtils.getTheLatestData(
                   arrs: step?.dataArrs, type: element.type);
-              card.maximum = double.tryParse(HealthDataUtils.getMaxData(
-                  arrs: step?.dataArrs, type: element.type));
+              card.maximum = double.tryParse(HealthDataUtils.getGsensorData(
+                  steps: step?.max ?? "0", type: element.type));
 
               if (element.type == KHealthDataType.STEPS) {
-                _calSteps(
-                    currentDistance: step?.distance,
-                    currentSteps: step?.steps,
-                    currentCalorie: step?.calorie);
+                _configRadioData(currentSteps: step?.steps);
               }
             } else if (element.type == KHealthDataType.HEART_RATE) {
               //心率
@@ -167,30 +164,21 @@ class HomeStateController extends GetxController {
     // AppApi.queryAppData(startTime: startTime, endTime: endTime);
   }
 
-  void _calSteps(
-      {required String? currentDistance,
-      required String? currentSteps,
-      required String? currentCalorie}) {
-    double disNum = 0;
-    double stepsNum = 0;
-    double caloriNum = 0;
-    try {
-      disNum =
-          (Decimal.tryParse(currentDistance ?? "0") ?? Decimal.zero).toDouble();
-      stepsNum =
-          (Decimal.tryParse(currentSteps ?? "0") ?? Decimal.zero).toDouble();
-
-      caloriNum =
-          (Decimal.tryParse(currentCalorie ?? "0") ?? Decimal.zero).toDouble();
-    } catch (e) {}
+  void _configRadioData({required String? currentSteps}) {
+    String stepsNum = HealthDataUtils.getGsensorData(
+        steps: currentSteps ?? "0", type: KHealthDataType.STEPS);
+    String disNum = HealthDataUtils.getGsensorData(
+        steps: currentSteps ?? "0", type: KHealthDataType.LiCheng);
+    String caloriNum = HealthDataUtils.getGsensorData(
+        steps: currentSteps ?? "0", type: KHealthDataType.CALORIES_BURNED);
 
     final us =
         (Get.find<AppViewController>(tag: AppViewController.tag)).user.value;
     licheng.value = RadioGaugeChartData(
       title: "mileage",
       color: KHealthDataType.LiCheng.getTypeMainColor(),
-      allStr: us?.distancePlan?.toStringAsFixed(0),
-      currentStr: disNum.toStringAsFixed(2),
+      allStr: us?.distancePlan?.toString(),
+      currentStr: disNum,
       icon: "icons/status_target_distance",
       symbol: KHealthDataType.LiCheng.getSymbol(),
     );
@@ -198,8 +186,8 @@ class HomeStateController extends GetxController {
     steps.value = RadioGaugeChartData(
       title: "pedometer",
       color: KHealthDataType.STEPS.getTypeMainColor(),
-      allStr: us?.stepsPlan?.toStringAsFixed(0),
-      currentStr: stepsNum.toStringAsFixed(0),
+      allStr: us?.stepsPlan?.toString(),
+      currentStr: stepsNum,
       icon: "icons/status_target_steps",
       symbol: KHealthDataType.STEPS.getSymbol(),
     );
@@ -207,8 +195,8 @@ class HomeStateController extends GetxController {
     calorie.value = RadioGaugeChartData(
       title: "exercise",
       color: KHealthDataType.CALORIES_BURNED.getTypeMainColor(),
-      allStr: us?.caloriePlan?.toStringAsFixed(0),
-      currentStr: caloriNum.toStringAsFixed(1),
+      allStr: us?.caloriePlan.toString(),
+      currentStr: caloriNum,
       icon: "icons/status_target_steps",
       symbol: KHealthDataType.CALORIES_BURNED.getSymbol(),
     );
