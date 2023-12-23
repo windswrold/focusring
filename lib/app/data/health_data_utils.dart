@@ -399,7 +399,7 @@ class HealthDataUtils {
   }) async {
     try {
       StepData? model;
-      List<int> results = [];
+      List<int> newHoursData = [];
       if (isHourData == true) {
         final time = DateTime.now();
         String cr = getZeroDateTime(now: time);
@@ -410,18 +410,20 @@ class HealthDataUtils {
           return;
         }
         model = dbSteps.tryFirst;
-        List steps = JsonUtil.getObj(model?.dataArrs ?? "") ?? [];
+        List stepsArrs = JsonUtil.getObj(model?.dataArrs ?? "") ?? [];
         int currentHour = time.hour;
         if (datas.length == 4 && currentHour >= 0 && currentHour < 24) {
-          int start = currentHour * 4;
-          int end = start + 4;
-          vmPrint("开始替换旧数据：$time start $start end $end  $steps",
+          int start = currentHour;
+          int end = start + 1;
+          int newsteps = ListEx.stepsValue(datas);
+          vmPrint("开始替换旧数据：$time start $start end $end  $stepsArrs",
               KBLEManager.logevel);
-          steps.replaceRange(start, end, datas);
-          results = steps.map((e) => e as int).toList();
-          vmPrint("替换完成的：$results", KBLEManager.logevel);
+          stepsArrs.replaceRange(start, end, [newsteps]);
+          newHoursData = stepsArrs.map((e) => e as int).toList();
+          vmPrint("替换完成的：$newHoursData", KBLEManager.logevel);
         }
       } else {
+        List<int> results = [];
         model = StepData(
           appUserId: userid,
           mac: mac,
@@ -437,28 +439,26 @@ class HealthDataUtils {
           model.createTime = getZeroDateTime();
           results = datas;
         }
+        int allSteps = 0;
+        for (int i = 0; i < results.length; i += 4) {
+          int end = (i + 4 > results.length) ? results.length : i + 4;
+          List<int> e = results.sublist(i, end);
+          int all = ListEx.stepsValue(e);
+          if (all == 0) {
+            newHoursData.add(0);
+          } else {
+            int current = all - allSteps;
+            current = max(0, current);
+            newHoursData.add(current);
+            allSteps = all;
+          }
+        }
       }
 
       if (model == null) {
         return;
       }
-
-      int allSteps = 0;
-      List<int> newHoursData = [];
-      for (int i = 0; i < results.length; i += 4) {
-        int end = (i + 4 > results.length) ? results.length : i + 4;
-        List<int> e = results.sublist(i, end);
-        int all = ListEx.stepsValue(e);
-        if (all == 0) {
-          newHoursData.add(0);
-        } else {
-          int current = all - allSteps;
-          current = max(0, current);
-          newHoursData.add(current);
-          allSteps = all;
-        }
-      }
-      model.steps = allSteps.toString();
+      model.steps = ListEx.sumVal(newHoursData).toString();
       model.max = ListEx.maxVal<int>(newHoursData).toString();
       model.dataArrs = JsonUtil.encodeObj(newHoursData);
       StepData.insertTokens([model]);
