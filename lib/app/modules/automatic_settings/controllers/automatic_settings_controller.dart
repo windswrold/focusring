@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:beering/ble/ble_manager.dart';
 import 'package:beering/ble/bledata_serialization.dart';
+import 'package:beering/extensions/StringEx.dart';
 import 'package:beering/net/app_api.dart';
 import 'package:beering/utils/date_util.dart';
 import 'package:beering/utils/hex_util.dart';
@@ -71,7 +72,7 @@ class AutomaticSettingsController extends GetxController {
           int hour1 = result[3];
           int min1 = result[4];
           endTimeOxygen.value = "$hour1:$min1";
-          bloodOxygenAutoTestInterval.value = result[5].toString() ;
+          bloodOxygenAutoTestInterval.value = result[5].toString();
         } else if (event.type == 0x01) {
           //心率设置成功
           //发送血氧变更
@@ -102,9 +103,9 @@ class AutomaticSettingsController extends GetxController {
         sendData: KBLESerialization.ppg_getHeartTimingSetting(
             isHeart: KHealthDataType.HEART_RATE));
 
-    if (inProduction == false) {
-      KBLEManager.onValueReceived(HEXUtil.decode("eeee00080302010800160005"));
-    }
+    // if (inProduction == false) {
+    //   KBLEManager.onValueReceived(HEXUtil.decode("eeee00080302010800160005"));
+    // }
   }
 
   @override
@@ -119,14 +120,40 @@ class AutomaticSettingsController extends GetxController {
   }
 
   void save() async {
-    if (endTimeHeart.value.compareTo(startTimeHeart.value) < 0) {
+    int? startTimeHeartNum = startTimeHeart.value.timeToSeconds();
+    int? endTimeHeartNum = endTimeHeart.value.timeToSeconds();
+
+    if (endTimeHeartNum < startTimeHeartNum) {
       HWToast.showErrText(text: "心率结束时间需要大于等于心率开始时间");
       return;
     }
-    if (endTimeOxygen.value.compareTo(startTimeOxygen.value) < 0) {
+
+    if (startTimeHeartNum != endTimeHeartNum) {
+      int interval = int.parse(heartRateAutoTestInterval.value) * 60;
+      int offset = (endTimeHeartNum - startTimeHeartNum) % interval;
+      if (offset != 0) {
+        HWToast.showErrText(text: "结束时间不足间隔设置");
+        return;
+      }
+    }
+
+    int? startTimeOxygenNum = startTimeOxygen.value.timeToSeconds();
+    int? endTimeOxygenNum = endTimeOxygen.value.timeToSeconds();
+
+    if (endTimeOxygenNum < startTimeOxygenNum) {
       HWToast.showErrText(text: "血氧结束时间需要大于等于血氧开始时间");
       return;
     }
+
+    if (startTimeOxygenNum != endTimeOxygenNum) {
+      int interval = int.parse(bloodOxygenAutoTestInterval.value) * 60;
+      int offset = (endTimeOxygenNum - startTimeOxygenNum) % interval;
+      if (offset != 0) {
+        HWToast.showErrText(text: "结束时间不足间隔设置");
+        return;
+      }
+    }
+
     final a = await _requestData({
       "heartRateAutoTestSwitch": heartRateAutoTestSwitch.value,
       "bloodOxygenAutoTestSwitch": bloodOxygenAutoTestSwitch.value,

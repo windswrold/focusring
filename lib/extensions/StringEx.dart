@@ -153,4 +153,12 @@ extension StringEx on String {
     vmPrint("比对结果  0");
     return 0;
   }
+
+  int timeToSeconds() {
+    List<String> parts = this.split(":");
+    int hours = int.parse(parts[0]);
+    int minutes = int.parse(parts[1]);
+    int totalSeconds = hours * 3600 + minutes * 60;
+    return totalSeconds;
+  }
 }

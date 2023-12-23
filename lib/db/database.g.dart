@@ -461,7 +461,7 @@ class _$StepDataDao extends StepDataDao {
   ) async {
     return _queryAdapter.queryList(
         'SELECT * FROM stepData_v3 WHERE appUserId = ?1 and createTime >= ?2 AND createTime <= ?3',
-        mapper: (Map<String, Object?> row) => StepData(appUserId: row['appUserId'] as int?, mac: row['mac'] as String?, createTime: row['createTime'] as String?, steps: row['steps'] as String?, dataArrs: row['dataArrs'] as String?),
+        mapper: (Map<String, Object?> row) => StepData(appUserId: row['appUserId'] as int?, mac: row['mac'] as String?, createTime: row['createTime'] as String?, steps: row['steps'] as String?, max: row['max'] as String?, dataArrs: row['dataArrs'] as String?),
         arguments: [appUserId, createTime, nextTime]);
   }
 
