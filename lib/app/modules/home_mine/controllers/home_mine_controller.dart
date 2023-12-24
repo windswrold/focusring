@@ -60,7 +60,7 @@ class HomeMineController extends GetxController {
     my_defaultList.add(
       {
         "a": "icons/mine_icon_about",
-        "b": "test",
+        "b": "导出log",
         "r": Routes.TESTDFU,
       },
     );
